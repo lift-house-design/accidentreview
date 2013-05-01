@@ -1,0 +1,1 @@
+<?php return unserialize('a:4:{s:4:"name";s:21:"mailing_smtp_username";s:6:"module";s:6:"system";s:4:"type";s:6:"system";s:5:"value";s:33:"s:25:"system@accidentreview.com";";}') ?>

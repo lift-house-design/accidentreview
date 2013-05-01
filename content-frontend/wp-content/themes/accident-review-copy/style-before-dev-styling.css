@@ -1,0 +1,289 @@
+/*
+Theme Name: Accident Review Theme
+Theme URI: http://www.hollisinteractive.com
+Description: custom theme for Accident Review
+Author: Jeffrey Kabel (Hollis Interactive)
+Author URI: http://www.hollisinteractive.com
+Template: 960bc
+Version: 0.1
+.
+General comments/License Statement if any.
+.
+*/
+
+@import url(../960bc/css/reset.css);
+@import url(../960bc/css/960.css);
+@import url(../960bc/style.css);
+
+body { border-top: 5px solid #25aae1; height: 100%; position:relative; background-color:#58585A; font-family: 'Droid Sans', sans-serif; font-weight: normal; font-size:14px; }
+
+p   { font-size: 1em; }
+ul, li  { list-style:none; }
+
+h2, h3, h4, h5, h6  { color:#BABABA; }
+
+h2  { font-size: 35px; }
+h3  { font-size: 30px; }
+h4  { font-size: 18px; }
+h5  { font-size: 18px; }
+h6  { font-size: 18px; }
+
+strong  { color: #58585A; }
+
+a, a:hover, a:visited   { color: #25AAE1; }
+
+
+#whitewrapper   { width: 100%; background-color:white; }
+#page   { width:960px; margin:0 auto;}
+
+#header { position:relative; height:auto; padding-bottom:20px; border-bottom: 3px solid #ECECEC; }
+#header #loginlink  { position:absolute; right:0px; top: 0px; height: 22px; padding-top:3px; width: 95px; text-align:center; background-color: #25AAE1; border-bottom: 2px solid #58585A; }
+#header #loginlink a    { text-transform:uppercase; font-size: 16px; margin: 10px auto; font-family: 'Droid Sans', sans-serif; color:#FFF; }
+#header #loginlink a:hover  { text-decoration:none; }
+
+#header #welcomelink    { position: absolute; right: 110px; top: 0px; height: 22px; padding: 3px 10px 0px; width: auto; text-align: center; background-color: #25AAE1; border-bottom: 2px solid #58585A; }
+#header #welcomelink a    { text-transform:uppercase; font-size: 16px; margin: 10px auto; font-family: 'Droid Sans', sans-serif; color: #FFF; }
+#header #welcomelink a:hover    { text-decoration:none; }
+
+#header > div   { padding-top: 25px; }
+#header #headerimg  { margin-top:0px; }
+#header #headerimg h2   { margin-top:0px; }
+#header #headerimg a { display:block; width: 300px; height:75px; background: url(images/logo.png) no-repeat top left transparent; }
+#header #headerimg a span {display:none; }
+
+#header #access { margin-top:15px; }
+
+#header .menu   { height:60px; }
+#header .menu ul    { list-style:none; }
+#header .menu ul li { list-style:none; position:relative; float:left; height:36px; background: url(images/header-menu-border.png) repeat-y top left transparent; margin: 0px 15px; padding-top:23px; }
+#header .menu ul li:hover, 
+#header .menu ul li.current-menu-item   { background: url(images/header-menu-border-active.png) no-repeat top left transparent; }
+#header .menu ul li a   { color: #262626; font-family: 'Muli', sans-serif; font-size:16px; padding: 5px; text-transform:uppercase; margin: 15px 0px; }
+#header .menu ul > li:hover > a,
+#header .menu ul > li.current-menu-item > a { background-color: #25AAE1; color: #FFF; text-decoration:none; }
+#header .menu ul li ul  { display:none; position:absolute; width: 150px; left:0; top: 58px; background: url(images/header-menu-border-sub.png) repeat-y bottom left #FFF; padding-bottom:15px;}
+#header .menu ul li.repmenu ul  { width: 200px; }
+#header .menu ul li:hover ul    { display:inline-block; }
+#header .menu ul li ul li   { margin:  0px; height:20px; padding-top: 15px; background:none; }
+#header .menu ul li ul li:hover { background:none; }
+
+#home-top   {}
+#home-top #home-top-slogan { text-align:center; }
+#home-top #home-top-slogan h3   {font-family: 'Droid Sans', sans-serif; font-weight: normal; font-size:55px; color: #bababa; margin: 20px auto; }
+#home-top #home-top-copy { width:570px; margin-right:7px; float:left; font-family: 'Droid Sans', sans-serif; font-size:16px; color: #666666; }
+#home-top #home-top-copy p  { margin: 0px; font-size:16px; line-height:25px; margin-top: 10px; }
+#home-top #home-top-copy p span { text-transform:uppercase; font-size: 14px; }
+#home-top #home-top-copy p span a { color: #25AAE1;}
+#home-top #home-top-button  { height: 130px; width:383px; float:right; }
+#home-top #home-top-button a  { width: 100%; height:100%; background: url(images/register-now-button.png) no-repeat top left transparent; display:block; }
+
+#footer { color: #FFF; font-size:12px; font-family: 'Muli', sans-serif; text-transform:uppercase; border-top: 3px solid #B6B6B6; width:100%; height: 85px; background-color: #58585A; padding:0; margin:0; padding-top:15px; }
+#footer #copyright  { float:right;  }
+#footer .footermenu { float:left; }
+#footer .footermenu ul  { float:left; list-style:none; }
+#footer .footermenu ul li   { float:left; list-style:none; margin-right:20px; padding-right:20px; height:12px; border-right: 1px solid white;  }
+/*#footer .footermenu ul li:last-child    { border-right:none; }*/
+#footer .footermenu ul li a { text-decoration:none; color: #FFF; }
+#footer .footermenu ul li a:hover   { text-decoration:none; color: #FFF; }
+
+#home-content   { height:440px; margin-top:15px; }
+#home-content > div {height:100%; }
+#home-content #home-content-left    {width:375px; float:left; position:relative; padding-top:30px; overflow:hidden; height:410px; }
+#home-content #home-content-left .overlay   { position:absolute; top:0; left:0; width: 375px; height: 440px; background: url(images/left-callout-edge-25-480.png) no-repeat top left transparent; }
+#home-content #home-content-left h4 { font-family: 'Droid Sans', sans-serif; font-weight: normal; font-size:30px; background: url(images/left-callout-header-image.png) no-repeat top left transparent; width:190px; height:76px; margin-bottom:5px; padding: 15px 100px 0px 30px; color:#58585a; }
+#home-content #home-content-left .callout-content   { background: url(images/left-callout-content-image-white.png) no-repeat top left transparent; height: 315px; width: 295px; padding: 15px 10px 15px 30px; }
+#home-content #home-content-left .callout-content h5    { color: #25AAE1; text-transform:uppercase; font-family: 'Muli', sans-serif; font-weight:normal; font-size:15px; }
+#home-content #home-content-left .callout-content p     {font-family: 'Droid Sans', sans-serif; font-weight: normal; font-size:14px; line-height:25px; margin: 3px 0px; color: #666666;}
+
+#home-content #home-content-right { width:565px; float:right; height:440px; position:relative; z-index:0;  overflow:hidden;}
+#home-content #home-content-right .overlay { background: url("images/right-callout-edge-20-480.png") no-repeat scroll right top transparent; height: 440px; position: absolute; right: 16px; top: 0; width: 565px; z-index: 3; }
+#home-content #home-content-right h4 { background: url("images/right-callout-header-image-white.png") no-repeat scroll left top transparent; color: #58585A; font-family: 'Droid Sans',sans-serif; font-size: 28px; font-weight: 400; height: 50px; margin-bottom: 5px; padding: 80px 10px 0 70px; position: absolute; right: 16px; top: 0; width: 394px; z-index: 2; }
+#home-content #home-content-right .callout-background   { background: url("images/right-callout-content-image-white.png") no-repeat scroll left 126px transparent; z-index: 0; position:absolute; top: 0; left: 44px; width:521px; height:440px; }
+#home-content #home-content-right .callout-content {  float: right; height: 299px; overflow:hidden; overflow-x: hidden; overflow-y: scroll; padding: 126px 10px 15px 50px; width: 460px; z-index: 1; position:relative; }
+#home-content #home-content-right .callout-content p    {font-family: 'Muli', sans-serif; font-weight:normal; font-size:12px; line-height:20px; margin: 20px 0px 40px; color: #666666;}
+#home-content #home-content-right .callout-content p span   {color: #25AAE1; text-transform:uppercase; font-family: 'Muli', sans-serif; font-weight:normal; font-size:12px; float:right; margin-right:40px;}
+#home-content #home-content-right .callout-content .callout-cut { background:white; display:block; position:absolute; top:0; left:0; height:126px; width: 480px; }
+
+.ui-state-error { margin: 15px 0px; }
+.ui-state-error p   { padding-left: 20px; padding-right:20px; }
+.ui-state-error p a { margin: 0px 5px;}
+
+.ui-state-highlight p   { text-align:center; font-size: 20px; padding-top:15px;}
+.ui-state-highlight p a { margin: 0px 5px;}
+
+
+#content    { margin-top:30px; }
+.sidebar    { margin-top:20px; }
+
+#content .post > h2 { margin:0px 0px 20px; font-weight:normal; color: #BABABA; }
+.sidebar .widget_text   {}
+.sidebar .widget_text h3   { color: #58585A; background: url('images/right-callout-header-image-white.png') no-repeat bottom left transparent; height:41px; text-align:right; padding-right:10px; padding-top: 60px; font-size: 24px; margin-bottom:2px; }
+.sidebar .widget_text .textwidget  { background-color: #f6f6f6; padding: 10px; color: #666666; }
+.sidebar .widget_text .textwidget p { margin-top:5px; margin-bottom:20px; }
+.sidebar .widget_text .textwidget p > span { font-size:1em; text-transform:uppercase; float:right; }
+.sidebar .widget_text .textwidget > span { font-size: 1.1em; color: #25AAE1; text-transform:uppercase; display:block; text-align:left; margin: 5px 0px; }
+
+.right-side-images   {float:right; margin: 0px 0px 25px 25px; }
+.right-side-images p { margin-top:0px; }
+
+.entry form          { text-align:left;}
+.entry form label { display: block; font-weight: bold; width: 95%; max-width:95%; margin-bottom:3px; text-align:left; }
+
+.entry form .buttongroup label   { display:inline-block; width: auto; }
+
+.entry form input    { margin-bottom: 15px; width: 274px;}
+.entry form textarea { width: 607px;   }
+.entry form .type_of_loss_select select  { width: auto; }
+
+.claimant_form_a textarea, .claimant_form_b textarea    {width:90%; max-width:90%; }
+.claimant_form_a label, .claimant_form_b label          {width:90%; max-width:90%;}
+
+.claimant_form_a { float: left; width: 290px; /*width: 50%;*/ }
+.claimant_form_b { float: right; width: 290px; /* width: 50%;*/ }
+
+.entry form h3   { text-shadow: #FFF 1px 1px 1px; color: #171615; font-size: 22px; }
+.entry form h4   { text-shadow: #FFF 1px 1px 1px; color: #171615; }
+
+.entry form .inline input    { display:inline-block; width:auto; }
+.entry form .inline label    { display:inline-block; width:auto; }
+
+#content div.error-message  { background-color: #F08080; border: 2px solid #CD0000; padding: 10px; margin-bottom: 15px; }
+#content div.error-message p   { text-align:center; color: #444; margin-bottom:10px; font-size:1.2em; font-weight:bold; }
+
+#custom-queue  { border-color:#9A9A9A #DCDCDC #DCDCDC #9A9A9A; border-style:solid; border-width:2px 1px 1px 2px; padding:6px 5px; height: 200px; margin-bottom: 10px; padding:10px; overflow: auto; width: 374px; }
+
+#sidebar    { float:right; }
+
+
+.vehicle_info select, .vehicle_info .chzn-container { width: 274px; margin-bottom:10px; padding-left: 5px; }
+
+.cl_b_year { float:left;   }
+.cl_b_year select { width: 90%; }
+.cl_b_make { float:right;  }
+.cl_b_make select { width: 90%; }
+
+.entry-content  { width: 100%; }
+.entry-content input { width: 274px; }
+.entry-content textarea { width: 607px; }
+.entry-content .wpcf7-submit { width: 25%; }
+.entry-content p { font-weight: bold; }
+.ui-button { color: #75ABFF; }
+
+#cl_a_button, #cl_b_button { float:right; margin-right: 75px; margin-left: 25px; width: 50px; }
+.claimant_form_a, .claimant_form_b { float: left; }
+
+.shadow_border  {border-color:#9A9A9A #DCDCDC #DCDCDC #9A9A9A; border-style:solid; border-width:2px 1px 1px 2px;}  
+
+.upload_files   { overflow:hidden; }
+.upload_files > div { border-color:#9A9A9A #DCDCDC #DCDCDC #9A9A9A; border-style:solid; border-width:2px 1px 1px 2px; padding:6px 5px; width:475px; margin-top:10px; }
+.upload_files > div > span  { float:right; }
+.upload_files > div > span > a  { margin: 0px 3px; }
+.upload_files > span { font-weight:bold; margin: 10px 0px;  }
+
+.upload-actions {  border: 2px solid #ECECEC; border-right:none; border-bottom:none; padding: 10px 0px 0px 10px; margin: 10px 0px;}
+.upload-actions a   { text-transform: uppercase; color: #25AAE1; margin-right:10px; }
+
+.agent-go-links { width:100%; }
+.agent-go-links div { width: 40%; height: 50px; padding: 5px; text-align:center;}
+.agent-go-links div a   { width: 100%; height: 100%; display:block; padding-top:15px; font-size: 1.2em; }
+.agent-go-links div.right   { float:right; margin-right: 20px;}
+.agent-go-links div.left    { float:left; margin-left: 20px; }
+
+#content #get_jobs_page h3 { margin-bottom: 20px; }
+
+#content .get_jobs_table { border: 2px solid #25AAE1; width: 100%; }
+#content .get_jobs_table td,
+#content .get_jobs_table th { padding: 7px; text-align:left; }
+#content .get_jobs_table th.headerSortDown,
+#content .get_jobs_table th.headerSortUp    { color: #25AAE1; }
+#content .get_jobs_table thead th   { border-bottom: 2px solid #25AAE1; }
+#content .get_jobs_table td { border-top: 1px solid #25AAE1; }
+#content .get_jobs_table th.header { cursor:pointer; }
+
+
+.job_name_heading   { color: #25AAE1; font-style:italic; }
+
+#content .view_table { border: 2px solid #25AAE1; width: 100%; }
+#content .view_table td, #content .view_table th { padding: 7px; }
+#content .view_table th { border-bottom: 2px solid #25AAE1; text-align:left; }
+#content .view_table td { border-top: 1px solid black; }
+
+#content ol.images { list-style: none; padding-left:0px; }
+#content ol.images li   { float:left; margin: 5px; }
+#content ol.images li img { max-width: 175px; max-height: 175px; }
+#content .comments { list-style: none; border: none; }
+#content .comments ol { border: 2px solid #25AAE1; padding: 5px; border-right:none; border-bottom:none; }
+#content .comments li { border: 1px solid black; border-right:none; border-top:none; margin:15px 5px; padding: 10px; }
+#content .comments li p { margin-bottom: 0px; }
+
+#content .comment_submit { width: 100px; }
+
+#show_hide { width: 130px; margin-bottom: 10px; }
+
+#new_job_button { float: right; }
+
+.action_button  { float:right; margin-top: -50px; }
+
+#content .entry .department_list    { list-style:none; width:274px; padding:0px; margin:0px; }
+.department_list li { list-style:none; float:left; width: 50%; margin-left:0px;  }
+.department_list li.other   { width: 100%; }
+.department_list li input   { float:left; margin-right: 12px; margin-bottom:0px; }
+.department_list li label   { padding-left: 3px; float:left; padding-top:2px;  }
+
+.type_of_loss_container {}
+.type_of_loss_container label { display:inline-block; width: 290px; margin: 3px; }
+
+#content .submit-job-tabs   { display:inline-block; position:relative; width:620px;  }
+#content .submit-job-tabs div   { height:auto; }
+#content .submit-job-tabs div .submit-job-tab-copy  { font-style:italic; }
+#content .tabs-bottom { position: relative; } 
+#content .tabs-bottom .ui-tabs-panel { height: auto; overflow: auto; padding:5px 5px 45px; } 
+#content .tabs-bottom .ui-tabs-nav { position: absolute !important; left: 0; bottom: 0; right:0; padding: 0 0.2em 0.2em 0; margin-bottom:0px;} 
+#content .tabs-bottom .ui-tabs-nav li { margin-top: -2px !important; margin-bottom: 1px !important; border-top: none; border-bottom-width: 1px; }
+#content .ui-tabs-selected { margin-top: -3px !important; }
+
+.submit-job-navigation  { float:right; clear:both; text-align:center;}
+.submit-job-navigation .progress    { font-weight:bold; font-size: 20px; display:block; margin: 5px 0px; }
+
+a.ui-button { color:white; }
+
+#theft_fields   { display:none; }
+
+div.accident_breadcrumb { display:block; }
+div.accident_breadcrumb ul  { list-style:none;}
+div.accident_breadcrumb ul li   { list-style:none; float:left; margin: 0 5px; display:inline-block; }
+div.accident_breadcrumb ul li a {}
+
+div.add_vehicle_button_container    { float:right; margin-bottom: -25px; padding-top: 15px; padding-right: 5px; display:none; width: 196px; height: 31px; }
+div.add_vehicle_button_container > a    { display:block; width: 196px; height:31px; background:url(images/submit-add-a-vehicle.png) no-repeat top left transparent; }
+div#vehicle_info_secondary,
+div#vehicle_info_ternary    { }
+
+div.remove_vehicle_button_container {float:right; width: 146px; height:31px; }
+div.remove_vehicle_button_container a   { display:block; width:146px; height:31px; background: url(images/submit-remove-vehicle.png) no-repeat top left transparent; }
+
+.accident-form  h3 { margin-bottom: 0.5em; }
+.accident-form .vehicle-info select,
+.accident-form .vehicle-info .chzn-container { width: 274px; margin-bottom:10px; }
+
+.accident-form .vehicle-info .chzn-container .chzn-drop { padding-left:3px; }
+
+.existing-files-list    {width: 100%;}
+.existing-files-list td { padding-bottom: 5px; }
+.file_upload, .type_of_loss_select    { width: 310px; }
+
+.waiting-for-files  { display:none; float:left; margin-left: 10px; }
+
+img.vin_progress, img.vin_error    { display:none; }
+
+.accident-request-type-page {}
+.accident-request-type-page h3  { margin-bottom: 10px; }
+.accident-request-type-page ul,
+.accident-request-type-page p   { text-indent: 0px; }
+.accident-request-type-page .accident-request-type-right    { float:right; width: 40%; }
+.accident-request-type-page .accident-request-type-left    { float:left; width: 40%; }
+
+.search-box { float:right; text-align:right; margin-top:0px; }
+#content #get_jobs_page .search-box h3  { margin-bottom: 5px; font-size:20px; margin-top: 0px; }
+.search-box #search_assignments   { width: 274px;display:block; }
+.search-box .searching-spinner  { display:none; }

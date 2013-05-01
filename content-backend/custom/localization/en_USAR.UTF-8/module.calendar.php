@@ -1,0 +1,16 @@
+<?php return array (
+  'No tasks here' => 'No tasks here',
+  'Calendar' => 'Calendar',
+  'Enables viewing project data in a calendar. Global calendar is available plus a calendar for each project and user' => 'Enables viewing client data in a calendar. Global calendar is available plus a calendar for each client and user',
+  'Module will be deactivated. Data that is shown in the calendars will not be deleted' => 'Module will be deactivated. Data that is shown in the calendars will not be deleted',
+  ':user\'s calendar' => ':user\'s calendar',
+  'Schedule' => 'Schedule',
+  'Sunday' => 'Sunday',
+  'Monday' => 'Monday',
+  'Tuesday ' => 'Tuesday ',
+  'Wednesday' => 'Wednesday',
+  'Thursday' => 'Thursday',
+  'Friday' => 'Friday',
+  'Saturday' => 'Saturday',
+  'Tickets' => 'Jobs',
+) ?>

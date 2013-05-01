@@ -1,0 +1,1 @@
+<?php return unserialize('a:7:{s:8:"language";i:3;s:11:"format_date";s:13:"%a, %b %e. %Y";s:11:"format_time";s:8:"%I:%M %p";s:5:"theme";s:7:"sandbox";s:19:"time_first_week_day";i:0;s:13:"time_timezone";i:-18000;s:8:"time_dst";i:1;}') ?>

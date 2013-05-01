@@ -1,0 +1,1 @@
+<?php return unserialize('a:5:{s:2:"id";s:1:"1";s:4:"name";s:4:"Euro";s:4:"code";s:3:"EUR";s:12:"default_rate";s:5:"1.000";s:10:"is_default";s:1:"0";}') ?>

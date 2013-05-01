@@ -1,0 +1,1 @@
+<?php return unserialize('a:4:{s:4:"name";s:24:"invoicing_number_pattern";s:6:"module";s:9:"invoicing";s:4:"type";s:6:"system";s:5:"value";s:38:"s:30:":invoice_in_year/:current_year";";}') ?>

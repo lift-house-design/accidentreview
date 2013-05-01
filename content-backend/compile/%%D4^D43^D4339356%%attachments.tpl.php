@@ -1,0 +1,10 @@
+<?php /* Smarty version 2.6.16, created on 2012-08-09 18:33:31
+         compiled from /var/www/vhosts/accidentreview.com/content-backend/activecollab/application/modules/system/views/project_objects/attachments.tpl */ ?>
+<?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
+smarty_core_load_plugins(array('plugins' => array(array('block', 'title', '/var/www/vhosts/accidentreview.com/content-backend/activecollab/application/modules/system/views/project_objects/attachments.tpl', 1, false),array('block', 'add_bread_crumb', '/var/www/vhosts/accidentreview.com/content-backend/activecollab/application/modules/system/views/project_objects/attachments.tpl', 2, false),array('function', 'object_attachments', '/var/www/vhosts/accidentreview.com/content-backend/activecollab/application/modules/system/views/project_objects/attachments.tpl', 5, false),)), $this); ?>
+<?php $this->_tag_stack[] = array('title', array()); $_block_repeat=true;smarty_block_title($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Manage Attachments<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_title($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack);  $this->_tag_stack[] = array('add_bread_crumb', array()); $_block_repeat=true;smarty_block_add_bread_crumb($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Attachments<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_add_bread_crumb($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>
+
+<div id="manage_attachments">
+  <?php echo smarty_function_object_attachments(array('object' => $this->_tpl_vars['active_object'],'show_header' => false,'show_empty' => true), $this);?>
+
+</div>
