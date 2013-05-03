@@ -28,6 +28,8 @@ add_action('wp_ajax_get-new-assignment-panel','get_new_assignment_panel');
 add_action('wp_ajax_nopriv_get-new-assignment-panel','get_new_assignment_panel');
 add_action('wp_ajax_get-vin-data','get_vin_data');
 add_action('wp_ajax_nopriv_get-vin-data','get_vin_data');
+add_action('wp_ajax_save-new-assignment','save_new_assignment');
+add_action('wp_ajax_nopriv_save-new-assignment','save_new_assignment');
 
 /*add_action('wp_ajax_vehicle-test','vehicle_test');
 add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
@@ -43,7 +45,59 @@ function get_assignment_panel()
 
 function get_new_assignment_panel()
 {
+	$assignment_data=ar_get_assignment_meta();
+	$assignment_types=array_keys($assignment_data);
+	
+	// Set variables for use in the view
+	$job_id=ar_get_new_job_id();
+	$assignment_type=( empty($_POST['assignment_type']) ? $assignment_types[0] : $_POST['assignment_type']);
+	if(!in_array($assignment_type,$assignment_types))
+	{
+		$assignment_type=$assignment_types[0];
+	}
+	$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
+	$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
+	$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
+	
 	require('views/new_assignment_panel.php');
+	exit;
+}
+
+function save_new_assignment()
+{
+	$response=array(
+		'status'=>'error',
+		'error'=>'',
+	);
+	
+	if(empty($_POST['job']) || empty($_POST['vehicles']))
+	{
+		$response['error']='The required data was not found';
+		echo json_encode($response);
+		exit;
+	}
+	
+	if(empty($_POST['job']['id']))
+	{
+		$response['error']='The job ID was not found';
+		echo json_encode($response);
+		exit;
+	}
+	
+	$job_id=$_POST['job']['id'];
+	$job_data=$_POST['job'];
+	$vehicles_data=$_POST['vehicles'];
+	
+	if(($error=ar_save_new_assignment($job_id,$job_data,$vehicles_data))===true)
+	{
+		$response['status']='success';
+	}
+	else
+	{
+		$response['error']=$error;
+	}
+	
+	echo json_encode($response);
 	exit;
 }
 

@@ -2365,36 +2365,4 @@ function get_vehicle_models_options($year_param, $division_param, $model_param)
 	return $out;
 }
 
-function ar_get_new_job_id()
-{
-	global $wpdb;
-	
-	$sql=$wpdb->prepare('
-		select
-			id
-		from
-			job
-		where
-			user_id = %d and
-			ticket_id = 0
-	',
-	$_SESSION['agent_user_id']);
-	
-	$row=$wpdb->get_row($sql,'ARRAY_A');
-	
-	if($row==null)
-	{
-		$wpdb->insert('job',array(
-			'ticket_id'=>0,
-			'user_id'=>$_SESSION['agent_user_id']
-		));
-		
-		$job_id=$wpdb->insert_id;
-	}
-	else
-	{
-		$job_id=$row['id'];
-	}
-}
-
 ?>

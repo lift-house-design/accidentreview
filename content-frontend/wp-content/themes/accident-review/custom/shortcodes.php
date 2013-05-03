@@ -5,15 +5,30 @@
 	
 	function accident_new_assignment($atts)
 	{
-		$assignment_types=array(
-			'vehicle-theft',
-			'accident-reconstruction',
-			'fire-analysis',
-			'mechanical-analysis',
-			'physical-damage-comparison',
-			'report-review',
-			'other',
+		$assignment_questions=array(
+			'vehicle-theft'=>array(
+				
+			),
+			'accident-reconstruction'=>array(
+				
+			),
+			'fire-analysis'=>array(
+			
+			),
+			'mechanical-analysis'=>array(
+			
+			),
+			'physical-damage-comparison'=>array(
+			
+			),
+			'report-review'=>array(
+			
+			),
+			'other'=>array(
+			
+			),
 		);
+		$assignment_types=array_keys($assignment_questions);
 		
 		// Parse attributes
 		$atts=shortcode_atts(array(
@@ -22,8 +37,6 @@
 		
 		// Check for invalid type
 		if(!in_array($atts['type'],$assignment_types)) return;
-		
-		
 		
 		require('views/new_assignment.php');
 	}

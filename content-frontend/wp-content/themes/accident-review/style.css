@@ -1,4 +1,4 @@
-/*
+	/*
 Theme Name: Accident Review Protected Theme
 Theme URI: http://www.lifthousedesign.com
 Description: Accident Review stylesheet.
@@ -329,6 +329,13 @@ form button:hover,
 .field .field-row:last-child {
 	margin-bottom: 0;
 }
+.field .msg {
+	text-align: center;
+	font-size: 11px;
+	font-style: italic;
+	margin-top: 10px;
+}
+
 .wpcf7-form-control-wrap br {display: none!important;}
 
 .file-upload.field input[type="file"] {
@@ -628,8 +635,13 @@ form button:hover,
 /**
  * Dashboard - Accordion
  */
+#dashboard .ui-accordion-header-icon {
+	display: none;
+}
 #dashboard .ui-accordion-content {
 	padding-bottom: 20px !important;
+	border: 0;
+	background: transparent;
 }
 #dashboard .ui-accordion-header {
 	padding: 10px 10px 10px 30px;
@@ -638,6 +650,7 @@ form button:hover,
 	color: #fff;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
+	border: 0;
 	/*background: #1e5a78;
 	background: -moz-linear-gradient(top,  #1e5a78 0%, #012d49 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5a78), color-stop(100%,#012d49));
@@ -767,6 +780,12 @@ a.button.vinput {
 .accident-form .ui-buttonset .ui-button:last-child {
 	-webkit-border-radius: 0px 4px 4px 0px;
 	border-radius: 0px 4px 4px 0px;
+}
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+	border-color: #0a2c79 !important;
+	background: #83A2C9 !important;
 }
 .all-assignments.button {
 	display: none;

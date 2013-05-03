@@ -13,5 +13,6 @@ include('custom/agent-login-form.php');
 include('custom/ac-user-functions.php');
 include('custom/ac-email-functions.php');
 include('custom/ac-job-functions.php');
+include('custom/ac-assignment-functions.php');
 
 ?>

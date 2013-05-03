@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-base.css" />
+<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-accordion.css" />
 <div id="dashboard">
 		<h3>Make New Assignment</h3>
 		<div id="new-assignment">
@@ -13,13 +15,14 @@
 			</div>
 			<a class="show services">Learn more about assignment types &raquo;</a>
 			<script>
+				function close_new_assignments()
+				{
+					$('input[type="text"].date').datepicker('destroy');
+					$('.assignment-list a').removeClass('selected');
+					$('.assignment-list > .new-assignment-panel').remove();
+				}
+				
 				$(function(){
-					function close_new_assignments()
-					{
-						$('.assignment-list a').removeClass('selected');
-						$('.assignment-list > .new-assignment-panel').remove();
-					}
-					
 					function open_new_assignment(a)
 					{
 						close_new_assignments();
@@ -31,7 +34,9 @@
 							.html('Loading, please wait...')
 							.load('/wp-admin/admin-ajax.php',{
 								action: 'get-new-assignment-panel',
-								type: type,
+								assignment_type: type,
+							},function(){
+								//$('input[type="text"].date').datepicker();
 							});
 							
 						$(a)
@@ -353,7 +358,7 @@
 				</div>
 			</form>
 		</div>
-
+	</div>
 <script>
 	// Add assignments link in the heading
 	$('.heading.box h2')
@@ -381,6 +386,7 @@
 		active: active,
 		collapsible: true,
 		heightStyle: 'content',
+		icons: {}
 	});
 	
 	$('a.show').click(function(){
