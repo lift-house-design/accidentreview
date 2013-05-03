@@ -491,12 +491,6 @@
 				vehicle_data.push(data);
 			});
 			
-			console.log({
-				 	job: job_data,
-					vehicles: vehicle_data,
-					action: 'save-new-assignment',
-				 });
-			
 			function formError(err)
 			{
 				var msg=$('<div>')
@@ -514,10 +508,8 @@
 					vehicles: vehicle_data,
 					action: 'save-new-assignment',
 				 },
-				 //dataType: 'json',
+				 dataType: 'json',
 			     success: function(data,textStatus,jqXHR){
-				 	console.log(data);
-					data=$.parseJSON(data);
 					if(data.status=='success')
 					{
 						var msg=$('<div>')
