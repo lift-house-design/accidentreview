@@ -30,6 +30,10 @@ add_action('wp_ajax_get-vin-data','get_vin_data');
 add_action('wp_ajax_nopriv_get-vin-data','get_vin_data');
 add_action('wp_ajax_save-new-assignment','save_new_assignment');
 add_action('wp_ajax_nopriv_save-new-assignment','save_new_assignment');
+add_action('wp_ajax_save-attachment','save_attachment');
+add_action('wp_ajax_nopriv_save-attachment','save_attachment');
+add_action('wp_ajax_save-attachment-description','save_attachment_description');
+add_action('wp_ajax_nopriv_save-attachment-description','save_attachment_description');
 
 /*add_action('wp_ajax_vehicle-test','vehicle_test');
 add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
@@ -58,6 +62,9 @@ function get_new_assignment_panel()
 	$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
 	$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
 	$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
+	
+	// Get new assignment attachments
+	$new_assignment_attachments=ar_get_new_assignment_attachments();
 	
 	require('views/new_assignment_panel.php');
 	exit;
@@ -143,6 +150,121 @@ function get_vin_data()
 	}
 	
 	header('Content-Type: text/json');
+	echo json_encode($response);
+	exit;
+}
+
+function save_attachment()
+{
+	global $wpdb;
+	
+	$response=array(
+		'status'=>'error',
+		'error'=>'',
+	);
+	
+	if(!empty($_FILES))
+	{
+		$tempPath=$_FILES['file']['tmp_name'];
+		$tempSize=$_FILES['file']['size'];
+		$tempType=$_FILES['file']['mime_type'];
+		$tempName=$_FILES['file']['name'];
+		$hashName=sha1($tempName.microtime());
+		$targetPath=dirname($_SERVER['DOCUMENT_ROOT']).'/content-backend/uploads/'.$hashName;
+		$fileClass=ar_get_file_class($tempName);
+		
+		if($fileClass!==false)
+		{
+			if(move_uploaded_file($tempPath,$targetPath)!==false)
+			{
+				$result=$wpdb->insert('acx_attachments',array(
+					'parent_id'=>0,
+					'parent_type'=>'ticket',
+					'name'=>$tempName,
+					'description'=>$tempName,
+					'mime_type'=>$tempType,
+					'size'=>$tempSize,
+					'location'=>$hashName,
+					'attachment_type'=>'attachment',
+					'created_on'=>date('Y-m-d H:i:s'),
+					'created_by_id'=>$_SESSION['agent_user_id'],
+					'created_by_name'=>$_SESSION['agent_user_name'],
+					'created_by_email'=>$_SESSION['agent_user_data']['email'],
+				));
+				
+				if($result!==false)
+				{
+					$response['status']='success';
+					$response['attachment_id']=$wpdb->insert_id;
+					$response['type']=$fileClass;
+					$response['description']=$tempName;
+					$response['url']='http://backend.accidentreview.com/uploads/'.$hashName;
+				}
+				else
+				{
+					$response['error']='There was a problem saving the file data.';
+				}
+			}
+			else
+			{
+				$response['error']='There was a problem saving the file.';
+			}
+		}
+		else
+		{
+			$response['error']='You have uploaded an invalid file type.';
+		}
+	}
+	else
+	{
+		$response['error']='There was no uploaded file found.';
+	}
+	
+	echo json_encode($response);
+	exit;
+}
+
+function save_attachment_description()
+{
+	global $wpdb;
+	
+	$response=array(
+		'status'=>'error',
+		'error'=>'',
+	);
+	
+	if(!empty($_POST['attachment_id']))
+	{
+		if(isset($_POST['description']))
+		{
+			$attachment_id=$_POST['attachment_id'];
+			$description=$_POST['description'];
+			
+			$result=$wpdb->update('acx_attachments',array(
+				'description'=>$description,
+			),array(
+				'id'=>$attachment_id,
+			));
+			
+			if($result!==false)
+			{
+				$response['status']='success';
+			}
+			else
+			{
+				$response['error']='There was a problem saving the description.';
+			}
+		}
+		else
+		{
+			$response['error']='Description was not found.';
+		}
+	}
+	else
+	{
+		$response['error']='Attachment ID was not found.';
+	}
+	
 	echo json_encode($response);
 	exit;
 }

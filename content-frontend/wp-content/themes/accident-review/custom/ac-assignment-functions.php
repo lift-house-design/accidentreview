@@ -394,3 +394,43 @@
 		
 		return true;
 	}
+	
+	function ar_get_file_class($filename)
+	{
+		// Determine file type
+		$validTypes=array(
+			'img'=>array('jpg','jpeg','gif','png'),
+			'word'=>array('doc','docx'),
+			'pdf'=>array('pdf'),
+			'txt'=>array('txt','rtf'),
+		);
+		$typeMap=array();
+		foreach($validTypes as $class=>$extensions)
+			foreach($extensions as $ext)
+				$typeMap[$ext]=$class;
+			
+		$pathinfo=pathinfo($filename);
+
+		if(isset($typeMap[$pathinfo['extension']]))
+			return $typeMap[$pathinfo['extension']];
+		else
+			return false;
+	}
+	
+	function ar_get_new_assignment_attachments()
+	{
+		global $wpdb;
+		
+		$sql=$wpdb->prepare('
+			select
+				id, name, description, location
+			from
+				acx_attachments
+			where
+				parent_id = 0 and
+				parent_type = "ticket" and
+				created_by_id = %d
+		',$_SESSION['agent_user_id']);
+		
+		return $wpdb->get_results($sql,'ARRAY_A');
+	}

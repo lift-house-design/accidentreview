@@ -35,6 +35,9 @@
 <!--link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-base.css" /-->
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
+<script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
+<link rel="stylesheet" href="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.css" />
+<script src="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.js"></script>
 <form id="new-assignment">
 	
 	<fieldset>
@@ -68,25 +71,209 @@
 			<input type="button" value="Upload File" />
 			<input id="upload-field" type="file" name="file" />
 			<div class="file-preview">
-				<div class="file">
-					<a class="icon">
-						
+			<?php foreach($new_assignment_attachments as $new_attachment): ?>
+				<?php $fileType=ar_get_file_class($new_attachment['name']); ?>
+				<div class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $new_attachment['id'] ?>">
+					<a class="icon" href="#">
+						&nbsp;
+						<?php if($fileType=='img'): ?>
+							<img src="http://backend.accidentreview.com/uploads/<?php echo $new_attachment['location'] ?>" />
+						<?php endif; ?>
 					</a>
-					<a class="description">Add Description</a>
+					<a class="description" href="#"><?php echo $new_attachment['description'] ?></a>
+				</div>
+			<?php endforeach; ?>
+				<!--div class="file">
+					<a class="icon" href="#">&nbsp;</a>
+					<a class="description" href="#">Add Description</a>
 				</div>
 				<div class="word file">
-					<a class="icon">
-						
-					</a>
-					<a class="description">Add Description</a>
+					<a class="icon" href="#">&nbsp;</a>
+					<a class="description" href="#">Add Description</a>
 				</div>
 				<div class="pdf file">
-					<a class="icon">
-						
-					</a>
-					<a class="description">Add Description</a>
+					<a class="icon" href="#">&nbsp;</a>
+					<a class="description" href="#">Add Description</a>
 				</div>
+				<div class="img file" data-attachment-id="2005">
+					<a class="icon" href="#image-preview"><img style="margin-left: -32px; margin-top: -24px;" src="http://backend.accidentreview.com/uploads/beecddcb0a4cf4bbc5326d51e45a0f365edc9ab0" />&nbsp;</a>
+					<a class="description" href="#">Add Description</a>
+				</div>
+				<div class="img file" data-attachment-id="2005">
+					<a class="icon" href="#image-preview"><img style="margin-left: -32px; margin-top: -24px;" src="http://backend.accidentreview.com/uploads/4cccfdda41c3e2ba6f79f5bcbb18e8cd23612199" />&nbsp;</a>
+					<a class="description" href="#">Add Description</a>
+				</div>
+				<div class="img file" data-attachment-id="2005">
+					<a class="icon" href="#image-preview"><img style="margin-left: -24px; margin-top: -32px;" src="http://backend.accidentreview.com/uploads/bb55a61538d393362cbfb9852eb8d28e67d3af4c" />&nbsp;</a>
+					<a class="description" href="#">Add Description</a>
+				</div-->
 			</div>
+			<div id="image-preview">
+				<div class="image">
+					<img src="http://backend.accidentreview.com/uploads/beecddcb0a4cf4bbc5326d51e45a0f365edc9ab0" />
+					<a class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla commodo ipsum, at lobortis lorem molestie euismod. Nulla dolor felis, tristique nec luctus vel, pulvinar ut nibh. Nam vulputate tincidunt tempor. </a>
+				</div>
+				<a id="image-preview-next" class="button">Next</a>
+				<a id="image-preview-prev" class="button">Previous</a>
+				<a id="image-preview-close" class="button">Close</a>
+			</div>
+			<script>
+				$(function(){
+					var image_preview_prev_offset=$('#image-preview #image-preview-next').width()+40;
+					$('#image-preview #image-preview-prev').css('right',image_preview_prev_offset+'px');
+					
+					$('.file-upload.field .file-preview .img.file').fancybox({
+						padding: 20,
+						href: '#image-preview',
+						closeBtn: false,
+						beforeShow: function(){
+							// Get properties of this image
+							var icon=$(this.element[0]).children('a.icon');
+							var description=icon
+								.siblings('a.description')
+								.html();
+							var src=icon
+								.children('img')
+								.attr('src');
+							var attachmentId=icon.parents('.file').data('attachment-id');
+								
+							$('#image-preview')
+								.data('attachment-id',attachmentId)
+								.children('.image')
+								.empty()
+								.append(
+									$('<a>')
+										.attr({
+											'href': src,
+											'target': '_blank'
+										})
+										.append(
+											$('<img>')
+												.attr('src', src)
+										)
+								)
+								.append(
+									$('<a>')
+										.addClass('description')
+										.html(description)
+								);
+							
+							var file=icon.parents('.file');
+							if(file.nextAll('.img.file').length==0)
+								$('#image-preview #image-preview-next').hide();
+							else
+								$('#image-preview #image-preview-next').show();
+							if(file.prevAll('.img.file').length==0)
+								$('#image-preview #image-preview-prev').hide();
+							else
+								$('#image-preview #image-preview-prev').show();
+						}
+					});
+					
+					$(document)
+						.on('click','#image-preview #image-preview-next',function(){
+							var attachmentId=$(this).parents('#image-preview').data('attachment-id');
+							var nextImg=$('.file-upload.field .file-preview')
+								.find('.file[data-attachment-id="'+attachmentId+'"]')
+								.nextAll('.img.file:first')
+								.click();
+							
+							if(nextImg.nextAll('.img.file').length==0)
+								$(this).hide();
+							if(nextImg.prevAll('.img.file').length>0)
+								$('#image-preview #image-preview-prev').show();
+						})
+						.on('click','#image-preview #image-preview-prev',function(){
+							var attachmentId=$(this).parents('#image-preview').data('attachment-id');
+							var prevImg=$('.file-upload.field .file-preview')
+								.find('.file[data-attachment-id="'+attachmentId+'"]')
+								.prevAll('.img.file:first')
+								.click();
+							
+							if(prevImg.prevAll('.img.file').length==0)
+								$(this).hide();
+							if(prevImg.nextAll('.img.file').length>0)
+								$('#image-preview #image-preview-next').show();
+						})
+						.on('click','#image-preview #image-preview-close',function(){
+							$.fancybox.close();
+						})
+						.on('click','#image-preview a.description',function(){
+							
+							function restoreDescription(value)
+							{
+								var a=$('<a>')
+									.addClass('description')
+									.html(value);
+								
+								$('#image-preview div.description')
+									.replaceWith(a);
+							}
+							
+							var height=$(this).height()+5;
+							var description=$(this).html();
+							
+							var textarea=$('<textarea>')
+								.css('height',height+'px')
+								.html(description);
+							var saveButton=$('<a>')
+								.addClass('button')
+								.html('Save')
+								.click(function(){
+									var newDescription=$(this)
+										.siblings('textarea')
+										.val();
+									var attachment_id=$('#image-preview').data('attachment-id');
+									
+									$.ajax({
+									     url: '/wp-admin/admin-ajax.php',
+									     type: 'post',
+									     data: {
+									     	action: 'save-attachment-description',
+											attachment_id: attachment_id,
+											description: newDescription
+									     },
+									     success: function(data,textStatus,jqXHR){
+										 	console.log(data);
+									         data=$.parseJSON(data);
+											 
+											 if(data.status=='success')
+											 {
+											 	restoreDescription(newDescription);
+									
+												var attachmentId=$('#image-preview').data('attachment-id');
+												$('.file-upload.field .file-preview')
+													.find('.file[data-attachment-id="'+attachmentId+'"] .description')
+													.html(newDescription);
+											 }
+											 else
+											 	restoreDescription(description);
+									     },
+									     error: function(jqXHR,textStatus,errorThrown){
+									         restoreDescription(description);
+									     },
+									});
+								});
+							var cancelButton=$('<a>')
+								.addClass('button')
+								.html('Cancel')
+								.click(function(){
+									restoreDescription(description);
+								});
+								
+							$(this)
+								.replaceWith(
+									$('<div>')
+										.addClass('description')
+										.append(textarea)
+										.append(saveButton)
+										.append(cancelButton)
+								);
+							
+							textarea.focus();
+						});
+				});
+			</script>
 		</div>
 		<div class="field">
 			<label>Describe Loss in Chronological Order</label>
@@ -443,6 +630,76 @@
 					});
 			});
 		
+		var uploading=false;
+		function ajax_upload()
+		{
+			uploading=true;
+			$('.file-upload.field input[type="button"]').val('Uploading...');
+			
+			$.ajaxFileUpload({
+				url: '/wp-admin/admin-ajax.php', 
+				secureuri: false,
+				fileElementId: 'upload-field',
+				dataType: 'JSON',
+				data: {
+					action: 'save-attachment',
+				},
+				success: function(data) {
+					data=$.parseJSON(data);
+					console.log(data);
+					
+					if(data.status != 'error')
+					{
+						var file=$('<div>')
+							.addClass('file')
+							.addClass(data.type)
+							.append(
+								$('<a>')
+									.addClass('icon')
+									.html('&nbsp;')
+							)
+							.append(
+								$('<a>')
+									.addClass('description')
+									.html(data.description)
+							)
+							.appendTo('.file-upload.field .file-preview');
+							
+						if(data.type=='img')
+						{
+							$('<img>')
+								.load(function(){
+									file
+										.children('a.icon')
+										.append(this);
+									console.log($(this).width());
+									console.log($(this).height());
+									$(this)
+										.css({
+											'margin-left': -($(this).width()/2)+'px',
+											'margin-top': -($(this).height()/2)+'px',
+										});
+									
+								})
+								.attr('src',data.url);
+						}
+					}
+					
+					$('.file-upload.field input[type="file"]').change(ajax_upload);
+					uploading=false;
+					$('.file-upload.field input[type="button"]').val('Upload File');
+				}
+			});
+		}
+			
+		$(document)
+			.on('click','.file-upload.field input[type="button"]',function(){
+				$(this)
+					.siblings('input[type="file"]')
+					.click();
+			})
+			.on('change','.file-upload.field input[type="file"]',ajax_upload);
+		
 		// Form submission handler
 		$('form#new-assignment').submit(function(e){
 			e.preventDefault();
@@ -559,6 +816,5 @@
 		
 		// Store a template for adding new vehicles
 		var vehicleTemplate;
-		
 	});
 </script>
