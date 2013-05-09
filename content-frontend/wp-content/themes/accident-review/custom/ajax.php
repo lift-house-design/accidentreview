@@ -34,6 +34,8 @@ add_action('wp_ajax_save-attachment','save_attachment');
 add_action('wp_ajax_nopriv_save-attachment','save_attachment');
 add_action('wp_ajax_save-attachment-description','save_attachment_description');
 add_action('wp_ajax_nopriv_save-attachment-description','save_attachment_description');
+add_action('wp_ajax_delete-attachment','delete_attachment');
+add_action('wp_ajax_nopriv_delete-attachment','delete_attachment');
 
 /*add_action('wp_ajax_vehicle-test','vehicle_test');
 add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
@@ -258,6 +260,47 @@ function save_attachment_description()
 		else
 		{
 			$response['error']='Description was not found.';
+		}
+	}
+	else
+	{
+		$response['error']='Attachment ID was not found.';
+	}
+	
+	echo json_encode($response);
+	exit;
+}
+
+function delete_attachment()
+{
+	global $wpdb;
+	
+	$response=array(
+		'status'=>'error',
+		'error'=>'',
+	);
+	
+	if(!empty($_POST['attachment_id']))
+	{
+		$attachment_id=$_POST['attachment_id'];
+		
+		$sql=$wpdb->prepare('
+			delete from
+				acx_attachments
+			where
+				id = %d
+			limit 1
+		',$attachment_id);
+		
+		$result=$wpdb->query($sql);
+		
+		if($result!==false)
+		{
+			$response['status']='success';
+		}
+		else
+		{
+			$response['error']='There was a problem deleting the attachment.';
 		}
 	}
 	else

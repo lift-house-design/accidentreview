@@ -1,4 +1,17 @@
 <?php
+	function ar_get_assignment_category($type_slug)
+	{
+		$categories=array(
+			'vehicle-theft'=>0,
+			'accident-reconstruction'=>0,
+			'fire-analysis'=>0,
+			'mechanical-analysis'=>0,
+			'physical-damage-comparison'=>0,
+			'report-review'=>0,
+			'other'=>0,
+		);
+	}
+
 	function ar_get_assignment_meta()
 	{
 		return array(
@@ -382,6 +395,33 @@
 					if($success===false)
 						throw new Exception('Line No. '.__LINE__.': '.mysql_error());
 				}
+			}
+			
+			/**
+			 * Determine if an activeCollab ticket needs to be created
+			 **/
+			$sql=$wpdb->prepare('
+				select
+					*
+				from
+					job
+				where
+					id = %d
+				limit 1
+			',$job_id);
+			$job=$wpdb->get_row($sql,'ARRAY_A');
+			
+			if($job['ticket_id']==0)
+			{
+				/**
+				 * Create the activeCollab ticket
+				 **/
+				/*$wpdb->insert('acx_project_objects',array(
+					'type'=>'Ticket',
+					'module'=>'tickets',
+					'project_id'=>$_SESSION['default_project_id'],
+					'parent_id'=>
+				));*/
 			}
 		}
 		catch(Exception $e)

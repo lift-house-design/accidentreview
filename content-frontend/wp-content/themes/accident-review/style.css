@@ -338,6 +338,9 @@ form button:hover,
 
 .wpcf7-form-control-wrap br {display: none!important;}
 
+.file-upload.field > input[type="button"] {
+	font-size: 11px;
+}
 .file-upload.field input[type="file"] {
      zoom: 1;
      filter: alpha(opacity=0);
@@ -445,35 +448,28 @@ form button:hover,
 	font-size: 11px;
 	text-transform: uppercase;
 }
-#image-preview div.description {
-	text-align: left;
-	padding: 10px;
-}
-#image-preview div.description textarea {
-	margin: 0;
-	border: 0;
-	width: 100%;
-	display: block;
-	background-color: #f3f0ea;
-	padding: 0;
-	font-size: 11px;
-	text-transform: uppercase;
-	margin-bottom: 10px;
-}
-#image-preview div.description textarea:focus {
-	outline: 0;
-}
 #image-preview .button {
 	padding: 0 10px;
 	font-size: 11px;
+	display: inline-block;
 }
 #image-preview .button:hover {
 	color: #fff;
 }
+/*#image-preview div.description {
+	text-align: left;
+	padding: 10px;
+}
+#image-preview div.description textarea {
+
+}
+#image-preview div.description textarea:focus {
+	outline: 0;
+}
 #image-preview div.description .button {
 	display: inline-block;
 	margin-right: 10px;
-}
+}*/
 #image-preview #image-preview-next,
 #image-preview #image-preview-prev,
 #image-preview #image-preview-close {
@@ -486,6 +482,35 @@ form button:hover,
 }
 #image-preview #image-preview-close {
 	left: 10px;
+}
+#attachment-edit {
+	display: none;
+}
+#attachment-edit h3 {
+	margin-top: 0;
+}
+#attachment-edit textarea {
+	margin: 0;
+	border: 0;
+	width: 100%;
+	display: block;
+	background-color: #f3f0ea;
+	padding: 0;
+	font-size: 11px;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	height: 100px;
+}
+#attachment-edit textarea:focus {
+	outline: 0;
+}
+#attachment-edit .button {
+	padding: 0 10px;
+	font-size: 11px;
+	display: inline-block;
+}
+#attachment-edit .button:hover {
+	color: #fff;
 }
 div.fancybox-skin {
 	background-color: #e1dcce;

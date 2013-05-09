@@ -71,10 +71,11 @@
 			<input type="button" value="Upload File" />
 			<input id="upload-field" type="file" name="file" />
 			<div class="file-preview">
+			<?php $i=0 ?>
 			<?php foreach($new_assignment_attachments as $new_attachment): ?>
 				<?php $fileType=ar_get_file_class($new_attachment['name']); ?>
-				<div class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $new_attachment['id'] ?>">
-					<a class="icon" href="#">
+				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $new_attachment['id'] ?>">
+					<a class="icon" href="<?php echo $fileType=='img' ? '#' : 'http://backend.accidentreview.com/uploads/'.$new_attachment['location'] ?>">
 						&nbsp;
 						<?php if($fileType=='img'): ?>
 							<img src="http://backend.accidentreview.com/uploads/<?php echo $new_attachment['location'] ?>" />
@@ -83,30 +84,6 @@
 					<a class="description" href="#"><?php echo $new_attachment['description'] ?></a>
 				</div>
 			<?php endforeach; ?>
-				<!--div class="file">
-					<a class="icon" href="#">&nbsp;</a>
-					<a class="description" href="#">Add Description</a>
-				</div>
-				<div class="word file">
-					<a class="icon" href="#">&nbsp;</a>
-					<a class="description" href="#">Add Description</a>
-				</div>
-				<div class="pdf file">
-					<a class="icon" href="#">&nbsp;</a>
-					<a class="description" href="#">Add Description</a>
-				</div>
-				<div class="img file" data-attachment-id="2005">
-					<a class="icon" href="#image-preview"><img style="margin-left: -32px; margin-top: -24px;" src="http://backend.accidentreview.com/uploads/beecddcb0a4cf4bbc5326d51e45a0f365edc9ab0" />&nbsp;</a>
-					<a class="description" href="#">Add Description</a>
-				</div>
-				<div class="img file" data-attachment-id="2005">
-					<a class="icon" href="#image-preview"><img style="margin-left: -32px; margin-top: -24px;" src="http://backend.accidentreview.com/uploads/4cccfdda41c3e2ba6f79f5bcbb18e8cd23612199" />&nbsp;</a>
-					<a class="description" href="#">Add Description</a>
-				</div>
-				<div class="img file" data-attachment-id="2005">
-					<a class="icon" href="#image-preview"><img style="margin-left: -24px; margin-top: -32px;" src="http://backend.accidentreview.com/uploads/bb55a61538d393362cbfb9852eb8d28e67d3af4c" />&nbsp;</a>
-					<a class="description" href="#">Add Description</a>
-				</div-->
 			</div>
 			<div id="image-preview">
 				<div class="image">
@@ -117,58 +94,99 @@
 				<a id="image-preview-prev" class="button">Previous</a>
 				<a id="image-preview-close" class="button">Close</a>
 			</div>
+			<div id="attachment-edit">
+				<h3>Edit Attachment</h3>
+				<textarea name="description"></textarea>
+				<a id="attachment-edit-save" class="button">Save Description</a>
+				<a id="attachment-edit-delete" class="button">Delete Attachment</a>
+				<a id="attachment-edit-close" class="button">Cancel</a>
+			</div>
 			<script>
 				$(function(){
 					var image_preview_prev_offset=$('#image-preview #image-preview-next').width()+40;
 					$('#image-preview #image-preview-prev').css('right',image_preview_prev_offset+'px');
 					
-					$('.file-upload.field .file-preview .img.file').fancybox({
-						padding: 20,
-						href: '#image-preview',
-						closeBtn: false,
-						beforeShow: function(){
-							// Get properties of this image
-							var icon=$(this.element[0]).children('a.icon');
-							var description=icon
-								.siblings('a.description')
-								.html();
-							var src=icon
-								.children('img')
-								.attr('src');
-							var attachmentId=icon.parents('.file').data('attachment-id');
-								
-							$('#image-preview')
-								.data('attachment-id',attachmentId)
-								.children('.image')
-								.empty()
-								.append(
-									$('<a>')
-										.attr({
-											'href': src,
-											'target': '_blank'
-										})
-										.append(
-											$('<img>')
-												.attr('src', src)
-										)
-								)
-								.append(
-									$('<a>')
-										.addClass('description')
-										.html(description)
-								);
+					// Center images in thumbnails
+					$('.file-upload.field .file-preview .img.file a.icon img')
+						.load(function(){
+							var width=$(this).width();
+							var height=$(this).height();
 							
-							var file=icon.parents('.file');
-							if(file.nextAll('.img.file').length==0)
-								$('#image-preview #image-preview-next').hide();
-							else
-								$('#image-preview #image-preview-next').show();
-							if(file.prevAll('.img.file').length==0)
-								$('#image-preview #image-preview-prev').hide();
-							else
-								$('#image-preview #image-preview-prev').show();
-						}
-					});
+							$(this)
+								.css({
+									'margin-left': -(width/2)+'px',
+									'margin-top': -(height/2)+'px',
+								});
+						});
+					
+					$('.file-upload.field .file-preview .file .description')
+						.fancybox({
+							padding: 20,
+							closeBtn: false,
+							href: '#attachment-edit',
+							beforeShow: function(){
+								var description_anchor=$(this.element[0]);
+								var description=description_anchor.html();
+								var attachmentId=description_anchor.parents('.file').data('attachment-id');
+								console.log(description);
+								console.log(description_anchor.parents('.file'));
+								$('#attachment-edit')
+									.attr('data-attachment-id',attachmentId)
+									.data('attachment-id',attachmentId)
+									.find('textarea')
+									.val(description);
+							}
+						});
+					
+					$('.file-upload.field .file-preview .img.file a.icon')
+						.fancybox({
+							padding: 20,
+							href: '#image-preview',
+							closeBtn: false,
+							beforeShow: function(){
+								// Get properties of this image
+								var icon=$(this.element[0]);
+								var description=icon
+									.siblings('a.description')
+									.html();
+								var src=icon
+									.children('img')
+									.attr('src');
+								var attachmentId=icon.parents('.file').data('attachment-id');
+									
+								$('#image-preview')
+									.attr('data-attachment-id',attachmentId)
+									.data('attachment-id',attachmentId)
+									.children('.image')
+									.empty()
+									.append(
+										$('<a>')
+											.attr({
+												'href': src,
+												'target': '_blank'
+											})
+											.append(
+												$('<img>')
+													.attr('src', src)
+											)
+									)
+									.append(
+										$('<a>')
+											.addClass('description')
+											.html(description)
+									);
+								
+								var file=icon.parents('.file');
+								if(file.nextAll('.img.file').length==0)
+									$('#image-preview #image-preview-next').hide();
+								else
+									$('#image-preview #image-preview-next').show();
+								if(file.prevAll('.img.file').length==0)
+									$('#image-preview #image-preview-prev').hide();
+								else
+									$('#image-preview #image-preview-prev').show();
+							}
+						});
 					
 					$(document)
 						.on('click','#image-preview #image-preview-next',function(){
@@ -176,29 +194,141 @@
 							var nextImg=$('.file-upload.field .file-preview')
 								.find('.file[data-attachment-id="'+attachmentId+'"]')
 								.nextAll('.img.file:first')
-								.click();
+								.find('a.icon')
+								.click()
+								.parents('.img.file');
 							
 							if(nextImg.nextAll('.img.file').length==0)
 								$(this).hide();
 							if(nextImg.prevAll('.img.file').length>0)
 								$('#image-preview #image-preview-prev').show();
+							
+							var image_preview_prev_offset=$('#image-preview #image-preview-next').width()+40;
+							$('#image-preview #image-preview-prev').css('right',image_preview_prev_offset+'px');
 						})
 						.on('click','#image-preview #image-preview-prev',function(){
 							var attachmentId=$(this).parents('#image-preview').data('attachment-id');
 							var prevImg=$('.file-upload.field .file-preview')
 								.find('.file[data-attachment-id="'+attachmentId+'"]')
 								.prevAll('.img.file:first')
-								.click();
-							
+								.find('a.icon')
+								.click()
+								.parents('.img.file');
+								
 							if(prevImg.prevAll('.img.file').length==0)
 								$(this).hide();
 							if(prevImg.nextAll('.img.file').length>0)
 								$('#image-preview #image-preview-next').show();
+								
+							var image_preview_prev_offset=$('#image-preview #image-preview-next').width()+40;
+							$('#image-preview #image-preview-prev').css('right',image_preview_prev_offset+'px');
 						})
 						.on('click','#image-preview #image-preview-close',function(){
 							$.fancybox.close();
 						})
 						.on('click','#image-preview a.description',function(){
+							var attachmentId=$(this).parents('#image-preview').data('attachment-id');
+							
+							var description_anchor=$('.file-upload.field .file-preview')
+								.find('.file[data-attachment-id="'+attachmentId+'"] a.description');
+							var description=description_anchor.html();
+							console.log(description_anchor.length);
+							$('#attachment-edit')
+								.attr('data-attachment-id',attachmentId)
+								.data('attachment-id',attachmentId)
+								.find('textarea')
+								.html(description);
+							
+							description_anchor.click();
+						})
+						.on('click','#attachment-edit #attachment-edit-close',function(){
+							$.fancybox.close();
+						})
+						.on('click','#attachment-edit #attachment-edit-save',function(){
+							var attachmentId=$(this).parents('#attachment-edit').data('attachment-id');
+							var newDescription=$(this)
+								.siblings('textarea')
+								.val();
+							
+							$('#attachment-edit #attachment-edit-save')
+								.html('Saving...')
+								.attr('disabled','disabled');
+							$('#attachment-edit #attachment-edit-delete')
+								.html('Saving...')
+								.attr('disabled','disabled');
+							
+							$.ajax({
+								url: '/wp-admin/admin-ajax.php',
+								type: 'post',
+								data: {
+									action: 'save-attachment-description',
+									attachment_id: attachmentId,
+									description: newDescription
+								},
+								success: function(data,textStatus,jqXHR){
+									console.log(data);
+									data=$.parseJSON(data);
+									
+									if(data.status=='success')
+									{
+										$('.file-upload.field .file-preview')
+											.find('.file[data-attachment-id="'+attachmentId+'"] .description')
+											.html(newDescription);
+									}
+								},
+								complete: function(){
+									$('#attachment-edit #attachment-edit-save')
+										.html('Save Description')
+										.removeAttr('disabled');
+									$('#attachment-edit #attachment-edit-delete')
+										.html('Delete Attachment')
+										.removeAttr('disabled');
+									
+									$.fancybox.close();
+								},
+							});
+						})
+						.on('click','#attachment-edit #attachment-edit-delete',function(){
+							var attachmentId=$(this).parents('#attachment-edit').data('attachment-id');
+							
+							$('#attachment-edit #attachment-edit-save')
+								.html('Deleting...')
+								.attr('disabled','disabled');
+							$('#attachment-edit #attachment-edit-delete')
+								.html('Deleting...')
+								.attr('disabled','disabled');
+							
+							$.ajax({
+								url: '/wp-admin/admin-ajax.php',
+								type: 'post',
+								data: {
+									action: 'delete-attachment',
+									attachment_id: attachmentId
+								},
+								success: function(data,textStatus,jqXHR){
+									console.log(data);
+									data=$.parseJSON(data);
+									
+									if(data.status=='success')
+									{
+										$('.file-upload.field .file-preview')
+											.find('.file[data-attachment-id="'+attachmentId+'"]')
+											.remove();
+									}
+								},
+								complete: function(){
+									$('#attachment-edit #attachment-edit-save')
+										.html('Save Description')
+										.removeAttr('disabled');
+									$('#attachment-edit #attachment-edit-delete')
+										.html('Delete Attachment')
+										.removeAttr('disabled');
+									
+									$.fancybox.close();
+								}
+							});
+						});
+						/*.on('click','#image-preview a.description',function(){
 							
 							function restoreDescription(value)
 							{
@@ -271,7 +401,7 @@
 								);
 							
 							textarea.focus();
-						});
+						});*/
 				});
 			</script>
 		</div>
@@ -651,6 +781,8 @@
 					if(data.status != 'error')
 					{
 						var file=$('<div>')
+							.attr('data-attachment-id',data.attachment_id)
+							.data('attachment-id',data.attachment_id)
 							.addClass('file')
 							.addClass(data.type)
 							.append(
@@ -682,6 +814,15 @@
 									
 								})
 								.attr('src',data.url);
+						}
+						else
+						{
+							file
+								.children('a.icon')
+								.attr({
+									href: data.url,
+									target: '_blank',
+								})
 						}
 					}
 					
