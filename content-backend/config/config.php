@@ -2,9 +2,12 @@
   define('ROOT', dirname(dirname(__FILE__)).'/activecollab');//'/var/www/vhosts/accident-review/content-backend/activecollab');
   define('PUBLIC_FOLDER_NAME', 'public'); 
   define('DB_HOST', 'localhost'); 
-  define('DB_USER', 'accidentreview'); 
-  define('DB_PASS', 'D4gGH#2$nMV'); 
-  define('DB_NAME', 'accidentreviewdb'); 
+  define('DB_USER', 'root');
+  //define('DB_USER', 'accidentreview'); 
+  define('DB_PASS', 'root'); 
+  //define('DB_PASS', 'D4gGH#2$nMV'); 
+  define('DB_NAME', 'accidentreview'); 
+  //define('DB_NAME', 'accidentreviewdb'); 
   define('DB_CAN_TRANSACT', true); 
   define('TABLE_PREFIX', 'acx_'); 
   define('ROOT_URL', 'http://'.$_SERVER['HTTP_HOST'].'/public');//'http://backend.accident-review.hollisint.com/public'); 
