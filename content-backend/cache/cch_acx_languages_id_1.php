@@ -1,1 +1,0 @@
-<?php return unserialize('a:3:{s:2:"id";s:1:"1";s:4:"name";s:7:"English";s:6:"locale";s:11:"en_US.UTF-8";}') ?>

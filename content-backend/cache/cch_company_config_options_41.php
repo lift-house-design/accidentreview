@@ -1,2 +1,0 @@
-<?php return unserialize('a:4:{s:14:"office_address";s:33:"213 Main Steet
-Rehoboth MA 02769";s:12:"office_phone";s:11:"555-555-555";s:10:"office_fax";s:11:"999-999-999";s:15:"office_homepage";s:0:"";}') ?>

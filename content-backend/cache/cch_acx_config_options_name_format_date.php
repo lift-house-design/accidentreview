@@ -1,1 +1,0 @@
-<?php return unserialize('a:4:{s:4:"name";s:11:"format_date";s:6:"module";s:6:"system";s:4:"type";s:4:"user";s:5:"value";s:21:"s:13:"%a, %b %e. %Y";";}') ?>
