@@ -35,7 +35,6 @@
 			echo '<input type="text" name="'.$question_key.'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').( empty($value) ? '' : ' value="'.$value.'"' ).' />';
 		}
 	}
-	var_dump($job_data['attachments']);
 ?>
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
