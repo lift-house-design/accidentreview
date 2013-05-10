@@ -1118,6 +1118,7 @@ strong {
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 13px;
+	text-align: left;
 }
 #new-assignment .field {
 	background-color: #fff;

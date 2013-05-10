@@ -43,9 +43,24 @@ add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
 // @TODO: See previous todo
 function get_assignment_panel()
 {
-	global $wpdb;
+	$assignment_data=ar_get_assignment_meta();
+	$assignment_types=array_keys($assignment_data);
 	
-	require('views/assignment_panel.php');
+	$job_id=isset($_POST['id']) ? $_POST['id'] : 0;
+	$job_data=ar_get_assignment_data($job_id);
+	
+	if(!empty($job_id))
+	{
+		$assignment_type=$job_data['type'];
+		$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
+		$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
+		$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
+		
+		$assignment_attachments=$job_data['attachments'];
+		
+		require('views/new_assignment_panel.php');
+	}
+
     exit;
 }
 
@@ -66,7 +81,7 @@ function get_new_assignment_panel()
 	$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 	
 	// Get new assignment attachments
-	$new_assignment_attachments=ar_get_new_assignment_attachments();
+	$assignment_attachments=ar_get_new_assignment_attachments();
 	
 	require('views/new_assignment_panel.php');
 	exit;
@@ -98,6 +113,7 @@ function save_new_assignment()
 	$vehicles_data=$_POST['vehicles'];
 	
 	if(($error=ar_save_new_assignment($job_id,$job_data,$vehicles_data))===true)
+	//if(true)
 	{
 		$response['status']='success';
 	}

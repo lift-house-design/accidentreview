@@ -183,13 +183,13 @@
 						if(!empty($job['last_name'])) $job['rep_name'].=$job['last_name'];
 					?>
 						<tr data-assignment-id="<?php echo $job['id'] ?>">
-							<td><?php echo $job['client_file_id'] ?></td>
+							<td><?php echo $job['file_number'] ?></td>
 							<td><?php echo $job['status'] ?></td>
-							<td><?php echo $job['claimant_a_owner_name'] ?></td>
+							<td><?php echo $job['insured_name'] ?></td>
 							<td><?php echo $job['date_of_loss_displayed'] ?></td>
 							<td><?php echo $job['id'] ?></td>
 							<td><?php echo $job['submitted_displayed'] ?></td>
-							<td><?php echo $job['job_type'] ?></td>
+							<td><?php echo ar_get_assignment_category_name($job['type']) ?></td>
 							<td><?php echo $job['rep_name'] ?></td>
 						</tr>
 					<?php endforeach; ?>

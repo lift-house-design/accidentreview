@@ -1,13 +1,13 @@
 <?php
-	function ar_display_question_field($question_key,$question,$array_fields=false)
+	function ar_display_question_field($question_key,$question,$value=false)
 	{
 		if($question['question_type']=='textarea')
 		{
-			echo '<textarea name="'.$question_key.( $array_fields ? '[]' : '' ).'" '.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').'></textarea>';
+			echo '<textarea name="'.$question_key.'" '.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').'>'.(empty($value) ? '' : $value).'</textarea>';
 		}
 		elseif($question['question_type']=='date')
 		{
-			echo '<input type="text" class="date" name="'.$question_key.( $array_fields ? '[]' : '' ).'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').' />';
+			echo '<input type="text" class="date" name="'.$question_key.'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').( empty($value) ? '' : ' value="'.$value.'"' ).' />';
 		}
 		elseif($question['question_type']=='radio')
 		{
@@ -19,7 +19,12 @@
 				foreach($question['possible_answers'] as $answer)
 				{
 					$answer_slug=str_replace(' ','_',strtolower($answer));
-					echo '<input type="radio" name="'.$question_key.( $array_fields ? '[]' : '' ).'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( $question['default_answer']==$answer ? ' checked="checked"' : '' ).' />';
+					
+					if(empty($value))
+						echo '<input type="radio" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( $question['default_answer']==$answer ? ' checked="checked"' : '' ).' />';
+					else
+						echo '<input type="radio" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( $value==$answer ? ' checked="checked"' : '' ).' />';
+					
 					echo '<label for="'.$question_key.'-'.$answer_slug.'">'.$answer.'</label> ';
 				}
 				echo '</div>';
@@ -27,12 +32,11 @@
 		}
 		else
 		{
-			echo '<input type="text" name="'.$question_key.( $array_fields ? '[]' : '' ).'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').' />';
+			echo '<input type="text" name="'.$question_key.'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').( empty($value) ? '' : ' value="'.$value.'"' ).' />';
 		}
 	}
+	var_dump($job_data['attachments']);
 ?>
-<!--script src="/wp-content/themes/accident-review/js/jquery-ui-1.10.2.min.js"></script-->
-<!--link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-base.css" /-->
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
 <script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
@@ -46,15 +50,15 @@
 		<input type="hidden" name="type" value="<?php echo $assignment_type ?>" />
 		<div class="field">
 			<label>File Number</label>
-			<input type="text" name="file_number" placeholder="Enter file number" />
+			<input type="text" name="file_number" placeholder="Enter file number"<?php echo empty($job_data['file_number']) ? '' : ' value="'.$job_data['file_number'].'"' ?> />
 		</div>
 		<div class="field">
 			<label>Insured Name</label>
-			<input type="text" name="insured_name" placeholder="Enter insured name" />
+			<input type="text" name="insured_name" placeholder="Enter insured name"<?php echo empty($job_data['insured_name']) ? '' : ' value="'.$job_data['insured_name'].'"' ?> />
 		</div>
 		<div class="field">
 			<label>Date of Loss</label>
-			<input type="text" class="date" name="date_of_loss" placeholder="Enter date of loss" />
+			<input type="text" class="date" name="date_of_loss" placeholder="Enter date of loss"<?php echo empty($job_data['date_of_loss']) ? '' : ' value="'.date('Y-m-d',strtotime($job_data['date_of_loss'])).'"' ?> />
 		</div>
 	</fieldset>
 	<fieldset>
@@ -72,16 +76,16 @@
 			<input id="upload-field" type="file" name="file" />
 			<div class="file-preview">
 			<?php $i=0 ?>
-			<?php foreach($new_assignment_attachments as $new_attachment): ?>
-				<?php $fileType=ar_get_file_class($new_attachment['name']); ?>
-				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $new_attachment['id'] ?>">
-					<a class="icon" href="<?php echo $fileType=='img' ? '#' : 'http://backend.accidentreview.com/uploads/'.$new_attachment['location'] ?>">
+			<?php foreach($assignment_attachments as $attachment): ?>
+				<?php $fileType=ar_get_file_class($attachment['name']); ?>
+				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
+					<a class="icon" href="<?php echo $fileType=='img' ? '#' : 'http://backend.accidentreview.com/uploads/'.$attachment['location'] ?>">
 						&nbsp;
 						<?php if($fileType=='img'): ?>
-							<img src="http://backend.accidentreview.com/uploads/<?php echo $new_attachment['location'] ?>" />
+							<img src="http://backend.accidentreview.com/uploads/<?php echo $attachment['location'] ?>" />
 						<?php endif; ?>
 					</a>
-					<a class="description" href="#"><?php echo $new_attachment['description'] ?></a>
+					<a class="description" href="#"><?php echo $attachment['description'] ?></a>
 				</div>
 			<?php endforeach; ?>
 			</div>
@@ -328,160 +332,165 @@
 								}
 							});
 						});
-						/*.on('click','#image-preview a.description',function(){
-							
-							function restoreDescription(value)
-							{
-								var a=$('<a>')
-									.addClass('description')
-									.html(value);
-								
-								$('#image-preview div.description')
-									.replaceWith(a);
-							}
-							
-							var height=$(this).height()+5;
-							var description=$(this).html();
-							
-							var textarea=$('<textarea>')
-								.css('height',height+'px')
-								.html(description);
-							var saveButton=$('<a>')
-								.addClass('button')
-								.html('Save')
-								.click(function(){
-									var newDescription=$(this)
-										.siblings('textarea')
-										.val();
-									var attachment_id=$('#image-preview').data('attachment-id');
-									
-									$.ajax({
-									     url: '/wp-admin/admin-ajax.php',
-									     type: 'post',
-									     data: {
-									     	action: 'save-attachment-description',
-											attachment_id: attachment_id,
-											description: newDescription
-									     },
-									     success: function(data,textStatus,jqXHR){
-										 	console.log(data);
-									         data=$.parseJSON(data);
-											 
-											 if(data.status=='success')
-											 {
-											 	restoreDescription(newDescription);
-									
-												var attachmentId=$('#image-preview').data('attachment-id');
-												$('.file-upload.field .file-preview')
-													.find('.file[data-attachment-id="'+attachmentId+'"] .description')
-													.html(newDescription);
-											 }
-											 else
-											 	restoreDescription(description);
-									     },
-									     error: function(jqXHR,textStatus,errorThrown){
-									         restoreDescription(description);
-									     },
-									});
-								});
-							var cancelButton=$('<a>')
-								.addClass('button')
-								.html('Cancel')
-								.click(function(){
-									restoreDescription(description);
-								});
-								
-							$(this)
-								.replaceWith(
-									$('<div>')
-										.addClass('description')
-										.append(textarea)
-										.append(saveButton)
-										.append(cancelButton)
-								);
-							
-							textarea.focus();
-						});*/
 				});
 			</script>
 		</div>
 		<div class="field">
 			<label>Describe Loss in Chronological Order</label>
-			<textarea name="loss_description" placeholder="Enter description of loss in chronological order"></textarea>
+			<textarea name="loss_description" placeholder="Enter description of loss in chronological order"><?php echo empty($job_data['loss_description']) ? '' : $job_data['loss_description'] ?></textarea>
 		</div>
 		<div class="field">
 			<label>Services Requested</label>
-			<textarea name="services_requested" placeholder="Enter services you are requesting"></textarea>
+			<textarea name="services_requested" placeholder="Enter services you are requesting"><?php echo empty($job_data['services_requested']) ? '' : $job_data['services_requested'] ?></textarea>
 		</div>
 		<?php foreach($job_questions as $question_key=>$question): ?>
 		<div class="<?php echo $question_key ?> field">
 			<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
-			<?php ar_display_question_field($question_key,$question) ?>
+			<?php ar_display_question_field($question_key,$question, ( empty($job_data[$question_key]) ? false : $job_data[$question_key] ) ) ?>
 		</div>
 		<?php endforeach; ?>
 	</fieldset>
-	<fieldset>
-		<legend>Vehicle<?php echo ( $multiple_vehicles ?' #1' : '' ) ?> Information</legend>
-		<div class="vin_number field">
-			<label>If the VIN number is available, enter it below and click "Lookup VIN"</label>
-			<input type="text" name="vin_number" placeholder="Enter the VIN number" />
-			<input type="button" value="Lookup VIN" />
-		</div>
-		<div class="field">
-			<label>Vehicle Description</label>
-			<div class="field-row">
-				<select name="year">
-					<option value="">Year:</option>
-				</select>
-				<select name="make" disabled="disabled">
-					<option value="">(select a year)</option>
-				</select>
-				<select name="model" disabled="disabled">
-					<option value="">(select a year)</option>
-				</select>
-			</div>
-			<div class="field-row">
-				<input type="text" name="owners_name" placeholder="Enter owner's full name" />
-				<select name="belongs_to">
-					<option value="">Vehicle belongs to:</option>
-					<?php foreach(array('Plaintiff','Defendant') as $val): ?>
-					<option><?php echo $val ?></option>
-					<?php endforeach; ?>
-				</select>
-			</div>
-			<div class="field-row">
-				<input type="text" name="color" placeholder="Enter vehicle's color" />
-				<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
-			</div>
-		</div>
-		<div class="field">
-			<label>Modifications/Aftermarket</label>
-			<textarea name="modifications" placeholder="List any modifications"></textarea>
-		</div>
-		<div class="field">
-			<label>Additional Information</label>
-			<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"></textarea>
-		</div>
-		<?php foreach($vehicle_questions as $question_key=>$question): ?>
-		<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
-			<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
-			<?php ar_display_question_field($question_key,$question) ?>
-		</div>
+	<?php if(!empty($job_data['vehicles'])): ?>
+		<?php $vehicleNum=0; ?>
+		<?php $vehicleCount=count($job_data['vehicles']) ?>
+		<?php foreach($job_data['vehicles'] as $vehicle_data): ?>
+			<fieldset>
+				<legend>Vehicle<?php echo ( $multiple_vehicles ? ' #'.++$vehicleNum : '' ) ?> Information</legend>
+				<div class="vin_number field">
+					<label>If the VIN number is available, enter it below and click "Lookup VIN"</label>
+					<input type="text" name="vin_number" placeholder="Enter the VIN number"<?php echo empty($vehicle_data['vin_number']) ? '' : ' value="'.$vehicle_data['vin_number'].'"' ?> />
+					<input type="button" value="Lookup VIN" />
+				</div>
+				<div class="field">
+					<label>Vehicle Description</label>
+					<div class="field-row">
+						<select name="year">
+							<option value="">Year:</option>
+							<?php if(!empty($vehicle_data['year'])): ?>
+								<option value="<?php echo $vehicle_data['year'] ?>" selected="selected"><?php echo $vehicle_data['year'] ?></option>
+							<?php endif; ?>
+						</select>
+						<select name="make" disabled="disabled">
+							<option value="">(select a year)</option>
+							<?php if(!empty($vehicle_data['make'])): ?>
+								<option value="<?php echo ar_get_make_id($vehicle_data['year'],$vehicle_data['make']) ?>" selected="selected"><?php echo $vehicle_data['make'] ?></option>
+							<?php endif; ?>
+						</select>
+						<select name="model" disabled="disabled">
+							<option value="">(select a year)</option>
+							<?php if(!empty($vehicle_data['model'])): ?>
+								<option value="<?php echo $vehicle_data['model'] ?>" selected="selected"><?php echo $vehicle_data['model'] ?></option>
+							<?php endif; ?>
+						</select>
+					</div>
+					<div class="field-row">
+						<input type="text" name="owners_name" placeholder="Enter owner's full name"<?php echo empty($vehicle_data['owners_name']) ? '' : ' value="'.$vehicle_data['owners_name'].'"' ?> />
+						<select name="belongs_to">
+							<option value="">Vehicle belongs to:</option>
+							<?php foreach(array('Plaintiff','Defendant') as $val): ?>
+								<?php if(empty($vehicle_data['belongs_to'])): ?>
+									<option><?php echo $val ?></option>
+								<?php else: ?>
+									<option<?php echo $vehicle_data['belongs_to']==$val ? ' selected="selected"' : '' ?>><?php echo $val ?></option>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="field-row">
+						<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
+						<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
+					</div>
+				</div>
+				<div class="field">
+					<label>Modifications/Aftermarket</label>
+					<textarea name="modifications" placeholder="List any modifications"><?php echo empty($vehicle_data['modifications']) ? '' : $vehicle_data['modifications'] ?></textarea>
+				</div>
+				<div class="field">
+					<label>Additional Information</label>
+					<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"><?php echo empty($vehicle_data['additional_info']) ? '' : $vehicle_data['additional_info'] ?></textarea>
+				</div>
+				<?php foreach($vehicle_questions as $question_key=>$question): ?>
+				<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
+					<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+					<?php ar_display_question_field($question_key,$question, ( empty($vehicle_data[$question_key]) ? false : $vehicle_data[$question_key] ) ) ?>
+				</div>
+				<?php endforeach; ?>
+				<?php if($multiple_vehicles && $vehicleNum==$vehicleCount): ?>
+				<div class="field">
+					<label>Add another vehicle</label>
+					<input type="button" id="add-vehicle" value="Add Vehicle" />
+				</div>
+				<?php endif; ?>
+			</fieldset>
 		<?php endforeach; ?>
-		<?php if($multiple_vehicles): ?>
-		<div class="field">
-			<label>Add another vehicle</label>
-			<input type="button" id="add-vehicle" value="Add Vehicle" />
-		</div>
-		<?php endif; ?>
-	</fieldset>
+	<?php else: ?>
+		<fieldset>
+			<legend>Vehicle<?php echo ( $multiple_vehicles ?' #1' : '' ) ?> Information</legend>
+			<div class="vin_number field">
+				<label>If the VIN number is available, enter it below and click "Lookup VIN"</label>
+				<input type="text" name="vin_number" placeholder="Enter the VIN number" />
+				<input type="button" value="Lookup VIN" />
+			</div>
+			<div class="field">
+				<label>Vehicle Description</label>
+				<div class="field-row">
+					<select name="year">
+						<option value="">Year:</option>
+					</select>
+					<select name="make" disabled="disabled">
+						<option value="">(select a year)</option>
+					</select>
+					<select name="model" disabled="disabled">
+						<option value="">(select a year)</option>
+					</select>
+				</div>
+				<div class="field-row">
+					<input type="text" name="owners_name" placeholder="Enter owner's full name" />
+					<select name="belongs_to">
+						<option value="">Vehicle belongs to:</option>
+						<?php foreach(array('Plaintiff','Defendant') as $val): ?>
+						<option><?php echo $val ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+				<div class="field-row">
+					<input type="text" name="color" placeholder="Enter vehicle's color" />
+					<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
+				</div>
+			</div>
+			<div class="field">
+				<label>Modifications/Aftermarket</label>
+				<textarea name="modifications" placeholder="List any modifications"></textarea>
+			</div>
+			<div class="field">
+				<label>Additional Information</label>
+				<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"></textarea>
+			</div>
+			<?php foreach($vehicle_questions as $question_key=>$question): ?>
+			<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
+				<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+				<?php ar_display_question_field($question_key,$question) ?>
+			</div>
+			<?php endforeach; ?>
+			<?php if($multiple_vehicles): ?>
+			<div class="field">
+				<label>Add another vehicle</label>
+				<input type="button" id="add-vehicle" value="Add Vehicle" />
+			</div>
+			<?php endif; ?>
+		</fieldset>
+	<?php endif; ?>
 	<fieldset>
-		<legend>Submit Assignment</legend>
+		<legend><?php echo empty($job_data) ? 'Create' : 'Save' ?> Assignment</legend>
+		<?php if(empty($job_data)): ?>
 		<div class="field"> <!-- @TODO: change the url to the terms and conditions -->
 			<label>Before submitting, you must read and agree to the terms of service</label>
 			<input type="checkbox" name="tos_agreement" id="tos-agreement" value="1" /><label for="tos-agreement" class="checkbox-label">I have read and agree to the <a href="/terms-conditions">terms of service</a>.</label>
 		</div>
 		<div class="field">
+		<?php else: ?>
+		<div class="field" style="padding-top: 10px;">
+		<?php endif; ?>
 			<input type="submit" value="Save Assignment" />
 		</div>
 	</fieldset>
@@ -601,7 +610,9 @@
 			.on('change','select[name="year"]',function(){
 				var make=$(this)
 					.parents('.field')
-					.find('select[name="make"]')
+					.find('select[name="make"]');
+				var makeVal=make.val();
+				make
 					.empty()
 					.attr('disabled','disabled');
 				var opt=$('<option>')
@@ -611,7 +622,9 @@
 				
 				var model=$(this)
 					.parents('.field')
-					.find('select[name="model"]')
+					.find('select[name="model"]');
+				var modelVal=model.val();
+				model
 					.empty()
 					.attr('disabled','disabled');
 				var opt=$('<option>')
@@ -647,6 +660,8 @@
 								make.append(opt);
 							}
 							
+							make.val(makeVal);
+							
 							var opt=$('<option>')
 									.val('')
 									.html('(select a make)');
@@ -654,6 +669,22 @@
 							model
 								.empty()
 								.append(opt);
+							
+							if(modelVal != '')
+							{
+								var opt=$('<option>')
+									.val(modelVal)
+									.html(modelVal);
+								
+								model
+									.append(opt)
+									.val(modelVal);
+							}
+							
+							if(makeVal!='')
+							{
+								make.change();
+							}
 						}
 				     },
 				});
@@ -662,7 +693,9 @@
 			.on('change','select[name="make"]',function(){
 				var model=$(this)
 					.parents('.field')
-					.find('select[name="model"]')
+					.find('select[name="model"]');
+				var modelVal=model.val();
+				model
 					.empty()
 					.attr('disabled','disabled');
 				var opt=$('<option>')
@@ -698,6 +731,8 @@
 								
 								model.append(opt);
 							}
+							
+							model.val(modelVal);
 						}
 				     },
 				});
@@ -849,7 +884,7 @@
 			$('form#new-assignment input[type="submit"]').siblings('.msg').remove();
 			
 			// Check for tos_agreement
-			if($('input[name="tos_agreement"]:checked').length==0)
+			if(isNewAssignment && $('input[name="tos_agreement"]:checked').length==0)
 			{
 				var msg=$('<div>')
 					.addClass('msg')
@@ -939,16 +974,38 @@
 		     success: function(data,textStatus,jqXHR){
 			 	if(data.success)
 				{
-					var select=$('select[name="year"]');
-					
-			 		for(var val in data.result)
-					{
-						var opt=$('<option>')
-							.val(val)
-							.html(data.result[val]);
-						
-						select.append(opt);
-					}
+					var vehicles=$('form#new-assignment')
+						.children('fieldset')
+						.filter(':gt(1)')
+						.filter(':lt(-1)')
+						.each(function(){
+							var select=$(this).find('select[name="year"]');
+							var selectVal=select.val();
+							
+							select
+								.empty()
+								.append(
+									$('<option>')
+										.val('')
+										.html('Year:')
+								);
+							
+					 		for(var val in data.result)
+							{
+								var opt=$('<option>')
+									.val(val)
+									.html(data.result[val]);
+								
+								select.append(opt);
+							}
+							
+							select.val(selectVal);
+							
+							if(selectVal != '')
+							{
+								select.change();
+							}
+						});
 				}
 				
 				vehicleTemplate=$('#new-assignment fieldset:eq(2)').clone();
@@ -957,5 +1014,6 @@
 		
 		// Store a template for adding new vehicles
 		var vehicleTemplate;
+		isNewAssignment=<?php echo empty($job_data) ? 'true' : 'false'; ?>
 	});
 </script>

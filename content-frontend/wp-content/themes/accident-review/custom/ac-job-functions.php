@@ -14,9 +14,9 @@ function accident_get_jobs($user_id=0){
     global $wpdb;
     if($user_id != 0){
         $jobs = array();
-        $find_s = 'SELECT job.*, acx_users.first_name, acx_users.last_name, acx_project_objects.state FROM job 
-        LEFT JOIN acx_users ON acx_users.id = job.user_id
-        LEFT JOIN acx_project_objects ON acx_project_objects.id = job.ticket_id
+        $find_s = 'SELECT ar_job.*, acx_users.first_name, acx_users.last_name, acx_project_objects.state FROM ar_job 
+        LEFT JOIN acx_users ON acx_users.id = ar_job.user_id
+        LEFT JOIN acx_project_objects ON acx_project_objects.id = ar_job.ticket_id
         WHERE user_id=\''.$user_id.'\' AND ticket_id != \'\' AND (acx_project_objects.state !=1) 
         ORDER BY date_of_loss DESC';
                
@@ -474,7 +474,7 @@ function accident_update_job_details($job_id=0,$details=array()){
 function accident_get_job_ticket_id($job_id=0){
     global $wpdb;
     if($job_id != 0){
-        $find_s = 'SELECT ticket_id FROM job WHERE id=\''.$job_id.'\'';
+        $find_s = 'SELECT ticket_id FROM ar_job WHERE id=\''.$job_id.'\'';
         //die($find_s);
         $find_q = $wpdb->get_results($find_s,'ARRAY_A');
         if($find_q !== false && count($find_q) > 0){

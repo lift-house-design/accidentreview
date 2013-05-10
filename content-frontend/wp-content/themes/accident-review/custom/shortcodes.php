@@ -2,6 +2,26 @@
 
 	add_shortcode('dashboard','accident_dashboard');
 	add_shortcode('new-assignment','accident_new_assignment');
+	add_shortcode('login','accident_login_process');
+	
+	function accident_login_process()
+	{
+		$location='/';
+		
+		if(isset($_GET['do']) && $_GET['do']=='logout')
+		{
+			accident_logout_agent();
+			echo 'You have been logged out.';
+		}
+		elseif(accident_login_agent())
+		{
+			$location='/reps';
+			echo 'You have been logged in. ';
+		}
+		
+		echo ' Please wait...';
+		echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
+	}
 	
 	function accident_new_assignment($atts)
 	{

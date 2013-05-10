@@ -1,15 +1,150 @@
 <?php
 	function ar_get_assignment_category($type_slug)
 	{
+		// where type="Category" and project_id=30
 		$categories=array(
-			'vehicle-theft'=>0,
-			'accident-reconstruction'=>0,
-			'fire-analysis'=>0,
-			'mechanical-analysis'=>0,
-			'physical-damage-comparison'=>0,
-			'report-review'=>0,
-			'other'=>0,
+			'vehicle-theft'=>962,
+			'accident-reconstruction'=>963,
+			'fire-analysis'=>964,
+			'mechanical-analysis'=>965,
+			'physical-damage-comparison'=>961,
+			'report-review'=>966,
+			'other'=>967,
 		);
+		
+		return isset($categories[$type_slug]) ? $categories[$type_slug] : '';
+	}
+	
+	function ar_get_assignment_category_name($type_slug)
+	{
+		$category_id=ar_get_assignment_category($type_slug);
+		
+		global $wpdb;
+		
+		$sql=$wpdb->prepare('
+			select
+				name
+			from
+				acx_project_objects
+			where
+				id = %d
+			limit 1
+		',$category_id);
+		
+		$name=$wpdb->get_var($sql);
+		
+		if($name!=null)
+			return $name;
+		else
+			return false;
+	}
+	
+	function ar_get_assignment_data($job_id)
+	{
+		global $wpdb;
+		
+		/**
+		 * Get the base job data
+		 */
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_job
+			where
+				id = %d
+		',$job_id);
+		
+		$job=$wpdb->get_row($sql,'ARRAY_A');
+		
+		if($job==null)
+			return false;
+		
+		/**
+		 * Get the job question data
+		 */
+		$sql=$wpdb->prepare('
+			select
+				question_key,
+				answer
+			from
+				ar_job_answer
+			where
+				job_id = %d
+		',$job_id);
+		
+		$answers=$wpdb->get_results($sql,'ARRAY_A');
+		
+		if($answers!=null)
+		{
+			foreach($answers as $answer)
+				$job[$answer['question_key']]=$answer['answer'];
+		}
+		
+		/**
+		 * Get the job vehicle data
+		 */
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_job_vehicle
+			where
+				job_id = %d
+		',$job_id);
+		
+		$vehicles=$wpdb->get_results($sql,'ARRAY_A');
+		
+		if($vehicles!=null)
+		{
+			/**
+			 * Get each vehicle question data
+			 */
+			foreach($vehicles as $i=>$vehicle)
+			{
+				$sql=$wpdb->prepare('
+					select
+						question_key,
+						answer
+					from
+						ar_job_vehicle_answer
+					where
+						vehicle_id = %d
+				',$vehicle['id']);
+				
+				$answers=$wpdb->get_results($sql,'ARRAY_A');
+				
+				if($answers!=null)
+				{
+					foreach($answers as $answer)
+						$vehicles[$i][$answer['question_key']]=$answer['answer'];
+				}
+			}
+			
+			$job['vehicles']=$vehicles;
+		}
+		
+		$ticket_id=accident_get_job_ticket_id($job_id);
+		
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				acx_attachments
+			where
+				parent_id = %d and
+				parent_type = "ticket" and
+				created_by_id = %d
+		', $ticket_id, $_SESSION['agent_user_id']);
+		
+		$attachments=$wpdb->get_results($sql,'ARRAY_A');
+		
+		if($attachments==null)
+			$job['attachments']=array();
+		else
+			$job['attachments']=$attachments;
+		
+		return $job;
 	}
 
 	function ar_get_assignment_meta()
@@ -71,24 +206,42 @@
 						'placeholder'=>'Enter description of the location of loss',
 					),
 				),
+				'vehicle_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 			'fire-analysis'=>array(
-			
+				'job_questions'=>array(),
+				'vehicle_questions'=>array(),
 			),
 			'mechanical-analysis'=>array(
-			
+				'job_questions'=>array(),
+				'vehicle_questions'=>array(),
 			),
 			'physical-damage-comparison'=>array(
-			
+				'job_questions'=>array(),
+				'vehicle_questions'=>array(),
 			),
 			'report-review'=>array(
-			
+				'job_questions'=>array(),
+				'vehicle_questions'=>array(),
 			),
 			'other'=>array(
-			
+				'job_questions'=>array(),
+				'vehicle_questions'=>array(),
 			),
 		);
+	}
+	
+	function ar_get_make_id($year,$makeName)
+	{
+		$makes=requestDivisions($year);
+		$makes=$makes['result'];
+		
+		foreach($makes as $make_id=>$make_name)
+			if($make_name==$makeName)
+				return $make_id;
+		
+		return $makeName;
 	}
 	
 	
@@ -404,7 +557,7 @@
 				select
 					*
 				from
-					job
+					ar_job
 				where
 					id = %d
 				limit 1
@@ -416,13 +569,154 @@
 				/**
 				 * Create the activeCollab ticket
 				 **/
-				/*$wpdb->insert('acx_project_objects',array(
+				$ticket_name=$job['file_number'].' -- '.$_SESSION['agent_user_data']['last_name'].' -- '.date('Y-m-d',strtotime($job['date_of_loss'])).' -- '.$job['type'].' -- '.$job['id'];
+				
+				$success=$wpdb->insert('acx_project_objects',array(
 					'type'=>'Ticket',
 					'module'=>'tickets',
 					'project_id'=>$_SESSION['default_project_id'],
-					'parent_id'=>
-				));*/
+					'parent_id'=>ar_get_assignment_category($job['type']),
+					'name'=>$ticket_name,
+					'state'=>3,
+					'visibility'=>1,
+					'created_on'=>date('Y-m-d'),
+					'created_by_id'=>$_SESSION['agent_user_id'],
+					'created_by_name'=>$_SESSION['agent_user_name'],
+					'created_by_email'=>$_SESSION['agent_user_data']['email'],
+					'has_time'=>0,
+					'version'=>1,
+					'milestone_id'=>0,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				$ticket_id=$wpdb->insert_id;
+				
+				/**
+				 * Update the job with the ticket ID
+				 **/
+				$success=$wpdb->update('ar_job',array(
+					'ticket_id'=>$ticket_id,
+				),array(
+					'id'=>$job['id'],
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				/**
+				 * Insert the activeCollab discussion object
+				 */
+				$success=$wpdb->insert('acx_project_objects',array(
+					'type'=>'Discussion',
+					'module'=>'discussions',
+					'project_id'=>$_SESSION['default_project_id'],
+					'parent_id'=>$ticket_id,
+					'parent_type'=>'ticket',
+					'body'=>'discussion',
+					'name'=>$ticket_name,
+					'state'=>3,
+					'visibility'=>1,
+					'created_on'=>date('Y-m-d'),
+					'created_by_id'=>$_SESSION['agent_user_id'],
+					'created_by_name'=>$_SESSION['agent_user_name'],
+					'created_by_email'=>$_SESSION['agent_user_data']['email'],
+					'has_time'=>0,
+					'version'=>1,
+					'milestone_id'=>0,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				$discussion_id=$wpdb->insert_id;
+				
+				/**
+				 * Insert the activeCollab activity log
+				 */
+				$success=$wpdb->insert('acx_activity_logs',array(
+					'type'=>'ObjectCreatedActivityLog',
+					'object_id'=>$ticket_id,
+					'project_id'=>$_SESSION['default_project_id'],
+					'created_on'=>date('Y-m-d'),
+					'created_by_id'=>$_SESSION['agent_user_id'],
+					'created_by_name'=>$_SESSION['agent_user_name'],
+					'created_by_email'=>$_SESSION['agent_user_data']['email'],
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				/**
+				 * Insert the activeCollab subscriptions
+				 */
+				$success=$wpdb->insert('acx_subscriptions',array(
+					'user_id'=>$_SESSION['agent_user_id'],
+					'parent_id'=>$ticket_id,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				$success=$wpdb->insert('acx_subscriptions',array(
+					'user_id'=>accident_get_leader_id(),
+					'parent_id'=>$ticket_id,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				$success=$wpdb->insert('acx_subscriptions',array(
+					'user_id'=>accident_get_leader_id(),
+					'parent_id'=>$discussion_id,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				/**
+				 * Insert the activeCollab search index
+				 */
+				$success=$wpdb->insert('acx_search_index',array(
+					'object_id'=>$ticket_id,
+					'type'=>'ProjectObject',
+					'content'=>$ticket_name,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				accident_auto_assign_users($ticket_id);
 			}
+			else
+			{
+				$success=$wpdb->update('acx_project_objects',array(
+					'updated_on'=>date('Y-m-d'),
+					'updated_by_id'=>$_SESSION['agent_user_id'],
+					'updated_by_name'=>$_SESSION['agent_user_name'],
+					'updated_by_email'=>$_SESSION['agent_user_data']['email'],
+				),array(
+					'id'=>$ticket_id,
+				));
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+			}
+			
+			/**
+			 * Update the activeCollab attachments with the ticket ID
+			 */
+			$success=$wpdb->update('acx_attachments',array(
+				'parent_id'=>$ticket_id,
+			),array(
+				'parent_id'=>0,
+				'parent_type'=>'ticket',
+				'created_by_id'=>$_SESSION['agent_user_id'],
+			));
+			
+			if($success===false)
+				throw new Exception('Line No. '.__LINE__.': '.mysql_error());
 		}
 		catch(Exception $e)
 		{
