@@ -60,17 +60,17 @@
 				<a href="#about-us">About Us</a>	
 				<a href="#customer-support">Customer Support</a>	
 			<?php else: ?>
-				<a href="/dev/home#services">Services</a>	
-				<a href="/dev/home#about-us">About Us</a>	
-				<a href="/dev/home#customer-support">Customer Support</a>
+				<a href="/#services">Services</a>	
+				<a href="/#about-us">About Us</a>	
+				<a href="/#customer-support">Customer Support</a>
 			<?php endif; ?>
 			</div>
 			<?php if(isset($_SESSION['agent_user_id'])): ?>
 			<div id="account-options">
-				<a href="/dev/reps#new-assignment">New Assignment</a>
-				<a href="/dev/reps#assignments">Assignments</a>
-				<a href="/dev/reps#account-info">Manage Account</a>
-				<a href="/dev/login?do=logout">Logout</a>
+				<a href="/reps#new-assignment">New Assignment</a>
+				<a href="/reps#assignments">Assignments</a>
+				<a href="/reps#account-info">Manage Account</a>
+				<a href="/reps/login?do=logout">Logout</a>
 			</div>
 			<?php endif; ?>
 		</div>

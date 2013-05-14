@@ -188,8 +188,8 @@ function save_attachment()
 		$tempType=$_FILES['file']['mime_type'];
 		$tempName=$_FILES['file']['name'];
 		$hashName=sha1($tempName.microtime());
-		$targetPath='/var/www/vhosts/accidentreview.com/ar-git/content-backend/uploads/'.$hashName;
-		//$targetPath=dirname($_SERVER['DOCUMENT_ROOT']).'/content-backend/uploads/'.$hashName;
+		//$targetPath='/var/www/vhosts/accidentreview.com/ar-git/content-backend/uploads/'.$hashName;
+		$targetPath=dirname($_SERVER['DOCUMENT_ROOT']).'/content-backend/uploads/'.$hashName;
 		$fileClass=ar_get_file_class($tempName);
 		
 		if($fileClass!==false)

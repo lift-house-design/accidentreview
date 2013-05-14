@@ -951,7 +951,11 @@
 						
 						setTimeout(function(){
 							close_new_assignments();
-							$('#dashboard').accordion('option','active',1);
+							window.location.href='/reps#assignments';
+							/*$('#assignments').dataTable().fnAddData([
+								
+							]);
+							$('#dashboard').accordion('option','active',1);*/
 						},2000);
 					}
 					else
