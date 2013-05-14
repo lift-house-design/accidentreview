@@ -8,4 +8,4 @@ content-backend/uploads
 content-backend/upload
 
 # Wordpress configuration file
-wp-config.php
+content-frontend/wp-config.php
