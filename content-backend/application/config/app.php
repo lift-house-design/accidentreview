@@ -56,8 +56,8 @@ $config['database']=array(
 |						to disable
 |
 */
-$config['site_name']='Project Template';
-$config['site_description']='Making projects work';
+$config['site_name']='Accident Review Administration';
+$config['site_description']='View and fulfill assignments';
 $config['title_format']='%1$s | %2$s';
 $config['copyright_format']='Copyright &copy; %1$s %2$d. All Rights Reserved.';
 $config['assets_url']='/assets';

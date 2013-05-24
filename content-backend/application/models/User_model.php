@@ -19,6 +19,44 @@
 		public $belongs_to=array();
 		
 		protected $return_type='array';
+		
+		public $logged_in=FALSE;
+		
+		public function __construct()
+		{
+			parent::__construct();
+			
+			$user=session('user');
+			$this->logged_in=!empty($user);
+		}
+		
+		public function log_in($email=NULL,$password=NULL)
+		{
+			if(!isset($email))
+				$email=post('email');
+			if(!isset($password))
+				$password=post('password');
+			
+			if(empty($email)||empty($password))
+				return FALSE;
+			
+			$user=$this->get_by(array(
+				'email'=>$email,
+				'password'=>sha1($password),
+			));
+			
+			if(empty($user))
+				return FALSE;
+			
+			session('user',$user);
+			
+			return TRUE;
+		}
+		
+		public function log_out()
+		{
+			session('user',NULL);
+		}
 	}
 	
 /* End of file User_model.php */

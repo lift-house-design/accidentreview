@@ -51,13 +51,15 @@ class App_Controller extends CI_Controller
     /**
      * A list of helpers to be autoloaded
      */
-    protected $helpers = array('url','html','project');
+    protected $helpers = array('url','html','project','form');
 	
 	protected $js=array('jquery-1.9.1.min.js');
 	
-	protected $css=array('reset.css','application.css');
+	protected $css=array('reset.css','http://accidentreview.com/wp-content/themes/accident-review/style.css','application.css');
 	
 	protected $title;
+	
+	protected $authenticate=FALSE;
 
     /* --------------------------------------------------------------
      * GENERIC METHODS
@@ -120,13 +122,16 @@ class App_Controller extends CI_Controller
 		| Global Data
 		|--------------------------------------------------------------------------
 		|
-		| Site name, page title, user data
+		| Site name, page title
 		|
 		*/
 		
 		// Set the global data
 		$this->data['site_name']=$site_name;
 		$this->data['page_title']=$this->title;
+		$this->data['slug_id_string']=implode('-',$this->uri->rsegment_array());
+		$this->data['logged_in']=$this->user->logged_in;
+		$this->data['user']=session('user');
 	}
 	
     /**
@@ -161,6 +166,10 @@ class App_Controller extends CI_Controller
      */
     protected function _load_view()
     {
+    	// Check for authentication
+		if($this->authenticate===TRUE && $this->user->logged_in===FALSE)
+			redirect('login');
+		
         // If $this->view == FALSE, we don't want to load anything
         if ($this->view !== FALSE)
         {

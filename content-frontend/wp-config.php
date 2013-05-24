@@ -90,6 +90,9 @@ define('WPLANG', '');
  */
 define('WP_DEBUG', false);
 
+define('WP_HOME','http://accidentreview.com');
+define('WP_SITEURL','http://accidentreview.com');
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */

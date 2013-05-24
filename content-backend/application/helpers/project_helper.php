@@ -37,3 +37,40 @@ if(!function_exists('trace'))
 		echo '</table>';
 	}
 }
+
+if(!function_exists('post'))
+{
+	function post($key=NULL)
+	{
+		$CI=get_instance();
+		
+		if(!isset($key))
+			return $CI->input->post();
+			
+		return $CI->input->post($key);
+	}
+}
+
+if(!function_exists('session'))
+{
+	function session()
+	{
+		$args=func_get_args();
+		$CI=get_instance();
+		
+		if(count($args)==0)
+			return $CI->session->all_userdata();
+		elseif(count($args)==1)
+		{
+			if(is_array($args[0]))
+				return $CI->session->set_userdata($args[0]);
+			else
+				return $CI->session->userdata($args[0]);
+		}
+		elseif(count($args)==2)
+			return $CI->session->set_userdata($args[0],$args[1]);
+	}
+}
+
+/* End of file project_helper.php */
+/* Location: ./application/helpers/project_helper.php */

@@ -15,25 +15,27 @@
 <body>
 	<div id="top-panel">
 		<div class="wrapper">
-			Welcome, <a href="#" class="username">Nick Niebaum</a>
+		<?php if($logged_in): ?>
+			Welcome, <?php echo anchor('account',$user['first_name'].' '.$user['last_name'],array('class'=>'username')) ?>
+		<?php else: ?>
+			&nbsp;
+		<?php endif; ?>
 		</div>
 	</div>
 	<div class="wrapper">
 		<div id="header">
-			<a id="logo" href="#">
+			<a id="logo" href="/">
 				<h1>Accident Review</h1>
 			</a>
 			<div id="nav">
-				<a href="/#services">Services</a>	
-				<a href="/#about-us">About Us</a>	
-				<a href="/#customer-support">Customer Support</a>
+				<?php echo anchor('assignments','Assignments') ?>
 			</div>
+			<?php if($logged_in): ?>
 			<div id="account-options">
-				<a href="/reps#new-assignment">New Assignment</a>
-				<a href="/reps#assignments">Assignments</a>
-				<a href="/reps#account-info">Manage Account</a>
-				<a href="/reps/login?do=logout">Logout</a>
+				<?php echo anchor('users','User Administration') ?>
+				<?php echo anchor('logout','Logout') ?>
 			</div>
+			<?php endif; ?>
 		</div>
 		<div id="content">
 			<?php if(!empty($page_title)): ?>
@@ -41,18 +43,14 @@
 				<h2><?php echo $page_title ?></h2>
 			</div>
 			<?php endif; ?>
-			<div class="content box">
+			<div id="<?php echo $slug_id_string ?>" class="content box">
 				<?php echo $yield ?>
 			</div>
 		</div>
 	</div>
 	</div>
 	<div id="footer">
-		<div class="wrapper">
-			<a href="/faq">FAQ</a>
-			<a href="/terms-conditions">Terms &amp; Conditions</a>
-			<a href="/contact-us">Contact Us</a>
-		</div>
+		
 	</div>
 	<?php echo js($js) ?>
 	<?php if($ga_code!==false): ?>
