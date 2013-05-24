@@ -2,7 +2,7 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors','On');
 	$job_ids_to_remove=array(
-
+		14, 15,16,17
 	);
 	
 	$ticket_ids_to_remove=array(

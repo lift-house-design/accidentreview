@@ -1,4 +1,43 @@
 <?php
+	function ar_display_question_field($question_key,$question,$value=false,$append_number=false)
+	{
+		if($question['question_type']=='textarea')
+		{
+			echo '<textarea name="'.$question_key.'" '.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').'>'.(empty($value) ? '' : $value).'</textarea>';
+		}
+		elseif($question['question_type']=='date')
+		{
+			echo '<input type="text" class="date" name="'.$question_key.'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').( empty($value) ? '' : ' value="'.$value.'"' ).' />';
+		}
+		elseif($question['question_type']=='radio')
+		{
+			$question['possible_answers']=json_decode($question['possible_answers'],true) ;
+			if($append_number!==false)
+				$question_key.='_'.$append_number;
+				
+			if(count($question['possible_answers']) > 0)
+			{
+				echo '<div class="ui-radios">';
+				foreach($question['possible_answers'] as $answer)
+				{
+					$answer_slug=str_replace(' ','_',strtolower($answer));
+					
+					if(empty($value))
+						echo '<input type="radio" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( $question['default_answer']==$answer ? ' checked="checked"' : '' ).' />';
+					else
+						echo '<input type="radio" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( $value==$answer ? ' checked="checked"' : '' ).' />';
+					
+					echo '<label for="'.$question_key.'-'.$answer_slug.'">'.$answer.'</label> ';
+				}
+				echo '</div>';
+			}
+		}
+		else
+		{
+			echo '<input type="text" name="'.$question_key.'"'.( !empty($question['placeholder']) ? ' placeholder="'.$question['placeholder'].'"' : '').( empty($value) ? '' : ' value="'.$value.'"' ).' />';
+		}
+	}
+	
 	function ar_get_assignment_category($type_slug)
 	{
 		// where type="Category" and project_id=30
@@ -196,6 +235,7 @@
 						'hidden'=>true,
 					),
 				),
+				'multiple_vehicles'=>true,
 				
 			),
 			'accident-reconstruction'=>array(
@@ -212,22 +252,27 @@
 			'fire-analysis'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'multiple_vehicles'=>true,
 			),
 			'mechanical-analysis'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'multiple_vehicles'=>true,
 			),
 			'physical-damage-comparison'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'multiple_vehicles'=>true,
 			),
 			'report-review'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'multiple_vehicles'=>true,
 			),
 			'other'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'multiple_vehicles'=>true,
 			),
 		);
 	}
@@ -293,6 +338,7 @@
 			'type',
 			'file_number',
 			'insured_name',
+			'claimant_name',
 			'date_of_loss',
 			'loss_description',
 			'services_requested',

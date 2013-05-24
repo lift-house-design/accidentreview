@@ -11,10 +11,6 @@ php_value post_max_size 130M
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-
-RewriteRule ^files/(.*)$ /wp-content/themes/accident-review/custom/file-download.php?id=$1  [NC,L]
-RewriteRule ^uploads/(.*)$ /wp-content/themes/accident-review/custom/file-upload.php?id=$1  [NC,L]
-
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
