@@ -1,3 +1,80 @@
+/*
+|--------------------------------------------------------------------------
+| Base Styles
+|--------------------------------------------------------------------------
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 20px 0 10px 0;
+	color: #0a2c79;
+	font-weight: normal;
+	padding: 0;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 28px;
+}
+
+h2 {
+	color: #000;
+	font-size: 22px;
+}
+
+h3,
+h4,
+h5,
+h6 {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+h3,
+h4 {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+}
+
+h3 {
+	font-size: 16px;
+}
+
+h4 {
+	font-size: 14px;
+	color: #000;
+}
+
+h5 {
+	font-size: 14px;
+}
+
+h6 {
+	font-size: 12px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Form Styles
+|--------------------------------------------------------------------------
+*/
+
+form {
+	
+}
+
 .field input[type="text"],
 .field input[type="password"],
 .field select {
@@ -13,23 +90,126 @@ button,
 
 .field,
 .buttons {
-	margin: 10px 0;
+	padding: 5px 0;
 }
 
 .field {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.field.c1 {
+	width: 915px;
+}
+
+.field.c1 input[type="text"],
+.field.c1 input[type="password"],
+.field.c1 select {
+	width: 895px;
+}
+
+.field.c2 {
+	display: inline-block;
+	width: 445px;
+}
+
+.field.c2 input[type="text"],
+.field.c2 input[type="password"],
+.field.c2 select {
+	width: 425px;
+}
+
+.field.c3 {
+	display: inline-block;
+	width: 285px;
+}
+
+.field.c3 input[type="text"],
+.field.c3 input[type="password"],
+.field.c3 select {
+	width: 265px;
+}
+
+.checkbox.field label {
+	display: inline-block;
 	margin-left: 10px;
-	margin-right: 10px;
+	cursor: pointer;
 }
 
 .buttons {
-	padding-top: 10px;
+	margin-top: 15px;
+	padding: 20px 10px 10px;
 	border-top: 1px solid #ccc;
-	padding-left: 10px;
+}
+
+.notifications,
+.errors {
+	font-size: 12px;
+	padding: 10px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#content .box .notifications ul,
+#content .box .errors ul {
+	padding-left: 25px;
+}
+
+.notifications li,
+.errors li {
+	font-weight: bold;
+	padding: 2px 0;
+}
+
+.notifications {
+	border: 1px solid #0a2c79;
+	background-color: #b6c0d7;
+	margin-bottom: 10px;
+}
+
+.errors {
+	border: 1px solid #d80000;
+	background-color: #f3b3b3;
 }
 
 /*
 |--------------------------------------------------------------------------
-| Login
+| Table Styles
+|--------------------------------------------------------------------------
+*/
+
+#assignments.admin {
+	
+}
+
+#assignments.admin td {
+	cursor: auto;
+}
+
+#assignments.admin tr.odd:hover td {
+	background-color: #e1dcce;
+	color: #000;
+	font-weight: normal;
+}
+
+#assignments.admin tr.even:hover td {
+	background-color: #f3f0ea;
+	color: #000;
+	font-weight: normal;
+}
+
+#assignments.admin .button {
+	padding: 5px 10px;
+}
+
+#assignments.admin .button:hover {
+	color: #fff;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Account :: Login
 |--------------------------------------------------------------------------
 */
 
@@ -59,11 +239,11 @@ button,
 |--------------------------------------------------------------------------
 */
 
-#account-index {
+/*#account-index {
 	width: 290px;
 	margin: 0 auto;
 }
 
 #account-index .field input[type="text"] {
 	width: 250px;
-}
+}*/

@@ -1,6 +1,3 @@
-<?php
-
-?>
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
 <script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
@@ -48,10 +45,10 @@
 			<?php foreach($assignment_attachments as $attachment): ?>
 				<?php $fileType=ar_get_file_class($attachment['name']); ?>
 				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
-					<a class="icon" href="<?php echo $fileType=='img' ? '#' : 'http://backend.accidentreview.com/uploads/'.$attachment['location'] ?>">
+					<a class="icon" href="<?php echo $fileType=='img' ? '#' : 'http://accidentreview.com/uploads/'.$attachment['url'] ?>">
 						&nbsp;
 						<?php if($fileType=='img'): ?>
-							<img src="http://backend.accidentreview.com/uploads/<?php echo $attachment['location'] ?>" />
+							<img src="http://accidentreview.com/uploads/<?php echo $attachment['url'] ?>" />
 						<?php endif; ?>
 					</a>
 					<a class="description" href="#"><?php echo $attachment['description'] ?></a>

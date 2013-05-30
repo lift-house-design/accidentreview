@@ -43,7 +43,20 @@
 				<h2><?php echo $page_title ?></h2>
 			</div>
 			<?php endif; ?>
+
 			<div id="<?php echo $slug_id_string ?>" class="content box">
+				<?php if(!empty($notifications)): ?>
+					<div class="notifications">
+						<ul>
+							<li><?php echo implode('</li><li>',$notifications) ?></li>
+						</ul>
+					</div>
+				<?php endif; ?>
+				<?php if(!empty($errors)): ?>
+					<div class="errors">
+						<ul><?php echo $errors ?></ul>
+					</div>
+				<?php endif; ?>
 				<?php echo $yield ?>
 			</div>
 		</div>

@@ -6,66 +6,43 @@ class Account extends App_Controller
 	{
 		$this->authenticate=TRUE;
 		
-		$this->data['state_options']=array(
-			''=>'(select a state)',
-			'AL'=>'Alabama',  
-			'AK'=>'Alaska',  
-			'AZ'=>'Arizona',  
-			'AR'=>'Arkansas',  
-			'CA'=>'California',  
-			'CO'=>'Colorado',  
-			'CT'=>'Connecticut',  
-			'DE'=>'Delaware',  
-			'DC'=>'District Of Columbia',  
-			'FL'=>'Florida',  
-			'GA'=>'Georgia',  
-			'HI'=>'Hawaii',  
-			'ID'=>'Idaho',  
-			'IL'=>'Illinois',  
-			'IN'=>'Indiana',  
-			'IA'=>'Iowa',  
-			'KS'=>'Kansas',  
-			'KY'=>'Kentucky',  
-			'LA'=>'Louisiana',  
-			'ME'=>'Maine',  
-			'MD'=>'Maryland',  
-			'MA'=>'Massachusetts',  
-			'MI'=>'Michigan',  
-			'MN'=>'Minnesota',  
-			'MS'=>'Mississippi',  
-			'MO'=>'Missouri',  
-			'MT'=>'Montana',
-			'NE'=>'Nebraska',
-			'NV'=>'Nevada',
-			'NH'=>'New Hampshire',
-			'NJ'=>'New Jersey',
-			'NM'=>'New Mexico',
-			'NY'=>'New York',
-			'NC'=>'North Carolina',
-			'ND'=>'North Dakota',
-			'OH'=>'Ohio',  
-			'OK'=>'Oklahoma',  
-			'OR'=>'Oregon',  
-			'PA'=>'Pennsylvania',  
-			'RI'=>'Rhode Island',  
-			'SC'=>'South Carolina',  
-			'SD'=>'South Dakota',
-			'TN'=>'Tennessee',  
-			'TX'=>'Texas',  
-			'UT'=>'Utah',  
-			'VT'=>'Vermont',  
-			'VA'=>'Virginia',  
-			'WA'=>'Washington',  
-			'WV'=>'West Virginia',  
-			'WI'=>'Wisconsin',  
-			'WY'=>'Wyoming',
-		);
+		if($this->authenticate() && $this->form_validation->run('account/index')!==FALSE)
+		{
+			// Save the account information
+			if($this->user->update($this->user->data['id'],post()))
+			{
+				$this->set_notification('Your account details have been updated.');
+				$user=$this->user->get($this->user->data['id']);
+				session('user',$user);
+				$this->user->data=$user;
+			}
+			
+			// Change the password
+			if(post('new_password'))
+			{
+				if(post('new_password')==post('confirm_new_password'))
+				{
+					if($this->user->change_password(post('current_password'),post('new_password'))===TRUE)
+					{
+						$this->set_notification('Your password has been changed.');
+					}
+					else
+						$this->form_validation->set_error('The current password you entered was incorrect. Please try again.');
+				}
+				else
+					$this->form_validation->set_error('The new password and confirm new password fields did not match. Please try again.');
+			}
+		}
+		
+		$this->js[]='jquery.maskedinput-1.3.1.js';
+		$this->js[]='actions/account-index.js';
+		$this->data['state_options']=states_array(array(''=>'(select a state)'));
 	}
 	
 	public function login()
 	{
-		if($this->form_validation->run('site/login')!==false && $this->user->log_in())
-			redirect('dashboard');
+		if($this->form_validation->run('account/login')!==FALSE && $this->user->log_in())
+			redirect('assignments');
 	}
 	
 	public function logout()

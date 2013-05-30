@@ -22,12 +22,17 @@
 		
 		public $logged_in=FALSE;
 		
+		public $data;
+		
 		public function __construct()
 		{
 			parent::__construct();
 			
 			$user=session('user');
 			$this->logged_in=!empty($user);
+			
+			if($this->logged_in)
+				$this->data=$user;
 		}
 		
 		public function log_in($email=NULL,$password=NULL)
@@ -56,6 +61,31 @@
 		public function log_out()
 		{
 			session('user',NULL);
+		}
+		
+		public function change_password($current_password,$new_password)
+		{
+			// Can't change the password of a user not logged in
+			if($this->logged_in===FALSE)
+				return FALSE;
+			
+			// Confirm the current password
+			$user=$this->get_by(array(
+				'id'=>$this->data['id'],
+				'password'=>sha1($current_password),
+			));
+			
+			if(empty($user))
+				return FALSE;
+			else
+			{
+				// Change the password
+				$this->update($this->data['id'],array(
+					'password'=>sha1($new_password),
+				));
+				
+				return TRUE;
+			}
 		}
 	}
 	

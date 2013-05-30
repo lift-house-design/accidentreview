@@ -38,44 +38,19 @@
 		}
 	}
 	
-	function ar_get_assignment_category($type_slug)
+	function ar_get_assignment_type_name($type)
 	{
-		// where type="Category" and project_id=30
-		$categories=array(
-			'vehicle-theft'=>962,
-			'accident-reconstruction'=>963,
-			'fire-analysis'=>964,
-			'mechanical-analysis'=>965,
-			'physical-damage-comparison'=>961,
-			'report-review'=>966,
-			'other'=>967,
+		$types=array(
+			'vehicle-theft'=>'Vehicle Theft Analysis',
+			'accident-reconstruction'=>'Accident Reconstruction',
+			'fire-analysis'=>'Fire Analysis',
+			'mechanical-analysis'=>'Mechanical Analysis',
+			'physical-damage-comparison'=>'Physical Damage Comparison',
+			'report-review'=>'Report Review',
+			'other'=>'Other',
 		);
 		
-		return isset($categories[$type_slug]) ? $categories[$type_slug] : '';
-	}
-	
-	function ar_get_assignment_category_name($type_slug)
-	{
-		$category_id=ar_get_assignment_category($type_slug);
-		
-		global $wpdb;
-		
-		$sql=$wpdb->prepare('
-			select
-				name
-			from
-				acx_project_objects
-			where
-				id = %d
-			limit 1
-		',$category_id);
-		
-		$name=$wpdb->get_var($sql);
-		
-		if($name!=null)
-			return $name;
-		else
-			return false;
+		return isset($types[$type]) ? $types[$type] : 'Unknown';
 	}
 	
 	function ar_get_assignment_data($job_id)
@@ -293,6 +268,7 @@
 	function ar_get_new_job_id()
 	{
 		global $wpdb;
+		$userData=ar_user_data();
 		
 		$sql=$wpdb->prepare('
 			select
@@ -300,18 +276,17 @@
 			from
 				ar_job
 			where
-				user_id = %d and
-				ticket_id = 0
+				client_user_id = %d and
+				type IS NULL
 		',
-		$_SESSION['agent_user_id']);
+		$userData['id']);
 		
 		$row=$wpdb->get_row($sql,'ARRAY_A');
 		
 		if($row==null)
 		{
 			$wpdb->insert('ar_job',array(
-				'ticket_id'=>0,
-				'user_id'=>$_SESSION['agent_user_id']
+				'client_user_id'=>$userData['id']
 			));
 			
 			$job_id=$wpdb->insert_id;
@@ -327,14 +302,14 @@
 	function ar_save_new_assignment($job_id,$job_data,$vehicles_data)
 	{
 		global $wpdb;
+		$userData=ar_user_data();
 		
 		/**
 		 * Get field arrays
 		 */
 		
 		$job_fields=array(
-			'ticket_id',
-			'user_id',
+			'client_user_id',
 			'type',
 			'file_number',
 			'insured_name',
@@ -376,25 +351,28 @@
 		
 		$sql=$wpdb->prepare('
 			select
-				count(*)
+				*
 			from
 				ar_job
 			where
 				id = %d and
-				user_id = %d
+				client_user_id = %d
 		',
-		$job_id, $_SESSION['agent_user_id']);
-		$count=$wpdb->get_var($sql);
-		if($count<1)
-			return 'Unable to find job '.$job_id.' belonging to user '.$_SESSION['agent_user_id'];
+		$job_id, $userData['id']);
+		$job_row=$wpdb->get_row($sql,'ARRAY_A');
+		if($job_row===NULL)
+			return 'Unable to find job '.$job_id.' belonging to user '.$userData['id'];
 		
 		/**
 		 * Prepare job data
 		 **/
 		
 		$job=array(
-			'user_id'=>$_SESSION['agent_user_id'],
+			'client_user_id'=>$userData['id'],
 		);
+		if($job_row['type']=='')
+			$job['created_at']=date('Y-m-d H:i:s');
+		
 		foreach($job_fields as $field)
 		{
 			if(isset($job_data[$field]))
@@ -586,7 +564,7 @@
 				/**
 				 * Insert vehicle answers
 				 **/
-				foreach($vehicle_answers as $vehicle_answer)
+				foreach((array)$vehicle_answers as $vehicle_answer)
 				{
 					$vehicle_answer['vehicle_id']=$vehicle_id;
 					$success=$wpdb->insert('ar_job_vehicle_answer',$vehicle_answer);
@@ -597,168 +575,13 @@
 			}
 			
 			/**
-			 * Determine if an activeCollab ticket needs to be created
-			 **/
-			$sql=$wpdb->prepare('
-				select
-					*
-				from
-					ar_job
-				where
-					id = %d
-				limit 1
-			',$job_id);
-			$job=$wpdb->get_row($sql,'ARRAY_A');
-			
-			if($job['ticket_id']==0)
-			{
-				/**
-				 * Create the activeCollab ticket
-				 **/
-				$ticket_name=$job['file_number'].' -- '.$_SESSION['agent_user_data']['last_name'].' -- '.date('Y-m-d',strtotime($job['date_of_loss'])).' -- '.$job['type'].' -- '.$job['id'];
-				
-				$success=$wpdb->insert('acx_project_objects',array(
-					'type'=>'Ticket',
-					'module'=>'tickets',
-					'project_id'=>$_SESSION['default_project_id'],
-					'parent_id'=>ar_get_assignment_category($job['type']),
-					'name'=>$ticket_name,
-					'state'=>3,
-					'visibility'=>1,
-					'created_on'=>date('Y-m-d'),
-					'created_by_id'=>$_SESSION['agent_user_id'],
-					'created_by_name'=>$_SESSION['agent_user_name'],
-					'created_by_email'=>$_SESSION['agent_user_data']['email'],
-					'has_time'=>0,
-					'version'=>1,
-					'milestone_id'=>0,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				$ticket_id=$wpdb->insert_id;
-				
-				/**
-				 * Update the job with the ticket ID
-				 **/
-				$success=$wpdb->update('ar_job',array(
-					'ticket_id'=>$ticket_id,
-				),array(
-					'id'=>$job['id'],
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				/**
-				 * Insert the activeCollab discussion object
-				 */
-				$success=$wpdb->insert('acx_project_objects',array(
-					'type'=>'Discussion',
-					'module'=>'discussions',
-					'project_id'=>$_SESSION['default_project_id'],
-					'parent_id'=>$ticket_id,
-					'parent_type'=>'ticket',
-					'body'=>'discussion',
-					'name'=>$ticket_name,
-					'state'=>3,
-					'visibility'=>1,
-					'created_on'=>date('Y-m-d'),
-					'created_by_id'=>$_SESSION['agent_user_id'],
-					'created_by_name'=>$_SESSION['agent_user_name'],
-					'created_by_email'=>$_SESSION['agent_user_data']['email'],
-					'has_time'=>0,
-					'version'=>1,
-					'milestone_id'=>0,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				$discussion_id=$wpdb->insert_id;
-				
-				/**
-				 * Insert the activeCollab activity log
-				 */
-				$success=$wpdb->insert('acx_activity_logs',array(
-					'type'=>'ObjectCreatedActivityLog',
-					'object_id'=>$ticket_id,
-					'project_id'=>$_SESSION['default_project_id'],
-					'created_on'=>date('Y-m-d'),
-					'created_by_id'=>$_SESSION['agent_user_id'],
-					'created_by_name'=>$_SESSION['agent_user_name'],
-					'created_by_email'=>$_SESSION['agent_user_data']['email'],
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				/**
-				 * Insert the activeCollab subscriptions
-				 */
-				$success=$wpdb->insert('acx_subscriptions',array(
-					'user_id'=>$_SESSION['agent_user_id'],
-					'parent_id'=>$ticket_id,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				$success=$wpdb->insert('acx_subscriptions',array(
-					'user_id'=>accident_get_leader_id(),
-					'parent_id'=>$ticket_id,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				$success=$wpdb->insert('acx_subscriptions',array(
-					'user_id'=>accident_get_leader_id(),
-					'parent_id'=>$discussion_id,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				/**
-				 * Insert the activeCollab search index
-				 */
-				$success=$wpdb->insert('acx_search_index',array(
-					'object_id'=>$ticket_id,
-					'type'=>'ProjectObject',
-					'content'=>$ticket_name,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-				
-				accident_auto_assign_users($ticket_id);
-			}
-			else
-			{
-				$success=$wpdb->update('acx_project_objects',array(
-					'updated_on'=>date('Y-m-d'),
-					'updated_by_id'=>$_SESSION['agent_user_id'],
-					'updated_by_name'=>$_SESSION['agent_user_name'],
-					'updated_by_email'=>$_SESSION['agent_user_data']['email'],
-				),array(
-					'id'=>$ticket_id,
-				));
-				
-				if($success===false)
-					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
-			}
-			
-			/**
 			 * Update the activeCollab attachments with the ticket ID
 			 */
-			$success=$wpdb->update('acx_attachments',array(
-				'parent_id'=>$ticket_id,
+			$success=$wpdb->update('ar_attachments',array(
+				'job_id'=>$job_id,
 			),array(
-				'parent_id'=>0,
-				'parent_type'=>'ticket',
-				'created_by_id'=>$_SESSION['agent_user_id'],
+				'job_id'=>0,
+				'user_id'=>$userData['id'],
 			));
 			
 			if($success===false)
@@ -800,17 +623,17 @@
 	function ar_get_new_assignment_attachments()
 	{
 		global $wpdb;
+		$userData=ar_user_data();
 		
 		$sql=$wpdb->prepare('
 			select
-				id, name, description, location
+				id, name, description, url
 			from
-				acx_attachments
+				ar_attachments
 			where
-				parent_id = 0 and
-				parent_type = "ticket" and
-				created_by_id = %d
-		',$_SESSION['agent_user_id']);
+				job_id = 0 and
+				user_id = %d
+		',$userData['id']);
 		
 		return $wpdb->get_results($sql,'ARRAY_A');
 	}

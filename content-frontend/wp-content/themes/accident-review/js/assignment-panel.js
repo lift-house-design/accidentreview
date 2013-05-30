@@ -347,6 +347,7 @@ $(function(){
 				action: 'save-attachment',
 			},
 			success: function(data) {
+				console.log(data);
 				data=$.parseJSON(data);
 				
 				if(data.status != 'error')
@@ -476,7 +477,7 @@ $(function(){
 				.html('An error has occurred'+( err ? ': '+err : '' )+'. Please try again.');
 			$('form#new-assignment input[type="submit"]').after(msg);
 		}
-		return false;
+		
 		// Save the assignment
 		$.ajax({
 		     url: '/wp-admin/admin-ajax.php',

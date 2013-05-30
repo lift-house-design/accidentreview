@@ -79,6 +79,17 @@ class App_Controller extends CI_Controller
 		
 		
     }
+	
+	protected function authenticate()
+	{
+		if($this->user->logged_in!==TRUE)
+		{
+			redirect('login');
+			return FALSE;
+		}
+		
+		return TRUE;
+	}
 
     /* --------------------------------------------------------------
      * VIEW RENDERING
@@ -132,6 +143,30 @@ class App_Controller extends CI_Controller
 		$this->data['slug_id_string']=implode('-',$this->uri->rsegment_array());
 		$this->data['logged_in']=$this->user->logged_in;
 		$this->data['user']=session('user');
+		$this->data['errors']=validation_errors('<li>','</li>');
+		$this->data['notifications']=$this->get_notifications();
+	}
+	
+	public function get_notifications($erase=TRUE)
+	{
+		$notifications=session('notifications');
+		
+		if($erase!==FALSE)
+			session('notifications',FALSE);
+		
+		return $notifications;
+	}
+	
+	public function set_notification($message)
+	{
+		$notifications=session('notifications');
+		
+		if(empty($notifications))
+			$notifications=array($message);
+		else
+			$notifications[]=$message;
+		
+		session('notifications',$notifications);
 	}
 	
     /**
@@ -167,7 +202,7 @@ class App_Controller extends CI_Controller
     protected function _load_view()
     {
     	// Check for authentication
-		if($this->authenticate===TRUE && $this->user->logged_in===FALSE)
+		if($this->authenticate===TRUE && $this->user->logged_in!==TRUE)
 			redirect('login');
 		
         // If $this->view == FALSE, we don't want to load anything

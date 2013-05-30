@@ -2,24 +2,29 @@
 
 	add_shortcode('dashboard','accident_dashboard');
 	add_shortcode('new-assignment','accident_new_assignment');
-	add_shortcode('login','accident_login_process');
+	add_shortcode('login','accident_login');
+	add_shortcode('logout','accident_logout');
 	
-	function accident_login_process()
+	function accident_login()
 	{
-		$location='/';
-		
-		if(isset($_GET['do']) && $_GET['do']=='logout')
-		{
-			accident_logout_agent();
-			echo 'You have been logged out.';
-		}
-		elseif(accident_login_agent())
+		if(!empty($_POST['email']) && !empty($_POST['password']) && login_user($_POST['email'],$_POST['password']))
 		{
 			$location='/reps';
-			echo 'You have been logged in. ';
+			echo 'You have been logged in. Please wait...';
+			echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
 		}
+		else
+		{
+			echo 'There was a problem logging you in. Check the e-mail address and password you entered and try again.';
+		}
+	}
+	
+	function accident_logout()
+	{
+		logout_user();
 		
-		echo ' Please wait...';
+		$location='/';
+		echo 'You have been logged out. Please wait...';
 		echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
 	}
 	
@@ -63,7 +68,7 @@
 
 	function accident_dashboard($atts, $content=null, $code='')
 	{
-		if(!isset($_SESSION['agent_user_id'])) header('/');
+		if(is_logged_in()===FALSE) header('/');
 		
 		if(isset($_POST['ajaxRequest']))
 		{
@@ -72,35 +77,18 @@
 			switch($request['action'])
 			{
 				case 'saveUserInfo':
-					// Get the current user info
-		            $userID = $_SESSION['agent_user_id'];
-		            $userInfo = accident_get_user_details($userID);
-		            $userRepInfo = accident_get_user_rep_details($userID);
-					$userData=array(
-						'first'=>$userInfo['first_name'],
-						'last'=>$userInfo['last_name'],
-               			'email'=>$userInfo['email'],
-                        'department'=>$userRepInfo['department'],
-                        'department_name'=>$userRepInfo['department_name'],
-                        'street'=>$userRepInfo['street'],
-                        'city'=>$userRepInfo['city'],
-                        'state'=>$userRepInfo['state'],
-                        'zip'=>$userRepInfo['zip'],
-                        'phone'=>$userRepInfo['phone'],
-                        'mobile'=>$userRepInfo['mobile'],
-                        'fax'=>$userRepInfo['fax'],
+					$userData=ar_user_data();
+					$data=array(
+						$request['name']=>$request['value'],
 					);
-					
-					// Update the new field
-					$userData[$request['name']]=$request['value'];
-                    accident_update_user($userID,$userData);
+					ar_save_user($userData['id'],$data);
 					break;
 				case 'changeUserPass':
-					$userID = $_SESSION['agent_user_id'];
-					$userData=array(
-						'password'=>$request['value']
+					$userData=ar_user_data();
+					$data=array(
+						'password'=>sha1($request['value']),
 					);
-					accident_update_user_password($userID,$userData);
+					ar_save_user($userData['id'],$data);
 					break;
 			}
 			exit;

@@ -175,6 +175,7 @@ function get_vin_data()
 function save_attachment()
 {
 	global $wpdb;
+	$userData=ar_user_data();
 	
 	$response=array(
 		'status'=>'error',
@@ -189,26 +190,20 @@ function save_attachment()
 		$tempName=$_FILES['file']['name'];
 		$hashName=sha1($tempName.microtime());
 		//$targetPath='/var/www/vhosts/accidentreview.com/ar-git/content-backend/uploads/'.$hashName;
-		$targetPath=dirname($_SERVER['DOCUMENT_ROOT']).'/content-backend/uploads/'.$hashName;
+		$targetPath=dirname($_SERVER['DOCUMENT_ROOT']).'/content-frontend/uploads/'.$hashName;
 		$fileClass=ar_get_file_class($tempName);
 		
 		if($fileClass!==false)
 		{
 			if(move_uploaded_file($tempPath,$targetPath)!==false)
 			{
-				$result=$wpdb->insert('acx_attachments',array(
-					'parent_id'=>0,
-					'parent_type'=>'ticket',
+				$result=$wpdb->insert('ar_attachments',array(
+					'job_id'=>NULL,
+					'user_id'=>$userData['id'],
 					'name'=>$tempName,
 					'description'=>$tempName,
 					'mime_type'=>$tempType,
-					'size'=>$tempSize,
-					'location'=>$hashName,
-					'attachment_type'=>'attachment',
-					'created_on'=>date('Y-m-d H:i:s'),
-					'created_by_id'=>$_SESSION['agent_user_id'],
-					'created_by_name'=>$_SESSION['agent_user_name'],
-					'created_by_email'=>$_SESSION['agent_user_data']['email'],
+					'url'=>$hashName,
 				));
 				
 				if($result!==false)
@@ -217,7 +212,7 @@ function save_attachment()
 					$response['attachment_id']=$wpdb->insert_id;
 					$response['type']=$fileClass;
 					$response['description']=$tempName;
-					$response['url']='http://backend.accidentreview.com/uploads/'.$hashName;
+					$response['url']='http://accidentreview.com/uploads/'.$hashName;
 				}
 				else
 				{
@@ -259,7 +254,7 @@ function save_attachment_description()
 			$attachment_id=$_POST['attachment_id'];
 			$description=$_POST['description'];
 			
-			$result=$wpdb->update('acx_attachments',array(
+			$result=$wpdb->update('ar_attachments',array(
 				'description'=>$description,
 			),array(
 				'id'=>$attachment_id,
@@ -303,7 +298,7 @@ function delete_attachment()
 		
 		$sql=$wpdb->prepare('
 			delete from
-				acx_attachments
+				ar_attachments
 			where
 				id = %d
 			limit 1

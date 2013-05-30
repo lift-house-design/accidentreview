@@ -38,11 +38,11 @@
 <body>
 	<div id="top-panel">
 		<div class="wrapper">
-		<?php if(isset($_SESSION['agent_user_id'])): ?>
-			Welcome, <a href="#" class="username"><?php echo $_SESSION['agent_user_name']; ?></a>
+		<?php if(is_logged_in()): ?>
+			Welcome, <a href="/reps#account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a>
 		<?php else: ?>
 			<form action="/reps/login" method="post">
-				<input type="text" name="username" placeholder="E-mail" />
+				<input type="text" name="email" placeholder="E-mail" />
 				<input type="password" name="password" placeholder="Password" />
 				<input type="hidden" name="submit_login" />
 				<input type="submit" value="Login" />
@@ -65,12 +65,12 @@
 				<a href="/#customer-support">Customer Support</a>
 			<?php endif; ?>
 			</div>
-			<?php if(isset($_SESSION['agent_user_id'])): ?>
+			<?php if(is_logged_in()): ?>
 			<div id="account-options">
 				<a href="/reps#new-assignment">New Assignment</a>
 				<a href="/reps#assignments">Assignments</a>
 				<a href="/reps#account-info">Manage Account</a>
-				<a href="/reps/login?do=logout">Logout</a>
+				<a href="/reps/logout">Logout</a>
 			</div>
 			<?php endif; ?>
 		</div>

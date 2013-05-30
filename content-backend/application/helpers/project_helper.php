@@ -42,12 +42,32 @@ if(!function_exists('post'))
 {
 	function post($key=NULL)
 	{
+		$args=func_get_args();
 		$CI=get_instance();
 		
-		if(!isset($key))
+		if(count($args)==0)
 			return $CI->input->post();
+		elseif(count($args)==1)
+		{
+			if(is_array($args[0]))
+			{
+				$post=array();
+				foreach($args[0] as $key)
+					$post[$key]=$CI->input->post($key);
+				
+				return $post;
+			}
+			else
+				return $CI->input->post($args[0]);
+		}
+		else
+		{
+			$post=array();
+			foreach($args as $key)
+				$post[$key]=$CI->input->post($key);
 			
-		return $CI->input->post($key);
+			return $post;
+		}
 	}
 }
 
@@ -69,6 +89,68 @@ if(!function_exists('session'))
 		}
 		elseif(count($args)==2)
 			return $CI->session->set_userdata($args[0],$args[1]);
+	}
+}
+
+if(!function_exists('states_array'))
+{
+	function states_array($merge_with=array())
+	{
+		$states_array=array(
+			'AL'=>'Alabama',  
+			'AK'=>'Alaska',  
+			'AZ'=>'Arizona',  
+			'AR'=>'Arkansas',  
+			'CA'=>'California',  
+			'CO'=>'Colorado',  
+			'CT'=>'Connecticut',  
+			'DE'=>'Delaware',  
+			'DC'=>'District Of Columbia',  
+			'FL'=>'Florida',  
+			'GA'=>'Georgia',  
+			'HI'=>'Hawaii',  
+			'ID'=>'Idaho',  
+			'IL'=>'Illinois',  
+			'IN'=>'Indiana',  
+			'IA'=>'Iowa',  
+			'KS'=>'Kansas',  
+			'KY'=>'Kentucky',  
+			'LA'=>'Louisiana',  
+			'ME'=>'Maine',  
+			'MD'=>'Maryland',  
+			'MA'=>'Massachusetts',  
+			'MI'=>'Michigan',  
+			'MN'=>'Minnesota',  
+			'MS'=>'Mississippi',  
+			'MO'=>'Missouri',  
+			'MT'=>'Montana',
+			'NE'=>'Nebraska',
+			'NV'=>'Nevada',
+			'NH'=>'New Hampshire',
+			'NJ'=>'New Jersey',
+			'NM'=>'New Mexico',
+			'NY'=>'New York',
+			'NC'=>'North Carolina',
+			'ND'=>'North Dakota',
+			'OH'=>'Ohio',  
+			'OK'=>'Oklahoma',  
+			'OR'=>'Oregon',  
+			'PA'=>'Pennsylvania',  
+			'RI'=>'Rhode Island',  
+			'SC'=>'South Carolina',  
+			'SD'=>'South Dakota',
+			'TN'=>'Tennessee',  
+			'TX'=>'Texas',  
+			'UT'=>'Utah',  
+			'VT'=>'Vermont',  
+			'VA'=>'Virginia',  
+			'WA'=>'Washington',  
+			'WV'=>'West Virginia',  
+			'WI'=>'Wisconsin',  
+			'WY'=>'Wyoming',
+		);
+		
+		return array_merge($merge_with,$states_array);
 	}
 }
 

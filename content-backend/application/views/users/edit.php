@@ -1,11 +1,11 @@
 <h2>Account Details</h2>
-<?php echo form_open('account') ?>
+<?php echo form_open('users/'.$usr['id']) ?>
 	<div class="field c2">
 		<?php echo form_label('First Name:','first_name') ?>
 		<?php echo form_input(array(
 			'id'=>'first_name',
 			'name'=>'first_name',
-			'value'=>$user['first_name'],
+			'value'=>$usr['first_name'],
 		)) ?>
 	</div>
 	<div class="field c2">
@@ -13,7 +13,7 @@
 		<?php echo form_input(array(
 			'id'=>'last_name',
 			'name'=>'last_name',
-			'value'=>$user['last_name'],
+			'value'=>$usr['last_name'],
 		)) ?>
 	</div>
 	<div class="field c1">
@@ -21,7 +21,7 @@
 		<?php echo form_input(array(
 			'id'=>'email',
 			'name'=>'email',
-			'value'=>$user['email'],
+			'value'=>$usr['email'],
 		)) ?>
 	</div>
 	<div class="field c3">
@@ -29,7 +29,7 @@
 		<?php echo form_input(array(
 			'id'=>'phone',
 			'name'=>'phone',
-			'value'=>$user['phone'],
+			'value'=>$usr['phone'],
 			'class'=>'phone',
 		)) ?>
 	</div>
@@ -38,7 +38,7 @@
 		<?php echo form_input(array(
 			'id'=>'mobile',
 			'name'=>'mobile',
-			'value'=>$user['mobile'],
+			'value'=>$usr['mobile'],
 			'class'=>'phone',
 		)) ?>
 	</div>
@@ -47,7 +47,7 @@
 		<?php echo form_input(array(
 			'id'=>'fax',
 			'name'=>'fax',
-			'value'=>$user['fax'],
+			'value'=>$usr['fax'],
 			'class'=>'phone',
 		)) ?>
 	</div>
@@ -56,7 +56,7 @@
 		<?php echo form_input(array(
 			'id'=>'street_address',
 			'name'=>'street_address',
-			'value'=>$user['street_address'],
+			'value'=>$usr['street_address'],
 		)) ?>
 	</div>
 	<div class="field c3">
@@ -64,44 +64,56 @@
 		<?php echo form_input(array(
 			'id'=>'city',
 			'name'=>'city',
-			'value'=>$user['city'],
+			'value'=>$usr['city'],
 		)) ?>
 	</div>
 	<div class="field c3">
 		<?php echo form_label('State:','state') ?>
-		<?php echo form_dropdown('state',$state_options,$user['state']) ?>
+		<?php echo form_dropdown('state',$state_options,$usr['state']) ?>
 	</div>
 	<div class="field c3">
 		<?php echo form_label('Zip Code:','zip') ?>
 		<?php echo form_input(array(
 			'id'=>'zip',
 			'name'=>'zip',
-			'value'=>$user['zip'],
+			'value'=>$usr['zip'],
 		)) ?>
 	</div>
 	<h2>Change Password</h2>
-	<div class="field c3">
-		<?php echo form_label('Current Password:','current_password') ?>
-		<?php echo form_password(array(
-			'id'=>'current_password',
-			'name'=>'current_password',
-		)) ?>
-	</div>
-	<div class="field c3">
+	<div class="field c2">
 		<?php echo form_label('New Password:','new_password') ?>
 		<?php echo form_password(array(
 			'id'=>'new_password',
 			'name'=>'new_password',
 		)) ?>
 	</div>
-	<div class="field c3">
+	<div class="field c2">
 		<?php echo form_label('Confirm Password:','confirm_new_password') ?>
 		<?php echo form_password(array(
 			'id'=>'confirm_new_password',
 			'name'=>'confirm_new_password',
 		)) ?>
 	</div>
+	<h2>Roles</h2>
+	<div class="checkbox field">
+		<?php echo form_checkbox(array(
+			'id'=>'is_tech',
+			'name'=>'is_tech',
+			'value'=>1,
+			'checked'=>$usr['is_tech']==1,
+		)) ?>
+		<?php echo form_label('This user is a tech','is_tech') ?>
+	</div>
+	<div class="checkbox field">
+		<?php echo form_checkbox(array(
+			'id'=>'is_admin',
+			'name'=>'is_admin',
+			'value'=>1,
+			'checked'=>$usr['is_admin']==1,
+		)) ?>
+		<?php echo form_label('This user is an administrator','is_admin') ?>
+	</div>
 	<div class="buttons">
-		<?php echo form_submit('update_account','Update Account') ?>
+		<?php echo form_submit('save_user','Save User') ?>
 	</div>
 </form>

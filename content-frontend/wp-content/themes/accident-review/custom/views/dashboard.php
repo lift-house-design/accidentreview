@@ -60,27 +60,27 @@
 		</div>
 		<h3>Assignments</h3>
 		<div>
-			<?php //dev_get_company_jobs(array()); ?>
-			<?php
-	function gcj()
-	{
-		if($_SESSION['agent_user_admin'])
-		{
-			echo 'agent_user_admin'; exit;
-			$jobs=accident_get_company_jobs($_SESSION['agent_user_company']);
-		}
-		else
-		{
-			$jobs=accident_get_jobs($_SESSION['agent_user_id']);
+		<?php
+			global $wpdb;
+			$userData=ar_user_data();
+			
+			$sql=$wpdb->prepare('
+				select
+					*
+				from
+					ar_job
+				where
+					client_user_id = %d and
+					type IS NOT NULL
+			',$userData['id']);
+			$jobs=$wpdb->get_results($sql,'ARRAY_A');
 			
 			if(empty($jobs))
 			{
-				?>
-					<p>You currently have no assignments to display.</p>
-				<?
-				return;
+				?><p>You currently have no assignments to display.</p><?
 			}
-			
+			else
+			{
 			?>
 				<script src="<?php bloginfo('stylesheet_directory') ?>/js/jquery.dataTables.min.js"></script>
 				<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/jquery.dataTables.css" />
@@ -174,14 +174,20 @@
 					</thead>
 					<tbody>
 					<?php foreach($jobs as $job): ?>
-					<?php
-						$job['status']=accident_translate_job_state($job['ticket_id']);
-						$job['date_of_loss_displayed']=date('m/d/Y',strtotime($job['date_of_loss']));
-						$job['submitted_displayed']=date('m/d/Y',strtotime($job['ticket']['created_on']));
-						$job['rep_name']='';
-						if(!empty($job['first_name'])) $job['rep_name'].=$job['first_name'].' ';
-						if(!empty($job['last_name'])) $job['rep_name'].=$job['last_name'];
-					?>
+						<?php
+							$job['rep_name']='Unassigned';
+							if(!empty($job['tech_user_id']))
+							{
+								$tech=ar_user_data($job['tech_user_id']);
+								$job['rep_name']=$tech['first_name'].' '.$tech['last_name'];
+							}
+							
+							$job['date_of_loss_displayed']='';
+							if($job['date_of_loss']!='0000-00-00')
+								$job['date_of_loss_displayed']=date('m/d/Y',strtotime($job['date_of_loss']));
+								
+							$job['submitted_displayed']=date('m/d/Y H:i:s',strtotime($job['created_at']));
+						?>
 						<tr data-assignment-id="<?php echo $job['id'] ?>">
 							<td><?php echo $job['file_number'] ?></td>
 							<td><?php echo $job['status'] ?></td>
@@ -189,18 +195,15 @@
 							<td><?php echo $job['date_of_loss_displayed'] ?></td>
 							<td><?php echo $job['id'] ?></td>
 							<td><?php echo $job['submitted_displayed'] ?></td>
-							<td><?php echo ar_get_assignment_category_name($job['type']) ?></td>
+							<td><?php echo ar_get_assignment_type_name($job['type']) ?></td>
 							<td><?php echo $job['rep_name'] ?></td>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
 				</table>
-			<?
-		}
-	}
-
-				gcj();
-			?>
+				<?php
+			}
+		?>
 		</div>
 		<h3>Services</h3>
 		<div>
@@ -257,32 +260,30 @@
 		<h3>Account Information</h3>
 		<div>
 		<?php
-			$userID = $_SESSION['agent_user_id'];
-			$userInfo = accident_get_user_details($userID);
-			$userRepInfo = accident_get_user_rep_details($userID);
+			$userData=ar_user_data();
 			
-			$fn = $userInfo['first_name'];
-			$ln = $userInfo['last_name'];
-			$street = $userRepInfo['street'];
-			$city = $userRepInfo['city'];
-			$state = $userRepInfo['state'];
-			$zip = $userRepInfo['zip'];
-			$email = $userInfo['email'];
-			$phone = $userRepInfo['phone'];
-			$mobile = $userRepInfo['mobile'];
-			$fax = $userRepInfo['fax'];
-			$dept = $userRepInfo['department'];
-			$dept_name = $userRepInfo['department_name'];
+			$userID = $userData['id'];
+			
+			$fn = $userData['first_name'];
+			$ln = $userData['last_name'];
+			$street = $userData['street_address'];
+			$city = $userData['city'];
+			$state = $userData['state'];
+			$zip = $userData['zip'];
+			$email = $userData['email'];
+			$phone = $userData['phone'];
+			$mobile = $userData['mobile'];
+			$fax = $userData['fax'];
 			
 		?>
 		
 			<h4><a name="account-info"></a>General Information</h4>
-			<div class="editable-field" data-name="first">
+			<div class="editable-field" data-name="first_name">
 				<label>First Name</label>
 				<span class="field"><?php echo $fn ?></span>
 				<a class="edit">Edit</a>
 			</div>
-			<div class="editable-field" data-name="last">
+			<div class="editable-field" data-name="last_name">
 				<label>Last Name</label>
 				<span class="field"><?php echo $ln ?></span>
 				<a class="edit">Edit</a>
@@ -293,7 +294,7 @@
 				<a class="edit">Edit</a>
 			</div>
 			<?php //if(!empty($street)): ?>
-				<div class="editable-field" data-name="street">
+				<div class="editable-field" data-name="street_address">
 					<label>Street Address</label>
 					<span class="field"><?php echo $street ?></span>
 					<a class="edit">Edit</a>
@@ -445,6 +446,9 @@
 					name: editable_field.data('name'),
 					value: field.html()
 				}
+			},
+			success: function(data){
+				console.log(data);
 			},
 			complete: function(jqXHR,textStatus){
 				// Display a success message

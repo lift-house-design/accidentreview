@@ -55,9 +55,9 @@ class App_Model extends CI_Model
      * The various callbacks available to the model. Each are
      * simple lists of method names (methods will be run on $this).
      */
-    protected $before_create = array();
+    protected $before_create = array('_get_data');
     protected $after_create = array();
-    protected $before_update = array();
+    protected $before_update = array('_get_data');
     protected $after_update = array();
     protected $before_get = array();
     protected $after_get = array();
@@ -121,6 +121,12 @@ class App_Model extends CI_Model
 
         $this->_temporary_return_type = $this->return_type;
     }
+	
+	protected function _get_data($data)
+	{
+		$fields=$this->_database->list_fields($this->_table);
+		return array_intersect_key($data,array_flip($fields));
+	}
 
     /* --------------------------------------------------------------
      * CRUD INTERFACE
