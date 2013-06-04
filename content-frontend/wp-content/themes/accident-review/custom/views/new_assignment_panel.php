@@ -239,27 +239,31 @@
 					</div>
 					<div class="message"></div>
 				</div>
-				<?php foreach($correspondence as $c): ?>
-					<?php
-						$c_user=ar_user_data($c['from_user_id']);
-						$c_user['role']='Client';
-						if($c_user['is_tech'])
-							$c_user['role']='Tech';
-						if($c_user['is_admin'])
-							$c_user['role']='Admin';
-					?>
-					<div class="<?php echo $c['from_user_id']==$user_data['id'] ? 'assignment-owner ' : '' ?>correspondence">
-						<div class="user-details">
-							<div class="from">From:</div>
-							<div class="name"><?php echo $c_user['first_name'].' '.$c_user['last_name'] ?></div>
-							<div class="email"><?php echo $c_user['email'] ?></div>
-							<div class="role"><?php echo $c_user['role'] ?></div>
+				<?php if(empty($correspondence)): ?>
+					<p>There is no correspondence to display.</p>
+				<?php else: ?>
+					<?php foreach($correspondence as $c): ?>
+						<?php
+							$c_user=ar_user_data($c['from_user_id']);
+							$c_user['role']='Client';
+							if($c_user['is_tech'])
+								$c_user['role']='Tech';
+							if($c_user['is_admin'])
+								$c_user['role']='Admin';
+						?>
+						<div class="<?php echo $c['from_user_id']==$user_data['id'] ? 'assignment-owner ' : '' ?>correspondence">
+							<div class="user-details">
+								<div class="from">From:</div>
+								<div class="name"><?php echo $c_user['first_name'].' '.$c_user['last_name'] ?></div>
+								<div class="email"><?php echo $c_user['email'] ?></div>
+								<div class="role"><?php echo $c_user['role'] ?></div>
+							</div>
+							<div class="message">
+								<?php echo nl2br($c['message']) ?>
+							</div>
 						</div>
-						<div class="message">
-							<?php echo nl2br($c['message']) ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 			<div class="field">
 				<label>Create Message</label>
