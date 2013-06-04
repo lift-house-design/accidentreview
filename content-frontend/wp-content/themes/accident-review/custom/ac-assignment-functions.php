@@ -138,18 +138,15 @@
 			$job['vehicles']=$vehicles;
 		}
 		
-		$ticket_id=accident_get_job_ticket_id($job_id);
-		
 		$sql=$wpdb->prepare('
 			select
 				*
 			from
-				acx_attachments
+				ar_attachments
 			where
-				parent_id = %d and
-				parent_type = "ticket" and
-				created_by_id = %d
-		', $ticket_id, $_SESSION['agent_user_id']);
+				job_id = %d and
+				user_id = %d
+		', $job_id, $_SESSION['user']['id']);
 		
 		$attachments=$wpdb->get_results($sql,'ARRAY_A');
 		
@@ -157,6 +154,23 @@
 			$job['attachments']=array();
 		else
 			$job['attachments']=$attachments;
+		
+		
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_correspondence
+			where
+				job_id = %d
+		', $job_id);
+		
+		$correspondence=$wpdb->get_results($sql,'ARRAY_A');
+		
+		if($correspondence==null)
+			$job['correspondence']=array();
+		else
+			$job['correspondence']=$correspondence;
 		
 		return $job;
 	}

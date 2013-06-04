@@ -38,13 +38,14 @@
 |
 */
 
-$route['default_controller'] = "dashboard";
+$route['default_controller'] = "assignments";
 $route['404_override'] = '';
 
 $route['login']='account/login';
 $route['logout']='account/logout';
 $route['users/(:num)']='users/edit/$1';
-
+$route['users/(:num)/delete']='users/delete/$1';
+$route['assignments/(:num)']='assignments/view/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -36,6 +36,8 @@ add_action('wp_ajax_save-attachment-description','save_attachment_description');
 add_action('wp_ajax_nopriv_save-attachment-description','save_attachment_description');
 add_action('wp_ajax_delete-attachment','delete_attachment');
 add_action('wp_ajax_nopriv_delete-attachment','delete_attachment');
+add_action('wp_ajax_create-message','create_message');
+add_action('wp_ajax_nopriv_create-message','create_message');
 
 /*add_action('wp_ajax_vehicle-test','vehicle_test');
 add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
@@ -57,6 +59,7 @@ function get_assignment_panel()
 		$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 		
 		$assignment_attachments=$job_data['attachments'];
+		$correspondence=$job_data['correspondence'];
 		
 		require('views/new_assignment_panel.php');
 	}
@@ -189,8 +192,8 @@ function save_attachment()
 		$tempType=$_FILES['file']['mime_type'];
 		$tempName=$_FILES['file']['name'];
 		$hashName=sha1($tempName.microtime());
-		//$targetPath='/var/www/vhosts/accidentreview.com/ar-git/content-backend/uploads/'.$hashName;
-		$targetPath=dirname($_SERVER['DOCUMENT_ROOT']).'/content-frontend/uploads/'.$hashName;
+		
+		$targetPath=AR_ATTACHMENT_PATH.$hashName;
 		$fileClass=ar_get_file_class($tempName);
 		
 		if($fileClass!==false)
@@ -212,7 +215,7 @@ function save_attachment()
 					$response['attachment_id']=$wpdb->insert_id;
 					$response['type']=$fileClass;
 					$response['description']=$tempName;
-					$response['url']='http://accidentreview.com/uploads/'.$hashName;
+					$response['url']=AR_ATTACHMENT_URL.$hashName;
 				}
 				else
 				{
@@ -318,6 +321,47 @@ function delete_attachment()
 	else
 	{
 		$response['error']='Attachment ID was not found.';
+	}
+	
+	echo json_encode($response);
+	exit;
+}
+
+function create_message()
+{
+	global $wpdb;
+	
+	$response=array(
+		'status'=>'error',
+		'error'=>'',
+	);
+	
+	if(!empty($_POST['message']))
+	{
+		if(!empty($_POST['assignment_id']))
+		{
+			$user_data=ar_user_data();
+			
+			$success=$wpdb->insert('ar_correspondence',array(
+				'from_user_id'=>$user_data['id'],
+				'job_id'=>$_POST['assignment_id'],
+				'message'=>$_POST['message'],
+				'created_at'=>date('Y-m-d H:i:s'),
+			));
+			
+			if($success)
+				$response['status']='success';
+			else
+				$response['error']='There was a problem saving the message.';
+		}
+		else
+		{
+			$response['error']='The assignment ID was not found.';
+		}
+	}
+	else
+	{
+		$response['error']='The message was not found.';
 	}
 	
 	echo json_encode($response);

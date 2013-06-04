@@ -14,7 +14,20 @@
 		
 		public $protected_attributes=array('id');
 		
-		public $has_many=array();
+		public $has_many=array(
+			'answers'=>array(
+				'model'=>'Assignment_answer_model',
+				'primary_key'=>'job_id',
+			),
+			'vehicles'=>array(
+				'model'=>'Vehicle_model',
+				'primary_key'=>'job_id',
+			),
+			'correspondence'=>array(
+				'model'=>'Correspondence_model',
+				'primary_key'=>'job_id',
+			),
+		);
 		
 		public $belongs_to=array();
 		
@@ -29,10 +42,11 @@
 			$data['date_of_loss_displayed']=$data['date_of_loss']=='0000-00-00' ? '' : date('m/d/Y',strtotime($data['date_of_loss']));
 			$data['created_at_displayed']=$data['created_at']=='0000-00-00 00:00:00' ? '' : date('Y-m-d H:i:s',strtotime($data['created_at']));
 			$data['type_displayed']=$this->get_type($data['type']);
+			
 			return $data;
 		}
 		
-		protected function get_type($type)
+		public function get_type($type)
 		{
 			$types=array(
 				'vehicle-theft'=>'Vehicle Theft Analysis',

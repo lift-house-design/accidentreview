@@ -70,6 +70,40 @@
 			$this->data['usr']=$this->user->get($id);
 			$this->data['state_options']=states_array(array(''=>'(select a state)'));
 		}
+		
+		public function create()
+		{
+			if($this->authenticate() && $this->form_validation->run('users/create')!==FALSE)
+			{
+				$post=post();
+				
+				$post['password']=sha1(post('password'));
+				$post['is_tech']=post('is_tech') ? 1 : 0;
+				$post['is_admin']=post('is_admin') ? 1 : 0;
+				
+				if($this->user->insert($post))
+				{
+					$this->set_notification('The account details for '.trim($post['first_name'].' '.$post['last_name']).' have been saved.');
+					redirect('users');
+				}
+				else
+					$this->form_validation->set_error('There was a problem saving the account details. Please try again.');
+			}
+			
+			$this->js[]='jquery.maskedinput-1.3.1.js';
+			$this->js[]='actions/users-create.js';
+			
+			$this->data['state_options']=states_array(array(''=>'(select a state)'));
+		}
+		
+		public function delete($id)
+		{
+			if($this->user->delete($id))
+				$this->set_notification('That account has been removed.');
+			else
+				$this->form_validation->set_error('There was a problem removing that account. Please try again.');
+			redirect('users');
+		}
 	}
 	
 /* End of file users.php */

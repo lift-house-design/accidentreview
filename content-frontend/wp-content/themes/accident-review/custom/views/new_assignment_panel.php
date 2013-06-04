@@ -45,10 +45,10 @@
 			<?php foreach($assignment_attachments as $attachment): ?>
 				<?php $fileType=ar_get_file_class($attachment['name']); ?>
 				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
-					<a class="icon" href="<?php echo $fileType=='img' ? '#' : 'http://accidentreview.com/uploads/'.$attachment['url'] ?>">
+					<a class="icon" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
 						&nbsp;
 						<?php if($fileType=='img'): ?>
-							<img src="http://accidentreview.com/uploads/<?php echo $attachment['url'] ?>" />
+							<img src="<?php echo AR_ATTACHMENT_URL.$attachment['url'] ?>" />
 						<?php endif; ?>
 					</a>
 					<a class="description" href="#"><?php echo $attachment['description'] ?></a>
@@ -222,6 +222,52 @@
 				<input type="button" id="add-vehicle" value="Add Vehicle" />
 			</div>
 			<?php endif; ?>
+		</fieldset>
+	<?php endif; ?>
+	<?php if(!empty($job_data)): ?>
+		<fieldset class="correspondence-fieldset">
+			<legend>Correspondence</legend>
+			<div class="correspondence-container field">
+				<label>Messages</label>
+				<?php $user_data=ar_user_data() ?>
+				<div class="assignment-owner correspondence" style="display: none;">
+					<div class="user-details">
+						<div class="from">From:</div>
+						<div class="name"><?php echo $user_data['first_name'].' '.$user_data['last_name'] ?></div>
+						<div class="email"><?php echo $user_data['email'] ?></div>
+						<div class="role"><?php echo 'Client' ?></div>
+					</div>
+					<div class="message"></div>
+				</div>
+				<?php foreach($correspondence as $c): ?>
+					<?php
+						$c_user=ar_user_data($c['from_user_id']);
+						$c_user['role']='Client';
+						if($c_user['is_tech'])
+							$c_user['role']='Tech';
+						if($c_user['is_admin'])
+							$c_user['role']='Admin';
+					?>
+					<div class="<?php echo $c['from_user_id']==$user_data['id'] ? 'assignment-owner ' : '' ?>correspondence">
+						<div class="user-details">
+							<div class="from">From:</div>
+							<div class="name"><?php echo $c_user['first_name'].' '.$c_user['last_name'] ?></div>
+							<div class="email"><?php echo $c_user['email'] ?></div>
+							<div class="role"><?php echo $c_user['role'] ?></div>
+						</div>
+						<div class="message">
+							<?php echo nl2br($c['message']) ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="field">
+				<label>Create Message</label>
+				<textarea name="create_message" placeholder="Enter your message to the tech here"></textarea>
+			</div>
+			<div class="field">
+				<input type="button" id="create-message" value="Create Message" />
+			</div>
 		</fieldset>
 	<?php endif; ?>
 	<fieldset>

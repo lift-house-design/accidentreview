@@ -240,7 +240,7 @@ $(function(){
 		})
 		// Add vehicle clicked
 		.on('click','#add-vehicle',function(){
-			var numVehicles=$(this).parents('form#new-assignment').children('fieldset').length - 3;
+			var numVehicles=$(this).parents('form#new-assignment').children('fieldset:not(.correspondence-fieldset)').length - 3;
 			var fieldset=vehicleTemplate.clone();
 			
 			// Change the radio buttons element names to keep them unique to that group
@@ -304,10 +304,11 @@ $(function(){
 			
 			// Relabel them
 			form
-				.children('fieldset')
+				.children('fieldset:not(.correspondence-fieldset)')
 				.filter(':gt(1)')
 				.filter(':lt(-1)')
 				.each(function(i,e){
+					
 					$(this)
 						.find('legend')
 						.html('Vehicle #'+(i+1)+' Information');
@@ -431,14 +432,14 @@ $(function(){
 		
 		// Collect the data
 		var job_fields=$(this)
-			.children('fieldset')
+			.children('fieldset:not(.correspondence-fieldset)')
 			.filter(':lt(2)')
 			.add(
 				$(this)
 					.children('fieldset')
 					.filter(':gt(-2)')
 			);
-		var vehicle_fields=$(this).children('fieldset').filter(':gt(1)').filter(':lt(-1)');
+		var vehicle_fields=$(this).children('fieldset:not(.correspondence-fieldset)').filter(':gt(1)').filter(':lt(-1)');
 		
 		// Now build the data objects
 		var job_data={};
@@ -525,7 +526,7 @@ $(function(){
 		 	if(data.success)
 			{
 				var vehicles=$('form#new-assignment')
-					.children('fieldset')
+					.children('fieldset:not(.correspondence-fieldset)')
 					.filter(':gt(1)')
 					.filter(':lt(-1)')
 					.each(function(){
@@ -842,6 +843,40 @@ $(function(){
 						.removeAttr('disabled');
 					
 					$.fancybox.close();
+				}
+			});
+		})
+		.on('click','#create-message',function(){
+			var self=this;
+			var assignment_id=$('input[type="hidden"][name="id"]').val();
+			var message=$(this).parents('fieldset').find('textarea[name="create_message"]').val();
+			
+			$.ajax({
+				url: '/wp-admin/admin-ajax.php',
+				type: 'post',
+				data: {
+					action: 'create-message',
+					assignment_id: assignment_id,
+					message: message
+				},
+				success: function(data,textStatus,jqXHR){
+					data=$.parseJSON(data);
+					
+					if(data.status=='success')
+					{
+						var msg=$(self).parents('fieldset').find('.correspondence:eq(0)').clone();
+
+						msg
+							.css('display','block')
+							.find('.message')
+							.html(message);
+						msg.appendTo($(self).parents('fieldset').find('.correspondence-container'));
+						
+						$('textarea[name="create_message"]').val('');
+					}
+				},
+				complete: function(){
+					
 				}
 			});
 		});

@@ -1,3 +1,4 @@
+<div id="create-container"><a class="create button" href="/users/create">Create</a></div>
 <table id="assignments" class="admin">
 	<thead>
 		<tr>
@@ -17,7 +18,7 @@
 			<td><?php echo $usr['role'] ?></td>
 			<td>
 				<a class="edit button">Edit</a>
-				<a class="button">Delete</a>
+				<a class="delete button">Delete</a>
 			</td>
 		</tr>
 	<?php endforeach; ?>

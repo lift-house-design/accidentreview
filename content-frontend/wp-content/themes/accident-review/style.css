@@ -1156,6 +1156,69 @@ strong {
 	font-weight: normal;
 }
 
+/**
+ * Dashboard - Assignment - Correspondence
+ */
+
+#new-assignment .correspondence-container.field {
+	
+}
+
+#new-assignment .correspondence:before,
+#new-assignment .correspondence:after {
+    content: " ";
+    display: table; 
+}
+
+#new-assignment .correspondence:after {
+    clear: both;
+}
+
+#new-assignment .correspondence {
+    *zoom: 1;
+	padding: 0 15px 15px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+	text-align: left;
+}
+
+#new-assignment .correspondence > .user-details {
+	float: left;
+	width: 150px;
+	background-color: #12223a;
+	padding: 5px;
+	color: #fff;
+	font-size: 12px;
+	border-radius: 5px;
+}
+
+#new-assignment .correspondence > .user-details > .from {
+	text-transform: uppercase;
+	margin-bottom: 5px;
+	font-size: 11px;
+	color: #83A2C9;
+}
+
+#new-assignment .correspondence > .user-details > .name {
+	font-weight: bold;
+	font-size: 16px;
+}
+#new-assignment .correspondence > .user-details > .role {
+	font-style: italic;
+}
+
+#new-assignment .correspondence > .message {
+	padding-left: 170px;
+}
+
+#new-assignment .assignment-owner.correspondence > .user-details {
+	background-color: #ccc;
+	color: #000;
+}
+
+#new-assignment .assignment-owner.correspondence > .user-details > .from {
+	color: #12223a;
+}
 
 /**
  * Overriding Styles - when first including original styles to inherit useful styles from it, these styles reset

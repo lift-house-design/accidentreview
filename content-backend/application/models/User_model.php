@@ -20,6 +20,8 @@
 		
 		protected $return_type='array';
 		
+		public $after_get=array('after_get');
+		
 		public $logged_in=FALSE;
 		
 		public $data;
@@ -33,6 +35,19 @@
 			
 			if($this->logged_in)
 				$this->data=$user;
+		}
+		
+		protected function after_get($data)
+		{
+			$role='Client';
+			if($data['is_tech'])
+				$role='Tech';
+			if($data['is_admin'])
+				$role='Admin';
+			
+			$data['role']=$role;
+			
+			return $data;
 		}
 		
 		public function log_in($email=NULL,$password=NULL)
