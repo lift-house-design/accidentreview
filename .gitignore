@@ -9,3 +9,5 @@ content-backend/upload
 
 # Wordpress configuration file
 content-frontend/wp-config.php
+
+content-frontend/uploads/*

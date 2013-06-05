@@ -15,6 +15,8 @@ $(function(){
 		.off('change','select[name="make"]')
 		.off('click','#add-vehicle')
 		.off('click','#remove-vehicle')
+		.off('click','.file-upload.field input[type="button"]')
+		.off('change','.file-upload.field input[type="file"]')
 		// Keys available change (vehicle-theft)
 		.on('change','.keys_available.field input[type="radio"]',function(){
 			var where=$(this).parents('fieldset').find('.keys_available_where.field');
@@ -336,6 +338,7 @@ $(function(){
 	var uploading=false;
 	function ajax_upload()
 	{
+		var assignment_id=$('input[type="hidden"][name="id"]').val();
 		uploading=true;
 		$('.file-upload.field input[type="button"]').val('Uploading...');
 		
@@ -346,6 +349,7 @@ $(function(){
 			dataType: 'JSON',
 			data: {
 				action: 'save-attachment',
+				assignment_id: assignment_id,
 			},
 			success: function(data) {
 				console.log(data);

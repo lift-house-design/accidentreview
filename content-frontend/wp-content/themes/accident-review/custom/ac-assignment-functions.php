@@ -631,10 +631,13 @@
 		if(isset($typeMap[$pathinfo['extension']]))
 			return $typeMap[$pathinfo['extension']];
 		else
+		{
 			return false;
+		}
+			
 	}
 	
-	function ar_get_new_assignment_attachments()
+	function ar_get_new_assignment_attachments($id=0)
 	{
 		global $wpdb;
 		$userData=ar_user_data();
@@ -645,9 +648,9 @@
 			from
 				ar_attachments
 			where
-				job_id = 0 and
+				job_id = %d and
 				user_id = %d
-		',$userData['id']);
+		',$id,$userData['id']);
 		
 		return $wpdb->get_results($sql,'ARRAY_A');
 	}

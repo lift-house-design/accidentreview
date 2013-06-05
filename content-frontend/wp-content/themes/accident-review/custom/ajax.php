@@ -84,7 +84,7 @@ function get_new_assignment_panel()
 	$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 	
 	// Get new assignment attachments
-	$assignment_attachments=ar_get_new_assignment_attachments();
+	$assignment_attachments=ar_get_new_assignment_attachments($job_id);
 	
 	require('views/new_assignment_panel.php');
 	exit;
@@ -185,56 +185,67 @@ function save_attachment()
 		'error'=>'',
 	);
 	
-	if(!empty($_FILES))
+	if(!empty($_POST['assignment_id']))
 	{
-		$tempPath=$_FILES['file']['tmp_name'];
-		$tempSize=$_FILES['file']['size'];
-		$tempType=$_FILES['file']['mime_type'];
-		$tempName=$_FILES['file']['name'];
-		$hashName=sha1($tempName.microtime());
+		$assignment_id=$_POST['assignment_id'];
 		
-		$targetPath=AR_ATTACHMENT_PATH.$hashName;
-		$fileClass=ar_get_file_class($tempName);
-		
-		if($fileClass!==false)
+		if(!empty($_FILES))
 		{
-			if(move_uploaded_file($tempPath,$targetPath)!==false)
+			$tempPath=$_FILES['file']['tmp_name'];
+			$tempSize=$_FILES['file']['size'];
+			$tempType=$_FILES['file']['mime_type'];
+			$tempName=$_FILES['file']['name'];
+			$hashName=sha1($tempName.microtime());
+			
+			$targetPath=AR_ATTACHMENT_PATH.$hashName;
+			$fileClass=ar_get_file_class($tempName);
+			
+			
+			
+			if($fileClass!==false)
 			{
-				$result=$wpdb->insert('ar_attachments',array(
-					'job_id'=>NULL,
-					'user_id'=>$userData['id'],
-					'name'=>$tempName,
-					'description'=>$tempName,
-					'mime_type'=>$tempType,
-					'url'=>$hashName,
-				));
-				
-				if($result!==false)
+				if(move_uploaded_file($tempPath,$targetPath)!==false)
 				{
-					$response['status']='success';
-					$response['attachment_id']=$wpdb->insert_id;
-					$response['type']=$fileClass;
-					$response['description']=$tempName;
-					$response['url']=AR_ATTACHMENT_URL.$hashName;
+					$result=$wpdb->insert('ar_attachments',array(
+						'job_id'=>$assignment_id,
+						'user_id'=>$userData['id'],
+						'name'=>$tempName,
+						'description'=>$tempName,
+						'mime_type'=>$tempType,
+						'url'=>$hashName,
+					));
+					
+					if($result!==false)
+					{
+						$response['status']='success';
+						$response['attachment_id']=$wpdb->insert_id;
+						$response['type']=$fileClass;
+						$response['description']=$tempName;
+						$response['url']=AR_ATTACHMENT_URL.$hashName;
+					}
+					else
+					{
+						$response['error']='There was a problem saving the file data.';
+					}
 				}
 				else
 				{
-					$response['error']='There was a problem saving the file data.';
+					$response['error']='There was a problem saving the file.';
 				}
 			}
 			else
 			{
-				$response['error']='There was a problem saving the file.';
+				$response['error']='You have uploaded an invalid file type.';
 			}
 		}
 		else
 		{
-			$response['error']='You have uploaded an invalid file type.';
+			$response['error']='There was no uploaded file found.';
 		}
 	}
 	else
 	{
-		$response['error']='There was no uploaded file found.';
+		$response['error']='The assignment ID was not found.';
 	}
 	
 	echo json_encode($response);
