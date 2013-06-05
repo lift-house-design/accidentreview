@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-base.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-accordion.css" />
 <div id="dashboard">
+	
 		<h3>Make New Assignment</h3>
 		<div id="new-assignment">
 			<p>Assignments are completed within 24 hours. Please select a job assignment type below:</p>
@@ -365,12 +366,13 @@
 	$('.heading.box h2')
 		.append(
 			$('<a>')
-				.attr('href','#')
-				.html('Assignment Updates (0)')
+				.attr('href','/dashboard#assignments')
+				.html('Assignment Updates (<?php echo ar_get_assignment_update_count() ?>)')
 		);
 		
 	// Dashboard
 	var active=false;
+	
 	if(window.location.hash)
 	{
 		var hash=window.location.hash.substring(1);

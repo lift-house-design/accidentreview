@@ -10,7 +10,7 @@
 		else wp_title('');
 	?>
 	</title>
-	<?php if(preg_match('/reps\/assignments\/new-assignment/',$_SERVER['REQUEST_URI'],$matches)): ?>
+	<?php if(preg_match('/dashboard\/assignments\/new-assignment/',$_SERVER['REQUEST_URI'],$matches)): ?>
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/style-protected.css" />
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/lib/accident-jqueryui-theme/jquery-ui-1.8.15.custom.css?ver=3.2.1" />
@@ -41,7 +41,7 @@
 		<?php if(isset($_SESSION['agent_user_id'])): ?>
 			Welcome, <a href="#" class="username"><?php echo $_SESSION['agent_user_name']; ?></a>
 		<?php else: ?>
-			<form action="/reps/login" method="post">
+			<form action="/dashboard/login" method="post">
 				<input type="text" name="username" placeholder="E-mail" />
 				<input type="password" name="password" placeholder="Password" />
 				<input type="hidden" name="submit_login" />
@@ -60,17 +60,17 @@
 				<a href="#about-us">About Us</a>	
 				<a href="#customer-support">Customer Support</a>	
 			<?php else: ?>
-				<a href="/dev/home#services">Services</a>	
-				<a href="/dev/home#about-us">About Us</a>	
-				<a href="/dev/home#customer-support">Customer Support</a>
+				<a href="/home#services">Services</a>	
+				<a href="/home#about-us">About Us</a>	
+				<a href="/home#customer-support">Customer Support</a>
 			<?php endif; ?>
 			</div>
 			<?php if(isset($_SESSION['agent_user_id'])): ?>
 			<div id="account-options">
-				<a href="/dev/reps#new-assignment">New Assignment</a>
-				<a href="/dev/reps#assignments">Assignments</a>
-				<a href="/dev/reps#account-info">Manage Account</a>
-				<a href="/dev/login?do=logout">Logout</a>
+				<a href="/dashboard#new-assignment">New Assignment</a>
+				<a href="/dashboard#assignments">Assignments</a>
+				<a href="/dashboard#account-info">Manage Account</a>
+				<a href="/dashboard/logout">Logout</a>
 			</div>
 			<?php endif; ?>
 		</div>

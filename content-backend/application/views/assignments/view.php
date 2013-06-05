@@ -10,11 +10,16 @@
 	<a class="change_status button">Change Status</a>
 	
 	<h3>Tech Assigned</h3>
-	<?php foreach($techs as $tech): ?>
-	<input type="radio" name="tech_assigned" value="<?php echo $tech['id'] ?>"<?php echo ($assignment['tech_user_id']==$tech['id'] ? ' checked="checked"' : '') ?> /><label for="tech_<?php echo $tech['id'] ?>"><?php echo trim($tech['first_name'].' '.$tech['last_name']) ?></label><br />
-	<?php endforeach; ?>
-	<br />
-	<a class="assign_tech button">Assign Tech</a>
+	<?php if($this->user->has_role('admin')): ?>
+		<?php foreach($techs as $tech): ?>
+		<input type="radio" name="tech_assigned" value="<?php echo $tech['id'] ?>"<?php echo ($assignment['tech_user_id']==$tech['id'] ? ' checked="checked"' : '') ?> /><label for="tech_<?php echo $tech['id'] ?>"><?php echo trim($tech['first_name'].' '.$tech['last_name']) ?></label><br />
+		<?php endforeach; ?>
+		<br />
+		<a class="assign_tech button">Assign Tech</a>
+	<?php elseif($this->user->has_role('tech')): ?>
+		<?php $assigned_tech=$this->user->get($assignment['tech_user_id']) ?>
+		<?php echo $assigned_tech['first_name'].' '.$assigned_tech['last_name'] ?>
+	<?php endif; ?>
 </div>
 <div id="tabs">
 	<ul>

@@ -102,3 +102,29 @@
 		
 		return $success!==FALSE;
 	}
+	
+	function ar_get_assignment_update_count($id=NULL)
+	{
+		global $wpdb;
+		
+		if($id===NULL)
+		{
+			$user_data=ar_user_data();
+			$id=$user_data['id'];
+		}
+		
+		$sql=$wpdb->prepare('
+			select
+				count(*) as count
+			from
+				ar_job
+			where
+				client_user_id = %d and
+				status = "Client Review"
+		',$id);
+		
+		$count=$wpdb->get_var($sql);
+		
+		return ($count===NULL ? 0 : $count);
+	}
+		

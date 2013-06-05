@@ -10,7 +10,7 @@
 		else wp_title('');
 	?>
 	</title>
-	<?php if(preg_match('/reps\/assignments\/new-assignment/',$_SERVER['REQUEST_URI'],$matches)): ?>
+	<?php if(preg_match('/dashboard\/assignments\/new-assignment/',$_SERVER['REQUEST_URI'],$matches)): ?>
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/style-protected.css" />
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/lib/accident-jqueryui-theme/jquery-ui-1.8.15.custom.css?ver=3.2.1" />
@@ -39,9 +39,9 @@
 	<div id="top-panel">
 		<div class="wrapper">
 		<?php if(is_logged_in()): ?>
-			Welcome, <a href="/reps#account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a>
+			Welcome, <a href="/dashboard#account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a>
 		<?php else: ?>
-			<form action="/reps/login" method="post">
+			<form action="/dashboard/login" method="post">
 				<input type="text" name="email" placeholder="E-mail" />
 				<input type="password" name="password" placeholder="Password" />
 				<input type="hidden" name="submit_login" />
@@ -67,10 +67,10 @@
 			</div>
 			<?php if(is_logged_in()): ?>
 			<div id="account-options">
-				<a href="/reps#new-assignment">New Assignment</a>
-				<a href="/reps#assignments">Assignments</a>
-				<a href="/reps#account-info">Manage Account</a>
-				<a href="/reps/logout">Logout</a>
+				<a href="/dashboard#new-assignment">New Assignment</a>
+				<a href="/dashboard#assignments">Assignments</a>
+				<a href="/dashboard#account-info">Manage Account</a>
+				<a href="/dashboard/logout">Logout</a>
 			</div>
 			<?php endif; ?>
 		</div>

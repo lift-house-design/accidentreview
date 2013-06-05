@@ -102,6 +102,29 @@
 				return TRUE;
 			}
 		}
+		
+		public function has_role($role,$id=NULL)
+		{
+			if($id===NULL)
+				$user=$this->data;
+			else
+				$user=$this->user->get($id);
+			
+			switch($role)
+			{
+				case 'admin':
+					return $user['is_admin']==1;
+					break;
+				case 'tech':
+					return $user['is_tech']==1;
+					break;
+				case 'client':
+					return $user['is_admin']!=1 && $user['is_tech']!=1;
+				default:
+					return FALSE;
+			}
+			
+		}
 	}
 	
 /* End of file User_model.php */

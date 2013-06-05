@@ -12,14 +12,16 @@
 			$this->js[]='http://accidentreview.com/wp-content/themes/accident-review/js/jquery.dataTables.min.js';
 			$this->js[]='actions/assignments-index.js';
 			
-			$assignments=array();
-			foreach($this->assignment->get_all() as $assignment)
+			$assignment_where=array(
+				'type IS NOT NULL'=>NULL,
+			);
+			
+			if($this->user->has_role('tech') && !$this->user->has_role('admin'))
 			{
-				if($assignment['type']!==NULL)
-					$assignments[]=$assignment;
+				$assignment_where['tech_user_id']=$this->user->data['id'];
 			}
 			
-			$this->data['assignments']=$assignments;
+			$this->data['assignments']=$this->assignment->get_many_by($assignment_where);
 		}
 		
 		public function view($id)
@@ -40,19 +42,27 @@
 		
 		public function update_status($id,$status)
 		{
-			if($this->assignment->update($id,array('status'=>urldecode($status))))
-				$this->set_notification('The status has been changed.');
-			else
-				$this->form_validation->set_error('There was a problem changing the status.');
+			if($this->authenticate())
+			{
+				if($this->assignment->update($id,array('status'=>urldecode($status))))
+					$this->set_notification('The status has been changed.');
+				else
+					$this->form_validation->set_error('There was a problem changing the status.');
+			}
+
 			redirect('assignments/'.$id);
 		}
 		
 		public function update_tech($id,$tech_id)
 		{
-			if($this->assignment->update($id,array('tech_user_id'=>$tech_id)))
-				$this->set_notification('The assigned tech has been changed.');
-			else
-				$this->form_validation->set_error('There was a problem changing the assigned tech.');
+			if($this->authenticate())
+			{
+				if($this->assignment->update($id,array('tech_user_id'=>$tech_id)))
+					$this->set_notification('The assigned tech has been changed.');
+				else
+					$this->form_validation->set_error('There was a problem changing the assigned tech.');
+			}
+
 			redirect('assignments/'.$id);
 		}
 		
