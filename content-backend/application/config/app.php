@@ -36,9 +36,9 @@ $config['database']=array(
 -------------------------------------------------------------------------*/
 /*$config['database']=array(
 	'hostname'=>'localhost',
-	'username'=>'root',
-	'password'=>'',
-	'database'=>'accidentreview',
+	'username'=>'accidentreview',
+	'password'=>'D4gGH#2$nMV',
+	'database'=>'accidentreviewdb',
 	'dbdriver'=>'mysql',
 	'db_debug'=>$config['dev_mode'],
 );*/
