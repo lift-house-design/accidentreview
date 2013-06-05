@@ -18,18 +18,18 @@ session_start();
  */
 
 // ** MySQL settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
+
 define('DB_NAME', 'accidentreview');
-//define('DB_NAME', 'accidentreviewdb');
-
-/** MySQL database username */
 define('DB_USER', 'root');
-//define('DB_USER', 'accidentreview');
-
-/** MySQL database password */
 define('DB_PASSWORD', '');
-//define('DB_PASSWORD', 'D4gGH#2$nMV');
 
+/*define('DB_NAME', 'accidentreviewdb');
+define('DB_USER', 'accidentreview');
+define('DB_PASSWORD', 'D4gGH#2$nMV');*/
+
+/** The name of the database for WordPress */
+/** MySQL database username */
+/** MySQL database password */
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
 

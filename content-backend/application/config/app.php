@@ -20,6 +20,9 @@ $config['dev_mode']=TRUE;
 |
 |--------------------------------------------------------------------------
 */
+
+/* LOCAL/TESTING DATABASE
+-------------------------------------------------------------------------*/
 $config['database']=array(
 	'hostname'=>'localhost',
 	'username'=>'root',
@@ -28,6 +31,17 @@ $config['database']=array(
 	'dbdriver'=>'mysql',
 	'db_debug'=>$config['dev_mode'],
 );
+
+/* PRODUCTION DATABASE
+-------------------------------------------------------------------------*/
+/*$config['database']=array(
+	'hostname'=>'localhost',
+	'username'=>'root',
+	'password'=>'',
+	'database'=>'accidentreview',
+	'dbdriver'=>'mysql',
+	'db_debug'=>$config['dev_mode'],
+);*/
 
 /*
 |--------------------------------------------------------------------------
