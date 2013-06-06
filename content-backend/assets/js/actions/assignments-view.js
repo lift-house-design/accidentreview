@@ -11,4 +11,7 @@ $(function(){
 			var tech_assigned=$('input[name="tech_assigned"]').val();
 			window.location.href='/assignments/update_tech/'+assignment_id+'/'+tech_assigned;
 		});
+	$('#final-report-editor').redactor({
+		minHeight: 250,
+	});
 });

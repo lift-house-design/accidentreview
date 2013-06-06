@@ -9,7 +9,12 @@ if(!function_exists('css'))
 		if(is_array($css))
 		{
 			foreach($css as $css_file)
-				$html.=link_tag(asset($css_file,'css'));
+			{
+				if(is_array($css_file))
+					$html.=link_tag(asset($css_file['file'],$css_file['type']));
+				else
+					$html.=link_tag(asset($css_file,'css'));
+			}
 		}
 		elseif(!empty($css))
 		{
@@ -29,7 +34,12 @@ if(!function_exists('js'))
 		if(is_array($js))
 		{
 			foreach($js as $js_file)
-				$html.='<script src="'.asset($js_file,'js').'"></script>';
+			{
+				if(is_array($js_file))
+					$html.='<script src="'.asset($js_file['file'],$js_file['type']).'"></script>';
+				else
+					$html.='<script src="'.asset($js_file,'js').'"></script>';
+			}
 		}
 		elseif(!empty($js))
 		{

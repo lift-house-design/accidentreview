@@ -20,13 +20,18 @@
 		<?php $assigned_tech=$this->user->get($assignment['tech_user_id']) ?>
 		<?php echo $assigned_tech['first_name'].' '.$assigned_tech['last_name'] ?>
 	<?php endif; ?>
+	
+	<?php if($assignment['status']=='Complete'): ?>
+		<h3>Final Report</h3>
+		<a class="button" href="/reports/<?php echo $assignment['id'] ?>" target="_blank">View Final Report</a>
+	<?php endif; ?>
 </div>
 <div id="tabs">
 	<ul>
 		<li><a href="#details">Details</a></li>
 		<li><a href="#vehicles">Vehicles</a></li>
 		<li><a href="#correspondence">Correspondence</a></li>
-		<li><a href="#final-report">Final Report</a></li>
+		<li><a href="#findings">Findings</a></li>
 	</ul>
 	<div id="details">
 		<h2>Assignment Details</h2>
@@ -203,8 +208,26 @@
 			</div>
 		</form>
 	</div>
-	<div id="final-report">
-		final report
+	<div id="findings">
+		<h2>Findings</h2>
+		<p>Write up your findings in the word processor below. They will not be sent to the client until you are ready.</p>
+		<?php echo form_open('assignments/save_final_report','',array(
+			'assignment_id'=>$assignment['id'],
+		)) ?>
+			<textarea id="final-report-editor" name="final_report" style="width: 100%; height: 200px;"><?php echo $assignment['final_report'] ?></textarea>
+			<div class="checkbox field">
+				<?php echo form_checkbox(array(
+					'id'=>'assignment_completed',
+					'name'=>'assignment_completed',
+					'value'=>1,
+					'checked'=>set_value('assignment_completed')==1,
+				)) ?>
+				<?php echo form_label('Change the status of the assignment to "Complete"','assignment_completed') ?>
+			</div>
+			<div class="buttons">
+				<?php echo form_submit('save_report','Save Report') ?>
+			</div>
+		</form>
 	</div>
 </div>
 

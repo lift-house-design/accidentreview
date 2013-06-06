@@ -46,6 +46,7 @@ $route['logout']='account/logout';
 $route['users/(:num)']='users/edit/$1';
 $route['users/(:num)/delete']='users/delete/$1';
 $route['assignments/(:num)']='assignments/view/$1';
+$route['reports/(:num)']='assignments/report/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

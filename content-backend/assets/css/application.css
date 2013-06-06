@@ -381,3 +381,13 @@ button,
 .assignment-owner.correspondence > .user-details > .from {
 	color: #12223a;
 }
+
+/* Redactor (final review WYSIWYG)
+-------------------------------------------------------------------------*/
+#final-report-editor {
+	width: 100%;
+	height: 300px;
+}
+.redactor_toolbar {
+	height: 31px;
+}

@@ -29,6 +29,15 @@
 			$this->js[]='actions/assignments-view.js';
 			$this->js[]='jquery-ui.js';
 			$this->css[]='jquery-ui.css';
+			// Redactor
+			$this->js[]=array(
+				'file'=>'redactor.js',
+				'type'=>'plugins/redactor',
+			);
+			$this->css[]=array(
+				'file'=>'redactor.css',
+				'type'=>'plugins/redactor',
+			);
 			
 			$assignment=$this->assignment
 				->with('answers')
@@ -101,6 +110,53 @@
 			}
 			
 			redirect('assignments/'.post('assignment_id'));
+		}
+		
+		public function save_final_report()
+		{
+			$post=post();
+			
+			if(!empty($post))
+			{
+				$assignment_data=array(
+					'final_report'=>$post['final_report']
+				);
+				if(!empty($post['assignment_completed']))
+					$assignment_data['status']='Complete';
+				
+				$success=$this->assignment->update($post['assignment_id'],$assignment_data);
+				
+				if($success)
+				{
+					$this->set_notification('The final report has been saved.');
+					if(!empty($post['assignment_completed']))
+						$this->set_notification('The status has been changed.');
+				}
+				else
+				{
+					$this->form_validation->set_error('There was a problem saving the final report.');
+					if(!empty($post['assignment_completed']))
+						$this->form_validation->set_error('There was a problem changing the status.');
+				}
+				
+				redirect('assignments/'.$post['assignment_id']);
+			}
+			
+			redirect('assignments');
+		}
+		
+		public function report($id)
+		{
+			$this->layout='layouts/report';
+			$this->css[]='report.css';
+			
+			$this->data['assignment']=$this->assignment
+				->with('answers')
+				->with('vehicles')
+				->with('correspondence')
+				->with('rep')
+				->get($id);
+			$this->data['tech']=$this->user->get($this->data['assignment']['tech_user_id']);
 		}
 	}
 	

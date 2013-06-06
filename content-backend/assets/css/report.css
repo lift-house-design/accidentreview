@@ -1,0 +1,66 @@
+html,
+body {
+	background-color: #fff;
+	font-size: 16px;
+}
+
+fieldset {
+	
+}
+
+fieldset legend {
+	
+}
+
+label {
+	font-weight: bold;
+}
+
+label:after {
+	content: ':';
+}
+
+.spacer {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+/* Psuedo-grid System (4 columns)
+-------------------------------------------------------------------------*/
+
+.row:before,
+.row:after {
+    content: " ";
+    display: table; 
+}
+
+.row:after {
+    clear: both;
+}
+
+.row {
+    *zoom: 1;
+	margin: 1%;
+}
+
+.column {
+	background-color: #ddd;
+	float: left;
+	margin: 1%;
+}
+
+.span1 {
+	width: 23%;
+}
+
+.span2 {
+	width: 48%;
+}
+
+.span3 {
+	width: 73%;
+}
+
+.span4 {
+	width: 98%;
+}
