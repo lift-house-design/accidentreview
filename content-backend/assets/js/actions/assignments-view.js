@@ -14,4 +14,5 @@ $(function(){
 	$('#final-report-editor').redactor({
 		minHeight: 250,
 	});
+	$('.attachment .image').fancybox();
 });

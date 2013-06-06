@@ -391,3 +391,42 @@ button,
 .redactor_toolbar {
 	height: 31px;
 }
+
+/* Attachments
+-------------------------------------------------------------------------*/
+
+.attachment:before,
+.attachment:after {
+    content: " ";
+    display: table; 
+}
+
+.attachment:after {
+    clear: both;
+}
+
+.attachment {
+    *zoom: 1;
+	margin-bottom: 15px;
+}
+
+.attachment > .image {
+	float: left;
+	width: 150px;
+}
+
+.attachment > .image img {
+	max-width: 150px;
+	max-height: 300px;
+}
+
+.attachment > .details {
+	padding-left: 165px;
+}
+
+.attachment > .details .name {
+	color: #bbb;
+	padding-top: 5px;
+	font-size: 12px;
+	font-style: italic;
+}

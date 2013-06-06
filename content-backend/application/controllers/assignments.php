@@ -2,7 +2,7 @@
 	
 	class Assignments extends App_Controller
 	{
-		protected $models=array('user','assignment','vehicle_answer','correspondence');
+		protected $models=array('user','assignment','vehicle_answer','correspondence','attachment');
 		
 		protected $authenticate=TRUE;
 		
@@ -38,6 +38,15 @@
 				'file'=>'redactor.css',
 				'type'=>'plugins/redactor',
 			);
+			// Fancybox
+			$this->js[]=array(
+				'file'=>'jquery.fancybox.js',
+				'type'=>'plugins/fancybox2',
+			);
+			$this->css[]=array(
+				'file'=>'jquery.fancybox.css',
+				'type'=>'plugins/fancybox2',
+			);
 			
 			$assignment=$this->assignment
 				->with('answers')
@@ -45,7 +54,21 @@
 				->with('correspondence')
 				->with('rep')
 				->get($id);
+				
+			$attachments=$this->attachment->get_many_by('job_id',$assignment['id']);
+			$photo_attachments=array();
+			$other_attachments=array();
 			
+			foreach($attachments as $a)
+			{
+				if($a['type']=='img')
+					$photo_attachments[]=$a;
+				else
+					$other_attachments[]=$a;
+			}
+			
+			$this->data['photo_attachments']=$photo_attachments;
+			$this->data['other_attachments']=$other_attachments;
 			$this->data['assignment']=$assignment;
 			$this->data['techs']=$this->user->get_many_by('is_tech',1);
 		}
