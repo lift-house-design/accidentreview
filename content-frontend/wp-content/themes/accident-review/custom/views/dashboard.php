@@ -170,7 +170,7 @@
 							<th>AR #</th>
 							<th>Submitted</th>
 							<th>Loss Type</th>
-							<th>Rep. Name</th>
+							<th>AR Tech</th>
 						</tr>
 					</thead>
 					<tbody>

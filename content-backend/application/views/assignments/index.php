@@ -8,7 +8,7 @@
 			<th>AR #</th>
 			<th>Submitted</th>
 			<th>Loss Type</th>
-			<th>Rep. Name</th>
+			<th>AR Tech</th>
 			<th>Options</th>
 		</tr>
 	</thead>

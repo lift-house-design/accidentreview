@@ -34,6 +34,7 @@
 				->with('answers')
 				->with('vehicles')
 				->with('correspondence')
+				->with('rep')
 				->get($id);
 			
 			$this->data['assignment']=$assignment;

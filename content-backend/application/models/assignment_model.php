@@ -29,7 +29,12 @@
 			),
 		);
 		
-		public $belongs_to=array();
+		public $belongs_to=array(
+			'rep'=>array(
+				'model'=>'User_model',
+				'primary_key'=>'client_user_id',
+			),
+		);
 		
 		protected $return_type='array';
 		

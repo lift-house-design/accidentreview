@@ -24,10 +24,12 @@
 <div id="tabs">
 	<ul>
 		<li><a href="#details">Details</a></li>
+		<li><a href="#vehicles">Vehicles</a></li>
 		<li><a href="#correspondence">Correspondence</a></li>
 		<li><a href="#final-report">Final Report</a></li>
 	</ul>
 	<div id="details">
+		<h2>Assignment Details</h2>
 		<div class="readonly horizontal field">
 			<?php echo form_label('Claim Type:') ?>
 			<?php echo $this->assignment->get_type($assignment['type']) ?>
@@ -62,57 +64,96 @@
 				<?php echo $answer['answer'] ?>
 			</div>
 		<?php endforeach; ?>
-		<?php $i=1 ?>
-		<?php foreach($assignment['vehicles'] as $vehicle): ?>
-			<h2>Vehicle #<?php echo $i++ ?></h2>
+		<h2>Representative Information</h2>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Name:') ?>
+			<?php echo $assignment['rep']['first_name'].' '.$assignment['rep']['last_name'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('E-mail:') ?>
+			<?php echo $assignment['rep']['email'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Address:') ?>
+			<?php echo $assignment['rep']['street_address'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('City:') ?>
+			<?php echo $assignment['rep']['city'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('State:') ?>
+			<?php echo $assignment['rep']['state'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Zip:') ?>
+			<?php echo $assignment['rep']['zip'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Phone:') ?>
+			<?php echo $assignment['rep']['phone'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Mobile:') ?>
+			<?php echo $assignment['rep']['mobile'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Fax:') ?>
+			<?php echo $assignment['rep']['fax'] ?>
+		</div>
+	</div>
+	<div id="vehicles">
+	<?php $i=1 ?>
+	<?php foreach($assignment['vehicles'] as $vehicle): ?>
+		<h2>Vehicle #<?php echo $i++ ?></h2>
+		<div class="readonly horizontal field">
+			<?php echo form_label('VIN Number:') ?>
+			<?php echo $vehicle['vin_number'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Year:') ?>
+			<?php echo $vehicle['year'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Make:') ?>
+			<?php echo $vehicle['make'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Model:') ?>
+			<?php echo $vehicle['model'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Owner\'s Name:') ?>
+			<?php echo $vehicle['owners_name'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Belongs To:') ?>
+			<?php echo $vehicle['belongs_to'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Color:') ?>
+			<?php echo $vehicle['color'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Registration Number:') ?>
+			<?php echo $vehicle['registration_number'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Modifications:') ?>
+			<?php echo $vehicle['modifications'] ?>
+		</div>
+		<div class="readonly horizontal field">
+			<?php echo form_label('Additional Info:') ?>
+			<?php echo $vehicle['additional_info'] ?>
+		</div>
+		<?php $vehicle_answers=$this->vehicle_answer->get_many_by('vehicle_id',$vehicle['id']) ?>
+		<?php foreach($vehicle_answers as $answer): ?>
 			<div class="readonly horizontal field">
-				<?php echo form_label('VIN Number:') ?>
-				<?php echo $vehicle['vin_number'] ?>
+				<?php echo form_label($answer['question'].':') ?>
+				<?php echo $answer['answer'] ?>
 			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Year:') ?>
-				<?php echo $vehicle['year'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Make:') ?>
-				<?php echo $vehicle['make'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Model:') ?>
-				<?php echo $vehicle['model'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Owner\'s Name:') ?>
-				<?php echo $vehicle['owners_name'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Belongs To:') ?>
-				<?php echo $vehicle['belongs_to'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Color:') ?>
-				<?php echo $vehicle['color'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Registration Number:') ?>
-				<?php echo $vehicle['registration_number'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Modifications:') ?>
-				<?php echo $vehicle['modifications'] ?>
-			</div>
-			<div class="readonly horizontal field">
-				<?php echo form_label('Additional Info:') ?>
-				<?php echo $vehicle['additional_info'] ?>
-			</div>
-			<?php $vehicle_answers=$this->vehicle_answer->get_many_by('vehicle_id',$vehicle['id']) ?>
-			<?php foreach($vehicle_answers as $answer): ?>
-				<div class="readonly horizontal field">
-					<?php echo form_label($answer['question'].':') ?>
-					<?php echo $answer['answer'] ?>
-				</div>
-			<?php endforeach; ?>
 		<?php endforeach; ?>
+	<?php endforeach; ?>
 	</div>
 	<div id="correspondence">
 	<?php if(empty($assignment['correspondence'])): ?>
