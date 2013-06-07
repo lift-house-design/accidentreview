@@ -34,6 +34,10 @@
 				'model'=>'User_model',
 				'primary_key'=>'client_user_id',
 			),
+			'tech'=>array(
+				'model'=>'User_model',
+				'primary_key'=>'tech_user_id',
+			),
 		);
 		
 		protected $return_type='array';
@@ -64,5 +68,16 @@
 			);
 			
 			return isset($types[$type]) ? $types[$type] : 'Unknown';
+		}
+
+		public function get_make($id)
+		{
+			require_once('../content-frontend/wp-content/themes/accident-review/custom/vin-functions.php');
+			$response=requestDivisions(2000);
+			$makes=$response['result'];
+			if(isset($makes[$id]))
+				return $makes[$id];
+
+			return FALSE;
 		}
 	}

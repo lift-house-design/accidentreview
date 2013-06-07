@@ -79,16 +79,34 @@ $config['ga_code']=FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Contact Form Configuration
+| E-mail Notifications Configuration
 |--------------------------------------------------------------------------
 */
-$config['contact_form']=array(
-	'recipient_email'=>'nickniebaum@gmail.com',
-	'recipient_name'=>'Nick Niebaum',
-	'sender_email'=>'nickniebaum@gmail.com',
-	'sender_name'=>'Nick Niebaum',
-	'subject'=>'Website Contact Form Submitted by {first_name} {last_name}',
-	'body'=>file_get_contents(dirname(__FILE__).'/templates/contact_form.php'),
+$config['email_notifications']=array(
+	'sender_email'=>'no-reply@accidentreview.com',
+	'sender_name'=>'Accident Review',
+	'config'=>array(
+		'protocol'=>'smtp',
+		'smtp_host'=>'ssl://secure.emailsrvr.com',
+		'smtp_user'=>'system@accidentreview.com',
+		'smtp_pass'=>'9iojkl',
+		'smtp_port'=>'465',
+		'mailtype'=>'text',
+	),
+	'templates'=>array(
+		'tech_assigned'=>array(
+			'subject'=>'Assignment Update - Tech Assigned',
+			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/tech_assigned.php'),
+		),
+		'assigned_to_tech'=>array(
+			'subject'=>'Reminder - Assignment Needs Completed',
+			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/assigned_to_tech.php'),
+		),
+		'final_review_complete'=>array(
+			'subject'=>'Assignment Update - Final Review Complete',
+			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/final_review_complete.php'),
+		),
+	),
 );
 
 /* End of file app.php */

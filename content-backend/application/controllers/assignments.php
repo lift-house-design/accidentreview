@@ -91,11 +91,50 @@
 			if($this->authenticate())
 			{
 				if($this->assignment->update($id,array('tech_user_id'=>$tech_id)))
+				{
 					$this->set_notification('The assigned tech has been changed.');
+
+					// Send e-mail to client telling them a tech has been assigned
+					$assignment=$this->assignment
+						->with('rep')
+						->with('tech')
+						->get($id);
+					$email_data=array(
+						'first_name'=>$assignment['rep']['first_name'],
+						'tech_first_name'=>$assignment['tech']['first_name'],
+						'tech_last_name'=>$assignment['tech']['last_name'],
+					);
+					send_email('tech_assigned',$email_data,$assignment['rep']['email']);
+				}
 				else
 					$this->form_validation->set_error('There was a problem changing the assigned tech.');
 			}
 
+			redirect('assignments/'.$id);
+		}
+
+		public function send_reminder($id)
+		{
+			$assignment=$this->assignment
+				->with('tech')
+				->with('rep')
+				->get($id);
+			$email_data=array(
+				'tech_first_name'=>$assignment['tech']['first_name'],
+				'first_name'=>$assignment['rep']['first_name'],
+				'last_name'=>$assignment['rep']['last_name'],
+				'assignment_id'=>$assignment['id'],
+			);
+
+			if(send_email('assigned_to_tech',$email_data,$assignment['tech']['email']))
+			{
+				$this->set_notification('The tech has been sent an e-mail with a reminder about this assignment.');
+			}
+			else
+			{
+				$this->form_validation->set_error('There was a problem sending the reminder e-mail to the tech.');
+			}
+			
 			redirect('assignments/'.$id);
 		}
 		
@@ -180,6 +219,11 @@
 				->with('rep')
 				->get($id);
 			$this->data['tech']=$this->user->get($this->data['assignment']['tech_user_id']);
+		}
+
+		public function test()
+		{
+			phpinfo(); exit;
 		}
 	}
 	

@@ -4,13 +4,19 @@ body {
 	font-size: 16px;
 }
 
+#logo {
+	height: 100px;
+	position: relative;
+	top: -10px;
+}
+
 fieldset {
+	margin-top: 20px;
 	border-top: 2px solid #000;
 }
 
 fieldset legend {
-	background-color: #000;
-	color: #fff;
+	border: 2px solid #000;
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 16px;
@@ -19,14 +25,52 @@ fieldset legend {
 
 label {
 	font-weight: bold;
-	width: 170px;
+	width: 120px;
 	text-align: right;
 	display: inline-block;
-	margin-right: 10px;
+	margin: 5px 10px 5px 0;
 }
 
 label:after {
 	content: ':';
+}
+
+label.no-width {
+	width: auto;
+}
+
+.multi-line:before,
+.multi-line:after {
+    content: " ";
+    display: table;
+}
+
+.multi-line:after {
+    clear: both;
+}
+
+.multi-line {
+    *zoom: 1;
+    
+}
+
+.multi-line label {
+	float: left;
+}
+
+.multi-line .value {
+	display: inline-block;
+	margin: 5px 0;
+}
+
+.wide-labels label {
+	width: 50%;
+}
+
+.disclaimer {
+	text-align: center;
+	font-size: 11px;
+	font-style: italic;
 }
 
 /* Psuedo-grid System (4 columns)

@@ -16,6 +16,9 @@
 		<?php endforeach; ?>
 		<br />
 		<a class="assign_tech button">Assign Tech</a>
+		<?php if(!empty($assignment['tech_user_id'])): ?>
+			<br /><a class="button" href="/assignments/send_reminder/<?php echo $assignment['id'] ?>">Send Reminder to Tech</a>
+		<?php endif; ?>
 	<?php elseif($this->user->has_role('tech')): ?>
 		<?php $assigned_tech=$this->user->get($assignment['tech_user_id']) ?>
 		<?php echo $assigned_tech['first_name'].' '.$assigned_tech['last_name'] ?>
@@ -122,7 +125,7 @@
 		</div>
 		<div class="readonly horizontal field">
 			<?php echo form_label('Make:') ?>
-			<?php echo $vehicle['make'] ?>
+			<?php echo $this->assignment->get_make($vehicle['make']) ?>
 		</div>
 		<div class="readonly horizontal field">
 			<?php echo form_label('Model:') ?>
