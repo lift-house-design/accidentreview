@@ -2,8 +2,6 @@
 .project
 
 # AR/activeCollab system directories
-content-backend/cache
-content-backend/compile
 content-backend/uploads
 content-backend/upload
 
