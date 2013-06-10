@@ -495,7 +495,6 @@ $(function(){
 			 },
 			 dataType: 'json',
 		     success: function(data,textStatus,jqXHR){
-		     	console.log(data); return;
 				if(data.status=='success')
 				{
 					var msg=$('<div>')

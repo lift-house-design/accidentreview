@@ -677,7 +677,7 @@
 			$message=str_replace('{'.$k.'}',$v,$message);
 		}
 
-		require('vendor/phpmailer/class.phpmailer.php');
+		require_once('vendor/phpmailer/class.phpmailer.php');
 
 		$mailer=new PHPMailer;
 		$mailer->isSMTP();
