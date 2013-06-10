@@ -238,7 +238,7 @@
 					'value'=>1,
 					'checked'=>set_value('assignment_completed')==1,
 				)) ?>
-				<?php echo form_label('Change the status of the assignment to "Complete"','assignment_completed') ?>
+				<?php echo form_label('Change the status of the assignment to "Complete" and send an e-mail to the representative','assignment_completed') ?>
 			</div>
 			<div class="buttons">
 				<?php echo form_submit('save_report','Save Report') ?>

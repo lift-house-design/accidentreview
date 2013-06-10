@@ -491,9 +491,11 @@ $(function(){
 			 	job: job_data,
 				vehicles: vehicle_data,
 				action: 'save-new-assignment',
+				new_assignment: isNewAssignment ? 1 : 0
 			 },
 			 dataType: 'json',
 		     success: function(data,textStatus,jqXHR){
+		     	console.log(data); return;
 				if(data.status=='success')
 				{
 					var msg=$('<div>')

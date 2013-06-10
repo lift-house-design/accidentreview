@@ -119,6 +119,28 @@ function save_new_assignment()
 	//if(true)
 	{
 		$response['status']='success';
+
+		// Send notifications
+		$is_new_assignment=empty($_POST['new_assignment']) ? FALSE : TRUE;
+
+		if($is_new_assignment===TRUE)
+		{
+			// Notify admins
+			foreach(ar_get_admin_users() as $admin)
+			{
+				$email_data=array(
+					'first_name'=>$admin['first_name'],
+				);
+				ar_send_email('assignment_received_admin',$email_data,$admin['email']);
+			}
+
+			// Notify client
+			$user_data=ar_user_data();
+			$email_data=array(
+				'first_name'=>$user_data['first_name'],
+			);
+			ar_send_email('assignment_received',$email_data,$user_data['email']);
+		}
 	}
 	else
 	{

@@ -654,3 +654,73 @@
 		
 		return $wpdb->get_results($sql,'ARRAY_A');
 	}
+
+	function ar_send_email($template,$data,$to)
+	{
+		$templates=array(
+			'assignment_received'=>array(
+				'subject'=>'Assignment Received',
+				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received.php'),
+			),
+			'assignment_received_admin'=>array(
+				'subject'=>'New Assignment Received',
+				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received_admin.php'),
+			),
+		);
+
+		$subject=$templates[$template]['subject'];
+		$message=$templates[$template]['message'];
+
+		foreach($data as $k=>$v)
+		{
+			$subject=str_replace('{'.$k.'}',$v,$subject);
+			$message=str_replace('{'.$k.'}',$v,$message);
+		}
+
+		require_once "Mail.php";
+		require_once "Mail/mime.php";
+
+		$mime=new Mail_mime("\n");
+		$mime->setTXTBody($message);
+		$mime->setHTMLBody($message);
+		$body=$mime->get();
+
+		$headers=$mime->headers(array(
+			'From'=>AR_EMAIL_FROM_NAME.' <'.AR_EMAIL_FROM_EMAIL.'>',
+			'To'=>$to,
+			'Subject'=>$subject,
+		),TRUE);
+
+		$smtp=Mail::factory('smtp',array(
+			'host'=>AR_EMAIL_HOST,
+			'port'=>AR_EMAIL_PORT,
+			'username'=>AR_EMAIL_USER,
+			'password'=>AR_EMAIL_PASS,
+			'isHTML'=>TRUE
+		));
+
+		$mail=$smtp->send($to,$headers,$body);
+
+		return !PEAR::isError($mail);
+	}
+
+	function ar_get_admin_users()
+	{
+		global $wpdb;
+
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_users
+			where
+				is_admin = 1
+		');
+
+		$results=$wpdb->get_results($sql,'ARRAY_A');
+
+		if($results !== NULL)
+			return $results;
+		else
+			return FALSE;
+	}

@@ -192,7 +192,27 @@
 				{
 					$this->set_notification('The final report has been saved.');
 					if(!empty($post['assignment_completed']))
+					{
 						$this->set_notification('The status has been changed.');
+
+						// Send the client an e-mail saying the final review is ready
+						$assignment=$this->assignment
+							->with('rep')
+							->get($post['assignment_id']);
+						$email_data=array(
+							'first_name'=>$assignment['rep']['first_name'],
+							'assignment_id'=>$assignment['id'],
+						);
+
+						if(send_email('final_review_complete',$email_data,$assignment['rep']['email']))
+						{
+							$this->set_notification('The client has been sent an e-mail notifying them that the final review is ready.');
+						}
+						else
+						{
+							$this->form_validation->set_error('There was a problem sending a notification to the client telling them the final review is ready.');
+						}
+					}
 				}
 				else
 				{
