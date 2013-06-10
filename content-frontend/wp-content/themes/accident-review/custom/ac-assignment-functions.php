@@ -677,31 +677,24 @@
 			$message=str_replace('{'.$k.'}',$v,$message);
 		}
 
-		require_once "Mail.php";
-		require_once "Mail/mime.php";
+		require('vendor/phpmailer/class.phpmailer.php');
 
-		$mime=new Mail_mime("\n");
-		$mime->setTXTBody($message);
-		$mime->setHTMLBody($message);
-		$body=$mime->get();
+		$mailer=new PHPMailer;
+		$mailer->isSMTP();
+		$mailer->Host=AR_EMAIL_HOST;
+		$mailer->Username=AR_EMAIL_USER;
+		$mailer->Password=AR_EMAIL_PASS;
+		$mailer->SMTPAuth=TRUE;
 
-		$headers=$mime->headers(array(
-			'From'=>AR_EMAIL_FROM_NAME.' <'.AR_EMAIL_FROM_EMAIL.'>',
-			'To'=>$to,
-			'Subject'=>$subject,
-		),TRUE);
+		$mailer->From=AR_EMAIL_FROM_EMAIL;
+		$mailer->FromName=AR_EMAIL_FROM_NAME;
+		$mailer->AddAddress($to);
 
-		$smtp=Mail::factory('smtp',array(
-			'host'=>AR_EMAIL_HOST,
-			'port'=>AR_EMAIL_PORT,
-			'username'=>AR_EMAIL_USER,
-			'password'=>AR_EMAIL_PASS,
-			'isHTML'=>TRUE
-		));
+		$mailer->Subject=$subject;
+		$mailer->Body=$message;
+		$mailer->AltBody=$message;
 
-		$mail=$smtp->send($to,$headers,$body);
-
-		return !PEAR::isError($mail);
+		return $mailer->Send();
 	}
 
 	function ar_get_admin_users()
@@ -712,7 +705,7 @@
 			select
 				*
 			from
-				ar_users
+				ar_user
 			where
 				is_admin = 1
 		');

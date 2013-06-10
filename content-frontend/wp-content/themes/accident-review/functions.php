@@ -11,6 +11,7 @@ if(!defined(AR_ATTACHMENT_PATH)) define(AR_ATTACHMENT_PATH,dirname($_SERVER['DOC
 //if(!defined(AR_ATTACHMENT_PATH)) define(AR_ATTACHMENT_PATH,'/var/www/vhosts/accidentreview.com/ar-git/content-frontend/uploads/');
 
 if(!defined(AR_EMAIL_TEMPLATES_PATH)) define(AR_EMAIL_TEMPLATES_PATH,dirname($_SERVER['DOCUMENT_ROOT']).'/content-backend/application/config/templates/email/');
+//if(!defined(AR_EMAIL_TEMPLATES_PATH)) define(AR_EMAIL_TEMPLATES_PATH,'/var/www/vhosts/accidentreview.com/ar-git/content-backend/application/config/templates/email/');
 if(!defined(AR_EMAIL_FROM_NAME)) define(AR_EMAIL_FROM_NAME,'Accident Review');
 if(!defined(AR_EMAIL_FROM_EMAIL)) define(AR_EMAIL_FROM_EMAIL,'no-reply@accidentreview.com');
 if(!defined(AR_EMAIL_HOST)) define(AR_EMAIL_HOST,'mail.lifthousedesign.com');
