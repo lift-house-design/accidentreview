@@ -6,17 +6,31 @@ $(function(){
 	$('input[type="text"].date').datepicker({
 		dateFormat: 'yy-mm-dd'
 	});
-	
+
+	// Remove events
 	$(document)
-		// Remove these same events that were possibly passed by previous page loads
 		.off('change','.keys_available.field input[type="radio"]')
 		.off('click','.vin_number.field input[type="button"]')
 		.off('change','select[name="year"]')
 		.off('change','select[name="make"]')
 		.off('click','#add-vehicle')
 		.off('click','#remove-vehicle')
+		.off('change','select[name="belongs_to"]')
 		.off('click','.file-upload.field input[type="button"]')
 		.off('change','.file-upload.field input[type="file"]')
+		.off('submit','form#new-assignment')
+		.off('click','#assignments .assignment-panel fieldset:not(:last) > legend')
+		.off('load','.file-upload.field .file-preview .img.file a.icon img')
+		.off('click','#image-preview #image-preview-next')
+		.off('click','#image-preview #image-preview-prev')
+		.off('click','#image-preview #image-preview-close')
+		.off('click','#image-preview a.description')
+		.off('click','#attachment-edit #attachment-edit-close')
+		.off('click','#attachment-edit #attachment-edit-save')
+		.off('click','#attachment-edit #attachment-edit-delete')
+		.off('click','#create-message');
+
+	$(document)
 		// Keys available change (vehicle-theft)
 		.on('change','.keys_available.field input[type="radio"]',function(){
 			var where=$(this).parents('fieldset').find('.keys_available_where.field');
@@ -268,22 +282,50 @@ $(function(){
 				.find('legend')
 				.html('Vehicle #'+(numVehicles+1)+' Information');
 			
+			// The last vehicle should have both add/remove buttons
+			var buttons_field=fieldset
+				.find('.field:last-child');
+			buttons_field
+				.find('label')
+				.html('Vehicle options')
+			buttons_field
+				.append(
+					$('<input>')
+						.attr({
+							type: 'button',
+							id: 'remove-vehicle',
+						})
+						.val('Remove Vehicle')
+				);
+
 			// Insert the new vehicle fields
 			$(this)
 				.parents('fieldset')
 				.after(fieldset);
 				
 			// Change the add vehicle button to a remove vehicle button
-			$(this)
-				.parents('.field')
-				.find('label')
-				.html('Remove this vehicle');
-			$(this)
-				.attr({
-					id: 'remove-vehicle'
-				})
-				.val('Remove Vehicle');
-			
+			if(numVehicles==1)
+			{
+				$(this)
+					.parents('.field')
+					.find('label')
+					.html('Remove this vehicle');
+				$(this)
+					.attr({
+						id: 'remove-vehicle'
+					})
+					.val('Remove Vehicle');
+			}
+			else
+			{
+				$(this)
+					.parents('.field')
+					.find('label')
+					.html('Remove this vehicle');
+				$(this).remove();
+			}
+				
+
 			// Scroll the browser window to the new vehicle fields
 			$('html, body').animate({
 				scrollTop: fieldset.offset().top
@@ -305,15 +347,68 @@ $(function(){
 				.remove();
 			
 			// Relabel them
-			form
+			var vehicle_fieldsets=form
 				.children('fieldset:not(.correspondence-fieldset)')
 				.filter(':gt(1)')
-				.filter(':lt(-1)')
+				.filter(':lt(-1)');
+
+			vehicle_fieldsets
 				.each(function(i,e){
-					
 					$(this)
 						.find('legend')
 						.html('Vehicle #'+(i+1)+' Information');
+
+					var buttons_field=$(this)
+						.find('.field:last-child');
+
+					if(vehicle_fieldsets.length==1)
+					{
+						$(this)
+							.find('#remove-vehicle')
+							.remove();
+
+						if(buttons_field.find('input[type="button"]').length==0)
+						{
+							buttons_field
+								.append(
+									$('<input>')
+										.attr({
+											type: 'button',
+											id: 'add-vehicle'
+										})
+										.val('Add Vehicle')
+								);
+						}
+					}
+					else if( i==(vehicle_fieldsets.length-1) && buttons_field.find('input[type="button"]').length == 1 )
+					{
+						buttons_field
+							.find('label')
+							.after(
+								$('<input>')
+									.attr({
+										type: 'button',
+										id: 'add-vehicle'
+									})
+									.val('Add Vehicle')
+							);
+
+						if(vehicle_fieldsets.length==1)
+						{
+							$(this)
+								.find('#remove-vehicle')
+								.remove();
+							buttons_field
+								.find('label')
+								.html('Add another vehicle');
+						}
+						else
+						{
+							buttons_field
+								.find('label')
+								.html('Vehicle options')
+						}
+					}
 				});
 		})
 		.on('change','select[name="belongs_to"]',function(){
@@ -433,6 +528,33 @@ $(function(){
 			
 			return;
 		}
+
+		// Check for required fields
+		var required_error=$([]);
+		$('input:text.required, textarea.required, select.required').each(function(){
+			if($.trim($(this).val().toString())=='')
+			{
+				required_error=required_error.add(this);
+			}
+		});
+		
+		if(required_error.length>0)
+		{
+			required_error
+				.addClass('error')
+				.change(function(){
+					$(this)
+						.removeClass('error');
+					$(document).off('change',this);
+				});
+
+			var msg=$('<div>')
+				.addClass('msg')
+				.html('You have not filled out some required fields. Fields marked with * are required, please try again.');
+			$('form#new-assignment input[type="submit"]').after(msg);
+
+			return;
+		}
 		
 		// Collect the data
 		var job_fields=$(this)
@@ -548,13 +670,15 @@ $(function(){
 						
 				 		for(var val in data.result)
 						{
-							var opt=$('<option>')
-								.val(val)
-								.html(data.result[val]);
-							
-							select.append(opt);
+							if(val!='')
+							{
+								var opt=$('<option>')
+									.val(val)
+									.html(data.result[val]);
+								
+								select.append(opt);
+							}
 						}
-						
 						select.val(selectVal);
 						
 						if(selectVal != '')
@@ -651,8 +775,7 @@ $(function(){
 				var description_anchor=$(this.element[0]);
 				var description=description_anchor.html();
 				var attachmentId=description_anchor.parents('.file').data('attachment-id');
-				console.log(description);
-				console.log(description_anchor.parents('.file'));
+				
 				$('#attachment-edit')
 					.attr('data-attachment-id',attachmentId)
 					.data('attachment-id',attachmentId)
@@ -869,13 +992,23 @@ $(function(){
 					
 					if(data.status=='success')
 					{
+						var correspondence_container=$(self).parents('fieldset').find('.correspondence-container');
 						var msg=$(self).parents('fieldset').find('.correspondence:eq(0)').clone();
 
+						// Remove 'no correspondence' message
+						var test=correspondence_container
+							.children('p')
+							.remove();
+
+						// Add message to list
 						msg
 							.css('display','block')
 							.find('.message')
 							.html(message);
-						msg.appendTo($(self).parents('fieldset').find('.correspondence-container'));
+						msg
+							.find('.timestamp')
+							.html(data.timestamp);
+						msg.appendTo(correspondence_container);
 						
 						$('textarea[name="create_message"]').val('');
 					}

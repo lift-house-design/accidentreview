@@ -824,6 +824,7 @@ div.fancybox-skin {
 /**
  * New Assignment
  */
+
 #crumb.accident_breadcrumb,
 #navsidebar.sidebar {
 	display: none;
@@ -1193,6 +1194,8 @@ strong {
 	border-radius: 5px;
 }
 
+
+
 #new-assignment .correspondence > .user-details > .from {
 	text-transform: uppercase;
 	margin-bottom: 5px;
@@ -1206,6 +1209,9 @@ strong {
 }
 #new-assignment .correspondence > .user-details > .role {
 	font-style: italic;
+}
+#new-assignment .correspondence > .user-details > .timestamp {
+	margin-top: 10px;
 }
 
 #new-assignment .correspondence > .message {
@@ -1303,4 +1309,15 @@ h2 {
 }
 .information .row {
 	margin-bottom: 20px;
+}
+
+#add-vehicle {
+	margin-right: 5px;
+}
+.error {
+	border: 1px solid red !important;
+}
+label.required:after {
+	content: " *";
+	color: red;
 }

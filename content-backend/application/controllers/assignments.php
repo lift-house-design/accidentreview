@@ -70,7 +70,7 @@
 			$this->data['photo_attachments']=$photo_attachments;
 			$this->data['other_attachments']=$other_attachments;
 			$this->data['assignment']=$assignment;
-			$this->data['techs']=$this->user->get_many_by('is_tech',1);
+			$this->data['techs']=$this->user->get_many_by('role','tech');
 		}
 		
 		public function update_status($id,$status)
@@ -168,6 +168,23 @@
 						$this->set_notification('The status has been changed.');
 					else
 						$this->form_validation->set_error('There was a problem changing the status.');
+
+					$assignment=$this->assignment
+						->with('rep')
+						->get($post['assignment_id']);
+					$email_data=array(
+						'first_name'=>$assignment['rep']['first_name'],
+						'message'=>$post['message'],
+					);
+
+					if(send_email('new_message',$email_data,$assignment['rep']['email']))
+					{
+						$this->set_notification('The client has been sent an e-mail notifying them that your message was posted to their assigment.');
+					}
+					else
+					{
+						$this->form_validation->set_error('There was a problem sending a notification to the client.');
+					}
 				}
 			}
 			
@@ -239,11 +256,6 @@
 				->with('rep')
 				->get($id);
 			$this->data['tech']=$this->user->get($this->data['assignment']['tech_user_id']);
-		}
-
-		public function test()
-		{
-			phpinfo(); exit;
 		}
 	}
 	

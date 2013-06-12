@@ -86,24 +86,33 @@
 			'value'=>set_value('zip'),
 		)) ?>
 	</div>
-	<h2>Roles</h2>
+	<h2>Role</h2>
 	<div class="checkbox field">
-		<?php echo form_checkbox(array(
-			'id'=>'is_tech',
-			'name'=>'is_tech',
-			'value'=>1,
-			'checked'=>set_value('is_tech')==1,
+		<?php echo form_radio(array(
+			'id'=>'role_client',
+			'name'=>'role',
+			'value'=>'client',
+			'checked'=>(set_value('role')=='client'||set_value('role')==''),
 		)) ?>
-		<?php echo form_label('This user is a tech','is_tech') ?>
+		<?php echo form_label('This user is a client','role_client') ?>
 	</div>
 	<div class="checkbox field">
-		<?php echo form_checkbox(array(
-			'id'=>'is_admin',
-			'name'=>'is_admin',
-			'value'=>1,
-			'checked'=>set_value('is_admin')==1,
+		<?php echo form_radio(array(
+			'id'=>'role_tech',
+			'name'=>'role',
+			'value'=>'tech',
+			'checked'=>set_value('role')=='tech',
 		)) ?>
-		<?php echo form_label('This user is an administrator','is_admin') ?>
+		<?php echo form_label('This user is a tech','role_tech') ?>
+	</div>
+	<div class="checkbox field">
+		<?php echo form_radio(array(
+			'id'=>'role_admin',
+			'name'=>'role',
+			'value'=>'admin',
+			'checked'=>set_value('role')=='admin',
+		)) ?>
+		<?php echo form_label('This user is an administrator','role_admin') ?>
 	</div>
 	<div class="buttons">
 		<?php echo form_submit('save_user','Save User') ?>

@@ -68,31 +68,38 @@
 
 	function accident_dashboard($atts, $content=null, $code='')
 	{
-		if(is_logged_in()===FALSE) header('/');
-		
-		if(isset($_POST['ajaxRequest']))
+		if(is_logged_in()===FALSE)
 		{
-			$request=$_POST['ajaxRequest'];
-			
-			switch($request['action'])
-			{
-				case 'saveUserInfo':
-					$userData=ar_user_data();
-					$data=array(
-						$request['name']=>$request['value'],
-					);
-					ar_save_user($userData['id'],$data);
-					break;
-				case 'changeUserPass':
-					$userData=ar_user_data();
-					$data=array(
-						'password'=>sha1($request['value']),
-					);
-					ar_save_user($userData['id'],$data);
-					break;
-			}
-			exit;
+			$location='/';
+			echo 'You must be logged in to view this page.';
+			echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
 		}
-		
-		require('views/dashboard.php');
+		else
+		{
+			if(isset($_POST['ajaxRequest']))
+			{
+				$request=$_POST['ajaxRequest'];
+				
+				switch($request['action'])
+				{
+					case 'saveUserInfo':
+						$userData=ar_user_data();
+						$data=array(
+							$request['name']=>$request['value'],
+						);
+						ar_save_user($userData['id'],$data);
+						break;
+					case 'changeUserPass':
+						$userData=ar_user_data();
+						$data=array(
+							'password'=>sha1($request['value']),
+						);
+						ar_save_user($userData['id'],$data);
+						break;
+				}
+				exit;
+			}
+			
+			require('views/dashboard.php');
+		}
 	}

@@ -666,6 +666,10 @@
 				'subject'=>'New Assignment Received',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received_admin.php'),
 			),
+			'new_message_tech'=>array(
+				'subject'=>'New Correspondence',
+				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_tech.php'),
+			),
 		);
 
 		$subject=$templates[$template]['subject'];

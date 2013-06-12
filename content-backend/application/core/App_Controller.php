@@ -82,7 +82,7 @@ class App_Controller extends CI_Controller
 	
 	protected function authenticate()
 	{
-		if($this->user->logged_in!==TRUE)
+		if($this->user->logged_in!==TRUE || $this->user->has_role('client'))
 		{
 			redirect('login');
 			return FALSE;
@@ -202,8 +202,8 @@ class App_Controller extends CI_Controller
     protected function _load_view()
     {
     	// Check for authentication
-		if($this->authenticate===TRUE && $this->user->logged_in!==TRUE)
-			redirect('login');
+		if($this->authenticate===TRUE)
+            $this->authenticate();
 		
         // If $this->view == FALSE, we don't want to load anything
         if ($this->view !== FALSE)

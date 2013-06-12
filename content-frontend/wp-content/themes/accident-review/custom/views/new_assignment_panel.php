@@ -11,20 +11,20 @@
 		<input type="hidden" name="id" value="<?php echo $job_id ?>" />
 		<input type="hidden" name="type" value="<?php echo $assignment_type ?>" />
 		<div class="field">
-			<label>File Number</label>
-			<input type="text" name="file_number" placeholder="Enter file number"<?php echo empty($job_data['file_number']) ? '' : ' value="'.$job_data['file_number'].'"' ?> />
+			<label class="required">File Number</label>
+			<input type="text" class="required" name="file_number" placeholder="Enter file number"<?php echo empty($job_data['file_number']) ? '' : ' value="'.$job_data['file_number'].'"' ?> />
 		</div>
 		<div class="field">
-			<label>Insured Name</label>
-			<input type="text" name="insured_name" placeholder="Enter insured name"<?php echo empty($job_data['insured_name']) ? '' : ' value="'.$job_data['insured_name'].'"' ?> />
+			<label class="required">Insured Name</label>
+			<input type="text" class="required" name="insured_name" placeholder="Enter insured name"<?php echo empty($job_data['insured_name']) ? '' : ' value="'.$job_data['insured_name'].'"' ?> />
 		</div>
 		<div class="field">
 			<label>Claimant Name</label>
 			<input type="text" name="claimant_name" placeholder="Enter claimant name"<?php echo empty($job_data['claimant_name']) ? '' : ' value="'.$job_data['claimant_name'].'"' ?> />
 		</div>
-		<div class="field">
-			<label>Date of Loss</label>
-			<input type="text" class="date" name="date_of_loss" placeholder="Enter date of loss"<?php echo empty($job_data['date_of_loss']) ? '' : ' value="'.date('Y-m-d',strtotime($job_data['date_of_loss'])).'"' ?> />
+		<div class="required field">
+			<label class="required">Date of Loss</label>
+			<input type="text" class="date required" name="date_of_loss" placeholder="Enter date of loss"<?php echo empty($job_data['date_of_loss']) ? '' : ' value="'.date('Y-m-d',strtotime($job_data['date_of_loss'])).'"' ?> />
 		</div>
 	</fieldset>
 	<fieldset>
@@ -73,12 +73,12 @@
 			</div>
 		</div>
 		<div class="field">
-			<label>Describe Loss in Chronological Order</label>
-			<textarea name="loss_description" placeholder="Enter description of loss in chronological order"><?php echo empty($job_data['loss_description']) ? '' : $job_data['loss_description'] ?></textarea>
+			<label class="required">Describe Loss in Chronological Order</label>
+			<textarea name="loss_description" class="required" placeholder="Enter description of loss in chronological order"><?php echo empty($job_data['loss_description']) ? '' : $job_data['loss_description'] ?></textarea>
 		</div>
-		<div class="field">
-			<label>Services Requested</label>
-			<textarea name="services_requested" placeholder="Enter services you are requesting"><?php echo empty($job_data['services_requested']) ? '' : $job_data['services_requested'] ?></textarea>
+		<div class="required field">
+			<label class="required">Services Requested</label>
+			<textarea name="services_requested" class="required" placeholder="Enter services you are requesting"><?php echo empty($job_data['services_requested']) ? '' : $job_data['services_requested'] ?></textarea>
 		</div>
 		<?php foreach($job_questions as $question_key=>$question): ?>
 		<div class="<?php echo $question_key ?> field">
@@ -99,21 +99,21 @@
 					<input type="button" value="Lookup VIN" />
 				</div>
 				<div class="field">
-					<label>Vehicle Description</label>
+					<label class="required">Vehicle Description</label>
 					<div class="field-row">
-						<select name="year">
+						<select name="year" class="required">
 							<option value="">Year:</option>
 							<?php if(!empty($vehicle_data['year'])): ?>
 								<option value="<?php echo $vehicle_data['year'] ?>" selected="selected"><?php echo $vehicle_data['year'] ?></option>
 							<?php endif; ?>
 						</select>
-						<select name="make" disabled="disabled">
+						<select name="make" disabled="disabled" class="required">
 							<option value="">(select a year)</option>
 							<?php if(!empty($vehicle_data['make'])): ?>
 								<option value="<?php echo ar_get_make_id($vehicle_data['year'],$vehicle_data['make']) ?>" selected="selected"><?php echo $vehicle_data['make'] ?></option>
 							<?php endif; ?>
 						</select>
-						<select name="model" disabled="disabled">
+						<select name="model" disabled="disabled" class="required">
 							<option value="">(select a year)</option>
 							<?php if(!empty($vehicle_data['model'])): ?>
 								<option value="<?php echo $vehicle_data['model'] ?>" selected="selected"><?php echo $vehicle_data['model'] ?></option>
@@ -121,8 +121,8 @@
 						</select>
 					</div>
 					<div class="field-row">
-						<input type="text" name="owners_name" placeholder="Enter owner's full name"<?php echo empty($vehicle_data['owners_name']) ? '' : ' value="'.$vehicle_data['owners_name'].'"' ?> />
-						<select name="belongs_to">
+						<input type="text" name="owners_name" class="required" placeholder="Enter owner's full name"<?php echo empty($vehicle_data['owners_name']) ? '' : ' value="'.$vehicle_data['owners_name'].'"' ?> />
+						<select name="belongs_to" class="required">
 							<option value="">Vehicle belongs to:</option>
 							<?php foreach(array('Plaintiff','Defendant') as $val): ?>
 								<?php if(empty($vehicle_data['belongs_to'])): ?>
@@ -176,21 +176,21 @@
 				<input type="button" value="Lookup VIN" />
 			</div>
 			<div class="field">
-				<label>Vehicle Description</label>
+				<label class="required">Vehicle Description</label>
 				<div class="field-row">
-					<select name="year">
+					<select name="year" class="required">
 						<option value="">Year:</option>
 					</select>
-					<select name="make" disabled="disabled">
+					<select name="make" disabled="disabled" class="required">
 						<option value="">(select a year)</option>
 					</select>
-					<select name="model" disabled="disabled">
+					<select name="model" disabled="disabled" class="required">
 						<option value="">(select a year)</option>
 					</select>
 				</div>
 				<div class="field-row">
-					<input type="text" name="owners_name" placeholder="Enter owner's full name" />
-					<select name="belongs_to">
+					<input type="text" name="owners_name" class="required" placeholder="Enter owner's full name" />
+					<select name="belongs_to" class="required">
 						<option value="">Vehicle belongs to:</option>
 						<?php foreach(array('Claimant','Insured','Other') as $val): ?>
 						<option><?php echo $val ?></option>
@@ -236,6 +236,7 @@
 						<div class="name"><?php echo $user_data['first_name'].' '.$user_data['last_name'] ?></div>
 						<div class="email"><?php echo $user_data['email'] ?></div>
 						<div class="role"><?php echo 'Client' ?></div>
+						<div class="timestamp"></div>
 					</div>
 					<div class="message"></div>
 				</div>
@@ -245,18 +246,14 @@
 					<?php foreach($correspondence as $c): ?>
 						<?php
 							$c_user=ar_user_data($c['from_user_id']);
-							$c_user['role']='Client';
-							if($c_user['is_tech'])
-								$c_user['role']='Tech';
-							if($c_user['is_admin'])
-								$c_user['role']='Admin';
 						?>
 						<div class="<?php echo $c['from_user_id']==$user_data['id'] ? 'assignment-owner ' : '' ?>correspondence">
 							<div class="user-details">
 								<div class="from">From:</div>
 								<div class="name"><?php echo $c_user['first_name'].' '.$c_user['last_name'] ?></div>
 								<div class="email"><?php echo $c_user['email'] ?></div>
-								<div class="role"><?php echo $c_user['role'] ?></div>
+								<div class="role"><?php echo ucfirst($c_user['role']) ?></div>
+								<div class="timestamp"><?php echo date('m/d/Y h:ia',strtotime($c['created_at'])) ?></div>
 							</div>
 							<div class="message">
 								<?php echo nl2br($c['message']) ?>

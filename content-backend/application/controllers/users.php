@@ -10,20 +10,7 @@
 			$this->js[]='http://accidentreview.com/wp-content/themes/accident-review/js/jquery.dataTables.min.js';
 			$this->js[]='actions/users-index.js';
 			
-			// Users listing
-			$users=array();
-			foreach($this->user->get_all() as $usr)
-			{
-				$role='Client';
-				if($usr['is_tech'])
-					$role='Tech';
-				if($usr['is_admin'])
-					$role='Admin';
-				$usr['role']=$role;
-				$users[]=$usr;
-			}
-			
-			$this->data['users']=$users;
+			$this->data['users']=$this->user->get_all();
 		}
 		
 		public function edit($id)

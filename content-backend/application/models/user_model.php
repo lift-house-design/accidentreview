@@ -20,7 +20,7 @@
 		
 		protected $return_type='array';
 		
-		public $after_get=array('after_get');
+		public $after_get=array();
 		
 		public $logged_in=FALSE;
 		
@@ -39,15 +39,7 @@
 		
 		protected function after_get($data)
 		{
-			$role='Client';
-			if($data['is_tech'])
-				$role='Tech';
-			if($data['is_admin'])
-				$role='Admin';
-			
-			$data['role']=$role;
-			
-			return $data;
+
 		}
 		
 		public function log_in($email=NULL,$password=NULL)
@@ -110,20 +102,7 @@
 			else
 				$user=$this->user->get($id);
 			
-			switch($role)
-			{
-				case 'admin':
-					return $user['is_admin']==1;
-					break;
-				case 'tech':
-					return $user['is_tech']==1;
-					break;
-				case 'client':
-					return $user['is_admin']!=1 && $user['is_tech']!=1;
-				default:
-					return FALSE;
-			}
-			
+			return $user['role']==$role;
 		}
 	}
 	

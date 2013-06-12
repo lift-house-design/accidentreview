@@ -187,7 +187,8 @@
 					<div class="from">From:</div>
 					<div class="name"><?php echo $message['from_user']['first_name'].' '.$message['from_user']['last_name'] ?></div>
 					<div class="email"><?php echo $message['from_user']['email'] ?></div>
-					<div class="role"><?php echo $message['from_user']['role'] ?></div>
+					<div class="role"><?php echo ucfirst($message['from_user']['role']) ?></div>
+					<div class="timestamp"><?php echo date('m/d/Y h:ia',strtotime($message['created_at'])) ?></div>
 				</div>
 				<div class="message"><?php echo nl2br($message['message']) ?></div>
 			</div>
@@ -217,7 +218,7 @@
 					'value'=>1,
 					'checked'=>set_value('change_status')==1,
 				)) ?>
-				<?php echo form_label('Change the status of the assignment to "Client Review"','change_status') ?>
+				<?php echo form_label('Change the status of the assignment to "Client Review" and send an e-mail to representative','change_status') ?>
 			</div>
 			<div class="buttons">
 				<?php echo form_submit('create_message','Create Message') ?>

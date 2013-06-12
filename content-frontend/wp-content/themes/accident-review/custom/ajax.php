@@ -383,7 +383,32 @@ function create_message()
 			));
 			
 			if($success)
+			{
 				$response['status']='success';
+				$response['timestamp']=date('m/d/Y h:ia');
+
+				$sql=$wpdb->prepare('
+					select
+						u.*
+					from
+						ar_user u,
+						ar_job j
+					where
+						j.id = %d and
+						j.tech_user_id = u.id
+					limit 1
+				',$_POST['assignment_id']);
+				$tech=$wpdb->get_row($sql,'ARRAY_A');
+
+				// Now send the tech a notification
+				$email_data=array(
+					'first_name'=>$tech['first_name'],
+					'message'=>$_POST['message'],
+				);
+				$response['email_data']=$email_data;
+				$response['tech_data']=$tech;
+				$response['email_response']=ar_send_email('new_message_tech',$email_data,$tech['email']);
+			}
 			else
 				$response['error']='There was a problem saving the message.';
 		}

@@ -374,6 +374,9 @@ button,
 .correspondence > .user-details > .role {
 	font-style: italic;
 }
+.correspondence > .user-details > .timestamp {
+	margin-top: 10px;
+}
 
 .correspondence > .message {
 	padding-left: 170px;
