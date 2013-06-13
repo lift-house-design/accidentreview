@@ -256,7 +256,7 @@ $(function(){
 		})
 		// Add vehicle clicked
 		.on('click','#add-vehicle',function(){
-			var numVehicles=$(this).parents('form#new-assignment').children('fieldset:not(.correspondence-fieldset)').length - 3;
+			var numVehicles=$(this).parents('form#new-assignment').children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)').length - 3;
 			var fieldset=vehicleTemplate.clone();
 			
 			// Change the radio buttons element names to keep them unique to that group
@@ -348,7 +348,7 @@ $(function(){
 			
 			// Relabel them
 			var vehicle_fieldsets=form
-				.children('fieldset:not(.correspondence-fieldset)')
+				.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
 				.filter(':gt(1)')
 				.filter(':lt(-1)');
 
@@ -558,14 +558,14 @@ $(function(){
 		
 		// Collect the data
 		var job_fields=$(this)
-			.children('fieldset:not(.correspondence-fieldset)')
+			.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
 			.filter(':lt(2)')
 			.add(
 				$(this)
 					.children('fieldset')
 					.filter(':gt(-2)')
 			);
-		var vehicle_fields=$(this).children('fieldset:not(.correspondence-fieldset)').filter(':gt(1)').filter(':lt(-1)');
+		var vehicle_fields=$(this).children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)').filter(':gt(1)').filter(':lt(-1)');
 		
 		// Now build the data objects
 		var job_data={};
@@ -653,7 +653,7 @@ $(function(){
 		 	if(data.success)
 			{
 				var vehicles=$('form#new-assignment')
-					.children('fieldset:not(.correspondence-fieldset)')
+					.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
 					.filter(':gt(1)')
 					.filter(':lt(-1)')
 					.each(function(){

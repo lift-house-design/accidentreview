@@ -114,6 +114,10 @@ $config['email_notifications']=array(
 			'subject'=>'Assignment Update - Final Review Complete',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/final_review_complete.php'),
 		),
+		'status_updated'=>array(
+			'subject'=>'Assignment Update - Status Changed',
+			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/status_updated.php'),
+		),
 	),
 );
 

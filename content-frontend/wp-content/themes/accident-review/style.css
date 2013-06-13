@@ -1321,3 +1321,38 @@ label.required:after {
 	content: " *";
 	color: red;
 }
+.field a.button {
+	color: #fff;
+	padding: 5px 10px;
+	font-size: 11px;
+}
+
+#assignment-updates {
+	width: 700px;
+}
+#assignment-updates table {
+	width: 100%;
+	border-spacing: 0;
+}
+#assignment-updates td:last-child {
+	width: 50px;
+}
+#assignment-updates .button {
+	padding: 5px 10px;
+	font-size: 11px;
+}
+#assignment-updates .button:hover {
+	color: #fff;
+}
+#assignment-updates tr:nth-child(even) {
+	background-color: #e1dcce;
+}
+#assignment-updates tr:nth-child(odd) {
+	background-color: #f3f0ea;
+}
+#assignment-updates td {
+	padding: 5px 10px;
+}
+#assignment-updates a.update {
+	cursor: pointer;
+}

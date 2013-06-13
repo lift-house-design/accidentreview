@@ -2,7 +2,7 @@
 	
 	class Assignments extends App_Controller
 	{
-		protected $models=array('user','assignment','vehicle_answer','correspondence','attachment');
+		protected $models=array('user','assignment','vehicle_answer','correspondence','attachment','assignment_update');
 		
 		protected $authenticate=TRUE;
 		
@@ -78,7 +78,35 @@
 			if($this->authenticate())
 			{
 				if($this->assignment->update($id,array('status'=>urldecode($status))))
+				{
 					$this->set_notification('The status has been changed.');
+
+					// Notify the client
+					if($status != 'Pending')
+					{
+						$assignment=$this->assignment
+							->with('rep')
+							->get($id);
+						$email_data=array(
+							'first_name'=>$assignment['rep']['first_name'],
+							'status'=>$assignment['status'],
+						);
+
+						if(send_email('status_updated',$email_data,$assignment['rep']['email']))
+							$this->set_notification('The representative was notified by e-mail of the status change.');
+						else
+							$this->form_validation->set_error('There was a problem notifying the representative of the status change');
+
+						// Add assignment update
+						$this->assignment_update->insert(array(
+							'user_id'=>$assignment['rep']['id'],
+							'job_id'=>$assignment['id'],
+							'message'=>'This assignment\'s status was changed to '.urldecode($status).'.',
+						));
+					}
+
+
+				}
 				else
 					$this->form_validation->set_error('There was a problem changing the status.');
 			}
@@ -105,6 +133,13 @@
 						'tech_last_name'=>$assignment['tech']['last_name'],
 					);
 					send_email('tech_assigned',$email_data,$assignment['rep']['email']);
+
+					// Add assignment update
+					$this->assignment_update->insert(array(
+						'user_id'=>$assignment['rep']['id'],
+						'job_id'=>$assignment['id'],
+						'message'=>'A tech has been assigned to this assignment.',
+					));
 				}
 				else
 					$this->form_validation->set_error('There was a problem changing the assigned tech.');
@@ -158,17 +193,21 @@
 					$hasError=TRUE;
 				}
 				
-				if($hasError===FALSE && post('change_status'))
+				if($hasError===FALSE)
 				{
-					$success=$this->assignment->update($post['assignment_id'],array(
-						'status'=>'Client Review',
-					));
+					if(post('change_status'))
+					{
+						$success=$this->assignment->update($post['assignment_id'],array(
+							'status'=>'Client Review',
+						));
+						
+						if($success)
+							$this->set_notification('The status has been changed.');
+						else
+							$this->form_validation->set_error('There was a problem changing the status.');
+					}
 					
-					if($success)
-						$this->set_notification('The status has been changed.');
-					else
-						$this->form_validation->set_error('There was a problem changing the status.');
-
+					// Send e-mail notification
 					$assignment=$this->assignment
 						->with('rep')
 						->get($post['assignment_id']);
@@ -185,7 +224,16 @@
 					{
 						$this->form_validation->set_error('There was a problem sending a notification to the client.');
 					}
+
+					// Add assignment update
+					$this->assignment_update->insert(array(
+						'user_id'=>$assignment['rep']['id'],
+						'job_id'=>$assignment['id'],
+						'message'=>'A tech has added correspondence to your assignment.',
+					));
 				}
+
+
 			}
 			
 			redirect('assignments/'.post('assignment_id'));
@@ -229,6 +277,13 @@
 						{
 							$this->form_validation->set_error('There was a problem sending a notification to the client telling them the final review is ready.');
 						}
+
+						// Add assignment update
+						$this->assignment_update->insert(array(
+							'user_id'=>$assignment['rep']['id'],
+							'job_id'=>$assignment['id'],
+							'message'=>'This assignment\'s final report is ready.',
+						));
 					}
 				}
 				else

@@ -17,8 +17,8 @@
 			<legend>Client Information</legend>
 			<div class="row">
 				<div class="column span2">
-					<label>To</label> <?php echo $assignment['rep']['first_name'].' '.$assignment['rep']['last_name'] ?><br />
-					<label>Attn</label> Joe Dohn<br />
+					<label>To</label> <?php echo $assignment['rep']['company_name'] ?><br />
+					<label>Attn</label> <?php echo $assignment['rep']['first_name'].' '.$assignment['rep']['last_name'] ?><br />
 					<label style="float:left">Address</label>
 					<div style="display: inline-block">
 					<?php echo $assignment['rep']['street_address'] ?><br />

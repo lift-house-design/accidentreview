@@ -1,7 +1,20 @@
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-base.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-accordion.css" />
+<link rel="stylesheet" href="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.css" />
+<script src="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.js"></script>
+<div style="display: none;" id="assignment-updates">
+	<table>
+		<tbody>
+		<?php foreach($assignment_updates as $update): ?>
+			<tr>
+				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>"><?php echo $update['message'] ?></a></td>
+				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>">Remove</a></td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
 <div id="dashboard">
-	
 		<h3>Make New Assignment</h3>
 		<div id="new-assignment">
 			<p>Assignments are completed within 24 hours. Please select a job assignment type below:</p>
@@ -267,6 +280,7 @@
 			
 			$fn = $userData['first_name'];
 			$ln = $userData['last_name'];
+			$company = $userData['company_name'];
 			$street = $userData['street_address'];
 			$city = $userData['city'];
 			$state = $userData['state'];
@@ -292,6 +306,11 @@
 			<div class="editable-field" data-name="email">
 				<label>E-mail</label>
 				<span class="field"><?php echo $email ?></span>
+				<a class="edit">Edit</a>
+			</div>
+			<div class="editable-field" data-name="company_name">
+				<label>Company</label>
+				<span class="field"><?php echo $company ?></span>
 				<a class="edit">Edit</a>
 			</div>
 			<?php //if(!empty($street)): ?>
@@ -366,10 +385,44 @@
 	$('.heading.box h2')
 		.append(
 			$('<a>')
-				.attr('href','/dashboard#assignments')
-				.html('Assignment Updates (<?php echo ar_get_assignment_update_count() ?>)')
+				.attr({
+					href: '#assignment-updates',
+					id: 'assignment-updates-link'
+				})
+				.html('Assignment Updates (<?php echo count($assignment_updates) ?>)')
 		);
-		
+
+	$('#assignment-updates-link').fancybox();
+	
+	$('#assignment-updates a.update').click(function(){
+		var assignment_id=$(this).data('assignment-id');
+		$.fancybox.close();
+		$('#assignments tr[data-assignment-id="'+assignment_id+'"]').click();
+	});
+	$('#assignment-updates a.remove.button').click(function(){
+		$(this).html('Removing...');
+
+		var update_id=$(this).data('update-id');
+		var remove_row=$(this).parents('tr');
+
+		$.ajax({
+			//url: 'http://www.accidentreview.com<?php echo $_SERVER['REQUEST_URI'] ?>',
+			type: 'post',
+			data: {
+				ajaxRequest: {
+					action: 'deleteUpdate',
+					id: update_id,
+				}
+			},
+			success: function(data){
+				console.log(data);
+			},
+			complete: function(jqXHR,textStatus){
+				remove_row.remove();
+			},
+		});
+	});
+
 	// Dashboard
 	var active=false;
 	

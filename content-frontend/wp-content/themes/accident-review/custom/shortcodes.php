@@ -96,9 +96,14 @@
 						);
 						ar_save_user($userData['id'],$data);
 						break;
+					case 'deleteUpdate':
+						ar_remove_update($request['id']);
+						break;
 				}
 				exit;
 			}
+
+			$assignment_updates=ar_get_assignment_updates();
 			
 			require('views/dashboard.php');
 		}

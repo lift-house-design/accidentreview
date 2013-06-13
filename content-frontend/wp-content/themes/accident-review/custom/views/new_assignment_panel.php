@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
 <script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
-<link rel="stylesheet" href="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.css" />
-<script src="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.js"></script>
 <script src="/wp-content/themes/accident-review/js/assignment-panel.js"></script>
 <form id="new-assignment">
 	
@@ -124,7 +122,7 @@
 						<input type="text" name="owners_name" class="required" placeholder="Enter owner's full name"<?php echo empty($vehicle_data['owners_name']) ? '' : ' value="'.$vehicle_data['owners_name'].'"' ?> />
 						<select name="belongs_to" class="required">
 							<option value="">Vehicle belongs to:</option>
-							<?php foreach(array('Plaintiff','Defendant') as $val): ?>
+							<?php foreach(array('Claimant','Insured','Other') as $val): ?>
 								<?php if(empty($vehicle_data['belongs_to'])): ?>
 									<option><?php echo $val ?></option>
 								<?php else: ?>
@@ -268,6 +266,15 @@
 			</div>
 			<div class="field">
 				<input type="button" id="create-message" value="Create Message" />
+			</div>
+		</fieldset>
+	<?php endif; ?>
+	<?php if(!empty($job_data) && $job_data['status']=='Complete'): ?>
+		<fieldset class="final-review-fieldset">
+			<legend>Final Review</legend>
+			<div class="field">
+				<label>Findings</label>
+				<a class="button" target="_blank" href="/reports/<?php echo $job_data['id'] ?>">View Report</a>
 			</div>
 		</fieldset>
 	<?php endif; ?>

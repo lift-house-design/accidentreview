@@ -103,7 +103,22 @@
 		return $success!==FALSE;
 	}
 	
-	function ar_get_assignment_update_count($id=NULL)
+	function ar_remove_update($id)
+	{
+		global $wpdb;
+
+		$sql=$wpdb->prepare('
+			delete from
+				ar_update
+			where
+				id = %d
+			limit 1
+		',$id);
+
+		return $wpdb->query($sql);
+	}
+
+	function ar_get_assignment_updates($id=NULL)
 	{
 		global $wpdb;
 		
@@ -115,16 +130,18 @@
 		
 		$sql=$wpdb->prepare('
 			select
-				count(*) as count
+				*
 			from
-				ar_job
+				ar_update
 			where
-				client_user_id = %d and
-				status = "Client Review"
+				user_id = %d
 		',$id);
 		
-		$count=$wpdb->get_var($sql);
+		$updates=$wpdb->get_results($sql,'ARRAY_A');
 		
-		return ($count===NULL ? 0 : $count);
+		if($updates===NULL)
+			return array();
+		else
+			return $updates;
 	}
 		

@@ -165,16 +165,28 @@
 	<?php endforeach; ?>
 	</div>
 	<div id="attachments">
-		<h2>Photos</h2>
-		<?php foreach($photo_attachments as $photo): ?>
-		<div class="attachment">
-			<a class="image" rel="attachments" href="http://accidentreview.com/uploads/<?php echo $photo['url'] ?>.jpg" title="<?php echo htmlentities($photo['description'],ENT_QUOTES) ?>"><img src="http://accidentreview.com/uploads/<?php echo $photo['url'] ?>" /></a>
-			<div class="details">
-				<?php echo $photo['description'] ?>
-				<div class="name"><?php echo $photo['name'] ?></div>
-			</div>
-		</div>
-		<?php endforeach; ?>
+		<?php if(empty($photo_attachments) && empty($other_attachments)): ?>
+			<p>There are no attachments with this assignment.</p>
+		<?php else: ?>
+			<?php if(!empty($photo_attachments)): ?>
+				<h2>Photo Attachments</h2>
+				<?php foreach($photo_attachments as $photo): ?>
+				<div class="attachment">
+					<a class="image" rel="attachments" href="http://accidentreview.com/uploads/<?php echo $photo['url'] ?>.jpg" title="<?php echo htmlentities($photo['description'],ENT_QUOTES) ?>"><img src="http://accidentreview.com/uploads/<?php echo $photo['url'] ?>" /></a>
+					<div class="details">
+						<?php echo $photo['description'] ?>
+						<div class="name"><?php echo $photo['name'] ?></div>
+					</div>
+				</div>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<?php if(!empty($other_attachments)): ?>
+				<h2>Other Attachments</h2>
+				<?php foreach($other_attachments as $attachment): ?>
+					<a href="http://accidentreview.com/uploads/<?php echo $attachment['url'] ?>" target="_blank"><?php echo $attachment['name'] ?></a><?php echo ( empty($attachment['description']) || $attachment['name']==$attachment['description'] ? '' : ' - '.$attachment['description'] ) ?><br /><br />
+				<?php endforeach; ?>
+			<?php endif; ?>
+		<?php endif; ?>
 	</div>
 	<div id="correspondence">
 	<?php if(empty($assignment['correspondence'])): ?>

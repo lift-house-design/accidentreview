@@ -74,5 +74,12 @@
 		s.parentNode.insertBefore(g,s)}(document,'script'));
 	</script>
 	<?php endif; ?>
+	<script>
+		$(function(){
+			setTimeout(function(){
+				$('.notifications, .errors').fadeOut(1000);
+			},7000);
+		});
+	</script>
 </body>
 </html>

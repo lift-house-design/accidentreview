@@ -8,7 +8,7 @@ $(function(){
 		})
 		.on('click','.assign_tech.button',function(){
 			var assignment_id=$('#assignment-options').data('assignment-id');
-			var tech_assigned=$('input[name="tech_assigned"]').val();
+			var tech_assigned=$('input[name="tech_assigned"]:checked').val();
 			window.location.href='/assignments/update_tech/'+assignment_id+'/'+tech_assigned;
 		});
 	$('#final-report-editor').redactor({
