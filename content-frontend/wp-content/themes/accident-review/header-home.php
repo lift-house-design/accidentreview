@@ -60,16 +60,16 @@
 				<a href="#about-us">About Us</a>	
 				<a href="#customer-support">Customer Support</a>	
 			<?php else: ?>
-				<a href="/home#services">Services</a>	
-				<a href="/home#about-us">About Us</a>	
-				<a href="/home#customer-support">Customer Support</a>
+				<a href="/#services">Services</a>	
+				<a href="/#about-us">About Us</a>	
+				<a href="/#customer-support">Customer Support</a>
 			<?php endif; ?>
 			</div>
 			<?php if(isset($_SESSION['agent_user_id'])): ?>
 			<div id="account-options">
-				<a href="/dashboard#new-assignment">New Assignment</a>
-				<a href="/dashboard#assignments">Assignments</a>
-				<a href="/dashboard#account-info">Manage Account</a>
+				<a href="/dashboard/new-assignment">New Assignment</a>
+				<a href="/dashboard/assignments">Assignments</a>
+				<a href="/dashboard/account-info">Manage Account</a>
 				<a href="/dashboard/logout">Logout</a>
 			</div>
 			<?php endif; ?>
