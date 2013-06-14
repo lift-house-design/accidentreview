@@ -183,7 +183,7 @@
 					'date_of_recovery'=>array(
 						'question_type'=>'date',
 						'question'=>'Date of Recovery',
-						'placeholder'=>'Enter date of recovery',
+						'placeholder'=>'Enter date of recovery (if applicable)',
 					),
 					'factory_perimeter_security_system'=>array(
 						'question_type'=>'radio',

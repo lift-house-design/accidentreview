@@ -197,7 +197,7 @@ $(function(){
 						
 						var opt=$('<option>')
 								.val('')
-								.html('(select a make)');
+								.html('Model:');
 							
 						model
 							.empty()

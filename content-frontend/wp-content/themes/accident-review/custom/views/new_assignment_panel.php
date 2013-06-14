@@ -180,10 +180,10 @@
 						<option value="">Year:</option>
 					</select>
 					<select name="make" disabled="disabled" class="required">
-						<option value="">(select a year)</option>
+						<option value="">Make:</option>
 					</select>
 					<select name="model" disabled="disabled" class="required">
-						<option value="">(select a year)</option>
+						<option value="">Model:</option>
 					</select>
 				</div>
 				<div class="field-row">
