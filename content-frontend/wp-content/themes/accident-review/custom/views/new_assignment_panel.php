@@ -283,7 +283,7 @@
 		<?php if(empty($job_data)): ?>
 		<div class="field"> <!-- @TODO: change the url to the terms and conditions -->
 			<label>Before submitting, you must read and agree to the terms of service</label>
-			<input type="checkbox" name="tos_agreement" id="tos-agreement" value="1" /><label for="tos-agreement" class="checkbox-label">I have read and agree to the <a href="/terms-conditions">terms of service</a>.</label>
+			<input type="checkbox" name="tos_agreement" id="tos-agreement" value="1" /><label for="tos-agreement" class="checkbox-label">I have read and agree to the <a href="/terms-conditions" target="_blank">terms of service</a>.</label>
 		</div>
 		<div class="field">
 		<?php else: ?>

@@ -50,7 +50,10 @@
 								action: 'get-new-assignment-panel',
 								assignment_type: type,
 							},function(){
-								//$('input[type="text"].date').datepicker();
+								var offset=$(a).offset();
+								$('html, body').animate({
+									scrollTop: offset['top']
+								}, 'slow');
 							});
 							
 						$(a)

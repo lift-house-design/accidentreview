@@ -642,7 +642,7 @@ $(function(){
 					
 					setTimeout(function(){
 						close_new_assignments();
-						window.location.href='/dashboard#assignments';
+						window.location.href='/dashboard/assignments';
 						/*$('#assignments').dataTable().fnAddData([
 							
 						]);

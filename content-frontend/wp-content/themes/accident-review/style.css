@@ -1157,6 +1157,13 @@ strong {
 	font-size: 12px;
 	font-weight: normal;
 }
+#new-assignment .field label.checkbox-label a {
+	color: #0a2c79;
+	font-weight: bold;
+}
+#new-assignment .field label.checkbox-label a:hover {
+	color: #83A2C9;
+}
 
 /**
  * Dashboard - Assignment - Correspondence

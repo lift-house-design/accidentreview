@@ -24,11 +24,11 @@
 	</div>
 	<div class="wrapper">
 		<div id="header">
-			<a id="logo" href="/">
+			<a id="logo" href="http://www.accidentreview.com">
 				<h1>Accident Review</h1>
 			</a>
 			<div id="nav">
-				<?php echo anchor('assignments','Assignments') ?>
+				<?php echo anchor('assignments','Assignments',( $this->uri->uri_string()=='' || $this->uri->segment(1)=='assignments' ? 'class="selected"' : '') ) ?>
 			</div>
 			<?php if($logged_in): ?>
 			<div id="account-options">

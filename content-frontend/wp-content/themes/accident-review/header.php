@@ -53,13 +53,13 @@
 	<div class="wrapper">
 		<div id="header">
 			<!--a href="#"><img src="<?php bloginfo('stylesheet_directory') ?>/images/logo.png" alt="Accident Review" title="Accident Review" /></a-->
-			<a id="logo" href="#"><h1>Accident Review</h1></a>
+			<a id="logo" href="/"><h1>Accident Review</h1></a>
 			<div id="nav">
 			<?php if(get_the_ID()==1015): ?>	
 				<a href="#services">Services</a>	
 				<a href="#about-us">About Us</a>	
 				<a href="#customer-support">Customer Support</a>	
-			<?php else: ?>
+			<?php elseif(!in_array($post->post_name,array('dashboard','new-assignment','assignments','account-info'))): ?>
 				<a href="/#services">Services</a>	
 				<a href="/#about-us">About Us</a>	
 				<a href="/#customer-support">Customer Support</a>
