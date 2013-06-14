@@ -60,6 +60,27 @@ $(function(){
 					 vin: vin
 			     },
 			     success: function(data,textStatus,jqXHR){
+			     	function show_vin_msg(err,fadeOut)
+			     	{
+			     		$(vin_lookup)
+							.parents('.field')
+							.find('.msg')
+							.remove();
+							
+						var msg=$('<div>')
+							.addClass('msg')
+							.html(err);
+						
+						$(vin_lookup).after(msg);
+
+						if(fadeOut !== false)
+						{
+							setTimeout(function(){
+								msg.fadeOut(1000);
+							},4000);
+						}
+			     	}
+
 			         if(data.status=='success')
 					 {
 					 	var vehicle_description=$(vin_lookup)
@@ -101,17 +122,12 @@ $(function(){
 							.focus();
 							
 						// Show a message
-						$(vin_lookup)
-							.parents('.field')
-							.find('.msg')
-							.remove();
-							
-						var msg=$('<div>')
-							.addClass('msg')
-							.html('Your VIN has been found. Please fill out the remaining fields below.');
-						
-						$(vin_lookup).after(msg);
+						show_vin_msg('Your VIN has been found. Please fill out the remaining fields below.',false);
 					 }
+					else
+					{
+						show_vin_msg(data.error);
+					}
 					 
 					 // Remove loading state
 					$(vin_lookup)

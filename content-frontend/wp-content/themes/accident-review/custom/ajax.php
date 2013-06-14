@@ -169,7 +169,10 @@ function get_vin_data()
 			
 			if($vin_data[0]['@attributes']['responsecode']!='Successful')
 			{
-				$response['error']=$vehicle_info[0]['@attributes']['Description'];
+				$response['error']=trim($vehicle_info[0]['@attributes']['Description']);
+
+				if(empty($response['error']))
+					$response['error']='That VIN number was not found. Try another, or select your year, make and model below.';
 			}
 			else
 			{

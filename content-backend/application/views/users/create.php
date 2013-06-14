@@ -24,11 +24,18 @@
 			'value'=>set_value('email'),
 		)) ?>
 	</div>
-	<div class="field c1">
+	<div class="field c2">
 		<?php echo form_label('Password:','password') ?>
 		<?php echo form_password(array(
 			'id'=>'password',
 			'name'=>'password',
+		)) ?>
+	</div>
+	<div class="field c2">
+		<?php echo form_label('Confirm Password:','confirm_password') ?>
+		<?php echo form_password(array(
+			'id'=>'confirm_password',
+			'name'=>'confirm_password',
 		)) ?>
 	</div>
 	<div class="field c3">

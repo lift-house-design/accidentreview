@@ -68,13 +68,20 @@
 				$post['is_tech']=post('is_tech') ? 1 : 0;
 				$post['is_admin']=post('is_admin') ? 1 : 0;
 				
-				if($this->user->insert($post))
+				if(post('password')==post('confirm_password'))
 				{
-					$this->set_notification('The account details for '.trim($post['first_name'].' '.$post['last_name']).' have been saved.');
-					redirect('users');
+					if($this->user->insert($post))
+					{
+						$this->set_notification('The account details for '.trim($post['first_name'].' '.$post['last_name']).' have been saved.');
+						redirect('users');
+					}
+					else
+						$this->form_validation->set_error('There was a problem saving the account details. Please try again.');
 				}
 				else
-					$this->form_validation->set_error('There was a problem saving the account details. Please try again.');
+				{
+					$this->form_validation->set_error('The password and confirm password fields did not match. Please try again.');
+				}
 			}
 			
 			$this->js[]='jquery.maskedinput-1.3.1.js';
