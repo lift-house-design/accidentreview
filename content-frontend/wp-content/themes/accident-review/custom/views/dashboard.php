@@ -424,20 +424,41 @@
 	});
 
 	// Dashboard
-	var active=false;
-	
-	if(window.location.hash)
+
+	function get_open_tab()
 	{
-		var hash=window.location.hash.substring(1);
+		var href=window.location.pathname;
+		var untrimmed_segments=href.split('/');
+		var segments=[];
+
+		for(var i in untrimmed_segments)
+		{
+			if(untrimmed_segments[i]!='')
+				segments.push(untrimmed_segments[i]);
+		}
+
+		if(segments.length > 1)
+		{
+
+			switch(segments[1])
+			{
+				case 'new-assignment':
+						return 0;
+					break;
+				case 'assignments':
+						return 1;
+					break;
+				case 'account-info':
+						return 5;
+					break;
+			}
+		}
 		
-		if(hash=='new-assignment')
-			active=0;
-		else if(hash=='assignments')
-			active=1;
-		else if(hash=='account-info')
-			active=5;
+		return false;
 	}
-	
+
+	var active=get_open_tab();
+
 	$('#dashboard').accordion({
 		active: active,
 		collapsible: true,

@@ -67,9 +67,9 @@
 			</div>
 			<?php if(is_logged_in()): ?>
 			<div id="account-options">
-				<a href="/dashboard#new-assignment">New Assignment</a>
-				<a href="/dashboard#assignments">Assignments</a>
-				<a href="/dashboard#account-info">Manage Account</a>
+				<a href="/dashboard/new-assignment">New Assignment</a>
+				<a href="/dashboard/assignments">Assignments</a>
+				<a href="/dashboard/account-info">Manage Account</a>
 				<a href="/dashboard/logout">Logout</a>
 			</div>
 			<?php endif; ?>
