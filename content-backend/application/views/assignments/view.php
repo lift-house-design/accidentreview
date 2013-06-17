@@ -212,7 +212,7 @@
 		)) ?>
 			<div class="readonly field">
 				<?php echo form_label('From:') ?>
-				Nick Niebaum
+				<?php echo $user['first_name'].' '.$user['last_name']; ?>
 			</div>
 			<div class="readonly field c1">
 				<?php echo form_label('Message:','message') ?>
