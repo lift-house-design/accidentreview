@@ -1,5 +1,5 @@
 {first_name},
 
-A tech has posted the message below to your assignment. Please log in to reply.
+A tech has posted the message below to your assignment (#{assignment_id}).
 
 {message}

@@ -130,6 +130,7 @@ function save_new_assignment()
 			{
 				$email_data=array(
 					'first_name'=>$admin['first_name'],
+					'assignment_id'=>$job_id,
 				);
 				ar_send_email('assignment_received_admin',$email_data,$admin['email']);
 			}
@@ -138,6 +139,7 @@ function save_new_assignment()
 			$user_data=ar_user_data();
 			$email_data=array(
 				'first_name'=>$user_data['first_name'],
+				'assignment_id'=>$job_id,
 			);
 			ar_send_email('assignment_received',$email_data,$user_data['email']);
 		}
@@ -407,6 +409,7 @@ function create_message()
 				$email_data=array(
 					'first_name'=>$tech['first_name'],
 					'message'=>$_POST['message'],
+					'assignment_id'=>$_POST['assignment_id'],
 				);
 				$response['email_data']=$email_data;
 				$response['tech_data']=$tech;

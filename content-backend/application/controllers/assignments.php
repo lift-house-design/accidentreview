@@ -90,6 +90,7 @@
 						$email_data=array(
 							'first_name'=>$assignment['rep']['first_name'],
 							'status'=>$assignment['status'],
+							'assignment_id'=>$id,
 						);
 
 						if(send_email('status_updated',$email_data,$assignment['rep']['email']))
@@ -131,6 +132,7 @@
 						'first_name'=>$assignment['rep']['first_name'],
 						'tech_first_name'=>$assignment['tech']['first_name'],
 						'tech_last_name'=>$assignment['tech']['last_name'],
+						'assignment_id'=>$id,
 					);
 					send_email('tech_assigned',$email_data,$assignment['rep']['email']);
 
@@ -156,8 +158,6 @@
 				->get($id);
 			$email_data=array(
 				'tech_first_name'=>$assignment['tech']['first_name'],
-				'first_name'=>$assignment['rep']['first_name'],
-				'last_name'=>$assignment['rep']['last_name'],
 				'assignment_id'=>$assignment['id'],
 			);
 
@@ -214,6 +214,7 @@
 					$email_data=array(
 						'first_name'=>$assignment['rep']['first_name'],
 						'message'=>$post['message'],
+						'assignment_id'=>$assignment['id'],
 					);
 
 					if(send_email('new_message',$email_data,$assignment['rep']['email']))

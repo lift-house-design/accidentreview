@@ -1,5 +1,3 @@
 {first_name},
 
-The status of your assignment has been updated to {status}.
-
-AccidentReview.com
+The status of your assignment (#{assignment_id}) has been updated to {status}.
