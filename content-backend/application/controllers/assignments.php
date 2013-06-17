@@ -223,6 +223,7 @@
 					}
 					else
 					{
+						$this->set_notification('ERROR SENDING EMAIL');
 						$this->form_validation->set_error('There was a problem sending a notification to the client.');
 					}
 
@@ -236,7 +237,7 @@
 
 
 			}
-			
+
 			redirect('assignments/'.post('assignment_id'));
 		}
 		

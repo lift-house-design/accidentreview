@@ -118,6 +118,10 @@ $config['email_notifications']=array(
 			'subject'=>'Assignment Update - Status Changed',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/status_updated.php'),
 		),
+		'new_message'=>array(
+			'subject'=>'Assignment Update - New Message',
+			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/new_message.php'),
+		),
 	),
 );
 

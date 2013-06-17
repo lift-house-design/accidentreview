@@ -667,7 +667,7 @@
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received_admin.php'),
 			),
 			'new_message_tech'=>array(
-				'subject'=>'New Correspondence',
+				'subject'=>'New Assignment Message',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_tech.php'),
 			),
 		);
@@ -711,8 +711,8 @@
 			from
 				ar_user
 			where
-				is_admin = 1
-		');
+				role = %s
+		','admin');
 
 		$results=$wpdb->get_results($sql,'ARRAY_A');
 
