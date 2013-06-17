@@ -31,34 +31,45 @@
 			<script>
 				function close_new_assignments()
 				{
+					if(confirmLeave)
+					{
+						if(confirm('You have unsaved changes to your new assignment that will be lost. Are you sure you want to close it?')==false)
+							return false;
+						else
+							confirmLeave=false;
+					}
+
 					$('input[type="text"].date').datepicker('destroy');
 					$('.assignment-list a').removeClass('selected');
 					$('.assignment-list > .new-assignment-panel').remove();
+
+					return true;
 				}
 				
 				$(function(){
 					function open_new_assignment(a)
 					{
-						close_new_assignments();
+						if(close_new_assignments())
+						{
+							var type=$(a).attr('class');
 						
-						var type=$(a).attr('class');
-						
-						var newAssignmentPanel=$('<div>')
-							.addClass('new-assignment-panel')
-							.html('Loading, please wait...')
-							.load('/wp-admin/admin-ajax.php',{
-								action: 'get-new-assignment-panel',
-								assignment_type: type,
-							},function(){
-								var offset=$(a).offset();
-								$('html, body').animate({
-									scrollTop: offset['top']
-								}, 'slow');
-							});
-							
-						$(a)
-							.addClass('selected')
-							.after(newAssignmentPanel);
+							var newAssignmentPanel=$('<div>')
+								.addClass('new-assignment-panel')
+								.html('Loading, please wait...')
+								.load('/wp-admin/admin-ajax.php',{
+									action: 'get-new-assignment-panel',
+									assignment_type: type,
+								},function(){
+									var offset=$(a).offset();
+									$('html, body').animate({
+										scrollTop: offset['top']
+									}, 'slow');
+								});
+								
+							$(a)
+								.addClass('selected')
+								.after(newAssignmentPanel);
+						}
 					}
 					
 					$('.assignment-list > a')
@@ -384,6 +395,13 @@
 		</div>
 	</div>
 <script>
+	var confirmLeave=false;
+
+	$(window).bind('beforeunload',function(){
+		if(confirmLeave)
+			return 'You have unsaved changes to your new assignment that will be lost. Are you sure you want to continue?';
+	});
+
 	// Add assignments link in the heading
 	$('.heading.box h2')
 		.append(

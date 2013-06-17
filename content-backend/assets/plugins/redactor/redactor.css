@@ -373,9 +373,9 @@ only screen and (                min-resolution: 2dppx) {
 .redactor_toolbar li a:hover {
 	outline: none;
 	border-color: #98a6ba;
-	border-color: rgb(162, 185, 208, .8);
+	border-color: rgba(162, 185, 208, .8);
 	background-color: #d4dce9;
-	background-color: rgb(176, 199, 223, .5);
+	background-color: rgba(176, 199, 223, .5);
 }
 .redactor_toolbar li a:active,
 .redactor_toolbar li a.redactor_act {

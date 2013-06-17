@@ -31,6 +31,9 @@ $(function(){
 		.off('click','#create-message');
 
 	$(document)
+		.on('change','input:text, textarea, select, input:radio, input:checkbox, :hidden',function(){
+			confirmLeave=true;
+		})
 		// Keys available change (vehicle-theft)
 		.on('change','.keys_available.field input[type="radio"]',function(){
 			var where=$(this).parents('fieldset').find('.keys_available_where.field');
@@ -640,6 +643,8 @@ $(function(){
 						.html('Your assignment has been saved! Please wait...');
 					$('form#new-assignment input[type="submit"]').after(msg);
 					
+					confirmLeave=false;
+
 					setTimeout(function(){
 						close_new_assignments();
 						window.location.href='/dashboard/assignments';

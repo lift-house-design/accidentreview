@@ -1,5 +1,10 @@
 $(function(){
 	$('#tabs').tabs();
+	$('.attachment .image').fancybox();
+
+	var confirmLeave=false;
+	var initialChange=false;
+
 	$(document)
 		.on('click','.change_status.button',function(){
 			var assignment_id=$('#assignment-options').data('assignment-id');
@@ -10,9 +15,26 @@ $(function(){
 			var assignment_id=$('#assignment-options').data('assignment-id');
 			var tech_assigned=$('input[name="tech_assigned"]:checked').val();
 			window.location.href='/assignments/update_tech/'+assignment_id+'/'+tech_assigned;
+		})
+		.on('submit','#findings form',function(){
+			confirmLeave=false;
+			return true;
 		});
+	
 	$('#final-report-editor').redactor({
 		minHeight: 250,
+		changeCallback: function(html){
+			if(initialChange===false)
+				initialChange=true;
+			else
+				confirmLeave=true;
+		},
 	});
-	$('.attachment .image').fancybox();
+
+	$(window).bind('beforeunload',function(){
+		if(confirmLeave)
+		{
+			return 'You have unsaved changes to the final report. Are you sure you want to continue without saving?';
+		}
+	});	
 });
