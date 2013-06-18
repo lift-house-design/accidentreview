@@ -495,11 +495,11 @@ $(function(){
 								file
 									.children('a.icon')
 									.append(this);
-								$(this)
+								/*$(this)
 									.css({
 										'margin-left': -($(this).width()/2)+'px',
 										'margin-top': -($(this).height()/2)+'px',
-									});
+									});*/
 								
 							})
 							.attr('src',data.url);
@@ -775,7 +775,7 @@ $(function(){
 	$('#image-preview #image-preview-prev').css('right',image_preview_prev_offset+'px');
 	
 	// Center images in thumbnails
-	$('.file-upload.field .file-preview .img.file a.icon img')
+	/*$('.file-upload.field .file-preview .img.file a.icon img')
 		.load(function(){
 			var width=$(this).width();
 			var height=$(this).height();
@@ -785,7 +785,7 @@ $(function(){
 					'margin-left': -(width/2)+'px',
 					'margin-top': -(height/2)+'px',
 				});
-		});
+		});*/
 	
 	$('.file-upload.field .file-preview .file .description')
 		.fancybox({

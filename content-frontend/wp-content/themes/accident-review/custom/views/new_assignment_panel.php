@@ -44,9 +44,10 @@
 				<?php $fileType=ar_get_file_class($attachment['name']); ?>
 				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
 					<a class="icon" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
-						&nbsp;
 						<?php if($fileType=='img'): ?>
 							<img src="<?php echo AR_ATTACHMENT_URL.$attachment['url'] ?>" />
+						<?php else: ?>
+							&nbsp;
 						<?php endif; ?>
 					</a>
 					<a class="description" href="#"><?php echo $attachment['description'] ?></a>
