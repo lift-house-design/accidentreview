@@ -303,6 +303,7 @@
 		
 		public function report($id)
 		{
+			$this->authenticate=FALSE;
 			$this->layout='layouts/report';
 			$this->css[]='report.css';
 			
