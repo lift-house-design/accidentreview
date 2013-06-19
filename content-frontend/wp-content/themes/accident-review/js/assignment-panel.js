@@ -479,7 +479,6 @@ $(function(){
 						.append(
 							$('<a>')
 								.addClass('icon')
-								.html('&nbsp;')
 						)
 						.append(
 							$('<a>')
