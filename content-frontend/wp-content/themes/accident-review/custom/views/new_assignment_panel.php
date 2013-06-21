@@ -171,7 +171,7 @@
 			<legend>Vehicle<?php echo ( $multiple_vehicles ?' #1' : '' ) ?> Information</legend>
 			<div class="vin_number field">
 				<label>If the VIN number is available, enter it below and click "Lookup VIN"</label>
-				<input type="text" name="vin_number" placeholder="Enter the VIN number" />
+				<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
 				<input type="button" value="Lookup VIN" />
 			</div>
 			<div class="field">

@@ -21,9 +21,9 @@
 			<div class="assignment-list">
   				<a class="vehicle-theft-analysis">Vehicle Theft Analysis</a>
 			    <a class="accident-reconstruction">Accident Reconstruction</a>
-			    <a class="fire-analysis">Fire Analysis</a>
+			    <a class="fire-analysis">Vehicle Fire Analysis</a>
 			    <a class="mechanical-analysis">Mechanical Analysis</a>
-			    <a class="physical-damage-comparison">Physical Damage Comparison</a>
+			    <a class="physical-damage-comparison">Physical Damage Analysis</a>
 			    <a class="report-review">Report Review</a>
 			    <a class="other">Other</a></li>
 			</div>

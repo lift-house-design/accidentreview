@@ -43,9 +43,9 @@
 		$types=array(
 			'vehicle-theft'=>'Vehicle Theft Analysis',
 			'accident-reconstruction'=>'Accident Reconstruction',
-			'fire-analysis'=>'Fire Analysis',
+			'fire-analysis'=>'Vehicle Fire Analysis',
 			'mechanical-analysis'=>'Mechanical Analysis',
-			'physical-damage-comparison'=>'Physical Damage Comparison',
+			'physical-damage-comparison'=>'Physical Damage Analysis',
 			'report-review'=>'Report Review',
 			'other'=>'Other',
 		);

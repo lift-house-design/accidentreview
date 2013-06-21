@@ -24,7 +24,7 @@
 	</div>
 	<div class="wrapper">
 		<div id="header">
-			<a id="logo" href="http://www.accidentreview.com">
+			<a id="logo" href="http://backend.accidentreview.com">
 				<h1>Accident Review</h1>
 			</a>
 			<div id="nav">
