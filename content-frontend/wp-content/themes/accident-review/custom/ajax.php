@@ -211,18 +211,29 @@ function get_vin_data()
  * @author Svetoslav Marinov 
  * @author http://slavi.biz 
  */ 
-function filesize2bytes($str) { 
-    $bytes = 0; 
+function to_bytes($str) { 
+	$bytes_array = array( 
+		/*'B' => 1,
+		'KB' => 1024,*/
+		'M' => 1024 * 1024, // Megabtye
+		'G' => 1024 * 1024 * 1024, // Terrabyte
+		/*'TB' => 1024 * 1024 * 1024 * 1024,
+		'PB' => 1024 * 1024 * 1024 * 1024 * 1024, */
+	);
 
-    $bytes_array = array( 
-        'B' => 1, 
-        'KB' => 1024, 
-        'MB' => 1024 * 1024, 
-        'GB' => 1024 * 1024 * 1024, 
-        'TB' => 1024 * 1024 * 1024 * 1024, 
-        'PB' => 1024 * 1024 * 1024 * 1024 * 1024, 
-    ); 
+	if(preg_match('/^(\d+)(\w\w?)$/',$str,$matches) && isset($bytes_array[$matches[2]]))
+	{
+		$value=$matches[1];
+		$bytes=$bytes_array[$matches[2]]*$value;
+		return $bytes;
+	}
+	else
+	{
+		return FALSE;
+	}
 
+
+/*
     $bytes = floatval($str); 
 
     if (preg_match('#([KMGTP]?B)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) { 
@@ -231,7 +242,7 @@ function filesize2bytes($str) {
 
     $bytes = intval(round($bytes, 2)); 
 
-    return $bytes; 
+    return $bytes; */
 } 
 
 function save_attachment()
@@ -263,13 +274,22 @@ function save_attachment()
 			
 			if($fileClass!==false)
 			{
-				/*ini_set('upload_max_filesize','1MB');
-				$upload_max_filesize=filesize2bytes(ini_get('upload_max_filesize'));
-				$post_max_size=filesize2bytes(ini_get('post_max_size'));
-				$max_filesize=( $upload_max_filesize > $post_max_size ? $post_max_size : $upload_max_filesize );
+				ini_set('upload_max_filesize','1MB');
+				ini_set('post_max_size','1MB');
+				$upload_max_filesize=to_bytes(ini_get('upload_max_filesize'));
+				$post_max_size=to_bytes(ini_get('post_max_size'));
 
-				if($tempSize < $max_filesize)
-				{*/
+				if($upload_max_filesize===FALSE && $post_max_size===FALSE)
+					$max_filesize=FALSE;
+				elseif($upload_max_filesize===FALSE && $post_max_size!==FALSE)
+					$max_filesize=$post_max_size;
+				elseif($post_max_size===FALSE && $upload_max_filesize!==FALSE)
+					$max_filesize=$upload_max_filesize;
+				else
+					$max_filesize=( $upload_max_filesize > $post_max_size ? $post_max_size : $upload_max_filesize );
+
+				if($tempSize < $max_filesize || $max_filesize===FALSE)
+				{
 					if(move_uploaded_file($tempPath,$targetPath)!==false)
 					{
 						$result=$wpdb->insert('ar_attachments',array(
@@ -298,10 +318,11 @@ function save_attachment()
 					{
 						$response['error']='There was a problem saving the file.';
 					}
-				/*}
-				else {
+				}
+				else
+				{
 					$response['error']='The attachment filesize must be less than '.round($max_filesize/(1024*1024),2).' MB.';
-				}*/
+				}
 			}
 			else
 			{
