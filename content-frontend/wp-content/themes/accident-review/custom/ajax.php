@@ -274,8 +274,6 @@ function save_attachment()
 			
 			if($fileClass!==false)
 			{
-				ini_set('upload_max_filesize','1MB');
-				ini_set('post_max_size','1MB');
 				$upload_max_filesize=to_bytes(ini_get('upload_max_filesize'));
 				$post_max_size=to_bytes(ini_get('post_max_size'));
 
@@ -287,6 +285,12 @@ function save_attachment()
 					$max_filesize=$upload_max_filesize;
 				else
 					$max_filesize=( $upload_max_filesize > $post_max_size ? $post_max_size : $upload_max_filesize );
+
+				$response['upload_max_filesize']=$upload_max_filesize;
+				$response['post_max_size']=$post_max_size;
+				$response['raw_upload_max_filesize']=ini_get('upload_max_filesize');
+				$response['raw_post_max_size']=ini_get('post_max_size');
+				$response['max_filesize']=$max_filesize;
 
 				if($tempSize < $max_filesize || $max_filesize===FALSE)
 				{
