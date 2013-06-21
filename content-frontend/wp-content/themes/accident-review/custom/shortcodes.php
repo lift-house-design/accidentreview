@@ -4,8 +4,14 @@
 	add_shortcode('new-assignment','accident_new_assignment');
 	add_shortcode('login','accident_login');
 	add_shortcode('logout','accident_logout');
-	add_shortcode('phpinfo','phpinfo');
+	add_shortcode('phpinfo','phpinfo2');
 	
+	function phpinfo2()
+	{
+		phpinfo();
+		exit;
+	}
+
 	function accident_login()
 	{
 		if(!empty($_POST['email']) && !empty($_POST['password']) && login_user($_POST['email'],$_POST['password']))
