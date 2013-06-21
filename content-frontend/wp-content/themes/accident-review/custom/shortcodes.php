@@ -4,6 +4,7 @@
 	add_shortcode('new-assignment','accident_new_assignment');
 	add_shortcode('login','accident_login');
 	add_shortcode('logout','accident_logout');
+	add_shortcode('phpinfo','phpinfo');
 	
 	function accident_login()
 	{
