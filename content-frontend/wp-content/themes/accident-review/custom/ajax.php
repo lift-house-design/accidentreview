@@ -202,6 +202,38 @@ function get_vin_data()
 	exit;
 }
 
+/** 
+ * USED IN save_attachment()
+ * Converts human readable file size (e.g. 10 MB, 200.20 GB) into bytes. 
+ * 
+ * @param string $str 
+ * @return int the result is in bytes 
+ * @author Svetoslav Marinov 
+ * @author http://slavi.biz 
+ */ 
+function filesize2bytes($str) { 
+    $bytes = 0; 
+
+    $bytes_array = array( 
+        'B' => 1, 
+        'KB' => 1024, 
+        'MB' => 1024 * 1024, 
+        'GB' => 1024 * 1024 * 1024, 
+        'TB' => 1024 * 1024 * 1024 * 1024, 
+        'PB' => 1024 * 1024 * 1024 * 1024 * 1024, 
+    ); 
+
+    $bytes = floatval($str); 
+
+    if (preg_match('#([KMGTP]?B)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) { 
+        $bytes *= $bytes_array[$matches[1]]; 
+    } 
+
+    $bytes = intval(round($bytes, 2)); 
+
+    return $bytes; 
+} 
+
 function save_attachment()
 {
 	global $wpdb;
@@ -231,34 +263,45 @@ function save_attachment()
 			
 			if($fileClass!==false)
 			{
-				if(move_uploaded_file($tempPath,$targetPath)!==false)
-				{
-					$result=$wpdb->insert('ar_attachments',array(
-						'job_id'=>$assignment_id,
-						'user_id'=>$userData['id'],
-						'name'=>$tempName,
-						'description'=>$tempName,
-						'mime_type'=>$tempType,
-						'url'=>$hashName,
-					));
-					
-					if($result!==false)
+				/*ini_set('upload_max_filesize','1MB');
+				$upload_max_filesize=filesize2bytes(ini_get('upload_max_filesize'));
+				$post_max_size=filesize2bytes(ini_get('post_max_size'));
+				$max_filesize=( $upload_max_filesize > $post_max_size ? $post_max_size : $upload_max_filesize );
+
+				if($tempSize < $max_filesize)
+				{*/
+					if(move_uploaded_file($tempPath,$targetPath)!==false)
 					{
-						$response['status']='success';
-						$response['attachment_id']=$wpdb->insert_id;
-						$response['type']=$fileClass;
-						$response['description']=$tempName;
-						$response['url']=AR_ATTACHMENT_URL.$hashName;
+						$result=$wpdb->insert('ar_attachments',array(
+							'job_id'=>$assignment_id,
+							'user_id'=>$userData['id'],
+							'name'=>$tempName,
+							'description'=>$tempName,
+							'mime_type'=>$tempType,
+							'url'=>$hashName,
+						));
+						
+						if($result!==false)
+						{
+							$response['status']='success';
+							$response['attachment_id']=$wpdb->insert_id;
+							$response['type']=$fileClass;
+							$response['description']=$tempName;
+							$response['url']=AR_ATTACHMENT_URL.$hashName;
+						}
+						else
+						{
+							$response['error']='There was a problem saving the file data.';
+						}
 					}
 					else
 					{
-						$response['error']='There was a problem saving the file data.';
+						$response['error']='There was a problem saving the file.';
 					}
-				}
-				else
-				{
-					$response['error']='There was a problem saving the file.';
-				}
+				/*}
+				else {
+					$response['error']='The attachment filesize must be less than '.round($max_filesize/(1024*1024),2).' MB.';
+				}*/
 			}
 			else
 			{
