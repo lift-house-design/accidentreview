@@ -513,6 +513,17 @@ $(function(){
 							})
 					}
 				}
+				else
+				{
+					var msg=data.error;
+
+					$('.file-upload .msg').remove();
+					$('.file-upload #upload-field').after(
+						$('<div>')
+							.html(msg)
+							.addClass('msg')
+					);
+				}
 				
 				$('.file-upload.field input[type="file"]').change(ajax_upload);
 				uploading=false;

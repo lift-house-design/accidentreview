@@ -271,34 +271,11 @@ function save_attachment()
 			$fileClass=ar_get_file_class($tempName);
 			
 			
-			
 			if($fileClass!==false)
 			{
-				$upload_max_filesize=to_bytes(ini_get('upload_max_filesize'));
-				$post_max_size=to_bytes(ini_get('post_max_size'));
+				$max_attachment_size=1024*1024*2; // 2mb
 
-				if($upload_max_filesize===FALSE && $post_max_size===FALSE)
-					$max_filesize=FALSE;
-				elseif($upload_max_filesize===FALSE && $post_max_size!==FALSE)
-					$max_filesize=$post_max_size;
-				elseif($post_max_size===FALSE && $upload_max_filesize!==FALSE)
-					$max_filesize=$upload_max_filesize;
-				else
-					$max_filesize=( $upload_max_filesize > $post_max_size ? $post_max_size : $upload_max_filesize );
-
-				$response['upload_max_filesize']=$upload_max_filesize;
-				$response['post_max_size']=$post_max_size;
-				$response['raw_upload_max_filesize']=ini_get('upload_max_filesize');
-				$response['raw_post_max_size']=ini_get('post_max_size');
-				$response['max_filesize']=$max_filesize;
-				$response['temp_size']=$tempSize;
-				
-				$response['control_1']=($tempSize < $max_filesize);
-				$response['control_2']=($max_filesize===FALSE);
-
-				echo json_encode($response); exit;
-
-				if($tempSize < $max_filesize || $max_filesize===FALSE)
+				if($tempSize < $max_attachment_size)
 				{
 					if(move_uploaded_file($tempPath,$targetPath)!==false)
 					{
@@ -331,7 +308,7 @@ function save_attachment()
 				}
 				else
 				{
-					$response['error']='The attachment filesize must be less than '.round($max_filesize/(1024*1024),2).' MB.';
+					$response['error']='The attachment file size must be less than 2 MB.';
 				}
 			}
 			else
