@@ -315,6 +315,12 @@
 				->get($id);
 			$this->data['tech']=$this->user->get($this->data['assignment']['tech_user_id']);
 		}
+
+		public function phpinfo()
+		{
+			phpinfo();
+			exit;
+		}
 	}
 	
 /* End of file assignments.php */
