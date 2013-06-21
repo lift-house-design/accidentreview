@@ -291,6 +291,12 @@ function save_attachment()
 				$response['raw_upload_max_filesize']=ini_get('upload_max_filesize');
 				$response['raw_post_max_size']=ini_get('post_max_size');
 				$response['max_filesize']=$max_filesize;
+				$response['temp_size']=$tempSize;
+				
+				$response['control_1']=($tempSize < $max_filesize);
+				$response['control_2']=($max_filesize===FALSE);
+
+				echo json_encode($response); exit;
 
 				if($tempSize < $max_filesize || $max_filesize===FALSE)
 				{
