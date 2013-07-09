@@ -36,6 +36,11 @@
 					<li><strong>Documents</strong> (txt, rtf, doc, docx, pdf)</li>
 				</ul>
 			</div>
+			<div class="file-uploading-indicator">
+				<img src="/wp-content/themes/accident-review/images/ajax-loading.gif" /><br />
+				<strong>Your upload is in progress.</strong> Files larger than 2MB in size may take substantially longer to upload dependent on your bandwidth.
+			</div>
+			<div id="file-uploading-popup"></div>
 			<input type="button" value="Upload File" />
 			<input id="upload-field" type="file" name="file" />
 			<div class="file-preview">

@@ -455,6 +455,16 @@ $(function(){
 		var assignment_id=$('input[type="hidden"][name="id"]').val();
 		uploading=true;
 		$('.file-upload.field input[type="button"]').val('Uploading...');
+		$('.file-uploading-indicator').show();
+		$('<a href="#file-uploading-popup">')
+			.fancybox({
+				padding: 20,
+				beforeShow: function(){
+					$('#file-uploading-popup').html('Your upload is in progress. Images larger than 2MB in size may take substantially longer to upload dependent on your bandwidth.');
+				},
+			})
+			.click();
+		setTimeout(function(){ $.fancybox.close(); }, 2000);
 		
 		$.ajaxFileUpload({
 			url: '/wp-admin/admin-ajax.php', 
@@ -528,6 +538,16 @@ $(function(){
 				$('.file-upload.field input[type="file"]').change(ajax_upload);
 				uploading=false;
 				$('.file-upload.field input[type="button"]').val('Upload File');
+				$('.file-uploading-indicator').hide();
+				$('<a href="#file-uploading-popup">')
+					.fancybox({
+						padding: 20,
+						beforeShow: function(){
+							$('#file-uploading-popup').html('Your upload has been completed,');
+						},
+					})
+					.click();
+				setTimeout(function(){ $.fancybox.close(); }, 2000);
 			}
 		});
 	}
@@ -706,7 +726,7 @@ $(function(){
 								var opt=$('<option>')
 									.val(val)
 									.html(data.result[val]);
-								
+								s
 								select.append(opt);
 							}
 						}

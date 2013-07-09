@@ -409,6 +409,20 @@ form button:hover,
 	color: #83A2C9;
 }
 
+.file-uploading-indicator {
+	text-align: center;
+	font-size: 11px;
+	margin: 0 auto;
+	width: 300px;
+	display: none;
+}
+
+#file-uploading-popup {
+	display: none;
+	font-size: 12px;
+	width: 300px;
+}
+
 #image-preview {
 	text-align: center;
 	background-color: #e1dcce;
