@@ -543,7 +543,7 @@ $(function(){
 					.fancybox({
 						padding: 20,
 						beforeShow: function(){
-							$('#file-uploading-popup').html('Your upload has been completed,');
+							$('#file-uploading-popup').html('Your upload has been completed.');
 						},
 					})
 					.click();
