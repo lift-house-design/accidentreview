@@ -270,10 +270,9 @@ function save_attachment()
 			$targetPath=AR_ATTACHMENT_PATH.$hashName;
 			$fileClass=ar_get_file_class($tempName);
 			
-			
 			if($fileClass!==false)
 			{
-				$max_attachment_size=1024*1024*20; // 20mb
+				$max_attachment_size=1024*1024*10; // 10mb
 
 				if($tempSize < $max_attachment_size)
 				{
@@ -295,6 +294,19 @@ function save_attachment()
 							$response['type']=$fileClass;
 							$response['description']=$tempName;
 							$response['url']=AR_ATTACHMENT_URL.$hashName;
+
+							if($response['type']=='img')
+							{
+								// Attempt to resize if it is an image
+								require_once('vendor/SimpleImage.php');
+								$img=new SimpleImage(AR_ATTACHMENT_PATH.$hashName);
+
+								if($img->getWidth()>1200)
+								{
+									$img->resizeToWidth(1200);
+									$img->save(AR_ATTACHMENT_PATH.$hashName);
+								}
+							}	
 						}
 						else
 						{
@@ -308,7 +320,7 @@ function save_attachment()
 				}
 				else
 				{
-					$response['error']='The attachment file size must be less than 20 MB.';
+					$response['error']='The attachment file size must be less than 10 MB.';
 				}
 			}
 			else
