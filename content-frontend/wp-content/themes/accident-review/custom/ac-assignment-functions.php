@@ -628,8 +628,8 @@
 			
 		$pathinfo=pathinfo($filename);
 
-		if(isset($typeMap[$pathinfo['extension']]))
-			return $typeMap[$pathinfo['extension']];
+		if(isset($typeMap[strtolower($pathinfo['extension'])]))
+			return $typeMap[strtolower($pathinfo['extension'])];
 		else
 		{
 			return false;
