@@ -273,7 +273,7 @@ function save_attachment()
 			
 			if($fileClass!==false)
 			{
-				$max_attachment_size=1024*1024*2; // 2mb
+				$max_attachment_size=1024*1024*20; // 20mb
 
 				if($tempSize < $max_attachment_size)
 				{
@@ -308,7 +308,7 @@ function save_attachment()
 				}
 				else
 				{
-					$response['error']='The attachment file size must be less than 2 MB.';
+					$response['error']='The attachment file size must be less than 20 MB.';
 				}
 			}
 			else
