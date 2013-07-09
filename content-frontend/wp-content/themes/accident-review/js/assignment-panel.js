@@ -726,7 +726,7 @@ $(function(){
 								var opt=$('<option>')
 									.val(val)
 									.html(data.result[val]);
-								s
+								
 								select.append(opt);
 							}
 						}
