@@ -8,6 +8,7 @@
 		<?php foreach($assignment_updates as $update): ?>
 			<tr>
 				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>"><?php echo $update['message'] ?></a></td>
+				<td class="arn">AR #<?php echo $update['job_id'] ?></td>
 				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>">Remove</a></td>
 			</tr>
 		<?php endforeach; ?>
@@ -15,15 +16,15 @@
 	</table>
 </div>
 <div id="dashboard">
-		<h3>Make New Assignment</h3>
+		<h3>Create New Assignment</h3>
 		<div id="new-assignment">
 			<p>Assignments are completed within 24 hours. Please select a job assignment type below:</p>
 			<div class="assignment-list">
   				<a class="vehicle-theft-analysis">Vehicle Theft Analysis</a>
-			    <a class="accident-reconstruction">Accident Reconstruction</a>
+			    <a class="accident-reconstruction">Collision Analysis/Reconstruction</a>
 			    <a class="fire-analysis">Vehicle Fire Analysis</a>
 			    <a class="mechanical-analysis">Mechanical Analysis</a>
-			    <a class="physical-damage-comparison">Physical Damage Analysis</a>
+			    <!--a class="physical-damage-comparison">Physical Damage Analysis</a-->
 			    <a class="report-review">Report Review</a>
 			    <a class="other">Other</a></li>
 			</div>
@@ -418,7 +419,17 @@
 	$('#assignment-updates a.update').click(function(){
 		var assignment_id=$(this).data('assignment-id');
 		$.fancybox.close();
-		$('#assignments tr[data-assignment-id="'+assignment_id+'"]').click();
+		$('#dashboard').accordion('option','active',1);
+		var assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]')
+		if(assignment_tr.next('.assignment-panel').length==0)
+			assignment_tr.click();
+		var offset=assignment_tr.offset();
+
+		$('html, body').animate({
+			scrollTop: offset.top-10,
+		},{
+			duration: 500,
+		});
 	});
 	$('#assignment-updates a.remove.button').click(function(){
 		$(this).html('Removing...');

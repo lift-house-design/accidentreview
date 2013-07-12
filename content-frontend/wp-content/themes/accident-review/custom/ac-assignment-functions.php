@@ -42,10 +42,10 @@
 	{
 		$types=array(
 			'vehicle-theft'=>'Vehicle Theft Analysis',
-			'accident-reconstruction'=>'Accident Reconstruction',
+			'accident-reconstruction'=>'Collision Analysis/Reconstruction',
 			'fire-analysis'=>'Vehicle Fire Analysis',
 			'mechanical-analysis'=>'Mechanical Analysis',
-			'physical-damage-comparison'=>'Physical Damage Analysis',
+			/*'physical-damage-comparison'=>'Physical Damage Analysis',*/
 			'report-review'=>'Report Review',
 			'other'=>'Other',
 		);

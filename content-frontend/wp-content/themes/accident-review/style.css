@@ -643,9 +643,9 @@ div.fancybox-skin {
 .assignment-list .mechanical-analysis {
 	background-position-y: -150px;
 }
-.assignment-list .physical-damage-comparison {
+/*.assignment-list .physical-damage-comparison {
 	background-position-y: -200px;
-}
+}*/
 .assignment-list .report-review {
 	background-position-y: -250px;
 }
@@ -1363,4 +1363,10 @@ label.required:after {
 }
 #assignment-updates a.update {
 	cursor: pointer;
+}
+#assignment-updates td.arn {
+	font-weight: bold;
+	font-size: 12px;
+	color: #0a2c79;
+	text-align: center;
 }

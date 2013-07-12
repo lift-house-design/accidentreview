@@ -95,6 +95,16 @@ $config=array(
 			'rules'=>'trim|max_length[32]',
 		),
 		array(
+			'field'=>'company_name',
+			'label'=>'Company Name',
+			'rules'=>'trim|max_length[45]',
+		),
+		array(
+			'field'=>'signature',
+			'label'=>'Signature/Title',
+			'rules'=>'trim|max_length[64]',
+		),
+		array(
 			'field'=>'email',
 			'label'=>'E-mail Address',
 			'rules'=>'trim|required|valid_email|max_length[64]',
@@ -168,6 +178,16 @@ $config=array(
 			'field'=>'last_name',
 			'label'=>'Last Name',
 			'rules'=>'trim|max_length[32]',
+		),
+		array(
+			'field'=>'company_name',
+			'label'=>'Company Name',
+			'rules'=>'trim|max_length[45]',
+		),
+		array(
+			'field'=>'signature',
+			'label'=>'Signature/Title',
+			'rules'=>'trim|max_length[64]',
 		),
 		array(
 			'field'=>'email',

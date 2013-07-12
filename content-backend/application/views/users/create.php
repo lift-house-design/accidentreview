@@ -16,6 +16,22 @@
 			'value'=>set_value('last_name'),
 		)) ?>
 	</div>
+	<div class="field c2">
+		<?php echo form_label('Company Name:','company_name') ?>
+		<?php echo form_input(array(
+			'id'=>'company_name',
+			'name'=>'company_name',
+			'value'=>set_value('company_name'),
+		)) ?>
+	</div>
+	<div class="field c2">
+		<?php echo form_label('Title/Signature:','signature') ?>
+		<?php echo form_input(array(
+			'id'=>'signature',
+			'name'=>'signature',
+			'value'=>set_value('signature'),
+		)) ?>
+	</div>
 	<div class="field c1">
 		<?php echo form_label('E-mail Address:','email') ?>
 		<?php echo form_input(array(
