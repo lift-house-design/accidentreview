@@ -19,7 +19,7 @@
 	{
 		if(!empty($_POST['email']) && !empty($_POST['password']) && login_user($_POST['email'],$_POST['password']))
 		{
-			$location='/dashboard';
+			$location='/dashboard?check_autosave=1';
 			echo 'You have been logged in. Please wait...';
 			echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
 		}

@@ -17,11 +17,11 @@
 		)) ?>
 	</div>
 	<div class="field c2">
-		<?php echo form_label('Company Name:','company_name') ?>
+		<?php echo form_label('Insurance Company:','company_name') ?>
 		<?php echo form_input(array(
 			'id'=>'company_name',
 			'name'=>'company_name',
-			'value'=>set_value('company_name'),
+			'value'=>$usr['company_name'],
 		)) ?>
 	</div>
 	<div class="field c2">
@@ -29,7 +29,7 @@
 		<?php echo form_input(array(
 			'id'=>'signature',
 			'name'=>'signature',
-			'value'=>set_value('signature'),
+			'value'=>$usr['signature'],
 		)) ?>
 	</div>
 	<div class="field c1">

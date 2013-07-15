@@ -300,15 +300,10 @@
 	</fieldset>
 </form>
 <script>
+	isNewAssignment=<?php echo empty($job_data) ? 'true' : 'false'; ?>;
 	$(function(){
-		isNewAssignment=<?php echo empty($job_data) ? 'true' : 'false'; ?>;
-		if(!isNewAssignment)
-		{
-			/*$('#assignments .assignment-panel fieldset:not(:last) .field')
-				.slideUp(0)
-				.parents('fieldset')
-				.data('collapsed',true);*/
-		}
+		if(isNewAssignment)
+			start_autosave();
 	});
 	
 </script>

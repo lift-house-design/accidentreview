@@ -1,3 +1,72 @@
+function start_autosave()
+{
+	setInterval(function(){
+		// Collect the data
+		var job_fields=$('form#new-assignment')
+			.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
+			.filter(':lt(2)')
+			.add(
+				$('form#new-assignment')
+					.children('fieldset')
+					.filter(':gt(-2)')
+			);
+		var vehicle_fields=$('form#new-assignment').children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)').filter(':gt(1)').filter(':lt(-1)');
+		
+		// Now build the data objects
+		var job_data={};
+		// Simply add all the fields in these fieldsets to the data object
+		job_fields.find('input:text, textarea, select, input:radio:checked, input:checkbox:checked, :hidden').each(function(){
+			job_data[ $(this).attr('name') ]=$(this).val();
+		});
+		// Add the autosave flag
+		job_data['autosave']=1;
+		
+		var vehicle_data=[];
+		// Iterate over each vehicle
+		vehicle_fields.each(function(){
+			var data={};
+			// Add all the data in each fieldset as a seperate array item
+			$(this).find('input:text, textarea, select, input:radio:checked, input:checkbox:checked, :hidden').each(function(){
+				var current_name=$(this).attr('name');
+				if(typeof current_name == 'string')
+				{
+					if(current_name.match(/_\d+$/))
+					{
+						var new_name=current_name.replace(/_\d+$/,'');
+					}
+					else
+						var new_name=current_name;
+					
+					data[ new_name ]=$(this).val();
+				}
+			});
+			vehicle_data.push(data);
+		});
+
+		// Save the assignment
+		$.ajax({
+		     url: '/wp-admin/admin-ajax.php',
+		     type: 'post',
+		     data: {
+			 	job: job_data,
+				vehicles: vehicle_data,
+				action: 'save-new-assignment',
+				new_assignment: 0,
+				autosave: 1,
+			 },
+			 dataType: 'json',
+		     success: function(data,textStatus,jqXHR){
+				console.log('autosave:');
+				console.log(data);
+			},
+			error: function(jqXHR,textStatus,errorThrown){
+				console.log('autosave error:');
+				console.log(textStatus);
+			},
+		});
+	},30000);
+}
+
 $(function(){
 	// Radio buttons
 	//$('.ui-radios').buttonset();
@@ -6,6 +75,8 @@ $(function(){
 	$('input[type="text"].date').datepicker({
 		dateFormat: 'yy-mm-dd'
 	});
+
+
 
 	// Remove events
 	$(document)
@@ -478,6 +549,7 @@ $(function(){
 			success: function(data) {
 				console.log(data);
 				data=$.parseJSON(data);
+				console.log(data);
 				
 				if(data.status != 'error')
 				{
@@ -1040,7 +1112,9 @@ $(function(){
 				},
 				success: function(data,textStatus,jqXHR){
 					data=$.parseJSON(data);
-					
+					console.log('#create-message response:');
+					console.log(data);
+
 					if(data.status=='success')
 					{
 						var correspondence_container=$(self).parents('fieldset').find('.correspondence-container');

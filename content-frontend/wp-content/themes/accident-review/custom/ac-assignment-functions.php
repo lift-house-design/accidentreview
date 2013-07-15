@@ -291,7 +291,8 @@
 				ar_job
 			where
 				client_user_id = %d and
-				type IS NULL
+				type IS NULL and
+				autosave = 0
 		',
 		$userData['id']);
 		
@@ -332,6 +333,7 @@
 			'loss_description',
 			'services_requested',
 			'tos_agreement',
+			'autosave',
 		);
 		$vehicle_fields=array(
 			//'job_id',
@@ -395,6 +397,10 @@
 				unset($job_data[$field]);
 			}
 		}
+
+		// Be sure to remove the autosave flag if we are actually saving this time
+		if(empty($job['autosave']))
+			$job['autosave']=0;
 			
 		/**
 		 * Prepare job answer data
@@ -670,6 +676,18 @@
 				'subject'=>'New Assignment Message',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_tech.php'),
 			),
+			'new_message_admin'=>array(
+				'subject'=>'New Assignment Message',
+				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_admin.php'),
+			),
+			'new_attachment_tech'=>array(
+				'subject'=>'New Assignment Attachment',
+				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_tech.php'),
+			),
+			'new_attachment_admin'=>array(
+				'subject'=>'New Assignment Attachment',
+				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_admin.php'),
+			),
 		);
 
 		$subject=$templates[$template]['subject'];
@@ -694,8 +712,9 @@
 		$mailer->FromName=AR_EMAIL_FROM_NAME;
 		$mailer->AddAddress($to);
 
+		$mailer->IsHTML(true);
 		$mailer->Subject=$subject;
-		$mailer->Body=$message;
+		$mailer->Body=nl2br($message);
 		$mailer->AltBody=$message;
 
 		return $mailer->Send();

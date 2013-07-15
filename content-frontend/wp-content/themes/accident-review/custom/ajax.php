@@ -122,8 +122,9 @@ function save_new_assignment()
 
 		// Send notifications
 		$is_new_assignment=empty($_POST['new_assignment']) ? FALSE : TRUE;
+		$autosave=empty($_POST['autosave']) ? FALSE : TRUE;
 
-		if($is_new_assignment===TRUE)
+		if($is_new_assignment===TRUE && $autosave===FALSE)
 		{
 			// Notify admins
 			foreach(ar_get_admin_users() as $admin)
@@ -295,6 +296,83 @@ function save_attachment()
 							$response['description']=$tempName;
 							$response['url']=AR_ATTACHMENT_URL.$hashName;
 
+							/*
+							 * Now send e-mail notifications
+							 */
+
+							$sql=$wpdb->prepare('
+								select
+									*
+								from
+									ar_job
+								where
+									id = %d
+								limit 1
+							',$assignment_id);
+							$assignment=$wpdb->get_row($sql,'ARRAY_A');
+
+							// Only send e-mail notifications if this is an EXISTING ASSIGNMENT (type is not set until the assignment is submitted)
+							if($assignment['type']!==NULL)
+							{
+								$sql=$wpdb->prepare('
+									select
+										*
+									from
+										ar_user
+									where
+										id = %d
+									limit 1
+								',$assignment['tech_user_id']);
+								$tech=$wpdb->get_row($sql,'ARRAY_A');
+								
+								$attachment_type_map=array(
+									'img'=>'Photo',
+									'word'=>'Word Document',
+									'pdf'=>'PDF Document',
+									'txt'=>'Text Document',
+								);
+								$attachment_type=$attachment_type_map[$fileClass];
+								$attachment_name=$tempName;
+								$attachment_url=$response['url'];
+
+								// If a tech is assigned to this attachment's assignment, send them an e-mail
+								if($tech!==NULL)
+								{
+									// Now send the tech a notification
+									$email_data=array(
+										'first_name'=>$tech['first_name'],
+										'assignment_id'=>$assignment_id,
+										'attachment_type'=>$attachment_type,
+										'attachment_name'=>$attachment_name,
+										'attachment_url'=>$attachment_url,
+									);
+									$response['email_data']=$email_data;
+									$response['tech_data']=$tech;
+									$response['email_response']=ar_send_email('new_attachment_tech',$email_data,$tech['email']);
+								}
+								// If no tech is assigned, send all administrators an e-mail
+								else
+								{
+									$response['email_data']=array();
+									$response['admin_data']=array();
+									$response['email_response']=array();
+
+									foreach(ar_get_admin_users() as $admin)
+									{
+										$email_data=array(
+											'first_name'=>$admin['first_name'],
+											'assignment_id'=>$assignment_id,
+											'attachment_type'=>$attachment_type,
+											'attachment_name'=>$attachment_name,
+											'attachment_url'=>$attachment_url,
+										);
+										$response['email_data'][]=$email_data;
+										$response['admin_data'][]=$admin;
+										$response['email_response'][]=ar_send_email('new_attachment_admin',$email_data,$admin['email']);;
+									}
+								}
+							}
+
 							if($response['type']=='img')
 							{
 								// Attempt to resize if it is an image
@@ -306,7 +384,7 @@ function save_attachment()
 									$img->resizeToWidth(1200);
 									$img->save(AR_ATTACHMENT_PATH.$hashName);
 								}
-							}	
+							}
 						}
 						else
 						{
@@ -467,16 +545,39 @@ function create_message()
 					limit 1
 				',$_POST['assignment_id']);
 				$tech=$wpdb->get_row($sql,'ARRAY_A');
+				
+				// If a tech is assigned to this assignment, send them an e-mail
+				if($tech!==NULL)
+				{
+					// Now send the tech a notification
+					$email_data=array(
+						'first_name'=>$tech['first_name'],
+						'message'=>$_POST['message'],
+						'assignment_id'=>$_POST['assignment_id'],
+					);
+					$response['email_data']=$email_data;
+					$response['tech_data']=$tech;
+					$response['email_response']=ar_send_email('new_message_tech',$email_data,$tech['email']);
+				}
+				// If no tech is assigned, send all administrators the same e-mail
+				else
+				{
+					$response['email_data']=array();
+					$response['admin_data']=array();
+					$response['email_response']=array();
 
-				// Now send the tech a notification
-				$email_data=array(
-					'first_name'=>$tech['first_name'],
-					'message'=>$_POST['message'],
-					'assignment_id'=>$_POST['assignment_id'],
-				);
-				$response['email_data']=$email_data;
-				$response['tech_data']=$tech;
-				$response['email_response']=ar_send_email('new_message_tech',$email_data,$tech['email']);
+					foreach(ar_get_admin_users() as $admin)
+					{
+						$email_data=array(
+							'first_name'=>$admin['first_name'],
+							'message'=>$_POST['message'],
+							'assignment_id'=>$_POST['assignment_id'],
+						);
+						$response['email_data'][]=$email_data;
+						$response['admin_data'][]=$admin;
+						$response['email_response'][]=ar_send_email('new_message_admin',$email_data,$admin['email']);;
+					}
+				}
 			}
 			else
 				$response['error']='There was a problem saving the message.';

@@ -100,7 +100,8 @@
 					ar_job
 				where
 					client_user_id = %d and
-					type IS NOT NULL
+					type IS NOT NULL and
+					autosave = 0
 			',$userData['id']);
 			$jobs=$wpdb->get_results($sql,'ARRAY_A');
 			
@@ -324,7 +325,7 @@
 				<a class="edit">Edit</a>
 			</div>
 			<div class="editable-field" data-name="company_name">
-				<label>Company</label>
+				<label>Insurance Company</label>
 				<span class="field"><?php echo $company ?></span>
 				<a class="edit">Edit</a>
 			</div>
@@ -643,4 +644,11 @@
 		
 		e.preventDefault();
 	});
+
+	<?php if(isset($_GET['check_autosave'])): ?>
+		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
+			alert('yes');
+		else
+			alert('no');
+	<?php endif; ?>
 </script>
