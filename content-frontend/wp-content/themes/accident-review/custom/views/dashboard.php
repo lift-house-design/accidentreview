@@ -93,16 +93,44 @@
 			global $wpdb;
 			$userData=ar_user_data();
 			
-			$sql=$wpdb->prepare('
-				select
-					*
-				from
-					ar_job
-				where
-					client_user_id = %d and
-					type IS NOT NULL and
-					autosave = 0
-			',$userData['id']);
+			if($userData['role']=='client_admin')
+			{
+				$sql=$wpdb->prepare('
+					select
+						client_rep_id
+					from
+						ar_admin_clients
+					where
+						client_admin_id = %d
+				',$userData['id']);
+				$user_ids=$wpdb->get_col($sql);
+				$user_ids[]=$userData['id'];
+
+				$sql=$wpdb->prepare('
+					select
+						*
+					from
+						ar_job
+					where
+						client_user_id in ('.implode(',',$user_ids).') and
+						type IS NOT NULL and
+						autosave = 0
+				');
+			}
+			else
+			{
+				$sql=$wpdb->prepare('
+					select
+						*
+					from
+						ar_job
+					where
+						client_user_id = %d and
+						type IS NOT NULL and
+						autosave = 0
+				',$userData['id']);
+			}
+
 			$jobs=$wpdb->get_results($sql,'ARRAY_A');
 			
 			if(empty($jobs))
@@ -200,16 +228,19 @@
 							<th>Submitted</th>
 							<th>Loss Type</th>
 							<th>AR Tech</th>
+							<?php if($userData['role']=='client_admin'): ?>
+							<th>Rep</th>
+							<?php endif; ?>
 						</tr>
 					</thead>
 					<tbody>
 					<?php foreach($jobs as $job): ?>
 						<?php
-							$job['rep_name']='Unassigned';
+							$job['tech_name']='Unassigned';
 							if(!empty($job['tech_user_id']))
 							{
 								$tech=ar_user_data($job['tech_user_id']);
-								$job['rep_name']=$tech['first_name'].' '.$tech['last_name'];
+								$job['tech_name']=$tech['first_name'].' '.$tech['last_name'];
 							}
 							
 							$job['date_of_loss_displayed']='';
@@ -217,6 +248,19 @@
 								$job['date_of_loss_displayed']=date('m/d/Y',strtotime($job['date_of_loss']));
 								
 							$job['submitted_displayed']=date('m/d/Y H:i:s',strtotime($job['created_at']));
+
+							if($userData['role']=='client_admin')
+							{
+								if($job['client_user_id']==$userData['id'])
+								{
+									$job['rep_name']='<strong>You</strong>';
+								}
+								else
+								{
+									$rep=ar_user_data($job['client_user_id']);
+									$job['rep_name']=$rep['first_name'].' '.$rep['last_name'];
+								}
+							}
 						?>
 						<tr data-assignment-id="<?php echo $job['id'] ?>">
 							<td><?php echo $job['file_number'] ?></td>
@@ -226,7 +270,10 @@
 							<td><?php echo $job['id'] ?></td>
 							<td><?php echo $job['submitted_displayed'] ?></td>
 							<td><?php echo ar_get_assignment_type_name($job['type']) ?></td>
+							<td><?php echo $job['tech_name'] ?></td>
+							<?php if($userData['role']=='client_admin'): ?>
 							<td><?php echo $job['rep_name'] ?></td>
+							<?php endif; ?>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
