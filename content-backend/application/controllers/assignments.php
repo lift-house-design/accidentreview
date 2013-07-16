@@ -14,6 +14,7 @@
 			
 			$assignment_where=array(
 				'type IS NOT NULL'=>NULL,
+				'autosave'=>0,
 			);
 			
 			if($this->user->has_role('tech') && !$this->user->has_role('admin'))

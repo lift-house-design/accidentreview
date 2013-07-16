@@ -22,7 +22,7 @@
 		</div>
 		<div class="required field">
 			<label class="required">Date of Loss</label>
-			<input type="text" class="date required" name="date_of_loss" placeholder="Enter date of loss"<?php echo empty($job_data['date_of_loss']) ? '' : ' value="'.date('Y-m-d',strtotime($job_data['date_of_loss'])).'"' ?> />
+			<input type="text" class="date required" name="date_of_loss" placeholder="Enter date of loss"<?php echo empty($job_data['date_of_loss']) || $job_data['date_of_loss']=='0000-00-00' ? '' : ' value="'.date('Y-m-d',strtotime($job_data['date_of_loss'])).'"' ?> />
 		</div>
 	</fieldset>
 	<fieldset>
@@ -228,7 +228,7 @@
 			<?php endif; ?>
 		</fieldset>
 	<?php endif; ?>
-	<?php if(!empty($job_data)): ?>
+	<?php if(!empty($job_data)&&$job_data['autosave']==0): ?>
 		<fieldset class="correspondence-fieldset">
 			<legend>Correspondence</legend>
 			<div class="correspondence-container field">
@@ -275,7 +275,7 @@
 			</div>
 		</fieldset>
 	<?php endif; ?>
-	<?php if(!empty($job_data) && $job_data['status']=='Complete'): ?>
+	<?php if(!empty($job_data) && $job_data['autosave']==0 && $job_data['status']=='Complete'): ?>
 		<fieldset class="final-review-fieldset">
 			<legend>Final Review</legend>
 			<div class="field">
@@ -285,8 +285,8 @@
 		</fieldset>
 	<?php endif; ?>
 	<fieldset>
-		<legend><?php echo empty($job_data) ? 'Create' : 'Save' ?> Assignment</legend>
-		<?php if(empty($job_data)): ?>
+		<legend><?php echo empty($job_data)||$job_data['autosave']==1 ? 'Create' : 'Save' ?> Assignment</legend>
+		<?php if(empty($job_data)||$job_data['autosave']==1): ?>
 		<div class="field"> <!-- @TODO: change the url to the terms and conditions -->
 			<label>Before submitting, you must read and agree to the terms of service</label>
 			<input type="checkbox" name="tos_agreement" id="tos-agreement" value="1" /><label for="tos-agreement" class="checkbox-label">I have read and agree to the <a href="/terms-conditions" target="_blank">terms of service</a>.</label>
@@ -300,7 +300,7 @@
 	</fieldset>
 </form>
 <script>
-	isNewAssignment=<?php echo empty($job_data) ? 'true' : 'false'; ?>;
+	isNewAssignment=<?php echo empty($job_data)||$job_data['autosave']==1 ? 'true' : 'false'; ?>;
 	$(function(){
 		if(isNewAssignment)
 			start_autosave();

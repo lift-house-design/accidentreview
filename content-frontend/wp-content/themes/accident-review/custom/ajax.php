@@ -38,6 +38,8 @@ add_action('wp_ajax_delete-attachment','delete_attachment');
 add_action('wp_ajax_nopriv_delete-attachment','delete_attachment');
 add_action('wp_ajax_create-message','create_message');
 add_action('wp_ajax_nopriv_create-message','create_message');
+add_action('wp_ajax_clear-autosaves','clear_autosaves');
+add_action('wp_ajax_nopriv_clear-autosaves','clear_autosaves');
 
 /*add_action('wp_ajax_vehicle-test','vehicle_test');
 add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
@@ -592,6 +594,108 @@ function create_message()
 		$response['error']='The message was not found.';
 	}
 	
+	echo json_encode($response);
+	exit;
+}
+
+function clear_autosaves()
+{
+	global $wpdb;
+	$user_data=ar_user_data();
+
+	$sql=$wpdb->prepare('
+		select
+			id
+		from
+			ar_job
+		where
+			client_user_id = %d and
+			autosave = 1
+	',$user_data['id']);
+	$autosaved_assignment_ids=$wpdb->get_col($sql);
+
+	if(empty($autosaved_assignment_ids))
+	{
+		$response['status']='There were no autosaved assignments to remove.';
+	}
+	else
+	{
+		$count=0;
+		foreach($autosaved_assignment_ids as $autosaved_assignment_id)
+		{
+			// Get vehicle IDs
+			$sql=$wpdb->prepare('
+				select
+					id
+				from
+					ar_job_vehicle
+				where
+					job_id = %d
+			',$autosaved_assignment_id);
+			$vehicle_ids=$wpdb->get_col($sql);
+
+			// Delete vehicle answers
+			foreach($vehicle_ids as $vehicle_id)
+			{
+				$sql=$wpdb->prepare('
+					delete from
+						ar_job_vehicle_answer
+					where
+						vehicle_id = %d
+				',$vehicle_id);
+				$wpdb->query($sql);
+			}
+
+			// Delete vehicles
+			$sql=$wpdb->prepare('
+				delete from
+					ar_job_vehicle
+				where
+					job_id = %d
+			',$autosaved_assignment_id);
+			$wpdb->query($sql);
+
+			// Delete job answers
+			$sql=$wpdb->prepare('
+				delete from
+					ar_job_answer
+				where
+					job_id = %d
+			',$autosaved_assignment_id);
+			$wpdb->query($sql);
+
+			// Delete job updates (there shouldn't be any of these, but just for good measure...)
+			$sql=$wpdb->prepare('
+				delete from
+					ar_update
+				where
+					job_id = %d
+			',$autosaved_assignment_id);
+			$wpdb->query($sql);
+
+			// Delete attachments
+			$sql=$wpdb->prepare('
+				delete from
+					ar_attachments
+				where
+					job_id = %d
+			',$autosaved_assignment_id);
+			$wpdb->query($sql);
+
+			// Delete job
+			$sql=$wpdb->prepare('
+				delete from
+					ar_job
+				where
+					id = %d
+				limit 1
+			',$autosaved_assignment_id);
+			$count+=$wpdb->query($sql);
+		}
+
+		$response['status']='Removed '.$count.' assignments.';
+	}
+
 	echo json_encode($response);
 	exit;
 }

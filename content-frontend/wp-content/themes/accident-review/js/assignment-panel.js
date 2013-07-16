@@ -56,15 +56,19 @@ function start_autosave()
 			 },
 			 dataType: 'json',
 		     success: function(data,textStatus,jqXHR){
-				console.log('autosave:');
+				console.log('<autosave>');
+				console.log('data received:');
 				console.log(data);
+				console.log('job data sent:');
+				console.log(job_data);
+				console.log('</autosave>');
 			},
 			error: function(jqXHR,textStatus,errorThrown){
 				console.log('autosave error:');
 				console.log(textStatus);
 			},
 		});
-	},30000);
+	},10000);
 }
 
 $(function(){

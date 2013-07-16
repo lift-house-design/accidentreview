@@ -645,10 +645,66 @@
 		e.preventDefault();
 	});
 
-	<?php if(isset($_GET['check_autosave'])): ?>
+	function open_autosaved_assignment(id,type)
+	{
+
+
+		if(close_new_assignments())
+		{
+			$('#dashboard')
+				.bind('accordionactivate',function(){
+					var type_to_classname_map={
+						'vehicle-theft':'vehicle-theft-analysis',
+						'accident-reconstruction':'accident-reconstruction',
+						'fire-analysis':'fire-analysis',
+						'mechanical-analysis':'mechanical-analysis',
+						'report-review':'report-review',
+						'other':'other',
+					};
+					var anchor_class=type_to_classname_map[type];
+
+					var newAssignmentPanel=$('<div>')
+						.addClass('new-assignment-panel')
+						.html('Loading, please wait...')
+						.load('/wp-admin/admin-ajax.php',{
+							action: 'get-assignment-panel',
+							id: id
+						},function(){
+							var offset=$('#new-assignment a.'+anchor_class).offset();
+							$('html, body').animate({
+								scrollTop: offset['top']
+							}, 'slow');
+						});
+						
+					$('#new-assignment a.'+anchor_class)
+						.addClass('selected')
+						.after(newAssignmentPanel);
+				})
+				.accordion('option','active',0);
+		}
+	}
+
+	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
-			alert('yes');
+		{
+			var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
+			var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
+
+			open_autosaved_assignment(assignment_id,assignment_type);
+		}
 		else
-			alert('no');
+		{
+			$.ajax({
+				url: '/wp-admin/admin-ajax.php',
+				type: 'post',
+				data: {
+                    action: 'clear-autosaves',
+				},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+				}
+			});
+		}
 	<?php endif; ?>
 </script>

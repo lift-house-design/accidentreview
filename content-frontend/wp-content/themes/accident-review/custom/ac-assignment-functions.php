@@ -52,6 +52,29 @@
 		
 		return isset($types[$type]) ? $types[$type] : 'Unknown';
 	}
+
+	function ar_get_autosaved_assignment()
+	{
+		global $wpdb;
+		$user_data=ar_user_data();
+
+		$sql=$wpdb->prepare('
+			select
+				id
+			from
+				ar_job
+			where
+				client_user_id = %d and
+				autosave = 1
+			limit 1
+		',$user_data['id']);
+		$autosaved_assignment_id=$wpdb->get_var($sql);
+
+		if($autosaved_assignment_id===NULL)
+			return FALSE;
+		else
+			return ar_get_assignment_data($autosaved_assignment_id);
+	}
 	
 	function ar_get_assignment_data($job_id)
 	{
@@ -291,8 +314,10 @@
 				ar_job
 			where
 				client_user_id = %d and
-				type IS NULL and
-				autosave = 0
+				(
+					type IS NULL or
+					autosave = 1
+				)
 		',
 		$userData['id']);
 		
