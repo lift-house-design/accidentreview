@@ -20,8 +20,10 @@
 		
 		protected $return_type='array';
 		
-		public $after_get=array();
+		public $after_get=array('after_get');
 		
+		public $before_delete=array('before_delete');
+
 		public $logged_in=FALSE;
 		
 		public $data;
@@ -39,7 +41,34 @@
 		
 		protected function after_get($data)
 		{
+			if($data['role']=='client_admin')
+			{
+				$client_reps=array();
+				$client_reps_result=$this->_database->get_where('ar_admin_clients',array(
+					'client_admin_id'=>$data['id'],
+				));
 
+				foreach($client_reps_result->result_array() as $row)
+					$client_reps[]=$row['client_rep_id'];
+
+				$data['client_reps']=$client_reps;
+			}
+			else
+				$data['client_reps']=array();
+
+			return $data;
+		}
+
+		protected function before_delete($id)
+		{
+			$this->_database->delete('ar_admin_clients',array(
+				'client_admin_id'=>$id
+			));
+			$this->_database->delete('ar_admin_clients',array(
+				'client_rep_id'=>$id
+			));
+
+			return true;
 		}
 		
 		public function log_in($email=NULL,$password=NULL)
@@ -103,6 +132,23 @@
 				$user=$this->user->get($id);
 			
 			return $user['role']==$role;
+		}
+
+		public function save_client_reps($client_reps,$user_id)
+		{
+			// Delete current saved reps
+			$this->_database->delete('ar_admin_clients',array(
+				'client_admin_id'=>$user_id,
+			));
+
+			// Now insert new rows for the new reps
+			foreach($client_reps as $rep_id)
+			{
+				$this->_database->insert('ar_admin_clients',array(
+					'client_admin_id'=>$user_id,
+					'client_rep_id'=>$rep_id,
+				));
+			}
 		}
 	}
 	

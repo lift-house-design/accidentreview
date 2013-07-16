@@ -443,3 +443,8 @@ button,
 	font-size: 12px;
 	font-style: italic;
 }
+
+#client-administrator-options {
+	display: none;
+	margin-top: 10px;
+}

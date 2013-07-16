@@ -121,6 +121,15 @@
 	</div>
 	<div class="checkbox field">
 		<?php echo form_radio(array(
+			'id'=>'role_client_admin',
+			'name'=>'role',
+			'value'=>'client_admin',
+			'checked'=>set_value('role')=='client_admin',
+		)) ?>
+		<?php echo form_label('This user is a client administrator','role_client_admin') ?>
+	</div>
+	<div class="checkbox field">
+		<?php echo form_radio(array(
 			'id'=>'role_tech',
 			'name'=>'role',
 			'value'=>'tech',
@@ -136,6 +145,20 @@
 			'checked'=>set_value('role')=='admin',
 		)) ?>
 		<?php echo form_label('This user is an administrator','role_admin') ?>
+	</div>
+	<div id="client-administrator-options">
+		<h2>Client Administrator's Reps</h2>
+		<p>Client administrators can see each of their rep's submitted assignments.</p>
+		<?php foreach($client_admin_reps_options as $client_rep): ?>
+			<div class="checkbox field">
+				<?php echo form_checkbox(array(
+					'id'=>'client_rep_'.$client_rep['id'],
+					'name'=>'client_reps[]',
+					'value'=>$client_rep['id'],
+				)) ?>
+				<?php echo form_label($client_rep['first_name'].' '.$client_rep['last_name'],'client_rep_'.$client_rep['id']) ?>
+			</div>
+		<?php endforeach; ?>
 	</div>
 	<div class="buttons">
 		<?php echo form_submit('save_user','Save User') ?>

@@ -1,6 +1,6 @@
 function start_autosave()
 {
-	setInterval(function(){
+	autosave_timer=setInterval(function(){
 		// Collect the data
 		var job_fields=$('form#new-assignment')
 			.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
@@ -749,6 +749,8 @@ $(function(){
 						.html('Your assignment has been saved! Please wait...');
 					$('form#new-assignment input[type="submit"]').after(msg);
 					
+					if(typeof autosave_timer=='number')
+						clearInterval(autosave_timer);
 					confirmLeave=false;
 
 					setTimeout(function(){

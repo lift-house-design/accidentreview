@@ -41,6 +41,11 @@
 				// Save the account information
 				if($this->user->update($id,$post))
 				{
+					if(empty($post['client_reps']))
+						$post['client_reps']=array();
+
+					$this->user->save_client_reps($post['client_reps'],$id);
+					
 					$this->set_notification('The account details for '.trim($post['first_name'].' '.$post['last_name']).' have been updated.');
 					
 					// Only redirect if there was no problem with changing the password
@@ -55,7 +60,9 @@
 			$this->js[]='actions/users-edit.js';
 			
 			$this->data['usr']=$this->user->get($id);
+
 			$this->data['state_options']=states_array(array(''=>'(select a state)'));
+			$this->data['client_admin_reps_options']=$this->user->get_many_by('role','client');
 		}
 		
 		public function create()
@@ -72,6 +79,13 @@
 				{
 					if($this->user->insert($post))
 					{
+						$id=$this->db->insert_id();
+
+						if(empty($post['client_reps']))
+							$post['client_reps']=array();
+
+						$this->user->save_client_reps($post['client_reps'],$id);
+
 						$this->set_notification('The account details for '.trim($post['first_name'].' '.$post['last_name']).' have been saved.');
 						redirect('users');
 					}
@@ -88,6 +102,7 @@
 			$this->js[]='actions/users-create.js';
 			
 			$this->data['state_options']=states_array(array(''=>'(select a state)'));
+			$this->data['client_admin_reps_options']=$this->user->get_many_by('role','client');
 		}
 		
 		public function delete($id)
