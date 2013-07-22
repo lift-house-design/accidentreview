@@ -724,20 +724,32 @@
 			$message=str_replace('{'.$k.'}',$v,$message);
 		}
 
-		require_once('vendor/phpmailer/class.phpmailer.php');
+		static $mailer;
 
-		$mailer=new PHPMailer;
-		$mailer->isSMTP();
-		$mailer->Host=AR_EMAIL_HOST;
-		$mailer->Username=AR_EMAIL_USER;
-		$mailer->Password=AR_EMAIL_PASS;
-		$mailer->SMTPAuth=TRUE;
+		if(isset($mailer))
+		{
+			$mailer->ClearAddresses();
+		}
+		else
+		{
+			require_once('vendor/phpmailer/class.phpmailer.php');
 
-		$mailer->From=AR_EMAIL_FROM_EMAIL;
-		$mailer->FromName=AR_EMAIL_FROM_NAME;
+			$mailer=new PHPMailer;
+			$mailer->isSMTP();
+			$mailer->Host=AR_EMAIL_HOST;
+			$mailer->Username=AR_EMAIL_USER;
+			$mailer->Password=AR_EMAIL_PASS;
+			$mailer->SMTPAuth=TRUE;
+			$mailer->SMTPKeepAlive=TRUE;
+			//$mailer->SMTPDebug=1;
+
+			$mailer->From=AR_EMAIL_FROM_EMAIL;
+			$mailer->FromName=AR_EMAIL_FROM_NAME;
+
+			$mailer->IsHTML(true);
+		}
+
 		$mailer->AddAddress($to);
-
-		$mailer->IsHTML(true);
 		$mailer->Subject=$subject;
 		$mailer->Body=nl2br($message);
 		$mailer->AltBody=$message;

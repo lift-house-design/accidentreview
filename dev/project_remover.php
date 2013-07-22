@@ -73,6 +73,13 @@
 			where
 				job_id = '.$job_id.'
 		');
+		echo T.'- Deleting correspondence'.NL;
+		query('
+			delete from
+				ar_correspondence
+			where
+				job_id = '.$job_id.'
+		');
 		echo T.'- Deleting job'.NL;
 		query('
 			delete from

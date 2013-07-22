@@ -158,14 +158,29 @@ if(!function_exists('send_email'))
 {
 	function send_email($template,$data,$to)
 	{
-		$CI=get_instance();
-		$CI->load->library('email');
-		$config=config('email_notifications');
+		
 
-		if(empty($config['templates'][$template]))
-			return FALSE;
-		if(!empty($config['config']))
-			$CI->email->initialize($config['config']);
+		static $email;
+
+		if(isset($email))
+		{
+			$email->clear();
+		}
+		else
+		{
+			$CI=get_instance();
+			$CI->load->library('email');
+
+			// Set a reference to the email library; this will also tell
+			// this function to skip initialization on the next call
+			$email=$CI->email;
+			$config=config('email_notifications');
+
+			if(empty($config['templates'][$template]))
+				return FALSE;
+			if(!empty($config['config']))
+				$email->initialize($config['config']);
+		}
 
 		$subject=$config['templates'][$template]['subject'];
 		$message=$config['templates'][$template]['message'];
@@ -176,12 +191,12 @@ if(!function_exists('send_email'))
 			$message=str_replace('{'.$k.'}',$v,$message);
 		}
 
-		$CI->email->from($config['sender_email'],$config['sender_name']);
-		$CI->email->to($to);
-		$CI->email->subject($subject);
-		$CI->email->message($message);
+		$email->from($config['sender_email'],$config['sender_name']);
+		$email->to($to);
+		$email->subject($subject);
+		$email->message($message);
 
-		return $CI->email->send();
+		return $email->send();
 	}
 }
 
