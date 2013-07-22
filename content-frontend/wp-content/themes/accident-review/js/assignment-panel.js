@@ -730,6 +730,10 @@ $(function(){
 			$('form#new-assignment input[type="submit"]').after(msg);
 		}
 		
+		// Clear the timed autosave so that it does not overwrite the assignment after it is saved
+		if(typeof autosave_timer=='number')
+			clearInterval(autosave_timer);
+
 		// Save the assignment
 		$.ajax({
 		     url: '/wp-admin/admin-ajax.php',
@@ -749,8 +753,6 @@ $(function(){
 						.html('Your assignment has been saved! Please wait...');
 					$('form#new-assignment input[type="submit"]').after(msg);
 					
-					if(typeof autosave_timer=='number')
-						clearInterval(autosave_timer);
 					confirmLeave=false;
 
 					setTimeout(function(){

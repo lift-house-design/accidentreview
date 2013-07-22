@@ -158,8 +158,6 @@ if(!function_exists('send_email'))
 {
 	function send_email($template,$data,$to)
 	{
-		
-
 		static $email;
 
 		if(isset($email))
