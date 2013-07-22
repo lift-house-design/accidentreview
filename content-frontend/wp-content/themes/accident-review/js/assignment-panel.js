@@ -540,7 +540,7 @@ $(function(){
 			})
 			.click();
 		setTimeout(function(){ $.fancybox.close(); }, 2000);
-		console.log('file upload sent with id: '+assignment_id);
+		
 		$.ajaxFileUpload({
 			url: '/wp-admin/admin-ajax.php', 
 			secureuri: false,
