@@ -1,7 +1,6 @@
 $(function(){
 	$('#assignments').dataTable({
 		sPaginationType: 'full_numbers',
-		iDisplayLength: 4,
 	});
 	$(document)
 		.on('click','#assignments .view',function(){
