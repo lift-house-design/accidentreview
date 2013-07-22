@@ -313,8 +313,9 @@ function save_attachment()
 							',$assignment_id);
 							$assignment=$wpdb->get_row($sql,'ARRAY_A');
 
-							// Only send e-mail notifications if this is an EXISTING ASSIGNMENT (type is not set until the assignment is submitted)
-							if($assignment['type']!==NULL)
+							// Only send e-mail notifications if this is an EXISTING ASSIGNMENT
+							// (existing assignment is an assignment whos type is set and autosave is 0)
+							if($assignment['type']!==NULL && $assignment['autosave']==0)
 							{
 								$sql=$wpdb->prepare('
 									select
