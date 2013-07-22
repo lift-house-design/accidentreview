@@ -144,8 +144,9 @@
 				<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/jquery.dataTables.css" />
 				<script>
 					$(function(){
-						$('#assignments').dataTable({
+						assignments_datatable=$('#assignments').dataTable({
 							sPaginationType: 'full_numbers',
+							iDisplayLength: 2,
 						});
 						
 						function close_assignments()
@@ -445,6 +446,7 @@
 	</div>
 <script>
 	var confirmLeave=false;
+	var assignments_datatable=false;
 
 	$(window).bind('beforeunload',function(){
 		if(confirmLeave)
@@ -468,7 +470,35 @@
 		var assignment_id=$(this).data('assignment-id');
 		$.fancybox.close();
 		$('#dashboard').accordion('option','active',1);
-		var assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]')
+
+		var assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]');
+
+		// If the assignment is not on the current page, we need to go to that page
+		if(assignment_tr.length==0)
+		{
+			// Remove any currently open assignment panel
+			$('#assignments .assignment-panel').remove();
+			$('#assignments tr.selected').removeClass('selected');
+
+			var settings=assignments_datatable.fnSettings();
+			var perPage=settings._iDisplayLength;
+			var data=assignments_datatable.fnGetData();
+			var page=1;
+
+			for(var i in data)
+			{
+				var row=data[i];
+				if(assignment_id==row[4])
+				{
+					page=Math.ceil((parseFloat(i)+1)/perPage);
+					break;
+				}
+			}
+
+			assignments_datatable.fnPageChange(page-1); // 0-based page indices
+			assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]');
+		}
+		
 		if(assignment_tr.next('.assignment-panel').length==0)
 			assignment_tr.click();
 		var offset=assignment_tr.offset();
