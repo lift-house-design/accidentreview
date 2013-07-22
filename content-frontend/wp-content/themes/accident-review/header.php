@@ -39,7 +39,7 @@
 	<div id="top-panel">
 		<div class="wrapper">
 		<?php if(is_logged_in()): ?>
-			Welcome, <a href="/dashboard#account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a>
+			Welcome, <a href="/dashboard/account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a>
 		<?php else: ?>
 			<form action="/dashboard/login" method="post">
 				<input type="text" name="email" placeholder="E-mail" />
