@@ -43,6 +43,17 @@ $config['database']=array(
 	'db_debug'=>$config['dev_mode'],
 );*/
 
+/* DEV DATABASE
+-------------------------------------------------------------------------*/
+/*$config['database']=array(
+	'hostname'=>'localhost',
+	'username'=>'thomas',
+	'password'=>'iotaalpha08',
+	'database'=>'thomas_accidentreview',
+	'dbdriver'=>'mysql',
+	'db_debug'=>$config['dev_mode'],
+);*/
+
 /*
 |--------------------------------------------------------------------------
 | General Site Configuration

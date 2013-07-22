@@ -14,7 +14,10 @@
 | path to your installation.
 |
 */
+// Local/Production
 $config['base_url']	= 'http://backend.accidentreview.com';
+// Dev
+//$config['base_url']	= 'http://backend.accidentreview.com';
 
 /*
 |--------------------------------------------------------------------------

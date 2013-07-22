@@ -19,19 +19,30 @@ session_start();
 
 // ** MySQL settings - You can get this info from your web host ** //
 
+define('DB_HOST', 'localhost');
+
+// Local
 define('DB_NAME', 'accidentreview');
 define('DB_USER', 'root');
 define('DB_PASSWORD', 'root');
 
+// Production
 /*define('DB_NAME', 'accidentreviewdb');
 define('DB_USER', 'accidentreview');
 define('DB_PASSWORD', 'D4gGH#2$nMV');*/
 
-/** The name of the database for WordPress */
-/** MySQL database username */
-/** MySQL database password */
-/** MySQL hostname */
-define('DB_HOST', 'localhost');
+// Dev
+/*define('DB_NAME', 'thomas_accidentreview');
+define('DB_USER', 'thomas');
+define('DB_PASSWORD', 'iotaalpha08');*/
+
+// Local/Production
+define('WP_HOME','http://accidentreview.com');
+define('WP_SITEURL','http://accidentreview.com');
+
+// Dev
+//define('WP_HOME','http://accidentreview.lifthousedesign.com');
+//define('WP_SITEURL','http://accidentreview.lifthousedesign.com');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
@@ -89,9 +100,6 @@ define('WPLANG', '');
  * in their development environments.
  */
 define('WP_DEBUG', false);
-
-define('WP_HOME','http://accidentreview.com');
-define('WP_SITEURL','http://accidentreview.com');
 
 /* That's all, stop editing! Happy blogging. */
 
