@@ -56,12 +56,12 @@ function start_autosave()
 			 },
 			 dataType: 'json',
 		     success: function(data,textStatus,jqXHR){
-				console.log('<autosave>');
+				/*console.log('<autosave>');
 				console.log('data received:');
 				console.log(data);
 				console.log('job data sent:');
 				console.log(job_data);
-				console.log('</autosave>');
+				console.log('</autosave>');*/
 			},
 			error: function(jqXHR,textStatus,errorThrown){
 				console.log('autosave error:');
@@ -540,7 +540,7 @@ $(function(){
 			})
 			.click();
 		setTimeout(function(){ $.fancybox.close(); }, 2000);
-		
+		console.log('file upload sent with id: '+assignment_id);
 		$.ajaxFileUpload({
 			url: '/wp-admin/admin-ajax.php', 
 			secureuri: false,
