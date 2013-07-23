@@ -58,6 +58,7 @@ function get_assignment_panel()
 		$assignment_type=$job_data['type'];
 		$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
 		$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
+		$claimant_questions=( empty($assignment_data[$assignment_type]['claimant_questions']) ? array() : $assignment_data[$assignment_type]['claimant_questions'] );
 		$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 		
 		$assignment_attachments=$job_data['attachments'];
@@ -83,6 +84,7 @@ function get_new_assignment_panel()
 	}
 	$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
 	$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
+	$claimant_questions=( empty($assignment_data[$assignment_type]['claimant_questions']) ? array() : $assignment_data[$assignment_type]['claimant_questions'] );
 	$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 	
 	// Get new assignment attachments

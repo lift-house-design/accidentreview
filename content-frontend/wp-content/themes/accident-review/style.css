@@ -1122,11 +1122,33 @@ strong {
 	text-transform: uppercase;
 	font-size: 13px;
 	text-align: left;
+	position: relative;
 }
+#new-assignment fieldset legend a.remove.button {
+	position: absolute;
+	top: 6px;
+	bottom: 6px;
+	right: 6px;
+	background-color: #9e0a11;
+	line-height: 20px;
+	text-transform: none;
+	font-size: 11px;
+	color: #fff;
+}
+#new-assignment fieldset legend a.remove.button:hover {
+	background-color: #a85259;
+}
+/*#vehicles-container fieldset.vehicle:first-child legend a.remove.button,
+#claimants-container fieldset.claimant:first-child legend a.remove.button {
+	display: none;
+}*/
 #new-assignment .field {
 	background-color: #fff;
 	text-align: center;
 	padding-bottom: 10px;
+}
+#new-assignment .buttons.field {
+	padding: 5px 0 15px 0;
 }
 #new-assignment .field > label {
 	padding: 10px 15px;
@@ -1147,7 +1169,14 @@ strong {
 	height: 100px;
 }
 #new-assignment .field-row select {
-	width: 200px;
+	width: 240px;
+}
+#new-assignment .field-row input[type="text"] {
+	width: 220px;
+}
+#new-assignment .field-row span {
+	font-size: 11px;
+	margin-right: 10px;
 }
 #new-assignment .field label.checkbox-label {
 	display: inline;
@@ -1164,6 +1193,12 @@ strong {
 }
 #new-assignment .field label.checkbox-label a:hover {
 	color: #83A2C9;
+}
+
+#new-assignment #vehicles-container,
+#new-assignment #claimants-container {
+	padding: 0 20px;
+	background-color: #fff;
 }
 
 /**

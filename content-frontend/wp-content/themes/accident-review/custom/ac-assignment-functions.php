@@ -247,43 +247,44 @@
 						'hidden'=>true,
 					),
 				),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 				
 			),
 			'accident-reconstruction'=>array(
-				'job_questions'=>array(
-					'location_of_loss'=>array(
-						'question_type'=>'textarea',
-						'question'=>'Location of Loss',
-						'placeholder'=>'Enter description of the location of loss',
-					),
-				),
+				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 			'fire-analysis'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 			'mechanical-analysis'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 			'physical-damage-comparison'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 			'report-review'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 			'other'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
+				'claimant_questions'=>array(),
 				'multiple_vehicles'=>true,
 			),
 		);
