@@ -1,3 +1,98 @@
+function get_assignment_data(check_for_errors)
+{
+	if(check_for_errors!==false)
+	{
+		// Check for terms of service agreement
+		if(isNewAssignment && $('input[name="tos_agreement"]:checked').length==0)
+		{
+			return 'You must accept the terms and conditions to continue.';
+		}
+
+		// Check for required fields
+		var required_error=$([]);
+		$('input:text.required, textarea.required, select.required').each(function(){
+			if($.trim($(this).val().toString())=='')
+			{
+				required_error=required_error.add(this);
+			}
+		});
+
+		if(required_error.length>0)
+		{
+			// Add error class to inputs, remove it when value is changed
+			required_error
+				.addClass('error')
+				.change(function(){
+					$(this)
+						.removeClass('error');
+					$(document).off('change',this);
+				});
+
+			return 'You have not filled out some required fields. Fields marked with * are required, please try again.';
+		}
+	}
+
+	var input_selector='input[type="text"], textarea, select, input[type="radio"]:checked, input[type="checkbox"]:checked, input[type="hidden"]';
+
+	// Sort the data into the different entities
+	var job_data={};
+	var vehicle_data=[];
+	var claimant_data=[];
+
+	// Get job data
+	$('form#new-assignment > fieldset:first-child, form#new-assignment > fieldset:last-child')
+		.find(input_selector)
+		.each(function(){
+			if($(this).parents('#vehicles-container, #claimants-container, .file-upload.field').length==0)
+				job_data[ $(this).attr('name') ]=$(this).val();
+		});
+
+	// Get each vehicle's data
+	$('#vehicles-container > .vehicle')
+		.each(function(){
+			// Get data for this vehicle
+			var data={};
+			$(this)
+				.find(input_selector)
+				.each(function(){
+					// If element's name ends in _{int}, remove it
+					var name=$(this).attr('name');
+					if(name.match(/_\d+$/))
+						name=name.replace(/_\d+$/,'');
+
+					// Add data to the object
+					data[name]=$(this).val();
+				});
+			// Add object to the array
+			vehicle_data.push(data);
+		});
+
+	// Get each claimant's data
+	$('#claimants-container > .claimant')
+		.each(function(){
+			// Get data for this claimant
+			var data={};
+			$(this)
+				.find(input_selector)
+				.each(function(){
+					// If element's name ends in _{int}, remove it
+					var name=$(this).attr('name');
+					if(name.match(/_\d+$/))
+						name=name.replace(/_\d+$/,'');
+
+					// Add data to the object
+					data[name]=$(this).val();
+				});
+			// Add object to the array
+			claimant_data.push(data);
+		});
+
+	return {
+		'job': job_data,
+		'vehicles': vehicle_data,
+		'claimants': claimant_data
+	};
+}
 /*
 |--------------------------------------------------------------------------
 | Autosave
@@ -6,67 +101,25 @@
 function start_autosave()
 {
 	autosave_timer=setInterval(function(){
-		// Collect the data
-		var job_fields=$('form#new-assignment')
-			.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
-			.filter(':lt(2)')
-			.add(
-				$('form#new-assignment')
-					.children('fieldset')
-					.filter(':gt(-2)')
-			);
-		var vehicle_fields=$('form#new-assignment').children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)').filter(':gt(1)').filter(':lt(-1)');
-		
-		// Now build the data objects
-		var job_data={};
-		// Simply add all the fields in these fieldsets to the data object
-		job_fields.find('input:text, textarea, select, input:radio:checked, input:checkbox:checked, :hidden').each(function(){
-			job_data[ $(this).attr('name') ]=$(this).val();
-		});
-		// Add the autosave flag
-		job_data['autosave']=1;
-		
-		var vehicle_data=[];
-		// Iterate over each vehicle
-		vehicle_fields.each(function(){
-			var data={};
-			// Add all the data in each fieldset as a seperate array item
-			$(this).find('input:text, textarea, select, input:radio:checked, input:checkbox:checked, :hidden').each(function(){
-				var current_name=$(this).attr('name');
-				if(typeof current_name == 'string')
-				{
-					if(current_name.match(/_\d+$/))
-					{
-						var new_name=current_name.replace(/_\d+$/,'');
-					}
-					else
-						var new_name=current_name;
-					
-					data[ new_name ]=$(this).val();
-				}
-			});
-			vehicle_data.push(data);
-		});
+		// Get assignment data
+		var assignment_data=get_assignment_data(false);
+		assignment_data.action='save-new-assignment';
+		assignment_data.new_assignment=0;
+		assignment_data.job.autosave=1;
 
 		// Save the assignment
 		$.ajax({
 		     url: '/wp-admin/admin-ajax.php',
 		     type: 'post',
-		     data: {
-			 	job: job_data,
-				vehicles: vehicle_data,
-				action: 'save-new-assignment',
-				new_assignment: 0,
-				autosave: 1,
-			 },
+		     data: assignment_data,
 			 dataType: 'json',
 		     success: function(data,textStatus,jqXHR){
-				/*console.log('<autosave>');
+				console.log('<autosave>');
 				console.log('data received:');
 				console.log(data);
 				console.log('job data sent:');
-				console.log(job_data);
-				console.log('</autosave>');*/
+				console.log(assignment_data);
+				console.log('</autosave>');
 			},
 			error: function(jqXHR,textStatus,errorThrown){
 				console.log('autosave error:');
@@ -85,16 +138,16 @@ $(function(){
 	// Remove events set by a previous assignment panel load
 	$(document)
 		.off('change','.keys_available.field input[type="radio"]')
-		.off('click','.vin_number.field input[type="button"]')
+		.off('click','input[type="button"].vin-lookup')
 		.off('change','select[name="year"]')
 		.off('change','select[name="make"]')
-		.off('click','#add-vehicle')
-		.off('click','#remove-vehicle')
-		.off('change','select[name="belongs_to"]')
+		.off('click','#addvehicle')
+		.off('click','#vehicles-container fieldset.vehicle legend a.remove.button')
+		.off('click','#addclaimant')
+		.off('click','#claimants-container fieldset.claimant legend a.remove.button')
 		.off('click','.file-upload.field input[type="button"]')
 		.off('change','.file-upload.field input[type="file"]')
 		.off('submit','form#new-assignment')
-		.off('click','#assignments .assignment-panel fieldset:not(:last) > legend')
 		.off('load','.file-upload.field .file-preview .img.file a.icon img')
 		.off('click','#image-preview #image-preview-next')
 		.off('click','#image-preview #image-preview-prev')
@@ -127,7 +180,7 @@ $(function(){
 		| VIN Submit
 		|--------------------------------------------------------------------------
 		*/
-		.on('click','.vin_number.field input[type="button"]',function(){
+		.on('click','input[type="button"].vin-lookup',function(){
 			var vin_lookup=this;
 			var vin=$(this).siblings('input[type="text"]').val();
 			
@@ -150,7 +203,7 @@ $(function(){
 			     	function show_vin_msg(err,fadeOut)
 			     	{
 			     		$(vin_lookup)
-							.parents('.field')
+							.parents('.field-row')
 							.find('.msg')
 							.remove();
 							
@@ -171,8 +224,8 @@ $(function(){
 			         if(data.status=='success')
 					 {
 					 	var vehicle_description=$(vin_lookup)
-							.parents('.field')
-							.next('.field');
+							.parents('.field-row')
+							.next('.field-row');
 						
 						// Set year
 						vehicle_description
@@ -203,9 +256,10 @@ $(function(){
 							)
 							.removeAttr('disabled');
 						
-						// Move focus to the owner name field
+						// Move focus to the operator field
 						vehicle_description
-							.find('input[name="owners_name"]')
+							.parents('.field')
+							.find('input[name="operator"]')
 							.focus();
 							
 						// Show a message
@@ -459,7 +513,7 @@ $(function(){
 			}, {
 				duration: 500,
 				complete: function(){
-					claimant.find('input[name="vin_number"]').focus();
+					claimant.find('input[name="claimant_name"]').focus();
 				}
 			});
 		})
@@ -874,6 +928,78 @@ $(function(){
 	*/
 	$('form#new-assignment').submit(function(e){
 		e.preventDefault();
+
+		function show_msg(msg)
+		{
+			clear_msg();
+
+			$('form#new-assignment input[type="submit"]')
+				.after(
+					$('<div>')
+						.addClass('msg')
+						.html(msg)
+				);
+		}
+
+		function clear_msg()
+		{
+			// Clear previous message
+			$('form#new-assignment input[type="submit"]')
+				.siblings('.msg')
+				.remove();
+		}
+
+		// Get the assignment data
+		var assignment_data=get_assignment_data();
+		
+		// If there was an error
+		if(typeof assignment_data == 'string')
+		{
+			// Display it and return
+			show_msg(assignment_data);
+			return;
+		}
+		else
+			clear_msg();
+
+		// Add required data for the ajax request
+		assignment_data.action='save-new-assignment';
+		assignment_data.new_assignment=isNewAssignment ? 1 : 0;
+
+		// Stop autosaving so that it does not overwrite the assignment after it is saved
+		if(typeof autosave_timer=='number')
+			clearInterval(autosave_timer);
+
+		// Save the assignment
+		$.ajax({
+		     url: '/wp-admin/admin-ajax.php',
+		     type: 'post',
+		     data: assignment_data,
+			 dataType: 'json',
+		     success: function(data,textStatus,jqXHR){
+		     	//console.log(data); return;
+				if(data.status=='success')
+				{
+					show_msg('Your assignment has been saved! Please wait...');
+					
+					confirmLeave=false;
+					setTimeout(function(){
+						close_new_assignments();
+						window.location.href='/dashboard/assignments';
+					},2000);
+				}
+				else
+				{
+					show_msg('An error has occured: '+data.error);
+				}
+			},
+			error: function(jqXHR,textStatus,errorThrown){
+				show_msg('An error occurred: '+errorThrown);
+			},
+		});
+	});
+	/*$('form#new-assignment').submit(function(e){
+		e.preventDefault();
 		
 		// Clear previous message
 		$('form#new-assignment input[type="submit"]').siblings('.msg').remove();
@@ -993,10 +1119,6 @@ $(function(){
 					setTimeout(function(){
 						close_new_assignments();
 						window.location.href='/dashboard/assignments';
-						/*$('#assignments').dataTable().fnAddData([
-							
-						]);
-						$('#dashboard').accordion('option','active',1);*/
 					},2000);
 				}
 				else
@@ -1006,7 +1128,7 @@ $(function(){
 				formError(errorThrown);
 			},
 		});
-	});
+	});*/
 	
 	// Populate vehicle year dropdown
 	$.ajax({
@@ -1051,23 +1173,14 @@ $(function(){
 					});
 			}
 			
-			vehicleTemplate=$('#vehicles-container fieldset.vehicle:eq(0)').clone();
-			vehicleTemplate
-				.css('display','block')
-				.find(':input:not(:button,:radio,:checkbox)')
-				.val('');
-			claimantTemplate=$('#claimants-container fieldset.claimant:eq(0)').clone();
-			claimantTemplate
-				.css('display','block')
-				.find(':input:not(:button,:radio,:checkbox)')
-				.val('');
-			$('.ui-radios').buttonset();
+			vehicleTemplate=$('#vehicles-container #vehicle-template').clone();
+			vehicleTemplate.removeAttr('id');
+			$('#vehicles-container #vehicle-template').remove();
+			claimantTemplate=$('#claimants-container #claimant-template').clone();
+			claimantTemplate.removeAttr('id');
+			$('#claimants-container #claimant-template').remove();
 
-			if(isNewAssignment)
-			{
-				$('#vehicles-container fieldset.vehicle').remove();
-				$('#claimants-container fieldset.claimant').remove();
-			}
+			$('.ui-radios').buttonset();
 	     },
 	});
 	

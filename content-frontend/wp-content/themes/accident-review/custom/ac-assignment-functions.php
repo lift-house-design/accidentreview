@@ -127,7 +127,8 @@
 			from
 				ar_job_vehicle
 			where
-				job_id = %d
+				job_id = %d and
+				type = "vehicle"
 		',$job_id);
 		
 		$vehicles=$wpdb->get_results($sql,'ARRAY_A');
@@ -160,7 +161,52 @@
 			
 			$job['vehicles']=$vehicles;
 		}
+
+		/**
+		 * Get the job claimant data
+		 */
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_job_vehicle
+			where
+				job_id = %d and
+				type = "claimant"
+		',$job_id);
 		
+		$claimants=$wpdb->get_results($sql,'ARRAY_A');
+		
+		if($claimants!=null)
+		{
+			/**
+			 * Get each claimant vehicle question data
+			 */
+			foreach($claimants as $i=>$vehicle)
+			{
+				$sql=$wpdb->prepare('
+					select
+						question_key,
+						answer
+					from
+						ar_job_vehicle_answer
+					where
+						vehicle_id = %d
+				',$vehicle['id']);
+				
+				$answers=$wpdb->get_results($sql,'ARRAY_A');
+				
+				if($answers!=null)
+				{
+					foreach($answers as $answer)
+						$claimants[$i][$answer['question_key']]=$answer['answer'];
+				}
+			}
+			
+			$job['claimants']=$claimants;
+		}
+
+		// Get attachments
 		$sql=$wpdb->prepare('
 			select
 				*
@@ -340,10 +386,10 @@
 		return $job_id;
 	}
 	
-	function ar_save_new_assignment($job_id,$job_data,$vehicles_data)
+	function ar_save_new_assignment($job_id,$job_data,$vehicles_data,$claimants_data)
 	{
 		global $wpdb;
-		$userData=ar_user_data();
+		$user_data=ar_user_data();
 		
 		/**
 		 * Get field arrays
@@ -353,25 +399,24 @@
 			'client_user_id',
 			'type',
 			'file_number',
-			'insured_name',
-			'claimant_name',
 			'date_of_loss',
+			'insured_name',
 			'loss_description',
 			'services_requested',
+			'loss_location',
 			'tos_agreement',
 			'autosave',
 		);
 		$vehicle_fields=array(
-			//'job_id',
+			'claimant_name',
+			'type',
 			'vin_number',
 			'year',
 			'make',
 			'model',
-			'owners_name',
-			'belongs_to',
+			'operator',
 			'color',
 			'registration_number',
-			'modifications',
 			'additional_info',
 		);
 		$answer_fields=array(
@@ -386,6 +431,7 @@
 		
 		$job_question_fields=$assignment_meta[$assignment_type]['job_questions'];
 		$vehicle_question_fields=$assignment_meta[$assignment_type]['vehicle_questions'];
+		$claimant_question_fields=$assignment_meta[$assignment_type]['claimant_questions'];
 		
 		/**
 		 * Check to make sure that job exists and belongs to this user
@@ -400,17 +446,17 @@
 				id = %d and
 				client_user_id = %d
 		',
-		$job_id, $userData['id']);
+		$job_id, $user_data['id']);
 		$job_row=$wpdb->get_row($sql,'ARRAY_A');
 		if($job_row===NULL)
-			return 'Unable to find job '.$job_id.' belonging to user '.$userData['id'];
+			return 'Unable to find job '.$job_id.' belonging to user '.$user_data['id'];
 		
 		/**
 		 * Prepare job data
 		 **/
 		
 		$job=array(
-			'client_user_id'=>$userData['id'],
+			'client_user_id'=>$user_data['id'],
 		);
 		if($job_row['type']=='')
 			$job['created_at']=date('Y-m-d H:i:s');
@@ -488,7 +534,6 @@
 				if(isset($vehicle_data[$question_key]))
 				{
 					$vehicle_answer=array(
-						//'job_id'=>$job_id,
 						'question_key'=>$question_key,
 						'answer'=>$vehicle_data[$question_key],
 					);
@@ -509,6 +554,58 @@
 			$vehicle['answers']=$vehicle_answers;
 			
 			$vehicles[]=$vehicle;
+		}
+		
+		/**
+		 * Prepare claimant data
+		 */	
+		 
+		$claimants=array();
+		foreach($claimants_data as $claimant_data)
+		{
+			$claimant=array(
+				'job_id'=>$job_id,
+			);
+			foreach($vehicle_fields as $field)
+			{
+				if(isset($claimant_data[$field]))
+				{
+					$claimant[$field]=$claimant_data[$field];
+					unset($claimant_data[$field]);
+				}
+			}
+			
+			/**
+			 * Prepare claimant answer data
+			 */
+			
+			$claimant_answers=array();
+			foreach($claimant_question_fields as $question_key=>$question)
+			{
+				// If it's found
+				if(isset($claimant_data[$question_key]))
+				{
+					$claimant_answer=array(
+						'question_key'=>$question_key,
+						'answer'=>$claimant_data[$question_key],
+					);
+					
+					foreach($answer_fields as $field)
+					{
+						if(isset($question[$field]))
+						{
+							$claimant_answer[$field]=$question[$field];
+						}
+					}
+					
+					$claimant_answers[]=$claimant_answer;
+					unset($claimant_data[$question_key]);
+				}
+			}
+			
+			$claimant['answers']=$claimant_answers;
+			
+			$claimants[]=$claimant;
 		}
 		
 		/**
@@ -621,13 +718,41 @@
 			}
 			
 			/**
+			 * Insert claimants
+			 **/
+			foreach($claimants as $claimant)
+			{
+				$claimant_answers=$claimant['answers'];
+				unset($claimant['answers']);
+				
+				$success=$wpdb->insert('ar_job_vehicle',$claimant);
+				
+				if($success===false)
+					throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				
+				$vehicle_id=$wpdb->insert_id;
+				
+				/**
+				 * Insert claimant answers
+				 **/
+				foreach((array)$claimant_answers as $claimant_answer)
+				{
+					$claimant_answer['vehicle_id']=$vehicle_id;
+					$success=$wpdb->insert('ar_job_vehicle_answer',$claimant_answer);
+					
+					if($success===false)
+						throw new Exception('Line No. '.__LINE__.': '.mysql_error());
+				}
+			}
+			
+			/**
 			 * Update the activeCollab attachments with the ticket ID
 			 */
 			$success=$wpdb->update('ar_attachments',array(
 				'job_id'=>$job_id,
 			),array(
 				'job_id'=>0,
-				'user_id'=>$userData['id'],
+				'user_id'=>$user_data['id'],
 			));
 			
 			if($success===false)

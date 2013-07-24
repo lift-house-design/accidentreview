@@ -27,14 +27,15 @@
 			<input type="button" id="addvehicle" value="Add Vehicle" />
 		</div>
 		<div id="vehicles-container">
-			<fieldset class="vehicle"<?php echo $is_new_assignment ? ' style="display: none;"' : '' ?>>
+			<fieldset id="vehicle-template" class="vehicle">
+				<input type="hidden" name="type" value="vehicle" />
 				<legend>Insured Vehicle <a class="remove button">Remove Vehicle</a></legend>
 				<div class="field">
 					<label class="required">Vehicle Description</label>
 					<div class="field-row">
 						<span>If the VIN number is available, enter it below and click "Submit"</span>
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
-						<input type="button" value="Submit" />
+						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
 					<div class="field-row">
 						<select name="year" class="required">
@@ -64,13 +65,67 @@
 					<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"></textarea>
 				</div>
 			</fieldset>
+			<?php if(!empty($job_data['vehicles'])): ?>
+				<?php $i=0 ?>
+				<?php foreach($job_data['vehicles'] as $vehicle_data): ?>
+					<?php $i++ ?>
+					<fieldset class="vehicle">
+						<input type="hidden" name="type" value="vehicle" />
+						<legend>Insured Vehicle <a class="remove button">Remove Vehicle</a></legend>
+						<div class="field">
+							<label class="required">Vehicle Description</label>
+							<div class="field-row">
+								<span>If the VIN number is available, enter it below and click "Submit"</span>
+								<input type="text" name="vin_number" placeholder="Enter the full VIN number"<?php echo empty($vehicle_data['vin_number']) ? '' : ' value="'.$vehicle_data['vin_number'].'"' ?> />
+								<input type="button" class="vin-lookup" value="Submit" />
+							</div>
+							<div class="field-row">
+								<select name="year" class="required">
+									<option value="">Year:</option>
+									<?php if(!empty($vehicle_data['year'])): ?>
+										<option value="<?php echo $vehicle_data['year'] ?>" selected="selected"><?php echo $vehicle_data['year'] ?></option>
+									<?php endif; ?>
+								</select>
+								<select name="make" disabled="disabled" class="required">
+									<option value="">Make:</option>
+									<?php if(!empty($vehicle_data['make'])): ?>
+										<option value="<?php echo ar_get_make_id($vehicle_data['year'],$vehicle_data['make']) ?>" selected="selected"><?php echo $vehicle_data['make'] ?></option>
+									<?php endif; ?>
+								</select>
+								<select name="model" disabled="disabled" class="required">
+									<option value="">Model:</option>
+									<?php if(!empty($vehicle_data['model'])): ?>
+										<option value="<?php echo $vehicle_data['model'] ?>" selected="selected"><?php echo $vehicle_data['model'] ?></option>
+									<?php endif; ?>
+								</select>
+							</div>
+							<div class="field-row">
+								<input type="text" name="operator" class="required" placeholder="Enter vehicle operator's name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
+								<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
+								<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
+							</div>
+						</div>
+						<?php foreach($vehicle_questions as $question_key=>$question): ?>
+						<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
+							<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+							<?php ar_display_question_field($question_key,$question,( empty($vehicle_data[$question_key]) ? false : $vehicle_data[$question_key] ),$i) ?>
+						</div>
+						<?php endforeach; ?>
+						<div class="field">
+							<label>Additional Vehicle Information</label>
+							<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"><?php echo empty($vehicle_data['additional_info']) ? '' : $vehicle_data['additional_info'] ?></textarea>
+						</div>
+					</fieldset>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 		<div class="field">
 			<label>Claimants</label>
 			<input type="button" id="addclaimant" value="Add Claimant" />
 		</div>
 		<div id="claimants-container">
-			<fieldset class="claimant"<?php echo $is_new_assignment ? ' style="display: none;"' : '' ?>>
+			<fieldset id="claimant-template" class="claimant">
+				<input type="hidden" name="type" value="claimant" />
 				<legend>Claimant <a class="remove button">Remove Claimant</a></legend>
 				<div class="field">
 					<label class="required">Claimant Name</label>
@@ -81,21 +136,21 @@
 					<div class="field-row">
 						<span>If the VIN number is available, enter it below and click "Submit"</span>
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
-						<input type="button" value="Submit" />
+						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
 					<div class="field-row">
-						<select name="year" class="required">
+						<select name="year">
 							<option value="">Year:</option>
 						</select>
-						<select name="make" disabled="disabled" class="required">
+						<select name="make" disabled="disabled">
 							<option value="">Make:</option>
 						</select>
-						<select name="model" disabled="disabled" class="required">
+						<select name="model" disabled="disabled">
 							<option value="">Model:</option>
 						</select>
 					</div>
 					<div class="field-row">
-						<input type="text" name="operator" class="required" placeholder="Enter vehicle operator's name" />
+						<input type="text" name="operator" placeholder="Enter vehicle operator's name" />
 						<input type="text" name="color" placeholder="Enter vehicle's color" />
 						<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
 					</div>
@@ -111,11 +166,85 @@
 					<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"></textarea>
 				</div>
 			</fieldset>
+			<?php if(!empty($job_data['claimants'])): ?>
+				<?php $i=0 ?>
+				<?php foreach($job_data['claimants'] as $claimant_data): ?>
+					<?php $i++ ?>
+					<fieldset class="claimant">
+						<input type="hidden" name="type" value="claimant" />
+						<legend>Claimant <a class="remove button">Remove Claimant</a></legend>
+						<div class="field">
+							<label class="required">Claimant Name</label>
+							<input type="text" class="required" name="claimant_name" placeholder="Enter claimant name"<?php echo empty($claimant_data['claimant_name']) ? '' : ' value="'.$claimant_data['claimant_name'].'"' ?> />
+						</div>
+						<div class="field">
+							<label>Vehicle Description</label>
+							<div class="field-row">
+								<span>If the VIN number is available, enter it below and click "Submit"</span>
+								<input type="text" name="vin_number" placeholder="Enter the full VIN number"<?php echo empty($claimant_data['vin_number']) ? '' : ' value="'.$claimant_data['vin_number'].'"' ?> />
+								<input type="button" class="vin-lookup" value="Submit" />
+							</div>
+							<div class="field-row">
+								<select name="year">
+									<option value="">Year:</option>
+									<?php if(!empty($vehicle_data['year'])): ?>
+										<option value="<?php echo $vehicle_data['year'] ?>" selected="selected"><?php echo $vehicle_data['year'] ?></option>
+									<?php endif; ?>
+								</select>
+								<select name="make" disabled="disabled">
+									<option value="">Make:</option>
+									<?php if(!empty($vehicle_data['make'])): ?>
+										<option value="<?php echo ar_get_make_id($vehicle_data['year'],$vehicle_data['make']) ?>" selected="selected"><?php echo $vehicle_data['make'] ?></option>
+									<?php endif; ?>
+								</select>
+								<select name="model" disabled="disabled">
+									<option value="">Model:</option>
+									<?php if(!empty($vehicle_data['model'])): ?>
+										<option value="<?php echo $vehicle_data['model'] ?>" selected="selected"><?php echo $vehicle_data['model'] ?></option>
+									<?php endif; ?>
+								</select>
+							</div>
+							<div class="field-row">
+								<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($claimant_data['operator']) ? '' : ' value="'.$claimant_data['operator'].'"' ?> />
+								<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($claimant_data['color']) ? '' : ' value="'.$claimant_data['color'].'"' ?> />
+								<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($claimant_data['registration_number']) ? '' : ' value="'.$claimant_data['registration_number'].'"' ?> />
+							</div>
+						</div>
+						<?php foreach($claimant_questions as $question_key=>$question): ?>
+						<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
+							<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+							<?php ar_display_question_field($question_key,$question,( empty($claimant_data[$question_key]) ? false : $claimant_data[$question_key] ),$i) ?>
+						</div>
+						<?php endforeach; ?>
+						<div class="field">
+							<label>Additional Vehicle Information</label>
+							<textarea name="additional_info" placeholder="Provide any additional information that will help us analyze your request"><?php echo empty($vehicle_data['additional_info']) ? '' : $vehicle_data['additional_info'] ?></textarea>
+						</div>
+					</fieldset>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
-
+		<div class="field">
+			<label class="required">Describe Loss</label>
+			<textarea name="loss_description" class="required" placeholder="Enter description of loss"><?php echo empty($job_data['loss_description']) ? '' : $job_data['loss_description'] ?></textarea>
+		</div>
+		<div class="required field">
+			<label class="required">Services Requested</label>
+			<textarea name="services_requested" class="required" placeholder="Enter services you are requesting"><?php echo empty($job_data['services_requested']) ? '' : $job_data['services_requested'] ?></textarea>
+		</div>
+		<div class="field">
+			<label>Location of Loss</label>
+			<textarea name="loss_location" placeholder="Enter the location of loss"><?php echo empty($job_data['loss_location']) ? '' : $job_data['loss_location'] ?></textarea>
+		</div>
+		<?php foreach($job_questions as $question_key=>$question): ?>
+		<div class="<?php echo $question_key ?> field">
+			<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+			<?php ar_display_question_field($question_key,$question, ( empty($job_data[$question_key]) ? false : $job_data[$question_key] ) ) ?>
+		</div>
+		<?php endforeach; ?>
 	</fieldset>
 	<fieldset>
-		<legend>Describe Loss</legend>
+		<legend>Attachments</legend>
 		<div class="odd file-upload field">
 			<label>Upload Files</label>
 			<div class="file-types">
@@ -165,24 +294,6 @@
 				<a id="attachment-edit-close" class="button">Cancel</a>
 			</div>
 		</div>
-		<div class="field">
-			<label class="required">Describe Loss</label>
-			<textarea name="loss_description" class="required" placeholder="Enter description of loss"><?php echo empty($job_data['loss_description']) ? '' : $job_data['loss_description'] ?></textarea>
-		</div>
-		<div class="required field">
-			<label class="required">Services Requested</label>
-			<textarea name="services_requested" class="required" placeholder="Enter services you are requesting"><?php echo empty($job_data['services_requested']) ? '' : $job_data['services_requested'] ?></textarea>
-		</div>
-		<div class="field">
-			<label>Location of Loss</label>
-			<textarea name="loss_location" class="required" placeholder="Enter the location of loss"><?php echo empty($job_data['loss_location']) ? '' : $job_data['loss_location'] ?></textarea>
-		</div>
-		<?php foreach($job_questions as $question_key=>$question): ?>
-		<div class="<?php echo $question_key ?> field">
-			<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
-			<?php ar_display_question_field($question_key,$question, ( empty($job_data[$question_key]) ? false : $job_data[$question_key] ) ) ?>
-		</div>
-		<?php endforeach; ?>
 	</fieldset>
 	<?php if(!empty($job_data)&&$job_data['autosave']==0): ?>
 		<fieldset class="correspondence-fieldset">

@@ -1200,6 +1200,23 @@ strong {
 	padding: 0 20px;
 	background-color: #fff;
 }
+#new-assignment #vehicle-template,
+#new-assignment #claimant-template {
+	display: none;
+}
+#new-assignment #vehicles-container fieldset.vehicle > .field,
+#new-assignment #claimants-container fieldset.claimant > .field {
+	border-left: 5px solid #12223a;
+	border-right: 5px solid #12223a;
+}
+#new-assignment #vehicles-container fieldset.vehicle > .field:last-child,
+#new-assignment #claimants-container fieldset.claimant > .field:last-child {
+	border-bottom: 5px solid #12223a;
+}
+#new-assignment #vehicles-container fieldset.vehicle:last-child,
+#new-assignment #claimants-container fieldset.claimant:last-child {
+	margin-bottom: 20px;
+}
 
 /**
  * Dashboard - Assignment - Correspondence

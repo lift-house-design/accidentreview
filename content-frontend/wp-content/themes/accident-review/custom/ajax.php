@@ -101,7 +101,7 @@ function save_new_assignment()
 		'error'=>'',
 	);
 	
-	if(empty($_POST['job']) || empty($_POST['vehicles']))
+	if(empty($_POST['job']))
 	{
 		$response['error']='The required data was not found';
 		echo json_encode($response);
@@ -117,9 +117,10 @@ function save_new_assignment()
 	
 	$job_id=$_POST['job']['id'];
 	$job_data=$_POST['job'];
-	$vehicles_data=$_POST['vehicles'];
+	$vehicles_data=empty($_POST['vehicles']) ? array() : $_POST['vehicles'];
+	$claimants_data=empty($_POST['claimants']) ? array() : $_POST['claimants'];
 	
-	if(($error=ar_save_new_assignment($job_id,$job_data,$vehicles_data))===true)
+	if(($error=ar_save_new_assignment($job_id,$job_data,$vehicles_data,$claimants_data))===true)
 	//if(true)
 	{
 		$response['status']='success';

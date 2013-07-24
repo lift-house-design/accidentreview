@@ -30,6 +30,22 @@
 		else return $result;
 	}
 
+	// Used to select job IDs to remove based on a query; comment out to use hardcoded
+	// IDs declared on line 4
+	///////////////////////////////////////////////////////////////////////////////////
+	
+	$job_ids_to_remove=array();
+	$r=query('
+		select
+			id
+		from
+			ar_job
+	');
+	while($row=mysql_fetch_assoc($r))
+		$job_ids_to_remove[]=$row['id'];
+
+	///////////////////////////////////////////////////////////////////////////////////
+
 	foreach($job_ids_to_remove as $job_id)
 	{
 		echo '[ Deleting '.$job_id.' ]'.NL;

@@ -146,7 +146,7 @@
 					$(function(){
 						assignments_datatable=$('#assignments').dataTable({
 							sPaginationType: 'full_numbers',
-							iDisplayLength: 2,
+							/*iDisplayLength: 2,*/
 						});
 						
 						function close_assignments()
