@@ -96,6 +96,13 @@
 			where
 				job_id = '.$job_id.'
 		');
+		echo T.'- Deleting final report archives'.NL;
+		query('
+			delete from
+				ar_final_report_archive
+			where
+				job_id = '.$job_id.'
+		');
 		echo T.'- Deleting job'.NL;
 		query('
 			delete from
