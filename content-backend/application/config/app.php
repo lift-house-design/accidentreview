@@ -110,27 +110,27 @@ $config['email_notifications']=array(
 		'smtp_user'=>'noreply@lifthousedesign.com',
 		'smtp_pass'=>'9sbZdlAklydT',
 		'smtp_port'=>'25',
-		'mailtype'=>'text',
+		//'mailtype'=>'html',
 	),
 	'templates'=>array(
 		'tech_assigned'=>array(
-			'subject'=>'Assignment Update - Tech Assigned',
+			'subject'=>'Tech Assigned: {file_number} {rep_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/tech_assigned.php'),
 		),
 		'assigned_to_tech'=>array(
-			'subject'=>'Reminder - Assignment Needs Completed',
+			'subject'=>'New Assignment: {file_number} {rep_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/assigned_to_tech.php'),
 		),
 		'final_review_complete'=>array(
-			'subject'=>'Assignment Update - Final Review Complete',
+			'subject'=>'Assignment Complete: {file_number} {rep_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/final_review_complete.php'),
 		),
 		'status_updated'=>array(
-			'subject'=>'Assignment Update - Status Changed',
+			'subject'=>'Status Changed: {file_number} {rep_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/status_updated.php'),
 		),
 		'new_message'=>array(
-			'subject'=>'Assignment Update - New Message',
+			'subject'=>'New Message: {file_number} {rep_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/new_message.php'),
 		),
 	),

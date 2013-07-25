@@ -56,7 +56,9 @@
 				</div>
 				<?php foreach($vehicle_questions as $question_key=>$question): ?>
 				<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
-					<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+					<?php if( !empty($question['label']) || !empty($question['question']) ): ?>
+						<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+					<?php endif; ?>
 					<?php ar_display_question_field($question_key,$question,false,1) ?>
 				</div>
 				<?php endforeach; ?>
@@ -107,7 +109,9 @@
 						</div>
 						<?php foreach($vehicle_questions as $question_key=>$question): ?>
 						<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
-							<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+							<?php if( !empty($question['label']) || !empty($question['question']) ): ?>
+								<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+							<?php endif; ?>
 							<?php ar_display_question_field($question_key,$question,( empty($vehicle_data[$question_key]) ? false : $vehicle_data[$question_key] ),$i) ?>
 						</div>
 						<?php endforeach; ?>
@@ -157,7 +161,9 @@
 				</div>
 				<?php foreach($claimant_questions as $question_key=>$question): ?>
 				<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
-					<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+					<?php if( !empty($question['label']) || !empty($question['question']) ): ?>
+						<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+					<?php endif; ?>
 					<?php ar_display_question_field($question_key,$question,false,1) ?>
 				</div>
 				<?php endforeach; ?>
@@ -212,7 +218,9 @@
 						</div>
 						<?php foreach($claimant_questions as $question_key=>$question): ?>
 						<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
-							<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+							<?php if( !empty($question['label']) || !empty($question['question']) ): ?>
+								<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+							<?php endif; ?>
 							<?php ar_display_question_field($question_key,$question,( empty($claimant_data[$question_key]) ? false : $claimant_data[$question_key] ),$i) ?>
 						</div>
 						<?php endforeach; ?>
@@ -238,7 +246,9 @@
 		</div>
 		<?php foreach($job_questions as $question_key=>$question): ?>
 		<div class="<?php echo $question_key ?> field">
-			<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+			<?php if( !empty($question['label']) || !empty($question['question']) ): ?>
+				<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
+			<?php endif; ?>
 			<?php ar_display_question_field($question_key,$question, ( empty($job_data[$question_key]) ? false : $job_data[$question_key] ) ) ?>
 		</div>
 		<?php endforeach; ?>

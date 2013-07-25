@@ -67,11 +67,25 @@
 				else
 					$other_attachments[]=$a;
 			}
+
+			if($version=$this->input->get('v'))
+			{
+				$version_query=$this->db->get_where('ar_final_report_archive',array(
+					'id'=>$version,
+				),1);
+				$version_row=$version_query->row_array();
+				$assignment['final_report']=$version_row['final_report'];
+			}
+
+			if($tab=$this->input->get('t'))
+				$this->data['tab']=$tab;
 			
 			$this->data['photo_attachments']=$photo_attachments;
 			$this->data['other_attachments']=$other_attachments;
 			$this->data['assignment']=$assignment;
 			$this->data['techs']=$this->user->get_many_by('role','tech');
+			$this->data['final_report_versions']=$this->assignment->get_final_report_versions($id);
+			$this->data['version']=$this->input->get('v');
 		}
 		
 		public function update_status($id,$status)
@@ -89,9 +103,10 @@
 							->with('rep')
 							->get($id);
 						$email_data=array(
-							'first_name'=>$assignment['rep']['first_name'],
-							'status'=>$assignment['status'],
-							'assignment_id'=>$id,
+							'file_number'=>$assignment['file_number'],
+							'rep_last_name'=>$assignment['rep']['last_name'],
+							'assignment_id'=>$assignment['id'],
+							'rep_first_name'=>$assignment['rep']['first_name'],
 						);
 
 						if(send_email('status_updated',$email_data,$assignment['rep']['email']))
@@ -130,12 +145,25 @@
 						->with('tech')
 						->get($id);
 					$email_data=array(
-						'first_name'=>$assignment['rep']['first_name'],
+						'file_number'=>$assignment['file_number'],
+						'rep_last_name'=>$assignment['rep']['last_name'],
+						'assignment_id'=>$assignment['id'],
+						'rep_first_name'=>$assignment['rep']['first_name'],
+						'created_time'=>date('l, F j, Y, g:ia',strtotime($assignment['created_at'])),
 						'tech_first_name'=>$assignment['tech']['first_name'],
 						'tech_last_name'=>$assignment['tech']['last_name'],
-						'assignment_id'=>$id,
+						'tech_signature'=>empty($assignment['tech']['signature']) ? '' : ', '.$assignment['tech']['signature'],
 					);
 					send_email('tech_assigned',$email_data,$assignment['rep']['email']);
+
+					// Send e-mail to tech
+					$email_data=array(
+						'file_number'=>$assignment['file_number'],
+						'rep_last_name'=>$assignment['rep']['last_name'],
+						'assignment_id'=>$assignment['id'],
+						'tech_first_name'=>$assignment['tech']['first_name'],
+					);
+					send_email('assigned_to_tech',$email_data,$assignment['tech']['email']);
 
 					// Add assignment update
 					$this->assignment_update->insert(array(
@@ -158,8 +186,10 @@
 				->with('rep')
 				->get($id);
 			$email_data=array(
-				'tech_first_name'=>$assignment['tech']['first_name'],
+				'file_number'=>$assignment['file_number'],
+				'rep_last_name'=>$assignment['rep']['last_name'],
 				'assignment_id'=>$assignment['id'],
+				'tech_first_name'=>$assignment['tech']['first_name'],
 			);
 
 			if(send_email('assigned_to_tech',$email_data,$assignment['tech']['email']))
@@ -212,10 +242,18 @@
 					$assignment=$this->assignment
 						->with('rep')
 						->get($post['assignment_id']);
+					$role='Tech';
+					if($this->user->data['role']=='admin')
+						$role='Administrator';
 					$email_data=array(
-						'first_name'=>$assignment['rep']['first_name'],
-						'message'=>$post['message'],
+						'file_number'=>$assignment['file_number'],
+						'rep_last_name'=>$assignment['rep']['last_name'],
 						'assignment_id'=>$assignment['id'],
+						'rep_first_name'=>$assignment['rep']['first_name'],
+						'tech_first_name'=>$this->user->data['first_name'],
+						'tech_last_name'=>$this->user->data['last_name'],
+						'tech_signature'=>empty($this->user->data['signature']) ? '' : ', '.$this->user->data['signature'],
+						'role'=>$role,
 					);
 
 					if(send_email('new_message',$email_data,$assignment['rep']['email']))
@@ -268,8 +306,10 @@
 							->with('rep')
 							->get($post['assignment_id']);
 						$email_data=array(
-							'first_name'=>$assignment['rep']['first_name'],
+							'file_number'=>$assignment['file_number'],
+							'rep_last_name'=>$assignment['rep']['last_name'],
 							'assignment_id'=>$assignment['id'],
+							'rep_first_name'=>$assignment['rep']['first_name'],
 						);
 
 						if(send_email('final_review_complete',$email_data,$assignment['rep']['email']))

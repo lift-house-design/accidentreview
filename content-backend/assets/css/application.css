@@ -448,3 +448,13 @@ button,
 	display: none;
 	margin-top: 10px;
 }
+
+#findings-version {
+	margin: 10px 0;
+	font-size: 12px;
+	font-weight: bold;
+	color: #0a2c79;
+}
+#findings-version select {
+	margin-left: 10px;
+}

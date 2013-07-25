@@ -538,7 +538,20 @@ div.fancybox-skin {
 .field .ui-radios .ui-state-hover {
 	background: #83A2C9;
 }
+.field .checkboxes {
+	text-align: left;
+	padding-left: 15px;
+}
+.field .checkboxes input[type="checkbox"] {
+	margin-right: 10px;
+}
+.field .checkboxes label {
+	display: inline;
+}
 
+.field.questionable_loss_yes {
+	display: none;
+}
 /**
  * Contact Us
  */

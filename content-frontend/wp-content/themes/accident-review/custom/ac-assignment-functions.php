@@ -11,12 +11,13 @@
 		}
 		elseif($question['question_type']=='radio')
 		{
-			$question['possible_answers']=json_decode($question['possible_answers'],true) ;
-			if($append_number!==false)
-				$question_key.='_'.$append_number;
-				
-			if(count($question['possible_answers']) > 0)
+			$question['possible_answers']=json_decode($question['possible_answers'],true);
+			
+			if(count($question['possible_answers'])>0)
 			{
+				if($append_number!==false)
+					$question_key.='_'.$append_number;
+
 				echo '<div class="ui-radios">';
 				foreach($question['possible_answers'] as $answer)
 				{
@@ -28,6 +29,45 @@
 						echo '<input type="radio" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( $value==$answer ? ' checked="checked"' : '' ).' />';
 					
 					echo '<label for="'.$question_key.'-'.$answer_slug.'">'.$answer.'</label> ';
+				}
+				echo '</div>';
+			}
+		}
+		elseif($question['question_type']=='checkbox')
+		{
+			$question['possible_answers']=json_decode($question['possible_answers'],true);
+			
+			if(count($question['possible_answers'])>0)
+			{
+				if($append_number!==false)
+					$question_key.='_'.$append_number;
+
+				if(!empty($value))
+				{
+					$scalar_value=$value;
+					$value=json_decode($value,true);
+					if(!is_array($value))
+						$value=array($scalar_value);
+				}
+				else
+					$value=array();
+
+				if(!empty($question['default_answer']))
+					$question['default_answer']=json_decode($question['default_answer'],true);
+				else
+					$question['default_answer']=array();
+
+				echo '<div class="checkboxes">';
+				foreach($question['possible_answers'] as $answer)
+				{
+					$answer_slug=str_replace(' ','_',strtolower($answer));
+					
+					if(empty($value))
+						echo '<input type="checkbox" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( in_array($answer,$question['default_answer']) ? ' checked="checked"' : '' ).' />';
+					else
+						echo '<input type="checkbox" name="'.$question_key.'" id="'.$question_key.'-'.$answer_slug.'" value="'.$answer.'"'.( in_array($answer,$value) ? ' checked="checked"' : '' ).' />';
+					
+					echo '<label for="'.$question_key.'-'.$answer_slug.'">'.$answer.'</label><br /> ';
 				}
 				echo '</div>';
 			}
@@ -248,38 +288,25 @@
 	{
 		return array(
 			'vehicle-theft'=>array(
-				'job_questions'=>array(
-					'date_of_recovery'=>array(
-						'question_type'=>'date',
-						'question'=>'Date of Recovery',
-						'placeholder'=>'Enter date of recovery (if applicable)',
-					),
-					'factory_perimeter_security_system'=>array(
+				'job_questions'=>array(),
+				'vehicle_questions'=>array(
+					'perimeter_security_system'=>array(
 						'question_type'=>'radio',
-						'question'=>'Is the vehicle equipped with a factory perimeter security system?',
-						'possible_answers'=>'["Yes","No","Optional","Unknown"]',
-						'default_answer'=>'Unknown',
-					),
-					'aftermarket_security_system'=>array(
-						'question_type'=>'radio',
-						'question'=>'Is the vehicle equipped with an aftermarket security system?',
-						'possible_answers'=>'["Yes","No","Unknown"]',
+						'question'=>'Is this vehicle equipped with a perimeter security system?',
+						'possible_answers'=>'["Aftermarket","Factory","No","Unknown"]',
 						'default_answer'=>'Unknown',
 					),
 					'remote_start_system'=>array(
 						'question_type'=>'radio',
-						'question'=>'Is the vehicle equipped with a remote start system?',
-						'possible_answers'=>'["Yes","No","Unknown"]',
+						'question'=>'Is this vehicle equipped with a remote start system?',
+						'possible_answers'=>'["Aftermarket","Factory","No","Unknown"]',
 						'default_answer'=>'Unknown',
 					),
-					'remote_start_system_type'=>array(
-						'question_type'=>'radio',
-						'question'=>'Is the remote start system factory or aftermarket?',
-						'possible_answers'=>'["Factory","Aftermarket","Unknown"]',
-						'default_answer'=>'Unknown',
+					'modifications'=>array(
+						'question_type'=>'textarea',
+						'question'=>'Modifications/Aftermarket',
+						'placeholder'=>'List any modifications',
 					),
-				),
-				'vehicle_questions'=>array(
 					'keys_available'=>array(
 						'question_type'=>'radio',
 						'question'=>'Are the keys available?',
@@ -294,44 +321,54 @@
 					),
 				),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 				
 			),
 			'accident-reconstruction'=>array(
-				'job_questions'=>array(),
+				'job_questions'=>array(
+					'questionable_loss'=>array(
+						'question_type'=>'radio',
+						'question'=>'Questionable Loss?',
+						'possible_answers'=>'["Yes","No"]',
+						'default_answer'=>'No',
+					),
+					'questionable_loss_yes'=>array(
+						'question_type'=>'checkbox',
+						'label'=>'Check all that apply',
+						'possible_answers'=>'["Impact Severity","Injury Potential","Damage Consistency"]',
+					),
+					'questionable_loss_no'=>array(
+						'question_type'=>'checkbox',
+						'label'=>'Check all that apply',
+						'possible_answers'=>'["Speed Determination","Avoidability","Liability"]',
+					),
+				),
 				'vehicle_questions'=>array(),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 			),
 			'fire-analysis'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 			),
 			'mechanical-analysis'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 			),
 			'physical-damage-comparison'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 			),
 			'report-review'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 			),
 			'other'=>array(
 				'job_questions'=>array(),
 				'vehicle_questions'=>array(),
 				'claimant_questions'=>array(),
-				'multiple_vehicles'=>true,
 			),
 		);
 	}
@@ -485,12 +522,15 @@
 			// If it's found
 			if(isset($job_data[$question_key]))
 			{
+				if(is_array($job_data[$question_key]))
+					$job_data[$question_key]=json_encode($job_data[$question_key]);
+
 				$job_answer=array(
 					'job_id'=>$job_id,
 					'question_key'=>$question_key,
 					'answer'=>$job_data[$question_key],
 				);
-				
+
 				foreach($answer_fields as $field)
 				{
 					if(isset($question[$field]))
@@ -533,6 +573,9 @@
 				// If it's found
 				if(isset($vehicle_data[$question_key]))
 				{
+					if(is_array($vehicle_data[$question_key]))
+						$vehicle_data[$question_key]=json_encode($vehicle_data[$question_key]);
+
 					$vehicle_answer=array(
 						'question_key'=>$question_key,
 						'answer'=>$vehicle_data[$question_key],
@@ -585,6 +628,9 @@
 				// If it's found
 				if(isset($claimant_data[$question_key]))
 				{
+					if(is_array($claimant_data[$question_key]))
+						$claimant_data[$question_key]=json_encode($claimant_data[$question_key]);
+
 					$claimant_answer=array(
 						'question_key'=>$question_key,
 						'answer'=>$claimant_data[$question_key],
@@ -816,27 +862,27 @@
 	{
 		$templates=array(
 			'assignment_received'=>array(
-				'subject'=>'Assignment Received',
+				'subject'=>'Assignment Received: {file_number} {rep_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received.php'),
 			),
 			'assignment_received_admin'=>array(
-				'subject'=>'New Assignment Received',
+				'subject'=>'Assignment Received: {file_number} {rep_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received_admin.php'),
 			),
 			'new_message_tech'=>array(
-				'subject'=>'New Assignment Message',
+				'subject'=>'New Message: {file_number} {rep_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_tech.php'),
 			),
 			'new_message_admin'=>array(
-				'subject'=>'New Assignment Message',
+				'subject'=>'New Message: {file_number} {rep_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_admin.php'),
 			),
 			'new_attachment_tech'=>array(
-				'subject'=>'New Assignment Attachment',
+				'subject'=>'File Uploaded: {file_number} {rep_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_tech.php'),
 			),
 			'new_attachment_admin'=>array(
-				'subject'=>'New Assignment Attachment',
+				'subject'=>'File Uploaded: {file_number} {rep_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_admin.php'),
 			),
 		);
@@ -877,8 +923,8 @@
 
 		$mailer->AddAddress($to);
 		$mailer->Subject=$subject;
-		$mailer->Body=nl2br($message);
-		$mailer->AltBody=$message;
+		$mailer->Body=$message;
+		$mailer->AltBody=nl2br(strip_tags($message));
 
 		return $mailer->Send();
 	}

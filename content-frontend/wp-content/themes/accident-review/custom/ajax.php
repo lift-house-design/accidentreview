@@ -59,7 +59,6 @@ function get_assignment_panel()
 		$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
 		$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
 		$claimant_questions=( empty($assignment_data[$assignment_type]['claimant_questions']) ? array() : $assignment_data[$assignment_type]['claimant_questions'] );
-		$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 		
 		$assignment_attachments=$job_data['attachments'];
 		$correspondence=$job_data['correspondence'];
@@ -85,7 +84,6 @@ function get_new_assignment_panel()
 	$job_questions=( empty($assignment_data[$assignment_type]['job_questions']) ? array() : $assignment_data[$assignment_type]['job_questions'] );
 	$vehicle_questions=( empty($assignment_data[$assignment_type]['vehicle_questions']) ? array() : $assignment_data[$assignment_type]['vehicle_questions'] );
 	$claimant_questions=( empty($assignment_data[$assignment_type]['claimant_questions']) ? array() : $assignment_data[$assignment_type]['claimant_questions'] );
-	$multiple_vehicles=( empty($assignment_data[$assignment_type]['multiple_vehicles']) ? false : true);
 	
 	// Get new assignment attachments
 	$assignment_attachments=ar_get_new_assignment_attachments($job_id);
@@ -131,21 +129,32 @@ function save_new_assignment()
 
 		if($is_new_assignment===TRUE && $autosave===FALSE)
 		{
+			$user_data=ar_user_data();
+
+			$rep_company_name=$user_data['company_name'];
+			if(empty($rep_company_name))
+				$rep_company_name=$user_data['first_name'].' '.$user_data['last_name'];
+
 			// Notify admins
 			foreach(ar_get_admin_users() as $admin)
 			{
 				$email_data=array(
-					'first_name'=>$admin['first_name'],
+					'file_number'=>$job_data['file_number'],
+					'rep_last_name'=>$user_data['last_name'],
 					'assignment_id'=>$job_id,
+					'first_name'=>$admin['first_name'],
+					'last_name'=>$admin['last_name'],
+					'rep_company_name'=>$rep_company_name,
 				);
 				ar_send_email('assignment_received_admin',$email_data,$admin['email']);
 			}
 
 			// Notify client
-			$user_data=ar_user_data();
 			$email_data=array(
-				'first_name'=>$user_data['first_name'],
+				'file_number'=>$job_data['file_number'],
+				'rep_last_name'=>$user_data['last_name'],
 				'assignment_id'=>$job_id,
+				'rep_first_name'=>$user_data['first_name'],
 			);
 			ar_send_email('assignment_received',$email_data,$user_data['email']);
 		}
@@ -328,10 +337,21 @@ function save_attachment()
 									where
 										id = %d
 									limit 1
+								',$assignment['client_user_id']);
+								$rep=$wpdb->get_row($sql,'ARRAY_A');
+
+								$sql=$wpdb->prepare('
+									select
+										*
+									from
+										ar_user
+									where
+										id = %d
+									limit 1
 								',$assignment['tech_user_id']);
 								$tech=$wpdb->get_row($sql,'ARRAY_A');
 								
-								$attachment_type_map=array(
+								/*$attachment_type_map=array(
 									'img'=>'Photo',
 									'word'=>'Word Document',
 									'pdf'=>'PDF Document',
@@ -339,18 +359,18 @@ function save_attachment()
 								);
 								$attachment_type=$attachment_type_map[$fileClass];
 								$attachment_name=$tempName;
-								$attachment_url=$response['url'];
+								$attachment_url=$response['url'];*/
 
 								// If a tech is assigned to this attachment's assignment, send them an e-mail
 								if($tech!==NULL)
 								{
 									// Now send the tech a notification
 									$email_data=array(
-										'first_name'=>$tech['first_name'],
+										'file_number'=>$assignment['file_number'],
+										'rep_last_name'=>$rep['last_name'],
 										'assignment_id'=>$assignment_id,
-										'attachment_type'=>$attachment_type,
-										'attachment_name'=>$attachment_name,
-										'attachment_url'=>$attachment_url,
+										'tech_first_name'=>$tech['first_name'],
+										'rep_first_name'=>$rep['first_name'],
 									);
 									$response['email_data']=$email_data;
 									$response['tech_data']=$tech;
@@ -366,11 +386,11 @@ function save_attachment()
 									foreach(ar_get_admin_users() as $admin)
 									{
 										$email_data=array(
-											'first_name'=>$admin['first_name'],
+											'file_number'=>$assignment['file_number'],
+											'rep_last_name'=>$rep['last_name'],
 											'assignment_id'=>$assignment_id,
-											'attachment_type'=>$attachment_type,
-											'attachment_name'=>$attachment_name,
-											'attachment_url'=>$attachment_url,
+											'admin_first_name'=>$admin['first_name'],
+											'rep_first_name'=>$rep['first_name'],
 										);
 										$response['email_data'][]=$email_data;
 										$response['admin_data'][]=$admin;
@@ -541,15 +561,35 @@ function create_message()
 
 				$sql=$wpdb->prepare('
 					select
-						u.*
+						*
 					from
-						ar_user u,
-						ar_job j
+						ar_job
 					where
-						j.id = %d and
-						j.tech_user_id = u.id
+						id = %d
 					limit 1
 				',$_POST['assignment_id']);
+				$assignment=$wpdb->get_row($sql,'ARRAY_A');
+
+				$sql=$wpdb->prepare('
+					select
+						*
+					from
+						ar_user
+					where
+						id = %d
+					limit 1
+				',$assignment['client_user_id']);
+				$rep=$wpdb->get_row($sql,'ARRAY_A');
+
+				$sql=$wpdb->prepare('
+					select
+						*
+					from
+						ar_user
+					where
+						id = %d
+					limit 1
+				',$assignment['tech_user_id']);
 				$tech=$wpdb->get_row($sql,'ARRAY_A');
 				
 				// If a tech is assigned to this assignment, send them an e-mail
@@ -557,9 +597,12 @@ function create_message()
 				{
 					// Now send the tech a notification
 					$email_data=array(
-						'first_name'=>$tech['first_name'],
+						'file_number'=>$assignment['file_number'],
+						'rep_last_name'=>$rep['last_name'],
+						'assignment_id'=>$assignment['id'],
+						'tech_first_name'=>$tech['first_name'],
+						'rep_first_name'=>$rep['first_name'],
 						'message'=>$_POST['message'],
-						'assignment_id'=>$_POST['assignment_id'],
 					);
 					$response['email_data']=$email_data;
 					$response['tech_data']=$tech;
@@ -575,9 +618,12 @@ function create_message()
 					foreach(ar_get_admin_users() as $admin)
 					{
 						$email_data=array(
-							'first_name'=>$admin['first_name'],
+							'file_number'=>$assignment['file_number'],
+							'rep_last_name'=>$rep['last_name'],
+							'assignment_id'=>$assignment['id'],
+							'admin_first_name'=>$tech['first_name'],
+							'rep_first_name'=>$rep['first_name'],
 							'message'=>$_POST['message'],
-							'assignment_id'=>$_POST['assignment_id'],
 						);
 						$response['email_data'][]=$email_data;
 						$response['admin_data'][]=$admin;

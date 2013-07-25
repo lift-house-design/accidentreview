@@ -1,5 +1,9 @@
-{first_name},
+<p>{rep_first_name},<br />
+<br />
+{message}</p>
 
-A tech has posted the message below to your assignment (#{assignment_id}).
+<p><a href="http://www.accidentreview.com">Log in</a> to respond to this message.</p>
 
-{message}
+<p>{tech_first_name} {tech_last_name}{tech_signature}<br />
+{role}<br />
+<a href="http://www.accidentreview.com">AccidentReview</a></p>

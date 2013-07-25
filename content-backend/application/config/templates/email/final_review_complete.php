@@ -1,3 +1,7 @@
-{first_name},
+<p>{rep_first_name},<br />
+<br />
+Please find the written opinion on the subject assignment here:<br />
+<br />
+<a href="http://www.accidentreview.com/reports/{assignment_id}">http://www.accidentreview.com/reports/{assignment_id}</a></p>
 
-A final review has been created for your assignment. To view it, log in, open your assignment, and click the "View Report" button.
+<p><a href="http://www.accidentreview.com">AccidentReview</a> Team</p>

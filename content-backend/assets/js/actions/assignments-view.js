@@ -1,5 +1,7 @@
 $(function(){
-	$('#tabs').tabs();
+	$('#tabs').tabs({
+		active:activeTab
+	});
 	$('.attachment .image').fancybox();
 
 	var confirmLeave=false;
@@ -16,9 +18,27 @@ $(function(){
 			var tech_assigned=$('input[name="tech_assigned"]:checked').val();
 			window.location.href='/assignments/update_tech/'+assignment_id+'/'+tech_assigned;
 		})
-		.on('submit','#findings form',function(){
-			confirmLeave=false;
-			return true;
+		.on('submit','#findings form',function(e){
+			if(confirm('Are you sure you want to save your findings?'))
+			{
+				confirmLeave=false;
+				return true;
+			}
+			else
+			{
+				e.preventDefault();
+				return false;
+			}
+		})
+		.on('change','#findings select[name="findings_version"]',function(){
+			$('#findings-version')
+				.after(
+					$('<p>')
+						.css('font-style','italic')
+						.html('Loading version, please wait...')
+				);
+			$(this).attr('disabled','disabled');
+			window.location.href=window.location.pathname+'?v='+$(this).val()+'&t=5';
 		});
 	
 	$('#final-report-editor').redactor({

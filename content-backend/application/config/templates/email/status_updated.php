@@ -1,3 +1,5 @@
-{first_name},
+<p>{rep_first_name},<br />
+<br />
+An analysis of the subject case has commenced and an opinion will be rendered within 24 hours.</p>
 
-The status of your assignment (#{assignment_id}) has been updated to {status}.
+<p><a href="http://www.accidentreview.com">AccidentReview</a> Team</p>

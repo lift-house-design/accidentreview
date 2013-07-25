@@ -1,7 +1,5 @@
-{first_name},
+<p>{admin_first_name},<br />
+<br />
+A new file has been uploaded by {rep_first_name} {rep_last_name}.</p>
 
-A rep has uploaded a new attachment to assignment #{assignment_id}. You are receiving this notification because there is currently no tech assigned to this assignment. Details about this attachment are below:
-
-Attachment Type: {attachment_type}
-Attachment Name: {attachment_name}
-Attachment URL: {attachment_url}
+<p><a href="http://www.accidentreview.com">Log in</a> to view this assignment.</p>

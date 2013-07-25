@@ -39,12 +39,34 @@ function get_assignment_data(check_for_errors)
 	var vehicle_data=[];
 	var claimant_data=[];
 
+	// This function will create an array of values if the same key is used
+	function add_data(obj,key,val)
+	{
+		if(typeof obj[key] != 'undefined')
+		{
+			if(obj[key] instanceof Array)
+			{
+				obj[key].push(val);
+			}
+			else
+			{
+				var old_val=obj[key];
+				obj[key]=[old_val,val];
+			}
+		}
+		else
+		{
+			obj[key]=val;
+		}
+	}
+
 	// Get job data
 	$('form#new-assignment > fieldset:first-child, form#new-assignment > fieldset:last-child')
 		.find(input_selector)
 		.each(function(){
 			if($(this).parents('#vehicles-container, #claimants-container, .file-upload.field').length==0)
-				job_data[ $(this).attr('name') ]=$(this).val();
+				add_data(job_data,$(this).attr('name'),$(this).val());
+				//job_data[ $(this).attr('name') ]=$(this).val();
 		});
 
 	// Get each vehicle's data
@@ -61,7 +83,8 @@ function get_assignment_data(check_for_errors)
 						name=name.replace(/_\d+$/,'');
 
 					// Add data to the object
-					data[name]=$(this).val();
+					//data[name]=$(this).val();
+					add_data(data,name,$(this).val());
 				});
 			// Add object to the array
 			vehicle_data.push(data);
@@ -81,7 +104,8 @@ function get_assignment_data(check_for_errors)
 						name=name.replace(/_\d+$/,'');
 
 					// Add data to the object
-					data[name]=$(this).val();
+					//data[name]=$(this).val();
+					add_data(data,name,$(this).val());
 				});
 			// Add object to the array
 			claimant_data.push(data);
@@ -114,12 +138,12 @@ function start_autosave()
 		     data: assignment_data,
 			 dataType: 'json',
 		     success: function(data,textStatus,jqXHR){
-				console.log('<autosave>');
+				/*console.log('<autosave>');
 				console.log('data received:');
 				console.log(data);
 				console.log('job data sent:');
 				console.log(assignment_data);
-				console.log('</autosave>');
+				console.log('</autosave>');*/
 			},
 			error: function(jqXHR,textStatus,errorThrown){
 				console.log('autosave error:');
@@ -138,6 +162,7 @@ $(function(){
 	// Remove events set by a previous assignment panel load
 	$(document)
 		.off('change','.keys_available.field input[type="radio"]')
+		.off('change','.questionable_loss.field input[type="radio"]')
 		.off('click','input[type="button"].vin-lookup')
 		.off('change','select[name="year"]')
 		.off('change','select[name="make"]')
@@ -174,6 +199,23 @@ $(function(){
 				where.show().find('input[type="text"]').focus(); // Show where input
 			else
 				where.hide(); // Hide where input
+		})
+		/*
+		|--------------------------------------------------------------------------
+		| Questionable Loss (collision analysis/reconstruction only)
+		|--------------------------------------------------------------------------
+		*/
+		.on('change','.questionable_loss.field input[type="radio"]',function(){
+			if($(this).val()=='Yes')
+			{
+				$('.questionable_loss_yes.field').show();
+				$('.questionable_loss_no.field').hide();
+			}
+			else if($(this).val()=='No')
+			{
+				$('.questionable_loss_yes.field').hide();
+				$('.questionable_loss_no.field').show();
+			}
 		})
 		/*
 		|--------------------------------------------------------------------------
