@@ -160,6 +160,8 @@ if(!function_exists('send_email'))
 	{
 		static $email;
 
+		$config=config('email_notifications');
+
 		if(isset($email))
 		{
 			$email->clear();
@@ -172,7 +174,6 @@ if(!function_exists('send_email'))
 			// Set a reference to the email library; this will also tell
 			// this function to skip initialization on the next call
 			$email=$CI->email;
-			$config=config('email_notifications');
 
 			if(empty($config['templates'][$template]))
 				return FALSE;

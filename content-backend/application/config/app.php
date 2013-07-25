@@ -110,7 +110,7 @@ $config['email_notifications']=array(
 		'smtp_user'=>'noreply@lifthousedesign.com',
 		'smtp_pass'=>'9sbZdlAklydT',
 		'smtp_port'=>'25',
-		//'mailtype'=>'html',
+		'mailtype'=>'html',
 	),
 	'templates'=>array(
 		'tech_assigned'=>array(

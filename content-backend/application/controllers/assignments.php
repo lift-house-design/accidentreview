@@ -254,6 +254,7 @@
 						'tech_last_name'=>$this->user->data['last_name'],
 						'tech_signature'=>empty($this->user->data['signature']) ? '' : ', '.$this->user->data['signature'],
 						'role'=>$role,
+						'message'=>$post['message'],
 					);
 
 					if(send_email('new_message',$email_data,$assignment['rep']['email']))
@@ -355,6 +356,20 @@
 				->with('rep')
 				->get($id);
 			$this->data['tech']=$this->user->get($this->data['assignment']['tech_user_id']);
+
+			$vehicles=array();
+			$claimants=array();
+
+			foreach($this->data['assignment']['vehicles'] as $vehicle)
+			{
+				if($vehicle['type']=='vehicle')
+					$vehicles[]=$vehicle;
+				elseif($vehicle['type']=='claimant')
+					$claimants[]=$vehicle;
+			}
+
+			$this->data['vehicles']=$vehicles;
+			$this->data['claimants']=$claimants;
 		}
 
 		public function phpinfo()

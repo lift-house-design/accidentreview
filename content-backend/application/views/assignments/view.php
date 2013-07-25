@@ -305,9 +305,11 @@
 	<div id="findings">
 		<h2>Findings</h2>
 		<p>Write up your findings in the word processor below. They will not be sent to the client until you are ready.</p>
-		<div id="findings-version">
-			Version: <?php echo form_dropdown('findings_version',$final_report_versions,$version) ?>
-		</div>
+		<?php if(!empty($final_report_versions)): ?>
+			<div id="findings-version">
+				Version: <?php echo form_dropdown('findings_version',$final_report_versions,$version) ?>
+			</div>
+		<?php endif; ?>
 		<?php echo form_open('assignments/save_final_report','',array(
 			'assignment_id'=>$assignment['id'],
 		)) ?>

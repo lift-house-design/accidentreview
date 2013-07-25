@@ -33,14 +33,15 @@
 		</fieldset>
 	</div>
 </div>
+<?php if(count($vehicles)>0): ?>
 <div class="row">
 	<div class="column span4">
 		<fieldset>
 			<legend>Vehicle Information</legend>
-			<?php foreach($assignment['vehicles'] as $vehicle): ?>
+			<?php foreach($vehicles as $vehicle): ?>
 			<div class="row">
 				<div class="column span4">
-					<label><?php echo $vehicle['belongs_to'] ?>/Owner</label> <?php echo $vehicle['owners_name'] ?><br />
+					<label>Operator</label> <?php echo $vehicle['operator'] ?><br />
 					<label>Year</label> <?php echo $vehicle['year'] ?>
 					<label>Make</label> <?php echo $this->assignment->get_make($vehicle['make']) ?>
 					<label>Model</label> <?php echo $vehicle['model'] ?><br />
@@ -51,6 +52,27 @@
 		</fieldset>
 	</div>
 </div>
+<?php endif; ?>
+<?php if(count($claimants)>0): ?>
+<div class="row">
+	<div class="column span4">
+		<fieldset>
+			<legend>Claimant Information</legend>
+			<?php foreach($claimants as $vehicle): ?>
+			<div class="row">
+				<div class="column span4">
+					<label>Operator</label> <?php echo $vehicle['operator'] ?><br />
+					<label>Year</label> <?php echo $vehicle['year'] ?>
+					<label>Make</label> <?php echo $this->assignment->get_make($vehicle['make']) ?>
+					<label>Model</label> <?php echo $vehicle['model'] ?><br />
+					<label>VIN</label> <?php echo $vehicle['vin_number'] ?>
+				</div>
+			</div>
+			<?php endforeach; ?>
+		</fieldset>
+	</div>
+</div>
+<?php endif; ?>
 <div class="row">
 	<div class="column span4">
 		<fieldset>
@@ -64,6 +86,10 @@
 					<div class="multi-line">
 						<label>Services Requested</label>
 						<div class="value"><?php echo $assignment['services_requested'] ?></div>
+					</div>
+					<div class="multi-line">
+						<label>Location of Loss</label>
+						<div class="value"><?php echo $assignment['loss_location'] ?></div>
 					</div>
 					<?php foreach($assignment['answers'] as $answer): ?>
 						<div class="multi-line">
