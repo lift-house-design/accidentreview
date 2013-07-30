@@ -245,7 +245,7 @@
 			<textarea name="loss_location" placeholder="Enter the location of loss"><?php echo empty($job_data['loss_location']) ? '' : $job_data['loss_location'] ?></textarea>
 		</div>
 		<?php foreach($job_questions as $question_key=>$question): ?>
-		<div class="<?php echo $question_key ?> field">
+		<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
 			<?php if( !empty($question['label']) || !empty($question['question']) ): ?>
 				<label><?php echo ( empty($question['label']) ? $question['question'] : $question['label'] ) ?></label>
 			<?php endif; ?>

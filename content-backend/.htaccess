@@ -1,3 +1,17 @@
+# Remove index.php - for most servers
 RewriteEngine on
 RewriteCond $1 !^(index\.php|assets|user_guide|robots\.txt)
 RewriteRule ^(.*)$ /index.php/$1 [L]
+
+# Remove index.php - for GoDaddy servers
+#RewriteEngine On
+#RewriteBase /
+#RewriteCond %{REQUEST_URI} ^system.*
+#RewriteRule ^(.*)$ /index.php?/$1 [L]
+#RewriteCond %{REQUEST_URI} ^application.*
+#RewriteRule ^(.*)$ /index.php?/$1 [L]
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ index.php?/$1 [L]
+#RewriteCond %{HTTP_HOST} ^mydomain.com [NC]
+#RewriteRule ^(.*)$ http://www.mydomain.com/$1 [L,R=301]
