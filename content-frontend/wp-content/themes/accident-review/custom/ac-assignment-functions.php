@@ -820,7 +820,7 @@
 	{
 		// Determine file type
 		$validTypes=array(
-			'img'=>array('jpg','jpeg','gif','png'),
+			'img'=>array('jpg','jpeg','gif','png','tif'),
 			'word'=>array('doc','docx'),
 			'pdf'=>array('pdf'),
 			'txt'=>array('txt','rtf'),

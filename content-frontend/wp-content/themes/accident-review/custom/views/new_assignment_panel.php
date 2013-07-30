@@ -260,7 +260,7 @@
 			<div class="file-types">
 				<p>Allowed file types: </p>
 				<ul>
-					<li><strong>Images</strong> (jpg, gif, png)</li>
+					<li><strong>Images</strong> (jpg, gif, png, tif)</li>
 					<li><strong>Documents</strong> (txt, rtf, doc, docx, pdf)</li>
 				</ul>
 			</div>
