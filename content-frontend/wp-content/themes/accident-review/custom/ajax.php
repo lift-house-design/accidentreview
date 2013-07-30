@@ -504,6 +504,19 @@ function delete_attachment()
 	{
 		$attachment_id=$_POST['attachment_id'];
 		
+		// Get the filename to attempt to delete it
+		$sql=$wpdb->prepare('
+			select
+				url
+			from
+				ar_attachments
+			where
+				id = %d
+			limit 1
+		',$attachment_id);
+		$hashName=$wpdb->get_var($sql);
+
+		// Delete the attachment record from the database
 		$sql=$wpdb->prepare('
 			delete from
 				ar_attachments
@@ -511,12 +524,14 @@ function delete_attachment()
 				id = %d
 			limit 1
 		',$attachment_id);
-		
 		$result=$wpdb->query($sql);
 		
 		if($result!==false)
 		{
 			$response['status']='success';
+			// Attempt to delete the file from the filesystem
+			if($hashName!==NULL)
+				@unlink(AR_ATTACHMENT_PATH.$hashName);
 		}
 		else
 		{
