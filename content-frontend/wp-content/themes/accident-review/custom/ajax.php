@@ -621,7 +621,7 @@ function create_message()
 							'file_number'=>$assignment['file_number'],
 							'rep_last_name'=>$rep['last_name'],
 							'assignment_id'=>$assignment['id'],
-							'admin_first_name'=>$tech['first_name'],
+							'admin_first_name'=>$admin['first_name'],
 							'rep_first_name'=>$rep['first_name'],
 							'message'=>$_POST['message'],
 						);
