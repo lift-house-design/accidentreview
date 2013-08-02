@@ -41,8 +41,14 @@ class Account extends App_Controller
 	
 	public function login()
 	{
-		if($this->form_validation->run('account/login')!==FALSE && $this->user->log_in())
-			redirect('assignments');
+		if($this->form_validation->run('account/login')!==FALSE)
+		{
+			if($this->user->log_in())
+				redirect('assignments');
+			else
+				$this->form_validation->set_error('You entered an incorrect username or password. Please try again.');
+		}
+			
 	}
 	
 	public function logout()

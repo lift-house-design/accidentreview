@@ -41,20 +41,23 @@
 		
 		protected function after_get($data)
 		{
-			if($data['role']=='client_admin')
+			if(!empty($data))
 			{
-				$client_reps=array();
-				$client_reps_result=$this->_database->get_where('ar_admin_clients',array(
-					'client_admin_id'=>$data['id'],
-				));
+				if($data['role']=='client_admin')
+				{
+					$client_reps=array();
+					$client_reps_result=$this->_database->get_where('ar_admin_clients',array(
+						'client_admin_id'=>$data['id'],
+					));
 
-				foreach($client_reps_result->result_array() as $row)
-					$client_reps[]=$row['client_rep_id'];
+					foreach($client_reps_result->result_array() as $row)
+						$client_reps[]=$row['client_rep_id'];
 
-				$data['client_reps']=$client_reps;
+					$data['client_reps']=$client_reps;
+				}
+				else
+					$data['client_reps']=array();
 			}
-			else
-				$data['client_reps']=array();
 
 			return $data;
 		}
