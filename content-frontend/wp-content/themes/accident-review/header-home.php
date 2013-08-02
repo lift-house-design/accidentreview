@@ -34,6 +34,7 @@
 	<?php endif; ?>
 
 	<link type="text/css" rel="stylesheet" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
+	<meta name="author" content="Nick Niebaum (nickniebaum@gmail.com)" />
 </head>
 <body>
 	<div id="top-panel">
