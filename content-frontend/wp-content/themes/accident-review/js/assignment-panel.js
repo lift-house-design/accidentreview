@@ -661,52 +661,64 @@ $(function(){
 				assignment_id: assignment_id,
 			},
 			success: function(data) {
-				console.log(data);
 				data=$.parseJSON(data);
-				console.log(data);
-				
+
 				if(data.status != 'error')
 				{
-					var file=$('<div>')
-						.attr('data-attachment-id',data.attachment_id)
-						.data('attachment-id',data.attachment_id)
-						.addClass('file')
-						.addClass(data.type)
-						.append(
-							$('<a>')
-								.addClass('icon')
-						)
-						.append(
-							$('<a>')
-								.addClass('description')
-								.html(data.description)
-						)
-						.appendTo('.file-upload.field .file-preview');
-						
-					if(data.type=='img')
+					for(var i in data.files)
 					{
-						$('<img>')
-							.load(function(){
+						var data_item=data.files[i];
+						
+						if(data_item.status != 'error')
+						{
+							var file=$('<div>')
+								.attr('data-attachment-id',data_item.attachment_id)
+								.data('attachment-id',data_item.attachment_id)
+								.addClass('file')
+								.addClass(data_item.type)
+								.append(
+									$('<a>')
+										.addClass('icon')
+										.html('&nbsp;')
+								)
+								.append(
+									$('<a>')
+										.addClass('description')
+										.html(data_item.description)
+								)
+								.appendTo('.file-upload.field .file-preview');
+								
+							if(data_item.type=='img')
+							{
+								$('<img>')
+									.load(function(){
+										file
+											.children('a.icon')
+											.append(this);
+										/*$(this)
+											.css({
+												'margin-left': -($(this).width()/2)+'px',
+												'margin-top': -($(this).height()/2)+'px',
+											});*/
+										
+									})
+									.attr('src',data_item.url);
+							}
+							else
+							{
 								file
 									.children('a.icon')
-									.append(this);
-								/*$(this)
-									.css({
-										'margin-left': -($(this).width()/2)+'px',
-										'margin-top': -($(this).height()/2)+'px',
-									});*/
-								
-							})
-							.attr('src',data.url);
-					}
-					else
-					{
-						file
-							.children('a.icon')
-							.attr({
-								href: data.url,
-								target: '_blank',
-							})
+									.attr({
+										href: data_item.url,
+										target: '_blank',
+									});
+							}
+						}
+						else
+						{
+							console.log('data item error');
+							console.log(data_item);
+						}
 					}
 				}
 				else
@@ -729,7 +741,7 @@ $(function(){
 					.fancybox({
 						padding: 20,
 						beforeShow: function(){
-							$('#file-uploading-popup').html('Your upload has been completed.');
+							$('#file-uploading-popup').html('Your uploads have been completed.');
 						},
 					})
 					.click();

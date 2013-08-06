@@ -269,6 +269,13 @@ function save_attachment()
 		'status'=>'error',
 		'error'=>'',
 	);
+
+/*	ob_start();
+	var_dump($_FILES);
+	$data=ob_get_clean();
+	$response['data']=$data;
+	echo json_encode($response);
+	exit;*/
 	
 	if(!empty($_POST['assignment_id']))
 	{
@@ -276,171 +283,186 @@ function save_attachment()
 		
 		if(!empty($_FILES))
 		{
-			$tempPath=$_FILES['file']['tmp_name'];
-			$tempSize=$_FILES['file']['size'];
-			$tempType=$_FILES['file']['mime_type'];
-			$tempName=$_FILES['file']['name'];
-			$hashName=sha1($tempName.microtime());
-			
-			$targetPath=AR_ATTACHMENT_PATH.$hashName;
-			$fileClass=ar_get_file_class($tempName);
-			
-			if($fileClass!==false)
+			$response['files']=array();
+
+			for($i=0; $i<count($_FILES['file']['tmp_name']); $i++)
 			{
-				$max_attachment_size=1024*1024*10; // 10mb
+				$response_item=array(
+					'status'=>'error',
+					'error'=>'',
+				);
 
-				if($tempSize < $max_attachment_size)
+				$tempPath=$_FILES['file']['tmp_name'][$i];
+				$tempSize=$_FILES['file']['size'][$i];
+				$tempType=$_FILES['file']['mime_type'][$i];
+				$tempName=$_FILES['file']['name'][$i];
+				$hashName=sha1($tempName.microtime());
+				
+				$targetPath=AR_ATTACHMENT_PATH.$hashName;
+				$fileClass=ar_get_file_class($tempName);
+				
+				if($fileClass!==false)
 				{
-					if(move_uploaded_file($tempPath,$targetPath)!==false)
+					$max_attachment_size=1024*1024*10; // 10mb
+
+					if($tempSize < $max_attachment_size)
 					{
-						$result=$wpdb->insert('ar_attachments',array(
-							'job_id'=>$assignment_id,
-							'user_id'=>$userData['id'],
-							'name'=>$tempName,
-							'description'=>$tempName,
-							'mime_type'=>$tempType,
-							'url'=>$hashName,
-						));
-						
-						if($result!==false)
+						if(move_uploaded_file($tempPath,$targetPath)!==false)
 						{
-							$response['status']='success';
-							$response['attachment_id']=$wpdb->insert_id;
-							$response['type']=$fileClass;
-							$response['description']=$tempName;
-							$response['url']=AR_ATTACHMENT_URL.$hashName;
-
-							/*
-							 * Now send e-mail notifications
-							 */
-
-							$sql=$wpdb->prepare('
-								select
-									*
-								from
-									ar_job
-								where
-									id = %d
-								limit 1
-							',$assignment_id);
-							$assignment=$wpdb->get_row($sql,'ARRAY_A');
-
-							// Only send e-mail notifications if this is an EXISTING ASSIGNMENT
-							// (existing assignment is an assignment whos type is set and autosave is 0)
-							if($assignment['type']!==NULL && $assignment['autosave']==0)
+							$result=$wpdb->insert('ar_attachments',array(
+								'job_id'=>$assignment_id,
+								'user_id'=>$userData['id'],
+								'name'=>$tempName,
+								'description'=>$tempName,
+								'mime_type'=>$tempType,
+								'url'=>$hashName,
+							));
+							
+							if($result!==false)
 							{
-								$sql=$wpdb->prepare('
-									select
-										*
-									from
-										ar_user
-									where
-										id = %d
-									limit 1
-								',$assignment['client_user_id']);
-								$rep=$wpdb->get_row($sql,'ARRAY_A');
+								$response_item['status']='success';
+								$response_item['attachment_id']=$wpdb->insert_id;
+								$response_item['type']=$fileClass;
+								$response_item['description']=$tempName;
+								$response_item['url']=AR_ATTACHMENT_URL.$hashName;
+
+								/*
+								 * Now send e-mail notifications
+								 */
 
 								$sql=$wpdb->prepare('
 									select
 										*
 									from
-										ar_user
+										ar_job
 									where
 										id = %d
 									limit 1
-								',$assignment['tech_user_id']);
-								$tech=$wpdb->get_row($sql,'ARRAY_A');
-								
-								/*$attachment_type_map=array(
-									'img'=>'Photo',
-									'word'=>'Word Document',
-									'pdf'=>'PDF Document',
-									'txt'=>'Text Document',
-								);
-								$attachment_type=$attachment_type_map[$fileClass];
-								$attachment_name=$tempName;
-								$attachment_url=$response['url'];*/
+								',$assignment_id);
+								$assignment=$wpdb->get_row($sql,'ARRAY_A');
 
-								// If a tech is assigned to this attachment's assignment, send them an e-mail
-								if($tech!==NULL)
+								// Only send e-mail notifications if this is an EXISTING ASSIGNMENT
+								// (existing assignment is an assignment whos type is set and autosave is 0)
+								if($assignment['type']!==NULL && $assignment['autosave']==0)
 								{
-									// Now send the tech a notification
-									$email_data=array(
-										'file_number'=>$assignment['file_number'],
-										'rep_last_name'=>$rep['last_name'],
-										'assignment_id'=>$assignment_id,
-										'tech_first_name'=>$tech['first_name'],
-										'rep_first_name'=>$rep['first_name'],
+									$sql=$wpdb->prepare('
+										select
+											*
+										from
+											ar_user
+										where
+											id = %d
+										limit 1
+									',$assignment['client_user_id']);
+									$rep=$wpdb->get_row($sql,'ARRAY_A');
+
+									$sql=$wpdb->prepare('
+										select
+											*
+										from
+											ar_user
+										where
+											id = %d
+										limit 1
+									',$assignment['tech_user_id']);
+									$tech=$wpdb->get_row($sql,'ARRAY_A');
+									
+									/*$attachment_type_map=array(
+										'img'=>'Photo',
+										'word'=>'Word Document',
+										'pdf'=>'PDF Document',
+										'txt'=>'Text Document',
 									);
-									$response['email_data']=$email_data;
-									$response['tech_data']=$tech;
-									$response['email_response']=ar_send_email('new_attachment_tech',$email_data,$tech['email']);
-								}
-								// If no tech is assigned, send all administrators an e-mail
-								else
-								{
-									$response['email_data']=array();
-									$response['admin_data']=array();
-									$response['email_response']=array();
+									$attachment_type=$attachment_type_map[$fileClass];
+									$attachment_name=$tempName;
+									$attachment_url=$response['url'];*/
 
-									foreach(ar_get_admin_users() as $admin)
+									// If a tech is assigned to this attachment's assignment, send them an e-mail
+									if($tech!==NULL)
 									{
+										// Now send the tech a notification
 										$email_data=array(
 											'file_number'=>$assignment['file_number'],
 											'rep_last_name'=>$rep['last_name'],
 											'assignment_id'=>$assignment_id,
-											'admin_first_name'=>$admin['first_name'],
+											'tech_first_name'=>$tech['first_name'],
 											'rep_first_name'=>$rep['first_name'],
 										);
-										$response['email_data'][]=$email_data;
-										$response['admin_data'][]=$admin;
-										$response['email_response'][]=ar_send_email('new_attachment_admin',$email_data,$admin['email']);;
+										$response_item['email_data']=$email_data;
+										$response_item['tech_data']=$tech;
+										$response_item['email_response']=ar_send_email('new_attachment_tech',$email_data,$tech['email']);
+									}
+									// If no tech is assigned, send all administrators an e-mail
+									else
+									{
+										$response_item['email_data']=array();
+										$response_item['admin_data']=array();
+										$response_item['email_response']=array();
+
+										foreach(ar_get_admin_users() as $admin)
+										{
+											$email_data=array(
+												'file_number'=>$assignment['file_number'],
+												'rep_last_name'=>$rep['last_name'],
+												'assignment_id'=>$assignment_id,
+												'admin_first_name'=>$admin['first_name'],
+												'rep_first_name'=>$rep['first_name'],
+											);
+											$response_item['email_data'][]=$email_data;
+											$response_item['admin_data'][]=$admin;
+											$response_item['email_response'][]=ar_send_email('new_attachment_admin',$email_data,$admin['email']);;
+										}
+									}
+								}
+
+								if($response_item['type']=='img')
+								{
+									// Attempt to resize if it is an image
+									require_once('vendor/SimpleImage.php');
+									$img=new SimpleImage(AR_ATTACHMENT_PATH.$hashName);
+
+									if($img->getWidth()>1200)
+									{
+										$img->resizeToWidth(1200);
+										$img->save(AR_ATTACHMENT_PATH.$hashName);
 									}
 								}
 							}
-
-							if($response['type']=='img')
+							else
 							{
-								// Attempt to resize if it is an image
-								require_once('vendor/SimpleImage.php');
-								$img=new SimpleImage(AR_ATTACHMENT_PATH.$hashName);
-
-								if($img->getWidth()>1200)
-								{
-									$img->resizeToWidth(1200);
-									$img->save(AR_ATTACHMENT_PATH.$hashName);
-								}
+								$response_item['error']='There was a problem saving the file data.';
 							}
 						}
 						else
 						{
-							$response['error']='There was a problem saving the file data.';
+							$response_item['error']='There was a problem saving the file.';
 						}
 					}
 					else
 					{
-						$response['error']='There was a problem saving the file.';
+						$response_item['error']='The attachment file size must be less than 10 MB.';
 					}
 				}
 				else
 				{
-					$response['error']='The attachment file size must be less than 10 MB.';
+					$response_item['error']='You have uploaded an invalid file type.';
 				}
-			}
-			else
-			{
-				$response['error']='You have uploaded an invalid file type.';
-			}
+
+				$response['files'][]=$response_item;
+			} // End for
 		}
 		else
 		{
-			$response['error']='There was no uploaded file found.';
+			$response['error']='There was no uploaded files found.';
 		}
 	}
 	else
 	{
 		$response['error']='The assignment ID was not found.';
 	}
+
+	if(empty($response['error']))
+		$response['status']='success';
 	
 	echo json_encode($response);
 	exit;

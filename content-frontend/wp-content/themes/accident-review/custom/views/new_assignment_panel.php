@@ -270,7 +270,7 @@
 			</div>
 			<div id="file-uploading-popup"></div>
 			<input type="button" value="Upload File" />
-			<input id="upload-field" type="file" name="file" />
+			<input id="upload-field" type="file" name="file[]" multiple="multiple" />
 			<div class="file-preview">
 			<?php $i=0 ?>
 			<?php foreach($assignment_attachments as $attachment): ?>
