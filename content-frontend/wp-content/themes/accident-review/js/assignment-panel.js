@@ -679,7 +679,6 @@ $(function(){
 								.append(
 									$('<a>')
 										.addClass('icon')
-										.html('&nbsp;')
 								)
 								.append(
 									$('<a>')
@@ -691,10 +690,14 @@ $(function(){
 							if(data_item.type=='img')
 							{
 								$('<img>')
+									.attr('data-attachment-id',data_item.attachment_id)
+									.data('attachment-id',data_item.attachment_id)
 									.load(function(){
-										file
-											.children('a.icon')
+										$('.file-preview > .file[data-attachment-id="'+$(this).data('attachment-id')+'"] a.icon')
 											.append(this);
+										/*file
+											.children('a.icon')
+											.append(this);*/
 										/*$(this)
 											.css({
 												'margin-left': -($(this).width()/2)+'px',
