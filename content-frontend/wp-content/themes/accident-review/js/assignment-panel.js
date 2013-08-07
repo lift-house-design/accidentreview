@@ -637,6 +637,8 @@ $(function(){
 	var uploading=false;
 	function ajax_upload()
 	{
+		console.log('ajax_upload() called');
+
 		var assignment_id=$('input[type="hidden"][name="id"]').val();
 		uploading=true;
 		$('.file-upload.field input[type="button"]').val('Uploading...');
@@ -651,6 +653,7 @@ $(function(){
 			.click();
 		setTimeout(function(){ $.fancybox.close(); }, 2000);
 		
+		console.log('calling ajaxfileupload()');
 		$.ajaxFileUpload({
 			url: '/wp-admin/admin-ajax.php', 
 			secureuri: false,
@@ -661,6 +664,8 @@ $(function(){
 				assignment_id: assignment_id,
 			},
 			success: function(data) {
+				console.log('ajaxfileupload() success callback, data:');
+				console.log(data);
 				data=$.parseJSON(data);
 
 				if(data.status != 'error')
