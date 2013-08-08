@@ -141,6 +141,7 @@ function save_new_assignment()
 				$email_data=array(
 					'file_number'=>$job_data['file_number'],
 					'rep_last_name'=>$user_data['last_name'],
+					'insured_last_name'=>ar_get_last_name($job_data['insured_name']),
 					'assignment_id'=>$job_id,
 					'first_name'=>$admin['first_name'],
 					'last_name'=>$admin['last_name'],
@@ -153,6 +154,7 @@ function save_new_assignment()
 			$email_data=array(
 				'file_number'=>$job_data['file_number'],
 				'rep_last_name'=>$user_data['last_name'],
+				'insured_last_name'=>ar_get_last_name($job_data['insured_name']),
 				'assignment_id'=>$job_id,
 				'rep_first_name'=>$user_data['first_name'],
 			);
@@ -384,6 +386,7 @@ function save_attachment()
 										$email_data=array(
 											'file_number'=>$assignment['file_number'],
 											'rep_last_name'=>$rep['last_name'],
+											'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
 											'assignment_id'=>$assignment_id,
 											'tech_first_name'=>$tech['first_name'],
 											'rep_first_name'=>$rep['first_name'],
@@ -404,6 +407,7 @@ function save_attachment()
 											$email_data=array(
 												'file_number'=>$assignment['file_number'],
 												'rep_last_name'=>$rep['last_name'],
+												'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
 												'assignment_id'=>$assignment_id,
 												'admin_first_name'=>$admin['first_name'],
 												'rep_first_name'=>$rep['first_name'],
@@ -636,6 +640,7 @@ function create_message()
 					$email_data=array(
 						'file_number'=>$assignment['file_number'],
 						'rep_last_name'=>$rep['last_name'],
+						'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
 						'assignment_id'=>$assignment['id'],
 						'tech_first_name'=>$tech['first_name'],
 						'rep_first_name'=>$rep['first_name'],
@@ -657,6 +662,7 @@ function create_message()
 						$email_data=array(
 							'file_number'=>$assignment['file_number'],
 							'rep_last_name'=>$rep['last_name'],
+							'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
 							'assignment_id'=>$assignment['id'],
 							'admin_first_name'=>$admin['first_name'],
 							'rep_first_name'=>$rep['first_name'],

@@ -199,5 +199,21 @@ if(!function_exists('send_email'))
 	}
 }
 
+if(!function_exists('get_last_name'))
+{
+	function get_last_name($name)
+	{
+		$parts=explode(' ',trim($name));
+		if(count($parts)==2)
+		{
+			return $parts[1];
+		}
+		else
+		{
+			return $parts[0];
+		}
+	}
+}
+
 /* End of file project_helper.php */
 /* Location: ./application/helpers/project_helper.php */

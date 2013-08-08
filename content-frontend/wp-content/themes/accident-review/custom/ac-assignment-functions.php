@@ -325,22 +325,10 @@
 			),
 			'accident-reconstruction'=>array(
 				'job_questions'=>array(
-					'questionable_loss'=>array(
-						'question_type'=>'radio',
-						'question'=>'Questionable Loss?',
-						'possible_answers'=>'["Yes","No"]',
-					),
-					'questionable_loss_yes'=>array(
+					'questionable_loss_checkboxes'=>array(
 						'question_type'=>'checkbox',
 						'label'=>'Check all that apply',
-						'possible_answers'=>'["Impact Severity","Injury Potential","Damage Consistency"]',
-						'hidden'=>true,
-					),
-					'questionable_loss_no'=>array(
-						'question_type'=>'checkbox',
-						'label'=>'Check all that apply',
-						'possible_answers'=>'["Speed Determination","Avoidability","Liability"]',
-						'hidden'=>true,
+						'possible_answers'=>'["Impact Severity","Injury Potential","Damage Consistency","Speed Determination","Avoidability","Liability"]',
 					),
 				),
 				'vehicle_questions'=>array(),
@@ -863,27 +851,27 @@
 	{
 		$templates=array(
 			'assignment_received'=>array(
-				'subject'=>'Assignment Received: {file_number} {rep_last_name} {assignment_id}',
+				'subject'=>'Assignment Received: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received.php'),
 			),
 			'assignment_received_admin'=>array(
-				'subject'=>'Assignment Received: {file_number} {rep_last_name} {assignment_id}',
+				'subject'=>'Assignment Received: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received_admin.php'),
 			),
 			'new_message_tech'=>array(
-				'subject'=>'New Message: {file_number} {rep_last_name} {assignment_id}',
+				'subject'=>'New Message: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_tech.php'),
 			),
 			'new_message_admin'=>array(
-				'subject'=>'New Message: {file_number} {rep_last_name} {assignment_id}',
+				'subject'=>'New Message: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_admin.php'),
 			),
 			'new_attachment_tech'=>array(
-				'subject'=>'File Uploaded: {file_number} {rep_last_name} {assignment_id}',
+				'subject'=>'File Uploaded: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_tech.php'),
 			),
 			'new_attachment_admin'=>array(
-				'subject'=>'File Uploaded: {file_number} {rep_last_name} {assignment_id}',
+				'subject'=>'File Uploaded: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_admin.php'),
 			),
 		);
@@ -949,4 +937,18 @@
 			return $results;
 		else
 			return FALSE;
+	}
+
+	// Helper function to convert a name field (both first and last) to just a last name (returns first name if theres only one name)
+	function ar_get_last_name($name)
+	{
+		$parts=explode(' ',trim($name));
+		if(count($parts)==2)
+		{
+			return $parts[1];
+		}
+		else
+		{
+			return $parts[0];
+		}
 	}

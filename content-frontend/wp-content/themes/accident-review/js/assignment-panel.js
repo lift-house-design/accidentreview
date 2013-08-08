@@ -491,6 +491,18 @@ $(function(){
 			// Add the new vehicle
 			$('#vehicles-container').append(vehicle);
 
+			$('#vehicles-container > .vehicle').each(function(i){
+				$(this)
+					.find('legend')
+					.html('Insured Vehicle #'+(i+1))
+					.append(
+						$('<a>')
+							.addClass('remove')
+							.addClass('button')
+							.html('Remove Vehicle')
+					);
+			});
+
 			// Scroll the browser window to the new vehicle fields
 			$('html, body').animate({
 				scrollTop: vehicle.offset().top
@@ -511,6 +523,18 @@ $(function(){
 			$(this)
 				.parents('fieldset.vehicle')
 				.remove();
+
+			$('#vehicles-container > .vehicle').each(function(i){
+				$(this)
+					.find('legend')
+					.html('Insured Vehicle #'+(i+1))
+					.append(
+						$('<a>')
+							.addClass('remove')
+							.addClass('button')
+							.html('Remove Vehicle')
+					);
+			});
 
 			// Scroll the browser window to the top of the vehicle fields
 			$('html, body').animate({
@@ -549,6 +573,18 @@ $(function(){
 			// Add the new vehicle
 			$('#claimants-container').append(claimant);
 
+			$('#claimants-container > .claimant').each(function(i){
+				$(this)
+					.find('legend')
+					.html('Claimant #'+(i+1))
+					.append(
+						$('<a>')
+							.addClass('remove')
+							.addClass('button')
+							.html('Remove Claimant')
+					);
+			});
+
 			// Scroll the browser window to the new vehicle fields
 			$('html, body').animate({
 				scrollTop: claimant.offset().top
@@ -569,6 +605,18 @@ $(function(){
 			$(this)
 				.parents('fieldset.claimant')
 				.remove();
+
+			$('#claimants-container > .claimant').each(function(i){
+				$(this)
+					.find('legend')
+					.html('Claimant #'+(i+1))
+					.append(
+						$('<a>')
+							.addClass('remove')
+							.addClass('button')
+							.html('Remove Claimant')
+					);
+			});
 
 			// Scroll the browser window to the top of the vehicle fields
 			$('html, body').animate({

@@ -7,7 +7,7 @@
 	<div class="column span4">
 		<label class="no-width">AccidentReview.com File Number</label> <?php echo $assignment['id'] ?><br />
 		<label class="no-width">Date</label> <?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
-		<label>Time</label> <?php echo date('H:i',strtotime($assignment['created_at'])) ?>
+		<label>Time</label> <?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
 		<label>By</label> <?php echo $tech['first_name'].' '.$tech['last_name'].( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
 	</div>
 </div>
@@ -38,9 +38,11 @@
 	<div class="column span4">
 		<fieldset>
 			<legend>Vehicle Information</legend>
+			<?php $i=1 ?>
 			<?php foreach($vehicles as $vehicle): ?>
 			<div class="row">
 				<div class="column span4">
+					<div class="heading">Vehicle #<?php echo $i++ ?></div>
 					<label>Operator</label> <?php echo $vehicle['operator'] ?><br />
 					<label>Year</label> <?php echo $vehicle['year'] ?>
 					<label>Make</label> <?php echo $this->assignment->get_make($vehicle['make']) ?>
@@ -58,9 +60,11 @@
 	<div class="column span4">
 		<fieldset>
 			<legend>Claimant Information</legend>
+			<?php $i=1 ?>
 			<?php foreach($claimants as $vehicle): ?>
 			<div class="row">
 				<div class="column span4">
+					<div class="heading">Claimant #<?php echo $i++ ?></div>
 					<label>Operator</label> <?php echo $vehicle['operator'] ?><br />
 					<label>Year</label> <?php echo $vehicle['year'] ?>
 					<label>Make</label> <?php echo $this->assignment->get_make($vehicle['make']) ?>
@@ -78,7 +82,7 @@
 		<fieldset>
 			<legend>Loss Information</legend>
 			<div class="row">
-				<div class="column span4 wide-labels">
+				<div class="column span4">
 					<div class="multi-line">
 						<label>Description</label>
 						<div class="value"><?php echo $assignment['loss_description'] ?></div>

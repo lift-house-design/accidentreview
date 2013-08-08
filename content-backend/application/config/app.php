@@ -114,23 +114,23 @@ $config['email_notifications']=array(
 	),
 	'templates'=>array(
 		'tech_assigned'=>array(
-			'subject'=>'Tech Assigned: {file_number} {rep_last_name} {assignment_id}',
+			'subject'=>'Tech Assigned: {file_number} {insured_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/tech_assigned.php'),
 		),
 		'assigned_to_tech'=>array(
-			'subject'=>'New Assignment: {file_number} {rep_last_name} {assignment_id}',
+			'subject'=>'New Assignment: {file_number} {insured_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/assigned_to_tech.php'),
 		),
 		'final_review_complete'=>array(
-			'subject'=>'Assignment Complete: {file_number} {rep_last_name} {assignment_id}',
+			'subject'=>'Assignment Complete: {file_number} {insured_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/final_review_complete.php'),
 		),
 		'status_updated'=>array(
-			'subject'=>'Status Changed: {file_number} {rep_last_name} {assignment_id}',
+			'subject'=>'Status Changed: {file_number} {insured_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/status_updated.php'),
 		),
 		'new_message'=>array(
-			'subject'=>'New Message: {file_number} {rep_last_name} {assignment_id}',
+			'subject'=>'New Message: {file_number} {insured_last_name} {assignment_id}',
 			'message'=>file_get_contents(dirname(__FILE__).'/templates/email/new_message.php'),
 		),
 	),

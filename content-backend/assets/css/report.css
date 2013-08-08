@@ -111,3 +111,12 @@ label.no-width {
 .span4 {
 	width: 98%;
 }
+
+.heading {
+	border-bottom: 2px solid black;
+	font-size: 14px;
+	font-style: italic;
+	font-weight: bold;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}

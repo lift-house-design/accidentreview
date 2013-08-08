@@ -105,6 +105,8 @@
 						$email_data=array(
 							'file_number'=>$assignment['file_number'],
 							'rep_last_name'=>$assignment['rep']['last_name'],
+							'insured_last_name'=>get_last_name($assignment['insured_name']),
+							'rep_last_name'=>$assignment['rep']['last_name'],
 							'assignment_id'=>$assignment['id'],
 							'rep_first_name'=>$assignment['rep']['first_name'],
 						);
@@ -147,6 +149,7 @@
 					$email_data=array(
 						'file_number'=>$assignment['file_number'],
 						'rep_last_name'=>$assignment['rep']['last_name'],
+						'insured_last_name'=>get_last_name($assignment['insured_name']),
 						'assignment_id'=>$assignment['id'],
 						'rep_first_name'=>$assignment['rep']['first_name'],
 						'created_time'=>date('l, F j, Y, g:ia',strtotime($assignment['created_at'])),
@@ -160,6 +163,7 @@
 					$email_data=array(
 						'file_number'=>$assignment['file_number'],
 						'rep_last_name'=>$assignment['rep']['last_name'],
+						'insured_last_name'=>get_last_name($assignment['insured_name']),
 						'assignment_id'=>$assignment['id'],
 						'tech_first_name'=>$assignment['tech']['first_name'],
 					);
@@ -188,6 +192,7 @@
 			$email_data=array(
 				'file_number'=>$assignment['file_number'],
 				'rep_last_name'=>$assignment['rep']['last_name'],
+				'insured_last_name'=>get_last_name($assignment['insured_name']),
 				'assignment_id'=>$assignment['id'],
 				'tech_first_name'=>$assignment['tech']['first_name'],
 			);
@@ -248,6 +253,7 @@
 					$email_data=array(
 						'file_number'=>$assignment['file_number'],
 						'rep_last_name'=>$assignment['rep']['last_name'],
+						'insured_last_name'=>get_last_name($assignment['insured_name']),
 						'assignment_id'=>$assignment['id'],
 						'rep_first_name'=>$assignment['rep']['first_name'],
 						'tech_first_name'=>$this->user->data['first_name'],
@@ -309,6 +315,7 @@
 						$email_data=array(
 							'file_number'=>$assignment['file_number'],
 							'rep_last_name'=>$assignment['rep']['last_name'],
+							'insured_last_name'=>get_last_name($assignment['insured_name']),
 							'assignment_id'=>$assignment['id'],
 							'rep_first_name'=>$assignment['rep']['first_name'],
 						);

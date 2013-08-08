@@ -23,7 +23,7 @@
 			<input type="text" class="required" name="insured_name" placeholder="Enter insured name"<?php echo empty($job_data['insured_name']) ? '' : ' value="'.$job_data['insured_name'].'"' ?> />
 		</div>
 		<div class="field">
-			<label>Insured Vehicles</label>
+			<label>Insured Vehicle(s)</label>
 			<input type="button" id="addvehicle" value="Add Vehicle" />
 		</div>
 		<div id="vehicles-container">
@@ -49,7 +49,7 @@
 						</select>
 					</div>
 					<div class="field-row">
-						<input type="text" name="operator" class="required" placeholder="Enter vehicle operator's name" />
+						<input type="text" name="operator" placeholder="Enter vehicle operator's name" />
 						<input type="text" name="color" placeholder="Enter vehicle's color" />
 						<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
 					</div>
@@ -73,7 +73,7 @@
 					<?php $i++ ?>
 					<fieldset class="vehicle">
 						<input type="hidden" name="type" value="vehicle" />
-						<legend>Insured Vehicle <a class="remove button">Remove Vehicle</a></legend>
+						<legend>Insured Vehicle #<?php echo $i ?> <a class="remove button">Remove Vehicle</a></legend>
 						<div class="field">
 							<label class="required">Vehicle Description</label>
 							<div class="field-row">
@@ -102,7 +102,7 @@
 								</select>
 							</div>
 							<div class="field-row">
-								<input type="text" name="operator" class="required" placeholder="Enter vehicle operator's name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
+								<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
 								<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
 								<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
 							</div>
@@ -178,7 +178,7 @@
 					<?php $i++ ?>
 					<fieldset class="claimant">
 						<input type="hidden" name="type" value="claimant" />
-						<legend>Claimant <a class="remove button">Remove Claimant</a></legend>
+						<legend>Claimant #<?php echo $i ?><a class="remove button">Remove Claimant</a></legend>
 						<div class="field">
 							<label class="required">Claimant Name</label>
 							<input type="text" class="required" name="claimant_name" placeholder="Enter claimant name"<?php echo empty($claimant_data['claimant_name']) ? '' : ' value="'.$claimant_data['claimant_name'].'"' ?> />
