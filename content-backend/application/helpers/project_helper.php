@@ -161,6 +161,7 @@ if(!function_exists('send_email'))
 		static $email;
 
 		$config=config('email_notifications');
+		$CI=get_instance();
 
 		if(isset($email))
 		{
@@ -168,7 +169,6 @@ if(!function_exists('send_email'))
 		}
 		else
 		{
-			$CI=get_instance();
 			$CI->load->library('email');
 
 			// Set a reference to the email library; this will also tell
@@ -193,7 +193,13 @@ if(!function_exists('send_email'))
 		$email->from($config['sender_email'],$config['sender_name']);
 		$email->to($to);
 		$email->subject($subject);
-		$email->message($message);
+
+		// Embed the message in the template
+		$html_body=$CI->load->view('layouts/email',array(
+			'message'=>$message,
+		),TRUE);
+
+		$email->message($html_body);
 
 		return $email->send();
 	}

@@ -35,6 +35,8 @@ if(!defined(AR_EMAIL_PASS)) define(AR_EMAIL_PASS,'9sbZdlAklydT');
 
 ini_set('memory_limit','512M'); // For image resizing
 
+date_default_timezone_set('America/New_York'); // Use eastern times
+
 include('custom/shortcodes.php');
 include('custom/ajax.php');
 include('custom/vin-functions.php');

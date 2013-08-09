@@ -910,9 +910,13 @@
 			$mailer->IsHTML(true);
 		}
 
+		// Get the HTML template
+		$html_body=file_get_contents(AR_EMAIL_TEMPLATES_PATH.'template.php');
+		$html_body=str_replace('{message}',$message,$html_body);
+
 		$mailer->AddAddress($to);
 		$mailer->Subject=$subject;
-		$mailer->Body=$message;
+		$mailer->Body=$html_body;
 		$mailer->AltBody=nl2br(strip_tags($message));
 
 		return $mailer->Send();

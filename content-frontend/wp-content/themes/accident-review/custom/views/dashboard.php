@@ -248,7 +248,7 @@
 							if($job['date_of_loss']!='0000-00-00')
 								$job['date_of_loss_displayed']=date('m/d/Y',strtotime($job['date_of_loss']));
 								
-							$job['submitted_displayed']=date('m/d/Y H:i:s',strtotime($job['created_at']));
+							$job['submitted_displayed']=date('m/d/Y h:ia',strtotime($job['created_at']));
 
 							if($userData['role']=='client_admin')
 							{

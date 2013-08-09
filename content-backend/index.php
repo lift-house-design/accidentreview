@@ -199,6 +199,7 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
+date_default_timezone_set('America/New_York');
 require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
