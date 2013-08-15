@@ -966,6 +966,7 @@ function convertXmlObjToArr($obj, &$arr)
 function vehicle_year_list()
 {
 	$output = requestModelYears();
+	$output['result']=array_reverse($output['result']);
 	header('Content-Type: text/json');
 	echo json_encode($output);
 	die();

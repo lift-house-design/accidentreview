@@ -1263,7 +1263,7 @@ $(function(){
 							if(val!='')
 							{
 								var opt=$('<option>')
-									.val(val)
+									//.val(val)
 									.html(data.result[val]);
 								
 								select.append(opt);

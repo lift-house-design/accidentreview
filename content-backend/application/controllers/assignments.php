@@ -97,7 +97,37 @@
 					$this->set_notification('The status has been changed.');
 
 					// Notify the client
-					if($status != 'Pending')
+					if($status == 'Complete') 
+					{
+						// Send the client an e-mail saying the final review is ready
+						$assignment=$this->assignment
+							->with('rep')
+							->get($id);
+						$email_data=array(
+							'file_number'=>$assignment['file_number'],
+							'rep_last_name'=>$assignment['rep']['last_name'],
+							'insured_last_name'=>get_last_name($assignment['insured_name']),
+							'assignment_id'=>$assignment['id'],
+							'rep_first_name'=>$assignment['rep']['first_name'],
+						);
+
+						if(send_email('final_review_complete',$email_data,$assignment['rep']['email']))
+						{
+							$this->set_notification('The client has been sent an e-mail notifying them that the final review is ready.');
+						}
+						else
+						{
+							$this->form_validation->set_error('There was a problem sending a notification to the client telling them the final review is ready.');
+						}
+
+						// Add assignment update
+						$this->assignment_update->insert(array(
+							'user_id'=>$assignment['rep']['id'],
+							'job_id'=>$assignment['id'],
+							'message'=>'This assignment\'s final report is ready.',
+						));
+					}
+					else
 					{
 						$assignment=$this->assignment
 							->with('rep')
