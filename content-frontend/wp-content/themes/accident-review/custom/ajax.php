@@ -279,6 +279,8 @@ function save_attachment()
 	echo json_encode($response);
 	exit;*/
 	
+	ini_set('memory_limit','500M');
+
 	if(!empty($_POST['assignment_id']))
 	{
 		$assignment_id=$_POST['assignment_id'];
