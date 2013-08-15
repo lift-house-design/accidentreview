@@ -328,96 +328,7 @@ function save_attachment()
 								$response_item['description']=$tempName;
 								$response_item['url']=AR_ATTACHMENT_URL.$hashName;
 
-								/*
-								 * Now send e-mail notifications
-								 */
-
-								$sql=$wpdb->prepare('
-									select
-										*
-									from
-										ar_job
-									where
-										id = %d
-									limit 1
-								',$assignment_id);
-								$assignment=$wpdb->get_row($sql,'ARRAY_A');
-
-								// Only send e-mail notifications if this is an EXISTING ASSIGNMENT
-								// (existing assignment is an assignment whos type is set and autosave is 0)
-								if($assignment['type']!==NULL && $assignment['autosave']==0)
-								{
-									$sql=$wpdb->prepare('
-										select
-											*
-										from
-											ar_user
-										where
-											id = %d
-										limit 1
-									',$assignment['client_user_id']);
-									$rep=$wpdb->get_row($sql,'ARRAY_A');
-
-									$sql=$wpdb->prepare('
-										select
-											*
-										from
-											ar_user
-										where
-											id = %d
-										limit 1
-									',$assignment['tech_user_id']);
-									$tech=$wpdb->get_row($sql,'ARRAY_A');
-									
-									/*$attachment_type_map=array(
-										'img'=>'Photo',
-										'word'=>'Word Document',
-										'pdf'=>'PDF Document',
-										'txt'=>'Text Document',
-									);
-									$attachment_type=$attachment_type_map[$fileClass];
-									$attachment_name=$tempName;
-									$attachment_url=$response['url'];*/
-
-									// If a tech is assigned to this attachment's assignment, send them an e-mail
-									if($tech!==NULL)
-									{
-										// Now send the tech a notification
-										$email_data=array(
-											'file_number'=>$assignment['file_number'],
-											'rep_last_name'=>$rep['last_name'],
-											'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
-											'assignment_id'=>$assignment_id,
-											'tech_first_name'=>$tech['first_name'],
-											'rep_first_name'=>$rep['first_name'],
-										);
-										$response_item['email_data']=$email_data;
-										$response_item['tech_data']=$tech;
-										$response_item['email_response']=ar_send_email('new_attachment_tech',$email_data,$tech['email']);
-									}
-									// If no tech is assigned, send all administrators an e-mail
-									else
-									{
-										$response_item['email_data']=array();
-										$response_item['admin_data']=array();
-										$response_item['email_response']=array();
-
-										foreach(ar_get_admin_users() as $admin)
-										{
-											$email_data=array(
-												'file_number'=>$assignment['file_number'],
-												'rep_last_name'=>$rep['last_name'],
-												'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
-												'assignment_id'=>$assignment_id,
-												'admin_first_name'=>$admin['first_name'],
-												'rep_first_name'=>$rep['first_name'],
-											);
-											$response_item['email_data'][]=$email_data;
-											$response_item['admin_data'][]=$admin;
-											$response_item['email_response'][]=ar_send_email('new_attachment_admin',$email_data,$admin['email']);;
-										}
-									}
-								}
+								
 
 								if($response_item['type']=='img')
 								{
@@ -454,6 +365,84 @@ function save_attachment()
 
 				$response['files'][]=$response_item;
 			} // End for
+
+			/*
+			 * Now send e-mail notifications
+			 */
+
+			$sql=$wpdb->prepare('
+				select
+					*
+				from
+					ar_job
+				where
+					id = %d
+				limit 1
+			',$assignment_id);
+			$assignment=$wpdb->get_row($sql,'ARRAY_A');
+
+			// Only send e-mail notifications if this is an EXISTING ASSIGNMENT
+			// (existing assignment is an assignment whos type is set and autosave is 0)
+			if($assignment['type']!==NULL && $assignment['autosave']==0)
+			{
+				$sql=$wpdb->prepare('
+					select
+						*
+					from
+						ar_user
+					where
+						id = %d
+					limit 1
+				',$assignment['client_user_id']);
+				$rep=$wpdb->get_row($sql,'ARRAY_A');
+
+				$sql=$wpdb->prepare('
+					select
+						*
+					from
+						ar_user
+					where
+						id = %d
+					limit 1
+				',$assignment['tech_user_id']);
+				$tech=$wpdb->get_row($sql,'ARRAY_A');
+				
+				// If a tech is assigned to this attachment's assignment, send them an e-mail
+				if($tech!==NULL)
+				{
+					// Now send the tech a notification
+					$email_data=array(
+						'file_number'=>$assignment['file_number'],
+						'rep_last_name'=>$rep['last_name'],
+						'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
+						'assignment_id'=>$assignment_id,
+						'tech_first_name'=>$tech['first_name'],
+						'rep_first_name'=>$rep['first_name'],
+					);
+					$response['email_data']=$email_data;
+					$response['tech_data']=$tech;
+					$response['email_response']=ar_send_email('new_attachment_tech',$email_data,$tech['email']);
+				}
+				// If no tech is assigned, send all administrators an e-mail
+				else
+				{
+					foreach(ar_get_admin_users() as $admin)
+					{
+						$email_data=array(
+							'file_number'=>$assignment['file_number'],
+							'rep_last_name'=>$rep['last_name'],
+							'insured_last_name'=>ar_get_last_name($assignment['insured_name']),
+							'assignment_id'=>$assignment_id,
+							'admin_first_name'=>$admin['first_name'],
+							'rep_first_name'=>$rep['first_name'],
+						);
+						$response['email_data'][]=$email_data;
+						$response['admin_data'][]=$admin;
+						$response['email_response'][]=ar_send_email('new_attachment_admin',$email_data,$admin['email']);
+					}
+				}
+			} // End e-mail notifications
+
 		}
 		else
 		{
@@ -670,7 +659,7 @@ function create_message()
 						);
 						$response['email_data'][]=$email_data;
 						$response['admin_data'][]=$admin;
-						$response['email_response'][]=ar_send_email('new_message_admin',$email_data,$admin['email']);;
+						$response['email_response'][]=ar_send_email('new_message_admin',$email_data,$admin['email']);
 					}
 				}
 			}
