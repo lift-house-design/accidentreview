@@ -72,7 +72,7 @@ jQuery.extend({
             jQuery.event.trigger("ajaxSend", [xml, s]);
         // Wait for a response to come back
         var uploadCallback = function(isTimeout)
-		{			
+		{
 			var io = document.getElementById(frameId);
             try 
 			{				
@@ -167,9 +167,9 @@ jQuery.extend({
 				jQuery(form).attr('encoding', 'multipart/form-data');      			
             }
             else
-			{	
+			{
 				jQuery(form).attr('enctype', 'multipart/form-data');			
-            }			
+            }
             jQuery(form).submit();
 
         } catch(e) 
