@@ -1,7 +1,4 @@
-<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
-<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
-<script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
-<script src="/wp-content/themes/accident-review/js/assignment-panel.js"></script>
+
 <?php
 	$is_new_assignment=(empty($job_data) || $job_data['autosave']==1); //  ( !empty($job_data) && $job_data['autosave']==0 );
 ?>
@@ -257,33 +254,104 @@
 		<legend>Attachments</legend>
 		<div class="odd file-upload field">
 			<label>Upload Files</label>
-			<div class="file-types">
+
+			<div id="image-preview">
+				<div class="image">
+					<img src="http://backend.accidentreview.com/uploads/beecddcb0a4cf4bbc5326d51e45a0f365edc9ab0" />
+					<a class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla commodo ipsum, at lobortis lorem molestie euismod. Nulla dolor felis, tristique nec luctus vel, pulvinar ut nibh. Nam vulputate tincidunt tempor. </a>
+				</div>
+				<a id="image-preview-next" class="button">Next</a>
+				<a id="image-preview-prev" class="button">Previous</a>
+				<a id="image-preview-close" class="button">Close</a>
+			</div>
+
+			<input id="fileupload" type="file" name="file[]" data-url="/wp-admin/admin-ajax.php" multiple>
+			<script src="/wp-content/themes/accident-review/js/jquery.ui.widget.js"></script>
+			<script src="/wp-content/themes/accident-review/js/jquery.iframe-transport.js"></script>
+			<script src="/wp-content/themes/accident-review/js/jquery.fileupload.js"></script>
+			<script>
+					$(function () {
+	    				$('#fileupload').fileupload({
+					        dataType: 'json',
+					        formData: {
+								action: 'save-attachment',
+								assignment_id: $('input[type="hidden"][name="id"]').val(),
+							},
+							start: function(e, data) {
+								$('.file-upload.field input[type="button"]').val('Uploading...');
+								$('.file-uploading-indicator').show();
+							},
+					        done: function (e, data) {
+					        	$.each(data.result.files, function (index, data_item) {
+					        		if(data_item.status == 'error')
+					        			return;
+
+					        		var file=$('<div>')
+										.attr('data-attachment-id',data_item.attachment_id)
+										.data('attachment-id',data_item.attachment_id)
+										.addClass(data_item.type)
+										.addClass('file')
+										.append(
+											$('<a>')
+												.addClass('icon')
+										)
+										.append(
+											$('<a>')
+												.addClass('description')
+												.html(data_item.description)
+										)
+										.appendTo('.file-preview');
+										
+									if(data_item.type=='img')
+									{
+										$('<img>')
+											.attr('data-attachment-id',data_item.attachment_id)
+											.data('attachment-id',data_item.attachment_id)
+											.load(function(){
+												$('.file-preview > .file[data-attachment-id="'+$(this).data('attachment-id')+'"] a.icon')
+													.append(this);
+											})
+											.attr('src',data_item.url);
+									}
+									else
+									{
+										file
+											.children('a.icon')
+											.attr({
+												href: data_item.url,
+												target: '_blank',
+											});
+									}
+            						console.log(index);
+            						console.log(file);
+        						});
+					        },
+					        stop: function (e,data) {
+								$('.file-upload.field input[type="button"]').val('Upload File');
+								$('.file-uploading-indicator').hide();
+					        },
+					        error: function (e, data) {
+					        	alert('Error uploading files.');
+					        }
+					    });
+					});
+			</script>
+			<!--div class="file-types">
 				<p>Allowed file types: </p>
 				<ul>
 					<li><strong>Images</strong> (jpg, gif, png, tif)</li>
 					<li><strong>Documents</strong> (txt, rtf, doc, docx, pdf)</li>
 				</ul>
-			</div>
-			<div class="file-uploading-indicator">
-				<img src="/wp-content/themes/accident-review/images/ajax-loading.gif" /><br />
-				<strong>Your upload is in progress.</strong> Files larger than 2MB in size may take substantially longer to upload dependent on your bandwidth.
+			</div-->
+			<div>
+				
 			</div>
 			<div id="file-uploading-popup"></div>
-			<input type="button" value="Upload File" />
-
-
-
-
-			<input id="upload-field" type="file" name="file[]" multiple="multiple" />
-
-
-
-
 			<div class="file-preview">
-			<?php $i=0 ?>
+			<?/*php $i=0 */?>
 			<?php foreach($assignment_attachments as $attachment): ?>
 				<?php $fileType=ar_get_file_class($attachment['name']); ?>
-				<div id="img-<?php echo $i++ ?>" class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
+				<div <?/*id="img-<?php echo $i++ ?>" */?>class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
 					<a class="icon" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
 						<?php if($fileType=='img'): ?>
 							<img src="<?php echo AR_ATTACHMENT_URL.$attachment['url'] ?>" />
@@ -295,15 +363,9 @@
 				</div>
 			<?php endforeach; ?>
 			</div>
-			<div id="image-preview">
-				<div class="image">
-					<img src="http://backend.accidentreview.com/uploads/beecddcb0a4cf4bbc5326d51e45a0f365edc9ab0" />
-					<a class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla commodo ipsum, at lobortis lorem molestie euismod. Nulla dolor felis, tristique nec luctus vel, pulvinar ut nibh. Nam vulputate tincidunt tempor. </a>
-				</div>
-				<a id="image-preview-next" class="button">Next</a>
-				<a id="image-preview-prev" class="button">Previous</a>
-				<a id="image-preview-close" class="button">Close</a>
-			</div>
+			
+			<input type="button" value="Upload File" /> 
+			<img class="file-uploading-indicator" src="/wp-content/themes/accident-review/images/ajax-loading.gif" />
 			<div id="attachment-edit">
 				<h3>Edit Attachment</h3>
 				<textarea name="description"></textarea>

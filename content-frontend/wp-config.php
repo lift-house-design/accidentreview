@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+define('IS_PRODUCTION',true);
 
 /**
  * The base configurations of the WordPress.
@@ -21,15 +22,15 @@ session_start();
 
 define('DB_HOST', 'localhost');
 
-// Local
-/*define('DB_NAME', 'accidentreview');
-define('DB_USER', 'root');
-define('DB_PASSWORD', 'root');*/
-
-// Production
-define('DB_NAME', 'accidentreviewdb');
-define('DB_USER', 'accidentreview');
-define('DB_PASSWORD', 'D4gGH#2$nMV');
+if(IS_PRODUCTION){
+	define('DB_NAME', 'accidentreviewdb');
+	define('DB_USER', 'accidentreview');
+	define('DB_PASSWORD', 'D4gGH#2$nMV');
+}else{
+	define('DB_NAME', 'accidentreview');
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', 'root');
+}
 
 // Dev
 /*define('DB_NAME', 'thomas_accidentreview');

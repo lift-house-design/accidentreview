@@ -173,14 +173,14 @@ $(function(){
 		.off('click','.file-upload.field input[type="button"]')
 		.off('change','.file-upload.field input[type="file"]')
 		.off('submit','form#new-assignment')
-		.off('load','.file-upload.field .file-preview .img.file a.icon img')
+		.off('load','.file-preview .img.file a.icon img')
 		.off('click','#image-preview #image-preview-next')
 		.off('click','#image-preview #image-preview-prev')
 		.off('click','#image-preview #image-preview-close')
 		.off('click','#image-preview a.description')
-		.off('click','#attachment-edit #attachment-edit-close')
-		.off('click','#attachment-edit #attachment-edit-save')
-		.off('click','#attachment-edit #attachment-edit-delete')
+		.off('click','#attachment-edit-close')
+		.off('click','#attachment-edit-save')
+		.off('click','#attachment-edit-delete')
 		.off('click','#create-message');
 
 	$(document)
@@ -682,132 +682,16 @@ $(function(){
 	| Upload Attachment Handler
 	|--------------------------------------------------------------------------
 	*/
-	var uploading=false;
-	function ajax_upload()
-	{
-		var assignment_id=$('input[type="hidden"][name="id"]').val();
-		uploading=true;
-		$('.file-upload.field input[type="button"]').val('Uploading...');
-		$('.file-uploading-indicator').show();
-		$('<a href="#file-uploading-popup">')
-			.fancybox({
-				padding: 20,
-				beforeShow: function(){
-					$('#file-uploading-popup').html('Your upload is in progress. Images larger than 2MB in size may take substantially longer to upload dependent on your bandwidth.');
-				},
-			})
-			.click();
-		setTimeout(function(){ $.fancybox.close(); }, 2000);
-		
-		$.ajaxFileUpload({
-			url: '/wp-admin/admin-ajax.php', 
-			secureuri: false,
-			fileElementId: 'upload-field',
-			dataType: 'JSON',
-			data: {
-				action: 'save-attachment',
-				assignment_id: assignment_id,
-			},
-			success: function(data) {
-				data=$.parseJSON(data);
+	
 
-				if(data.status != 'error')
-				{
-					for(var i in data.files)
-					{
-						var data_item=data.files[i];
-						
-						if(data_item.status != 'error')
-						{
-							var file=$('<div>')
-								.attr('data-attachment-id',data_item.attachment_id)
-								.data('attachment-id',data_item.attachment_id)
-								.addClass('file')
-								.addClass(data_item.type)
-								.append(
-									$('<a>')
-										.addClass('icon')
-								)
-								.append(
-									$('<a>')
-										.addClass('description')
-										.html(data_item.description)
-								)
-								.appendTo('.file-upload.field .file-preview');
-								
-							if(data_item.type=='img')
-							{
-								$('<img>')
-									.attr('data-attachment-id',data_item.attachment_id)
-									.data('attachment-id',data_item.attachment_id)
-									.load(function(){
-										$('.file-preview > .file[data-attachment-id="'+$(this).data('attachment-id')+'"] a.icon')
-											.append(this);
-										/*file
-											.children('a.icon')
-											.append(this);*/
-										/*$(this)
-											.css({
-												'margin-left': -($(this).width()/2)+'px',
-												'margin-top': -($(this).height()/2)+'px',
-											});*/
-										
-									})
-									.attr('src',data_item.url);
-							}
-							else
-							{
-								file
-									.children('a.icon')
-									.attr({
-										href: data_item.url,
-										target: '_blank',
-									});
-							}
-						}
-						else
-						{
-							console.log('data item error');
-							console.log(data_item);
-						}
-					}
-				}
-				else
-				{
-					var msg=data.error;
-
-					$('.file-upload .msg').remove();
-					$('.file-upload #upload-field').after(
-						$('<div>')
-							.html(msg)
-							.addClass('msg')
-					);
-				}
-				
-				$('.file-upload.field input[type="file"]').change(ajax_upload);
-				uploading=false;
-				$('.file-upload.field input[type="button"]').val('Upload File');
-				$('.file-uploading-indicator').hide();
-				$('<a href="#file-uploading-popup">')
-					.fancybox({
-						padding: 20,
-						beforeShow: function(){
-							$('#file-uploading-popup').html('Your uploads have been completed.');
-						},
-					})
-					.click();
-				setTimeout(function(){ $.fancybox.close(); }, 2000);
-			}
-		});
-	}
 		
 	$(document)
 		.on('click','.file-upload.field input[type="button"]',function(){
 			$(this)
 				.siblings('input[type="file"]')
 				.click();
-		})
-		.on('change','.file-upload.field input[type="file"]',ajax_upload);
+		});
+	//	.on('change','.file-upload.field input[type="file"]',ajax_upload);
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -817,10 +701,10 @@ $(function(){
 	var image_preview_prev_offset=$('#image-preview #image-preview-next').width()+40;
 	$('#image-preview #image-preview-prev').css('right',image_preview_prev_offset+'px');
 	
-	$('.file-upload.field .file-preview .file .description')
+	$('.file-preview .file .description')
 		.fancybox({
 			padding: 20,
-			closeBtn: false,
+			closeBtn: true,
 			href: '#attachment-edit',
 			beforeShow: function(){
 				var description_anchor=$(this.element[0]);
@@ -835,11 +719,11 @@ $(function(){
 			}
 		});
 	
-	$('.file-upload.field .file-preview .img.file a.icon')
+	$('.file-preview .img.file a.icon')
 		.fancybox({
 			padding: 20,
 			href: '#image-preview',
-			closeBtn: false,
+			closeBtn: true,
 			beforeShow: function(){
 				// Get properties of this image
 				var icon=$(this.element[0]);
@@ -888,7 +772,7 @@ $(function(){
 	$(document)
 		.on('click','#image-preview #image-preview-next',function(){
 			var attachmentId=$(this).parents('#image-preview').data('attachment-id');
-			var nextImg=$('.file-upload.field .file-preview')
+			var nextImg=$('.file-preview')
 				.find('.file[data-attachment-id="'+attachmentId+'"]')
 				.nextAll('.img.file:first')
 				.find('a.icon')
@@ -905,7 +789,7 @@ $(function(){
 		})
 		.on('click','#image-preview #image-preview-prev',function(){
 			var attachmentId=$(this).parents('#image-preview').data('attachment-id');
-			var prevImg=$('.file-upload.field .file-preview')
+			var prevImg=$('.file-preview')
 				.find('.file[data-attachment-id="'+attachmentId+'"]')
 				.prevAll('.img.file:first')
 				.find('a.icon')
@@ -926,7 +810,7 @@ $(function(){
 		.on('click','#image-preview a.description',function(){
 			var attachmentId=$(this).parents('#image-preview').data('attachment-id');
 			
-			var description_anchor=$('.file-upload.field .file-preview')
+			var description_anchor=$('.file-preview')
 				.find('.file[data-attachment-id="'+attachmentId+'"] a.description');
 			var description=description_anchor.html();
 			console.log(description_anchor.length);
@@ -938,10 +822,10 @@ $(function(){
 			
 			description_anchor.click();
 		})
-		.on('click','#attachment-edit #attachment-edit-close',function(){
+		.on('click','#attachment-edit-close',function(){
 			$.fancybox.close();
 		})
-		.on('click','#attachment-edit #attachment-edit-save',function(){
+		.on('click','#attachment-edit-save',function(){
 			var attachmentId=$(this).parents('#attachment-edit').data('attachment-id');
 			var newDescription=$(this)
 				.siblings('textarea')
@@ -968,7 +852,7 @@ $(function(){
 					
 					if(data.status=='success')
 					{
-						$('.file-upload.field .file-preview')
+						$('.file-preview')
 							.find('.file[data-attachment-id="'+attachmentId+'"] .description')
 							.html(newDescription);
 					}
@@ -1008,7 +892,7 @@ $(function(){
 					
 					if(data.status=='success')
 					{
-						$('.file-upload.field .file-preview')
+						$('.file-preview')
 							.find('.file[data-attachment-id="'+attachmentId+'"]')
 							.remove();
 					}
