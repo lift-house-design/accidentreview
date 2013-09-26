@@ -27,10 +27,11 @@
 			<a id="logo" href="http://backend.accidentreview.com">
 				<h1>Accident Review</h1>
 			</a>
-			<div id="nav">
+		<?php if($logged_in): ?>
+            	<div id="nav">
 				<?php echo anchor('assignments','Assignments',( $this->uri->uri_string()=='' || $this->uri->segment(1)=='assignments' ? 'class="selected"' : '') ) ?>
 			</div>
-			<?php if($logged_in): ?>
+		
 			<div id="account-options">
 				<?php echo anchor('users','User Administration') ?>
 				<?php echo anchor('logout','Logout') ?>

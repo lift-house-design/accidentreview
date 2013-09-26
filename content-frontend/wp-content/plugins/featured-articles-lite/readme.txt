@@ -2,7 +2,7 @@
 Contributors: constantin.boiangiu
 Tags: slider, slideshow, WordPress slider, media, jQuery, themes, iPad, image, gallery, featured, articles, posts, pages, custom posts, seo, search engine optimized
 Requires at least: 3.1
-Tested up to: 3.4.1
+Tested up to: 3.5
 Stable tag: trunk
 
 Put featured posts or pages into a fancy JavaScript slider that can be set to display on any category page, page or homepage.
@@ -22,7 +22,7 @@ While Lite version of FeaturedArticles provides all the neccessary tools for cre
 
 * 6 more themes (2 of them responsive) developed by our developers team (9 in total, 5 video enabled by default in PRO version);
 * **video enabled** custom slides for **YouTube and Vimeo** that can replace the image with a video ( [See examples here](http://www.codeflavors.com/featured-articles-pro/examples/ "FeaturedArticles PRO examples") );
-* custom writen slides that can be written using the visual editor;
+* custom written slides that can be created using the visual editor;
 * slideshows can display custom post types if your WordPress blog has them;
 * for posts and custom post types, selection of posts by taxonomies;
 * mixing of posts, custom posts, pages and custom slides into the same slideshow;
@@ -96,6 +96,12 @@ We don't actively monitor the forum here on Wordpres.org so responses to questio
 8. Theme Strips (PRO)
 
 == Changelog ==
+
+= 2.5.2 =
+* Solved issue in slideshow themes that was causing second slide to show for an instant when page was loading. Modified files: all display.php files in all slideshow themes.
+
+= 2.5.1 =
+* Solved WordPress 3.5 error fatal error related to $wpdb->prepare()
 
 = 2.5 =
 * Multibyte string support.

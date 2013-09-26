@@ -68,7 +68,9 @@ h6 {
 #nav a.selected {
 	border-bottom-color: #0a2c79;
 }
-
+.clearfix {
+    clear: both;
+}
 /*
 |--------------------------------------------------------------------------
 | Form Styles
@@ -334,17 +336,20 @@ button,
 	color: #0a2c79;
 }
 
+#tabs.ui-tabs .ui-tabs-nav li a {
+  padding: 0.5em 0.9em;
+}
 /* Correspondence Message
 -------------------------------------------------------------------------*/
 
 .correspondence:before,
 .correspondence:after {
-    content: " ";
-    display: table; 
+  //  content: " ";
+   // display: table; 
 }
 
 .correspondence:after {
-    clear: both;
+   // clear: both;
 }
 
 .correspondence {
@@ -352,6 +357,7 @@ button,
 	margin-bottom: 15px;
 	padding: 0 15px 15px;
 	border-bottom: 1px solid #ccc;
+    overflow:hidden;
 }
 
 .correspondence > .user-details {
@@ -410,17 +416,19 @@ button,
 
 .attachment:before,
 .attachment:after {
-    content: " ";
-    display: table; 
+//    content: " ";
+//    display: table; 
 }
 
 .attachment:after {
-    clear: both;
+//    clear: both;
 }
 
 .attachment {
     *zoom: 1;
 	margin-bottom: 15px;
+    max-height: 120px;
+    overflow:hidden;
 }
 
 .attachment > .image {
@@ -457,4 +465,68 @@ button,
 }
 #findings-version select {
 	margin-left: 10px;
+}
+.wrapper {
+  margin: 0 auto;
+  width: 960px;
+}
+
+/* Added to isolate the backend from front end CSS */
+
+
+
+#header {
+  background: none;
+}
+#content {
+  background-image: none;
+  color: #333;
+}
+
+#header {
+background: none;
+}
+.menu {
+display: none;
+}
+#access {
+display: none;
+}
+#content {
+ background: none;
+   padding: 0px;
+   width: 960px;	
+}
+#content .box.content,
+#content .box {
+	background-color: #fff;
+    padding: 20px;
+   border-bottom: none;
+}
+.wrapper {
+  margin: 0 auto;
+  width: 960px;
+}
+#content .content.box h1, #content .content.box h2, #content .content.box h4, #content .content.box h5, #content .content.box h6 {
+    color: #0A2C79;
+    margin: 20px 0 10px;
+}
+.content.box h5 {
+	font-size: 24px;
+	color: #444;
+}
+#content .box.heading h1,
+#content .box.heading h2,
+#content .box.heading h3 {
+	font-size: 20px;
+	text-transform: uppercase;
+	color: #000;
+}
+.field label, form label {
+    color: #0A2C79;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
 }

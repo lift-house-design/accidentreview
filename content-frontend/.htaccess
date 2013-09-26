@@ -10,13 +10,6 @@ php_value post_max_size 130M
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-
-# Used to redirect report traffic to the backend URL
-RewriteRule reports/(.*)$ http://backend.accidentreview.com/reports/$1 [L]
-
-# Fake extensions for attachments
-RewriteRule uploads/(.*)\.(jpg|jpeg|gif|png)$ uploads/$1 [L]
-
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f

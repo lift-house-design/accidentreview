@@ -22,21 +22,21 @@ session_start();
 define('DB_HOST', 'localhost');
 
 // Local
-define('DB_NAME', 'accidentreview');
+/*define('DB_NAME', 'accidentreview');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'root');
+define('DB_PASSWORD', 'root');*/
 
 // Production
-/*define('DB_NAME', 'accidentreviewdb');
+define('DB_NAME', 'accidentreviewdb');
 define('DB_USER', 'accidentreview');
-define('DB_PASSWORD', 'D4gGH#2$nMV');*/
+define('DB_PASSWORD', 'D4gGH#2$nMV');
 
 // Dev
 /*define('DB_NAME', 'thomas_accidentreview');
 define('DB_USER', 'thomas');
 define('DB_PASSWORD', 'iotaalpha08');*/
 
-// Local/Production
+// Production
 define('WP_HOME','http://accidentreview.com');
 define('WP_SITEURL','http://accidentreview.com');
 

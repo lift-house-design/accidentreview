@@ -8,18 +8,15 @@ jQuery(document).ready(function () {
 		configLoaded : function ( evt ) {
 			if (typeof(ckeditorSettings.externalPlugins) != 'undefined') {
 				var externals=new Array();
-				for(var x in ckeditorSettings.externalPlugins) {
+				for (var x in ckeditorSettings.externalPlugins) {
 					CKEDITOR.plugins.addExternal(x, ckeditorSettings.externalPlugins[x]);
 					externals.push(x);
 				}
 			}
 			evt.editor.config.extraPlugins += (evt.editor.config.extraPlugins ? ','+externals.join(',') : externals.join(','));
-			if (typeof(ckeditorSettings.additionalButtons) != 'undefined') {
-				for (var x in ckeditorSettings.additionalButtons) {
-					evt.editor.config['toolbar_' + evt.editor.config.toolbar].push(ckeditorSettings.additionalButtons[x]);
-				}
-			}
-			evt.editor.addCss(evt.editor.config.extraCss);
+			if (evt.editor.config[evt.editor.config.toolbar +'_removeButtons']);
+				evt.editor.config.removeButtons = evt.editor.config[evt.editor.config.toolbar +'_removeButtons'];
+			CKEDITOR.addCss(evt.editor.config.extraCss);
 		}
 	};
 	CKEDITOR.on( 'instanceReady', function( ev )
@@ -40,7 +37,7 @@ jQuery(document).ready(function () {
 		editorCKE = CKEDITOR.instances['content'];
 	});
 
-	if(ckeditorSettings.textarea_id != 'comment'){
+	if (ckeditorSettings.textarea_id != 'comment'){
 		edInsertContentOld = function () {
 			return ;
 		};
@@ -215,17 +212,9 @@ function ckeditorOn(id) {
 		jQuery('#edButtonPreview').addClass('active');
 		jQuery('#edButtonHTML').removeClass('active');
 		instance = CKEDITOR.replace(id, ckeditorSettings.configuration);
-		if (typeof ckeditorSettings.configuration['extraCss'] != 'undefined')
-		{
-			CKEDITOR.instances[id].addCss(ckeditorSettings.configuration['extraCss']);
-		}
 	}
 	if ( jQuery('textarea#'+ckeditorSettings.textarea_id).length && (typeof(CKEDITOR.instances) == 'undefined' || typeof(CKEDITOR.instances[ckeditorSettings.textarea_id]) == 'undefined' ) && jQuery("#"+ckeditorSettings.textarea_id).parent().parent().attr('id') != 'quick-press') {
 		instance =  CKEDITOR.replace(ckeditorSettings.textarea_id, ckeditorSettings.configuration);
-		if (typeof ckeditorSettings.configuration['extraCss'] != 'undefined')
-		{
-			CKEDITOR.instances[ckeditorSettings.textarea_id].addCss(ckeditorSettings.configuration['extraCss']);
-		}
 		if(ckeditorSettings.textarea_id == 'content') {
 			setUserSetting( 'editor', 'tinymce' );
 			jQuery('#quicktags').hide();
@@ -273,6 +262,12 @@ function getTinyMCEObject()
 {
 	var tinymce = window.tinyMCE = (function () {
 		var tinyMCE = {
+			isOpera : function() {
+				return CKEDITOR.env.opera;
+			},
+			onAddEditor : { add : function() {
+				// this function did nothing else apart from resizing TinyMCE
+			} },
 			get : function (id) {
 				var instant = {
 					isHidden : function (){
@@ -353,23 +348,20 @@ function getTinyMCEObject()
 				{
 					if (command == "mceInsertContent")
 					{
-						pattern = /(\[caption.+\])/ig;
-						if (pattern.test(text))
-						{
-							text = text.replace(/&gt;/g, '>');
-							text = text.replace(/&lt;/g, '<');
-							pattern = /(<[\w'"=\s]+>([\S\s]+)<\/\S+>)/ig;
-							text= text.replace(pattern, function(match, cont)
+						//test if image has caption and make necessary text format
+						pattern = /\[caption(.*)\]<.*>(.*)\[\/caption\]/i;
+						if (pattern.test(text)) {
+							replace_match = pattern.exec(text);
+							text = text.replace(/<img (.*) \/>/g, function( match, cont )
 							{
-								cont =  cont.replace(/<[\w'"=\s]+>([\S\s]+)<\/\S+>/ig, function(match, cont){
-									return cont;
+								cont = cont.replace(/class="(.*)"/g, function( match, cont ){
+									tmp = 'class="' + cont + ' wp-caption"';
+									return tmp;
 								});
-								return cont;
+								tmp = '<img ' + cont + ' data-cke-caption=\'' + replace_match[1] + '\' data-cke-caption-text=\'' + replace_match[2] + '\' />' ;
+								return tmp;
 							});
-							text = text.replace(/<br\/>|<br>|<br \>|<br \/ >|<br\/ >/i,'');
-							text = text.replace(/"/i,'&quot;');
 						}
-
 						//setTimeout is required in IE8 when inserting Image gallery from an external modal dialog
 						if (typeof editorCKE == 'undefined') editorCKE = CKEDITOR.instances[ckeditorSettings.textarea_id];
 						setTimeout(function(){

@@ -3,35 +3,67 @@
  * Template Name: Home Page Template
  */
 ?>
-<?php get_header(); ?>
-<?php //if(is_front_page()): ?>
-<?php if(get_the_ID()==1015): // @TODO: Replace with line above before going to production ?>
-	<?php if(have_posts()): the_post(); ?>
+<?php get_header('home'); ?>
+
+
 	<div class="content box">
-		<?php the_content(); ?>
-	</div>
-		<?php
-			$child_pages=get_posts(array(
-				'post_parent'=>get_the_ID(),
-				'post_type'=>'page',
-				'post_status'=>'publish',
-				'orderby'=>'id',
-				'order'=>'asc',
-			));
-		?>
-		<?php foreach($child_pages as $page): ?>
-			<div class="heading box"><h2><a name="<?php echo $page->post_name ?>"></a><?php echo $page->post_title ?></h2></div>
-			<div class="content box"><?php echo $page->post_content ?></div>
-		<?php endforeach; ?>
-	<?php endif; ?>
-<?php else: ?>
-	<?php if(have_posts()): while(have_posts()): the_post(); ?>
-	<div class="heading box">
-		<h2><?php the_title(); ?></h2>
-	</div>
-	<div class="content box">
-		<?php the_content(); ?>
-	</div>
-	<?php endwhile; endif; ?>
-<?php endif; ?>
+		<div id="home-content" class="grid_12 container_12 alpha omega">
+        <div id="home-content-left">
+            
+            <?php 
+                $left_block = get_page_by_path('home/block-left');
+                echo '<h4>'.$left_block->post_title;
+                echo '</h4>
+                    <div class="callout-background"></div>
+                    <div class="callout-content">';
+                echo $left_block->post_content .'</div>';
+
+            ?>  
+
+            <div class="overlay"></div>
+        </div>
+
+            <div id="home-content-centerleft">
+            
+            <?php 
+                $centerleft_block = get_page_by_path('home/block-centerleft');
+                echo '<h4>'.$centerleft_block->post_title;
+                echo '</h4>
+                    <div class="callout-background"></div>
+                    <div class="callout-content">';
+                echo $centerleft_block->post_content .'</div>';
+            ?>  
+
+            <div class="overlay"></div>
+        </div>
+            <div id="home-content-centerright">
+            
+            <?php 
+                $centerright_block = get_page_by_path('home/block-centerright');
+                echo '<h4>'.$centerright_block->post_title;
+                echo '</h4>
+                    <div class="callout-background"></div>
+                    <div class="callout-content">';
+                echo $centerright_block->post_content .'</div>';
+            ?>  
+
+            <div class="overlay"></div>
+        </div>
+        <div id="home-content-right">
+            
+            <?php 
+                $right_block = get_page_by_path('home/block-right');
+                echo '<h4>'.$right_block->post_title;
+                echo '</h4>
+                    <div class="callout-background"></div>
+                    <div class="overlay"></div>
+                    <div class="callout-content">';
+                echo $right_block->post_content .'</div>';
+            ?>           
+            
+        </div>
+	</div><!-- end content -->
+   <div class="clear" ></div>
+
+
 <?php get_footer(); ?>

@@ -8,7 +8,7 @@
 		<label class="no-width">AccidentReview.com File Number</label> <?php echo $assignment['id'] ?><br />
 		<label class="no-width">Date</label> <?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
 		<label>Time</label> <?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
-		<label>By</label> <?php echo $tech['first_name'].' '.$tech['last_name'].( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
+	<label>By</label><div class="report-by"><?php echo $tech['first_name'].' '.$tech['last_name'].( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?></div>
 	</div>
 </div>
 <div class="row">
@@ -97,7 +97,7 @@
 					</div>
 					<?php foreach($assignment['answers'] as $answer): ?>
 						<div class="multi-line">
-							<label><?php echo $answer['question'] ?></label>
+							<label>Type</label>
 							<div class="value"><?php echo $answer['answer'] ?></div>
 						</div>
 					<?php endforeach; ?>

@@ -23,25 +23,25 @@ $config['dev_mode']=TRUE;
 
 /* LOCAL/TESTING DATABASE
 -------------------------------------------------------------------------*/
-$config['database']=array(
+/*$config['database']=array(
 	'hostname'=>'localhost',
 	'username'=>'root',
 	'password'=>'root',
 	'database'=>'accidentreview',
 	'dbdriver'=>'mysql',
 	'db_debug'=>$config['dev_mode'],
-);
+);*/
 
 /* PRODUCTION DATABASE
 -------------------------------------------------------------------------*/
-/*$config['database']=array(
-	'hostname'=>'localhost',
-	'username'=>'accidentreview',
-	'password'=>'D4gGH#2$nMV',
-	'database'=>'accidentreviewdb',
-	'dbdriver'=>'mysql',
-	'db_debug'=>$config['dev_mode'],
-);*/
+$config['database']=array(
+        'hostname'=>'localhost',
+        'username'=>'accidentreview',
+        'password'=>'D4gGH#2$nMV',
+        'database'=>'accidentreviewdb',
+        'dbdriver'=>'mysql',
+        'db_debug'=>$config['dev_mode'],
+);
 
 /* DEV DATABASE
 -------------------------------------------------------------------------*/

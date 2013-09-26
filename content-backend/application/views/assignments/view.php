@@ -70,7 +70,7 @@
 		</div>
 		<?php foreach($assignment['answers'] as $answer): ?>
 			<div class="readonly horizontal field">
-				<?php echo form_label($answer['question'].':') ?>
+				<?php echo form_label('Type:') ?>
 				<?php echo $answer['answer'] ?>
 			</div>
 		<?php endforeach; ?>

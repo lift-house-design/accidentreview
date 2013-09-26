@@ -17,7 +17,7 @@
 // Local/Production
 $config['base_url']	= 'http://backend.accidentreview.com';
 // Dev
-//$config['base_url']	= 'http://backend.accidentreview.com';
+//$config['base_url']	= 'http://devbackend.accidentreview.com';
 
 /*
 |--------------------------------------------------------------------------

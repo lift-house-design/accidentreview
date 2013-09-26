@@ -3,7 +3,8 @@
 class ckeditor_wordpress {
 
 	private static $instance;
-	public $version = '3.6.3';
+	public $version = '4.0';
+	public $timestamp = 'CBDD';
 	public $default_options = array();
 	public $options = array();
 	public $ckeditor_path = "";
@@ -27,7 +28,7 @@ class ckeditor_wordpress {
 		} else {
 			$this->plugin_path = $siteurl . 'wp-content/plugins/' . basename(dirname(__FILE__)) . '/';
 		}
-		if(is_ssl()) {
+		if (is_ssl()) {
 			$siteurl = str_replace('http:', 'https:', $siteurl);
 			$this->plugin_path = str_replace('http:', 'https:', $this->plugin_path);
 		}
@@ -40,7 +41,7 @@ class ckeditor_wordpress {
 		);
 		$this->default_options = array(
 			'appearance' => array(
-				'skin' => 'kama',
+				'skin' => 'moono',
 				'uicolor' => 'default',
 				'uicolor_user' => '',
 				/* basic post settings */
@@ -51,7 +52,7 @@ class ckeditor_wordpress {
 				/* basic comment settings */
 				'comment_editor' => 't',
 				'comment_toolbar' => 'WordpressBasic',
-				'comment_editor_height' => 120,
+				'comment_editor_height' => 160,
 			),
 			'upload' => array(
 				'browser' => 'disabled',
@@ -95,7 +96,9 @@ class ckeditor_wordpress {
 			'plugins' => array(
 				'autogrow' => 'f',
 				'tableresize' => 'f',
-				'wpgallery' => 't'
+				'wpgallery' => 't',
+				'scayt' => 't',
+				'wsc' => 't'
 			),
 		);
 		$options = get_option('ckeditor_wordpress');
@@ -205,7 +208,7 @@ class ckeditor_wordpress {
 		if (is_plugin_active('qtranslate/qtranslate.php'))
 		{
 			$this->generate_js_options(false);
-			echo '<script type="text/javascript" src="'.$this->ckeditor_path . $this->options['advanced']['load_method'].'"></script>';
+			echo '<script type="text/javascript" src="'.$this->ckeditor_path .'ckeditor.js?t='.$this->timestamp.'"></script>';
 			echo '<script type="text/javascript" src="'.$this->plugin_path . 'includes/ckeditor.utils.js"></script>';
 			global $q_config;
 			$q_config['js']['qtrans_tinyMCEOverload'] = '';
@@ -252,11 +255,11 @@ class ckeditor_wordpress {
 	}
 
 	private function ckeditor_get_version() {
-		$jspath = dirname(__FILE__) . '/ckeditor/ckeditor_basic.js';
+		$jspath = dirname(__FILE__) . '/ckeditor/ckeditor.js';
 		$contents = @file_get_contents($jspath);
 		if ($contents) {
 			$matches = array();
-			if (preg_match('#,version:\'(.*?)\',#', $contents, $matches)) {
+			if (preg_match('#,version:[\'"](.*?)[\'"],#', $contents, $matches)) {
 				return $matches[1];
 			}
 		}
@@ -499,7 +502,7 @@ class ckeditor_wordpress {
 			return;
 		}
 		wp_enqueue_script('editor');
-		wp_enqueue_script('ckeditor', $this->ckeditor_path . $this->options['advanced']['load_method']);
+		wp_enqueue_script('ckeditor', $this->ckeditor_path . "ckeditor.js?t=".$this->timestamp);
 		wp_enqueue_script('ckeditor.utils', $this->plugin_path . 'includes/ckeditor.utils.js', array('ckeditor', 'jquery'));
 
 		$this->generate_js_options(false);
@@ -517,7 +520,7 @@ class ckeditor_wordpress {
 		if ( is_plugin_active('w3-total-cache/w3-total-cache.php') ) {
 			define('DONOTMINIFY', true);
 		}
-		wp_enqueue_script('ckeditor', $this->ckeditor_path . $this->options['advanced']['load_method']);
+		wp_enqueue_script('ckeditor', $this->ckeditor_path . "ckeditor.js?t=".$this->timestamp);
 		wp_enqueue_script('ckeditor.utils', $this->plugin_path . 'includes/ckeditor.utils.js', array('ckeditor', 'jquery'));
 		wp_deregister_script('comment-reply');
 		wp_register_script('comment-reply', $this->plugin_path . 'includes/ckeditor.comment-reply.js', array('ckeditor', 'ckeditor.utils'), "20100901");
@@ -615,12 +618,17 @@ class ckeditor_wordpress {
 			$settings['uiColor'] = $options['appearance']['uicolor_user'];
 		}
 		$settings['height'] = ($is_comment ? $options['appearance']['comment_editor_height'] : $options['appearance']['post_editor_height']) . 'px';
-		$settings['skin'] = $options['appearance']['skin'];
+		if (in_array($options['appearance']['skin'], array('moono', 'kama'))) {
+			$settings['skin'] = $options['appearance']['skin'];
+		}
 		$settings['scayt_autoStartup'] = $options['advanced']['scayt_autoStartup'] == 't' ? true : false;
 		$settings['entities'] = $options['advanced']['entities'] == 't' ? true : false;
 		$settings['entities_greek'] = $settings['entities'];
 		$settings['entities_latin'] = $settings['entities'];
 		$settings['toolbar'] = ($is_comment ? $options['appearance']['comment_toolbar'] : $options['appearance']['post_toolbar']);
+		if ($settings['toolbar'] == 'Full') {
+			unset($settings['toolbar']);
+		}
 		$settings['templates_files'][] = $this->plugin_path . 'ckeditor.templates.js';
 		$output = array(
 			'textarea_id' => ($is_comment ? 'comment' : 'content'),
@@ -693,12 +701,21 @@ class ckeditor_wordpress {
 		if (!$is_comment) {
 			$output['externalPlugins'] = apply_filters('ckeditor_external_plugins', array());
 			$output['additionalButtons'] = apply_filters('ckeditor_buttons', array());
+			$available_plugins = array_keys($output['externalPlugins']);
+			$available_plugins[] = "autogrow";
+			$available_plugins[] = "tableresize";
+			$available_plugins[] = "scayt";
+			$available_plugins[] = "wsc";
+
 			foreach ((array) $options['plugins'] as $name => $val) {
 				if ($val == 't' && !isset($output['externalPlugins'][$name])) {
 					// skip adding plugin when  NextGEN Gallery plugin is installed and user has not permissions to use it
-					if ($name == 'nextgen' && (!current_user_can('NextGEN Use TinyMCE') ||  !get_user_option('rich_editing') == 'true') ) continue;
-					$output['externalPlugins'][$name] = $this->plugin_path . 'ckeditor/plugins/' . $name . '/';
-				}else if ($val == 'f' && isset($output['externalPlugins'][$name])) {
+					if ($name == 'nextgen' && (!current_user_can('NextGEN Use TinyMCE') ||  !get_user_option('rich_editing') == 'true') ) 
+						continue;
+					if (in_array($name, $available_plugins))
+						$output['externalPlugins'][$name] = $this->plugin_path . 'ckeditor/plugins/' . $name . '/';
+				}
+				else if ($val == 'f' && isset($output['externalPlugins'][$name])) {
 					unset($output['externalPlugins'][$name]);
 				}
 			}
@@ -784,6 +801,56 @@ class ckeditor_wordpress {
 		return $plugins;
 	}
 
+	public function ckeditor_linkbrowser_plugin($plugins) {
+		wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false );
+		$plugins['linkbrowser'] = $this->plugin_path . 'plugins/linkbrowser/';
+		return $plugins;
+	}
+
+	public function ckeditor_linkbrowser_loader() {
+		$show_internal = '1' == get_user_setting( 'wplink', '0' );
+		?>
+		<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
+			<div class="link-search-wrapper">
+				<label>
+					<span><?php _e( 'Search' ); ?></span>
+					<input type="search" id="search-field" class="link-search-field" tabindex="60" autocomplete="off" />
+					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				</label>
+			</div>
+			<div id="search-results" class="query-results">
+				<div class="query-notice unselectable no-search"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></div>
+				<div class="query-notice unselectable no-matches"><em><?php _e( 'No matches found.' ); ?></em></div>
+				<ul></ul>
+				<div class="river-waiting">
+					<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				</div>
+			</div>
+		</div>
+		<?php
+		die();
+	}
+
+	public function ckeditor_linkbrowser_search() {
+		check_ajax_referer( 'internal-linking', '_ajax_linking_nonce' );
+
+		$args = array();
+
+		if ( isset( $_POST['search'] ) )
+			$args['s'] = stripslashes( $_POST['search'] );
+		$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
+
+		$results = _WP_Editors::wp_link_query( $args );
+
+		if ( ! isset( $results ) )
+			wp_die( 0 );
+
+		echo json_encode( $results );
+		echo "\n";
+
+		wp_die();
+	}
+
 	//filter to change data for wpeditimage plugin before insert/update in database
 	public function ckeditor_insert_post_data_filter($data, $postarr = null) {
 		$content = $data['post_content'];
@@ -842,12 +909,12 @@ class ckeditor_wordpress {
 		return $buttons;
 	}
 
-		public function wppoll_external($plugins) {
-				if (function_exists('poll_menu')) {
-						$plugins['wppolls'] = $this->plugin_path . 'plugins/wppolls/';
-				}
-				return $plugins;
+	public function wppoll_external($plugins) {
+		if (function_exists('poll_menu')) {
+			$plugins['wppolls'] = $this->plugin_path . 'plugins/wppolls/';
 		}
+		return $plugins;
+	}
 
 	public function wppoll_buttons($buttons) {
 		if (function_exists('poll_menu')) {
@@ -1046,6 +1113,54 @@ final class _WP_Editors {
 		echo "\n</div>\n\n";
 
 		ckeditor_wordpress::getInstance()->editor_js();
+	}
+
+	public static function wp_link_query( $args = array() ) {
+		$pts = get_post_types( array( 'public' => true ), 'objects' );
+		$pt_names = array_keys( $pts );
+
+		$query = array(
+			'post_type' => $pt_names,
+			'suppress_filters' => true,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+			'post_status' => 'publish',
+			'order' => 'DESC',
+			'orderby' => 'post_date',
+			'posts_per_page' => 20,
+		);
+
+		$args['pagenum'] = isset( $args['pagenum'] ) ? absint( $args['pagenum'] ) : 1;
+
+		if ( isset( $args['s'] ) )
+			$query['s'] = $args['s'];
+
+		$query['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
+
+		// Do main query.
+		$get_posts = new WP_Query;
+		$posts = $get_posts->query( $query );
+		// Check if any posts were found.
+		if ( ! $get_posts->post_count )
+			return false;
+
+		// Build results.
+		$results = array();
+		foreach ( $posts as $post ) {
+			if ( 'post' == $post->post_type )
+				$info = mysql2date( __( 'Y/m/d' ), $post->post_date );
+			else
+				$info = $pts[ $post->post_type ]->labels->singular_name;
+
+			$results[] = array(
+				'ID' => $post->ID,
+				'title' => trim( esc_html( strip_tags( get_the_title( $post ) ) ) ),
+				'permalink' => get_permalink( $post->ID ),
+				'info' => $info,
+			);
+		}
+
+		return $results;
 	}
 
 }

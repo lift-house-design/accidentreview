@@ -3,9 +3,7 @@
 	</div>
 	<div id="footer">
 		<div class="wrapper">
-			<a href="/faq">FAQ</a>
-			<a href="/terms-conditions">Terms &amp; Conditions</a>
-			<a href="/contact-us">Contact Us</a>
+<div class="copyright">&copy; Copyright 2013 AccidentReview.com</div>
 		</div>
 	</div>
 </body>
