@@ -14,7 +14,7 @@ if(!defined(AR_ATTACHMENT_URL)) define(AR_ATTACHMENT_URL,'http://accidentreview.
 
 // Local
 if(IS_PRODUCTION){
-	if(!defined(AR_ATTACHMENT_PATH)) define(AR_ATTACHMENT_PATH,'/var/www/vhosts/accidentreview.com/ar-git/content-frontend/uploads/');
+	if(!defined(AR_ATTACHMENT_PATH)) define(AR_ATTACHMENT_PATH,'/var/www/vhosts/accidentreview.com/accidentreview/content-frontend/uploads/');
 	if(!defined(AR_EMAIL_TEMPLATES_PATH)) define(AR_EMAIL_TEMPLATES_PATH,'/var/www/vhosts/accidentreview.com/ar-git/content-backend/application/config/templates/email/');
 }else{
 	if(!defined(AR_ATTACHMENT_PATH)) define(AR_ATTACHMENT_PATH,dirname($_SERVER['DOCUMENT_ROOT']).'/content-frontend/uploads/');
