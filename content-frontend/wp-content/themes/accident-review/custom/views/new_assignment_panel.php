@@ -1,4 +1,7 @@
-
+<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
+<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
+<script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
+<script src="/wp-content/themes/accident-review/js/assignment-panel.js"></script>
 <?php
 	$is_new_assignment=(empty($job_data) || $job_data['autosave']==1); //  ( !empty($job_data) && $job_data['autosave']==0 );
 ?>
