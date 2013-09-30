@@ -11,20 +11,25 @@
 		array('name'=>'author','content'=>'Nick Niebaum (nickniebaum@gmail.com)'),
 	)) ?>
 	<?php echo css($css) ?>
+	<?php echo js($js) ?>
 </head>
 <body>
-<?php echo $yield ?>
 <? if(!empty($_SERVER['HTTP_REFERER'])){ ?>
 <script>
+function show_print(){
+	$("#button-container").css('display','none');
+	window.print();
+	$("#button-container").css('display','block');
+}
 setTimeout(function(){
-	var html = '<a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>'
-		+ '<a href="javascript:window.print()">Print</a>';
-
-	document.getElementById("button-container").innerHTML=html;
-alert($("button-container").html());
+	$("#button-container").css('display','block');
 },1000);
 </script>
-<div id="button-container"></div>
+<div id="button-container" style="display:none">
+	<a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>
+	<a href="javascript:show_print()">Print</a>
+</div>
 <? } ?>
+<?php echo $yield ?>
 </body>
 </html>

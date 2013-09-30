@@ -386,6 +386,7 @@
 			$this->authenticate=FALSE;
 			$this->layout='layouts/report';
 			$this->css[]='report.css';
+			$this->js[]='jquery-1.9.1.min.js';
 			
 			$this->data['assignment']=$this->assignment
 				->with('answers')
