@@ -382,6 +382,7 @@
 		
 		public function report($id)
 		{
+			error_reporting(0);
 			$this->authenticate=FALSE;
 			$this->layout='layouts/report';
 			$this->css[]='report.css';
