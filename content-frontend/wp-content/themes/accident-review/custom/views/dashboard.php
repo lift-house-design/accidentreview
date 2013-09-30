@@ -1,12 +1,15 @@
 <script src="/wp-content/themes/accident-review/js/jquery-1.9.1.min.js"></script>
 <script src="/wp-content/themes/accident-review/js/jquery-ui-1.10.2.min.js"></script>
 <script src="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.js"></script>
+<script src="/wp-content/themes/accident-review/js/jquery.ui.widget.js"></script>
+<script src="/wp-content/themes/accident-review/js/jquery.iframe-transport.js"></script>
+<script src="/wp-content/themes/accident-review/js/jquery.fileupload.js"></script>
 <!--script src="/wp-content/themes/accident-review/js/assignment-panel.js"></script-->
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-base.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-accordion.css" />
-<link rel="stylesheet" href="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
 <link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
+<link rel="stylesheet" href="/wp-content/themes/accident-review/js/fancybox/jquery.fancybox.css" />
 <div style="display: none;" id="assignment-updates">
 	<table>
 		<tbody>

@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-datepicker.css" />
-<link rel="stylesheet" href="/wp-content/themes/accident-review/jquery-ui-button.css" />
-<script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script>
+<!--script src="/wp-content/themes/accident-review/js/jquery.ajaxfileupload.js"></script-->
 <script src="/wp-content/themes/accident-review/js/assignment-panel.js"></script>
 <?php
 	$is_new_assignment=(empty($job_data) || $job_data['autosave']==1); //  ( !empty($job_data) && $job_data['autosave']==0 );
@@ -269,9 +267,6 @@
 			</div>
 
 			<input id="fileupload" type="file" name="file[]" data-url="/wp-admin/admin-ajax.php" multiple>
-			<script src="/wp-content/themes/accident-review/js/jquery.ui.widget.js"></script>
-			<script src="/wp-content/themes/accident-review/js/jquery.iframe-transport.js"></script>
-			<script src="/wp-content/themes/accident-review/js/jquery.fileupload.js"></script>
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
@@ -339,13 +334,6 @@
 					    });
 					});
 			</script>
-			<!--div class="file-types">
-				<p>Allowed file types: </p>
-				<ul>
-					<li><strong>Images</strong> (jpg, gif, png, tif)</li>
-					<li><strong>Documents</strong> (txt, rtf, doc, docx, pdf)</li>
-				</ul>
-			</div-->
 			<div>
 				
 			</div>
