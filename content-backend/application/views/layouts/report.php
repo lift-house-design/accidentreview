@@ -13,6 +13,7 @@
 	<?php echo css($css) ?>
 </head>
 <body>
+<?php echo $yield ?>
 <? if(!empty($_SERVER['HTTP_REFERER'])){ ?>
 <script>
 setTimeout(function(){
@@ -20,10 +21,10 @@ setTimeout(function(){
 		+ '<a href="javascript:window.print()">Print</a>';
 
 	document.getElementById("button-container").innerHTML=html;
+alert($("button-container").html());
 },1000);
 </script>
 <div id="button-container"></div>
 <? } ?>
-<?php echo $yield ?>
 </body>
 </html>
