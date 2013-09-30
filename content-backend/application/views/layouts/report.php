@@ -13,6 +13,7 @@
 	<?php echo css($css) ?>
 </head>
 <body>
+<? if($_SERVER['HTTP_REFERER']){ ?>
 <script>
 setTimeout(function(){
 	var html = '<a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>'
@@ -22,7 +23,7 @@ setTimeout(function(){
 },1000);
 </script>
 <div id="button-container"></div>
-<?=$_SERVER['HTTP_REFERER']?>
+<? } ?>
 <?php echo $yield ?>
 </body>
 </html>
