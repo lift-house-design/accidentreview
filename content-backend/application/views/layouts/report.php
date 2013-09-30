@@ -22,6 +22,7 @@ setTimeout(function(){
 },1000);
 </script>
 <div id="button-container"></div>
+<?=$_SERVER['HTTP_REFERER']?>
 <?php echo $yield ?>
 </body>
 </html>
