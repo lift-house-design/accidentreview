@@ -13,6 +13,15 @@
 	<?php echo css($css) ?>
 </head>
 <body>
+<script>
+setTimeout(function(){
+	var html = '<a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>'
+		+ '<a href="javascript:window.print()">Print</a>';
+
+	document.getElementById("button-container").innerHTML=html;
+},1000);
+</script>
+<div id="button-container"></div>
 <?php echo $yield ?>
 </body>
 </html>

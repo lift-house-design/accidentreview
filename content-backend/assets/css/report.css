@@ -1,3 +1,14 @@
+#button-container{
+	position:fixed;
+	top:0px;
+	right:100px;
+}
+#button-container a{
+	background-color:#abc;
+	padding:4px 12px;
+	margin:4px;
+}
+
 html,
 body {
 	background-color: #fff;
