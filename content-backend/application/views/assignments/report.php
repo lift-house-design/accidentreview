@@ -123,3 +123,22 @@
 		<p class="disclaimer">Accident Review reserves the right to review any additional information, evidence, etc., if such becomes available, and to amend this report and its findings, should it be neccesary.</p>
 	</div>
 </div>
+
+<? if(!empty($_SERVER['HTTP_REFERER'])){ ?>
+<script>
+function show_print(){
+	$("#button-container").css('display','none');
+	window.print();
+	$("#button-container").css('display','block');
+}
+setTimeout(function(){
+	$("#button-container").css('display','block');
+},10);
+</script>
+<div id="button-container" style="display:none">
+	<!--a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>
+	<a href="/assignments/pdf_report/<?=$assignment['id']?>">Save to PDF</a-->
+	<a href="http://do.convertapi.com/web2pdf/?OutputFileName=Assignment_<?=$assignment['id']?>_<?=date('Y-m-d')?>&scripts=false&curl=http://<?=$_SERVER['HTTP_HOST']?>/reports/<?=$assignment['id']?>">Save to PDF</a>
+	<a href="javascript:show_print()">Print</a>
+</div>
+<? } ?>

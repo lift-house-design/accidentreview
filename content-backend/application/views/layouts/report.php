@@ -14,22 +14,6 @@
 	<?php echo js($js) ?>
 </head>
 <body>
-<? if(!empty($_SERVER['HTTP_REFERER'])){ ?>
-<script>
-function show_print(){
-	$("#button-container").css('display','none');
-	window.print();
-	$("#button-container").css('display','block');
-}
-setTimeout(function(){
-	$("#button-container").css('display','block');
-},1000);
-</script>
-<div id="button-container" style="display:none">
-	<a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>
-	<a href="javascript:show_print()">Print</a>
-</div>
-<? } ?>
 <?php echo $yield ?>
 </body>
 </html>
