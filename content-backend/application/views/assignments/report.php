@@ -138,7 +138,7 @@ setTimeout(function(){
 <div id="button-container" style="display:none">
 	<!--a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>
 	<a href="/assignments/pdf_report/<?=$assignment['id']?>">Save to PDF</a-->
-	<a href="http://do.convertapi.com/web2pdf/?OutputFileName=Assignment_<?=$assignment['id']?>_<?=date('Y-m-d')?>&scripts=false&curl=http://<?=$_SERVER['HTTP_HOST']?>/reports/<?=$assignment['id']?>">Save to PDF</a>
+	<a href="http://do.convertapi.com/web2pdf/?ApiKey=617643486&OutputFileName=Assignment_<?=$assignment['id']?>_<?=date('Y-m-d')?>&scripts=false&curl=http://<?=$_SERVER['HTTP_HOST']?>/reports/<?=$assignment['id']?>">Save to PDF</a>
 	<a href="javascript:show_print()">Print</a>
 </div>
 <? } ?>
