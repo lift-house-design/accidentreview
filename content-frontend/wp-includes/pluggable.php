@@ -648,12 +648,18 @@ if ( !function_exists('wp_set_auth_cookie') ) :
  * @param bool $remember Whether to remember the user
  */
 function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
+/*
 	if ( $remember ) {
 		$expiration = $expire = time() + apply_filters('auth_cookie_expiration', 14 * DAY_IN_SECONDS, $user_id, $remember);
 	} else {
 		$expiration = time() + apply_filters('auth_cookie_expiration', 2 * DAY_IN_SECONDS, $user_id, $remember);
 		$expire = 0;
 	}
+*/
+	/* make cookies session only */
+	$expiration = 0;
+	$expire = 0;
+	$remember = false;
 
 	if ( '' === $secure )
 		$secure = is_ssl();
