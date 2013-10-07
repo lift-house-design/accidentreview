@@ -780,6 +780,10 @@ function auth_redirect() {
 			}
 		}
 
+		/* If home && logged in, redirect to dashboard */
+		if(strlen($_SERVER['REQUEST_URI']) < 2)
+			wp_redirect( '/dashboard' );
+
 		return;  // The cookie is good so we're done
 	}
 
