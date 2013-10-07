@@ -64,7 +64,7 @@
 
 <div id="header-login">	
 
-	<?php if(is_logged_in()): ?>
+	<?php if(is_user_logged_in()): ?>
 <div class="text">			Welcome, <a href="/dashboard/account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a></div>
 		<?php else: ?>
 
