@@ -418,7 +418,7 @@
 			<legend>Final Review</legend>
 			<div class="field">
 				<label>Findings</label>
-				<a class="button" target="_blank" href="/reports/<?php echo $job_data['id'] ?>">View Report</a>
+				<a class="button" target="_blank" href="http://backend.accidentreview.com/reports/<?php echo $job_data['id'] ?>">View Report</a>
 			</div>
 		</fieldset>
 	<?php endif; ?>
