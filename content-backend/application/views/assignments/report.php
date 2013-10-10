@@ -8,7 +8,7 @@
 		<label class="no-width">AccidentReview.com File Number</label> <?php echo $assignment['id'] ?><br />
 		<label class="no-width">Date</label> <?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
 		<label>Time</label> <?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
-	<label>By</label><div class="report-by"><?php echo $tech['first_name'].' '.$tech['last_name'].( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?></div>
+	<label>By</label><div class="report-by" style="width:300px"><?php echo $tech['first_name'].' '.$tech['last_name'].( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?></div>
 	</div>
 </div>
 <div class="row">
