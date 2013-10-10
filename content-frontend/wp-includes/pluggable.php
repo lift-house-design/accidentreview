@@ -658,7 +658,7 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 
 	/* make cookies session only */
 //	$expiration = 0;
-//	$expire = 0;
+	$expire = 0;
 //	$remember = false;
 
 	if ( '' === $secure )
