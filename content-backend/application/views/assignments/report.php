@@ -124,7 +124,7 @@
 	</div>
 </div>
 
-<? /*if(!empty($_SERVER['HTTP_REFERER']))*/{ ?>
+<? /*if(!empty($_SERVER['HTTP_REFERER'])){*/ ?>
 <script>
 function show_print(){
 	$("#button-container").css('display','none');
