@@ -124,7 +124,7 @@
 	</div>
 </div>
 
-<? if(!empty($_SERVER['HTTP_REFERER'])){ ?>
+<? /*if(!empty($_SERVER['HTTP_REFERER']))*/{ ?>
 <script>
 function show_print(){
 	$("#button-container").css('display','none');
@@ -141,4 +141,4 @@ setTimeout(function(){
 	<a href="http://do.convertapi.com/web2pdf/?ApiKey=617643486&OutputFileName=Assignment_<?=$assignment['id']?>_<?=date('Y-m-d')?>&scripts=false&curl=http://<?=$_SERVER['HTTP_HOST']?>/reports/<?=$assignment['id']?>">Save to PDF</a>
 	<a href="javascript:show_print()">Print</a>
 </div>
-<? } ?>
+<? /*}*/ ?>
