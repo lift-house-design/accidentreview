@@ -16,7 +16,7 @@
 				&copy; Copyright 2013 AccidentReview.com | 
 				Site by
 				<img src="http://lifthousedesign.com/assets/img/favicon.png" style="position:relative;top:3px" /> 
-				<a href="http://lifthousedesign.com" target="_blank" style="color:black">Lift House Design</a>
+				<a href="http://lifthousedesign.com" target="_blank" style="color:black;margin:0px;text-transform:none">Lift House Design</a>
 			</div>
 		</div>
 	</div>
