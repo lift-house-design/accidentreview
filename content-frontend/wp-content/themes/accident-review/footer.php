@@ -12,7 +12,11 @@
 			<a href="http://lifthousedesign.com/site/videography">Videography</a>, and Voice Acting services
 		</div>
 		<div class="wrapper">
-<div class="copyright">&copy; Copyright 2013 AccidentReview.com</div>
+			<div class="copyright">
+				&copy; Copyright 2013 AccidentReview.com | 
+				<img src="http://lifthousedesign.com/assets/img/favicon.png"/> Site by 
+				<a href="http://lifthousedesign.com">Lift House Design></a>
+			</div>
 		</div>
 	</div>
 </body>
