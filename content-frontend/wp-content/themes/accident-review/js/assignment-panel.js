@@ -110,7 +110,7 @@ function get_assignment_data(check_for_errors)
 			// Add object to the array
 			claimant_data.push(data);
 		});
-
+	//console.log("Job ID? "+job_data.id);
 	return {
 		'job': job_data,
 		'vehicles': vehicle_data,
@@ -170,8 +170,6 @@ $(function(){
 		.off('click','#vehicles-container fieldset.vehicle legend a.remove.button')
 		.off('click','#addclaimant')
 		.off('click','#claimants-container fieldset.claimant legend a.remove.button')
-		.off('click','.file-upload.field input[type="button"]')
-		.off('change','.file-upload.field input[type="file"]')
 		.off('submit','form#new-assignment')
 		.off('load','.file-preview .img.file a.icon img')
 		.off('click','#image-preview #image-preview-next')
@@ -686,12 +684,10 @@ $(function(){
 
 		
 	$(document)
-		.on('click','.file-upload.field input[type="button"]',function(){
-			$(this)
-				.siblings('input[type="file"]')
-				.click();
+		.on('click','#fileupload-button',function(){
+			console.log($('#fileupload').attr('type'));
+			$('#fileupload').click();
 		});
-	//	.on('change','.file-upload.field input[type="file"]',ajax_upload);
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -958,7 +954,8 @@ $(function(){
 		// Stop autosaving so that it does not overwrite the assignment after it is saved
 		if(typeof autosave_timer=='number')
 			clearInterval(autosave_timer);
-
+		//console.log(assignment_data);
+		//console.log(assignment_data.job.id);
 		// Save the assignment
 		$.ajax({
 		     url: '/wp-admin/admin-ajax.php',
@@ -979,11 +976,14 @@ $(function(){
 				}
 				else
 				{
-					show_msg('An error has occured: '+data.error);
+					show_msg('An error has occured fsdf: '+data.error);
 				}
 			},
 			error: function(jqXHR,textStatus,errorThrown){
-				show_msg('An error occurred: '+errorThrown);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+				show_msg('An error occurred huhu: '+errorThrown);
 			},
 		});
 	});

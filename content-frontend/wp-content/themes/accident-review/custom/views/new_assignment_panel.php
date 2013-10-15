@@ -276,7 +276,7 @@
 								assignment_id: $('input[type="hidden"][name="id"]').val(),
 							},
 							start: function(e, data) {
-								$('.file-upload.field input[type="button"]').val('Uploading...');
+								$('#fileupload-button').val('Uploading...');
 								$('.file-uploading-indicator').show();
 							},
 					        done: function (e, data) {
@@ -325,7 +325,7 @@
         						});
 					        },
 					        stop: function (e,data) {
-								$('.file-upload.field input[type="button"]').val('Upload File');
+								$('#fileupload-button').val('Upload File');
 								$('.file-uploading-indicator').hide();
 					        },
 					        error: function (e, data) {
@@ -355,7 +355,7 @@
 			<?php endforeach; ?>
 			</div>
 			
-			<input type="button" value="Upload File" /> 
+			<input id="fileupload-button" type="button" value="Upload File" /> 
 			<img class="file-uploading-indicator" src="/wp-content/themes/accident-review/images/ajax-loading.gif" />
 			<div id="attachment-edit">
 				<h3>Edit Attachment</h3>
