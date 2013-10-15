@@ -2299,9 +2299,9 @@ padding-bottom: 8px;
 }
 .file-upload.field input[type="file"] {
      zoom: 1;
+     /*
      filter: alpha(opacity=0);
      opacity: 0;
-     /*
 	 height: 0;
 	 width: 0;
 	 */
