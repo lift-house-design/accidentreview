@@ -2301,8 +2301,10 @@ padding-bottom: 8px;
      zoom: 1;
      filter: alpha(opacity=0);
      opacity: 0;
+     /*
 	 height: 0;
 	 width: 0;
+	 */
 }
 .file-types {
 	font-size: 13px;
