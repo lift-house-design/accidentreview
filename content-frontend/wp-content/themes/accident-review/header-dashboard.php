@@ -10,8 +10,11 @@
 		else wp_title('');
 	?>
 	</title>
+	
+	<!-- 2013 and Internet Explorer is still terrible -->
 	<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/normalize.css" />
-	<script src="<?php bloginfo('stylesheet_directory') ?>/js/IE9.js"></script>
+	<!--[if IE]><script src="<?php bloginfo('stylesheet_directory') ?>/js/IE9.js"></script><![endif]-->
+	
 	<?php if(preg_match('/dashboard\/assignments\/new-assignment/',$_SERVER['REQUEST_URI'],$matches)): ?>
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
 		<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/style-protected.css" />
