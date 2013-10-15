@@ -266,7 +266,32 @@
 				<a id="image-preview-close" class="button">Close</a>
 			</div>
 
+
+			<div>
+				
+			</div>
+			<div id="file-uploading-popup"></div>
+			<div class="file-preview">
+			<?/*php $i=0 */?>
+			<?php foreach($assignment_attachments as $attachment): ?>
+				<?php $fileType=ar_get_file_class($attachment['name']); ?>
+				<div <?/*id="img-<?php echo $i++ ?>" */?>class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
+					<a class="icon" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
+						<?php if($fileType=='img'): ?>
+							<img src="<?php echo AR_ATTACHMENT_URL.$attachment['url'] ?>" />
+						<?php else: ?>
+							&nbsp;
+						<?php endif; ?>
+					</a>
+					<a class="description" href="#"><?php echo $attachment['description'] ?></a>
+				</div>
+			<?php endforeach; ?>
+			</div>
+			
+			<input id="fileupload-button" type="button" value="Upload File" style="display:none"/> 
+
 			<input id="fileupload" type="file" name="file[]" data-url="/wp-admin/admin-ajax.php" multiple>
+			<br/>
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
@@ -334,28 +359,7 @@
 					    });
 					});
 			</script>
-			<div>
-				
-			</div>
-			<div id="file-uploading-popup"></div>
-			<div class="file-preview">
-			<?/*php $i=0 */?>
-			<?php foreach($assignment_attachments as $attachment): ?>
-				<?php $fileType=ar_get_file_class($attachment['name']); ?>
-				<div <?/*id="img-<?php echo $i++ ?>" */?>class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
-					<a class="icon" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
-						<?php if($fileType=='img'): ?>
-							<img src="<?php echo AR_ATTACHMENT_URL.$attachment['url'] ?>" />
-						<?php else: ?>
-							&nbsp;
-						<?php endif; ?>
-					</a>
-					<a class="description" href="#"><?php echo $attachment['description'] ?></a>
-				</div>
-			<?php endforeach; ?>
-			</div>
-			
-			<input id="fileupload-button" type="button" value="Upload File" style="display:none"/> 
+
 			<img class="file-uploading-indicator" src="/wp-content/themes/accident-review/images/ajax-loading.gif" />
 			<div id="attachment-edit">
 				<h3>Edit Attachment</h3>
