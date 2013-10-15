@@ -355,7 +355,7 @@
 			<?php endforeach; ?>
 			</div>
 			
-			<input id="fileupload-button" type="button" value="Upload File" /> 
+			<input id="fileupload-button" type="button" value="Upload File" style="display:none"/> 
 			<img class="file-uploading-indicator" src="/wp-content/themes/accident-review/images/ajax-loading.gif" />
 			<div id="attachment-edit">
 				<h3>Edit Attachment</h3>
