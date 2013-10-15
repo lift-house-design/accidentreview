@@ -348,6 +348,8 @@
             						console.log(index);
             						console.log(file);
         						});
+								$('#fileupload-button').val('Upload File');
+								$('.file-uploading-indicator').hide();
 					        },
 					        stop: function (e,data) {
 								$('#fileupload-button').val('Upload File');
@@ -355,6 +357,8 @@
 					        },
 					        error: function (e, data) {
 					        	alert('Error uploading files.');
+								$('#fileupload-button').val('Upload File');
+								$('.file-uploading-indicator').hide();
 					        }
 					    });
 					});
