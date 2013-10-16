@@ -67,32 +67,35 @@
 <div style="display:none" class="debug">
 	is_logged_in(): <?var_dump(is_logged_in());?>
 	is_user_logged_in(): <?var_dump(is_user_logged_in());?>
-	$_SESSION: <?var_dump($_SESSION);?>
+	$_SESSION: <?var_dump($_SESSION['user']);?>
 </div>
 
 
 <div id="header-login">	
-
-	<?php if(is_user_logged_in()): ?>
-<div class="text">			Welcome, <a href="/dashboard/account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a></div>
-		<?php else: ?>
-
-<div class="text">
-Secure Log In
-</div>
-
-<div class="agent-login-form">
-<form class="accident-form" action="/dashboard/login" method="post">
-	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" />
-	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" />
-	<input type="hidden" name="submit_login" />
-	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
-</form>
-<?php endif; ?>
-<?php if(isset($_SESSION['agent_user_id'])) : ?>
-<a href="/dashboard/login?do=logout">Logout</a>
-<?php endif; ?>
-</div>
+	<? if(!empty($_SESSION['user']['first_name'])){ ?>
+		<div class="text">
+			Welcome, 
+			<a href="/dashboard/account-info" class="username">
+				<?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?>
+			</a>
+			<br/>
+			<a href="/dashboard/">Dashboard</a>
+			<br/>
+			<a href="/dashboard/login?do=logout">Logout</a>
+		</div>
+	<? }else{ ?>
+		<div class="text">
+			Secure Log In
+		</div>
+		<div class="agent-login-form">
+			<form class="accident-form" action="/dashboard/login" method="post">
+				<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" />
+				<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" />
+				<input type="hidden" name="submit_login" />
+				<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
+			</form>
+		</div>
+	<? } ?>
 </div>
 
 		
