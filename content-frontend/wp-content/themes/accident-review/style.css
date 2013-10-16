@@ -1524,7 +1524,7 @@ input[type="submit"]::-moz-focus-inner {border:0;padding-top: 3px;}
 	top:0px;
 	left:120px;
 }
-.agent-login-form input:nth-child(3){
+.agent-login-form input:nth-child(4){
 	top:0px;
 	left:240px;
 }
