@@ -91,7 +91,7 @@
 					</h3
 				</a>
 				<h6>
-					For security reasons, it is important to keep your web browser up to date. This website also takes advantage of new features which your current browser does not support. We highly recommend that you upgrade Internet Explorer as soon as possible to keep you safe and provide you with the best user experience possible.
+					For security reasons, it is important to keep your web browser up to date. Additionally, this website takes advantage of new features which your current browser does not support. We highly recommend that you upgrade Internet Explorer as soon as possible to keep you safe and provide you with the best user experience possible.
 				</h6>
 			</div>
 		<![endif]-->
