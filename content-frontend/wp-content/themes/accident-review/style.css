@@ -3,6 +3,10 @@
 	padding:20px;
 	border:1px solid yellow;
 }
+#browser-warning h3{
+	text-align:center;
+	border-bottom: 1px dotted blue;
+}
 /*
 Theme Name: Accident Review Protected Theme
 Theme URI: http://www.lifthousedesign.com

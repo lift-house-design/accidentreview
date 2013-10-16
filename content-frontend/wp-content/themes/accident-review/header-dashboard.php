@@ -90,9 +90,9 @@
 						Click here to get the latest version of Internet Explorer
 					</a>
 				</h3>
-				<h4>
+				<h6>
 					For security reasons, it is important to keep your web browser up to date. This website also takes advantage of new features which your current browser does not support. We highly recommend that you upgrade Internet Explorer as soon as possible to keep you safe and provide you with the best user experience possible.
-				</h4>
+				</h6>
 			</div>
 		<![endif]-->
 		<div id="content">
