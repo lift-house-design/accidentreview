@@ -39,7 +39,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 	<?php endif; ?>
 <script language="javascript">
- function placeholder(e,val,type)
+ function placeHolder(e,val,type)
  {
  	if(!$(e).val())
  	{
@@ -83,8 +83,8 @@ Secure Log In
 
 <div class="agent-login-form">
 <form class="accident-form" action="/dashboard/login" method="post">
-	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeholder(this,'E-mail','text')" onblur="placeholder(this,'E-mail','text')" />
-	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeholder(this,'Password','password')" onblur="placeholder(this,'Password','text')" />
+	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" />
+	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" />
 	<input type="hidden" name="submit_login" />
 	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
 </form>
