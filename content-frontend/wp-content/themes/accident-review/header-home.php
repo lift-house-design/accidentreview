@@ -39,20 +39,10 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 	<?php endif; ?>
 <script language="javascript">
- function changeBox()
+ function changeBox(e,val,type)
  {
-    //document.getElementById('div1').style.display='none';
-    //document.getElementById('div2').style.display='';
-    //document.getElementById('password').focus();
-    $(this)
- }
- function restoreBox()
- {
-    //if(document.getElementById('password').value=='')
-    //{
-      //document.getElementById('div1').style.display='';
-      //document.getElementById('div2').style.display='none';
-    //}
+    $(e).val(val);
+    $(e).attr('type',type);
  }
 </script>	
 	<link type="text/css" rel="stylesheet" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
