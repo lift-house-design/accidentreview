@@ -35,25 +35,24 @@
 		<script src="<?php bloginfo('stylesheet_directory') ?>/js/plupload.js?ver=3.2.1"></script>
 		
 	<?php else: ?>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		<script src="/wp-content/themes/accident-review/js/jquery-1.9.1.min.js"></script>
+		<script src="/wp-content/themes/accident-review/js/jquery-ui-1.10.2.min.js"></script>
 	<?php endif; ?>
-<script language="javascript">
- function placeHolder(e,val,type)
- {
- 	if(!$(e).val())
- 	{
-    	$(e).val(val);
-    	//$(e).attr('type',type);
-    }
-    else if($(e).val() === val)
-    {
-    	$(e).val('');
-    	//$(e).attr('type',type);
-    }
- }
-</script>	
-	<link type="text/css" rel="stylesheet" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
+	<script language="javascript">
+	 function placeHolder(e,val,type)
+	 {
+	 	if(!$(e).val())
+	 	{
+	    	$(e).val(val);
+	    	//$(e).attr('type',type);
+	    }
+	    else if($(e).val() === val)
+	    {
+	    	$(e).val('');
+	    	//$(e).attr('type',type);
+	    }
+	 }
+	</script>	
 </head>
 <body id='home'>
 <? if(!empty($_SESSION['user']['first_name'])){ ?>
