@@ -83,7 +83,7 @@ Secure Log In
 
 <div class="agent-login-form">
 <form class="accident-form" action="/dashboard/login" method="post">
-	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeholder(this,'E-Mail','text')" onblur="placeholder(this,'E-Mail','text')" />
+	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeholder(this,'E-mail','text')" onblur="placeholder(this,'E-mail','text')" />
 	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeholder(this,'Password','password')" onblur="placeholder(this,'Password','text')" />
 	<input type="hidden" name="submit_login" />
 	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
