@@ -78,7 +78,7 @@
 	<div class="wrapper">
 		<a id="logo" href="/"><h1>Accident Review</h1></a>
 		<? if(!empty($_SESSION['user']['first_name'])){ ?>
-			<div id="account-options">
+			<div id="account-options" style="margin-right:10px">
 				<a href="/dashboard/new-assignment">New Assignment</a>
 				<a href="/dashboard/assignments">Assignments</a>
 				<a href="/dashboard/account-info">Manage Account</a>
