@@ -60,7 +60,7 @@
 	<div id="top-panel">
 		<div class="wrapper">
 			Welcome, 
-			<a href="/dashboard/account-info" class="username">
+			<a href="/dashboard/account-info" class="username" style="margin-right:10px">
 				<?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?>
 			</a>
 		</div>
