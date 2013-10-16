@@ -44,12 +44,12 @@
  	if(!$(e).val())
  	{
     	$(e).val(val);
-    	$(e).attr('type',type);
+    	//$(e).attr('type',type);
     }
     else if($(e).val() === val)
     {
     	$(e).val('');
-    	$(e).attr('type',type);
+    	//$(e).attr('type',type);
     }
  }
 </script>	
