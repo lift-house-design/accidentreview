@@ -41,8 +41,11 @@
 <script language="javascript">
  function changeBox(e,val,type)
  {
-    $(e).val(val);
-    $(e).attr('type',type);
+ 	if(!$(e).val())
+ 	{
+    	$(e).val(val);
+    	$(e).attr('type',type);
+    }
  }
 </script>	
 	<link type="text/css" rel="stylesheet" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
