@@ -1546,7 +1546,7 @@ color: #003c5d;
 }
 #home #home-top {
   background-color: #F7F7F7;
-  background-image: url("images/page-blue-background-tiremarks.jpg"), url("images/home-blue-background.jpg");
+  background-image: url(images/page-blue-background-tiremarks.jpg), url(images/home-blue-background.jpg);
   background-position: 0 0;
   background-repeat: no-repeat, repeat-x;
   color: #DAE2E9;
