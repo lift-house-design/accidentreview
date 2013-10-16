@@ -81,20 +81,11 @@ Secure Log In
 
 <div class="agent-login-form">
 <form class="accident-form" action="/dashboard/login" method="post">
-
-<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="if (this.value == 'E-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'E-mail';}" />
-<span id="div1">
-
-<input class="ui-corner-all" name="pass_temp" type="text" value="Password" onfocus="changeBox()" />
-</span>
-<span id="div2" style="display:none">
-
-<input class="ui-corner-all" name="password" id="password" type="password" value="" onfocus="changeBox()" />
-</span>
-
-<input type="hidden" name="submit_login" />
-
-<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
+	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="if (this.value == 'E-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'E-mail';}" />
+	<!--input class="ui-corner-all" name="pass_temp" type="text" value="Password" onfocus="changeBox()" /-->
+	<input class="ui-corner-all" name="password" id="password" type="password" value="" onfocus="changeBox()" />
+	<input type="hidden" name="submit_login" />
+	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
 </form>
 <?php if(isset($_SESSION['agent_user_id'])) : ?>
 <a href="/dashboard/login?do=logout">Logout</a>
