@@ -83,7 +83,7 @@ Secure Log In
 <form class="accident-form" action="/dashboard/login" method="post">
 	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="if (this.value == 'E-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'E-mail';}" />
 	<!--input class="ui-corner-all" name="pass_temp" type="text" value="Password" onfocus="changeBox()" /-->
-	<input class="ui-corner-all" name="password" id="password" type="password" value="" onfocus="changeBox()" />
+	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="changeBox()" />
 	<input type="hidden" name="submit_login" />
 	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
 </form>

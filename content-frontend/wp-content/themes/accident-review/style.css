@@ -1507,6 +1507,19 @@ input[type="submit"]::-moz-focus-inner {border:0;padding-top: 3px;}
 .agent-login-form input{
     height: 23px !important;
     padding: 0px !important;
+    position:absolute;
+}
+.agent-login-form input:nth-child(1){
+	top:0px;
+	left:0px;
+}
+.agent-login-form input:nth-child(2){
+	top:0px;
+	left:120px;
+}
+.agent-login-form input:nth-child(3){
+	top:0px;
+	left:140px;
 }
 .agent-login-form {
     height: 23px;
