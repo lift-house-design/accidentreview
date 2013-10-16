@@ -902,6 +902,16 @@ $(function(){
 						.removeAttr('disabled');
 					
 					$.fancybox.close();
+				},
+				error: function(){
+					$('#attachment-edit #attachment-edit-save')
+						.html('Save Description')
+						.removeAttr('disabled');
+					$('#attachment-edit #attachment-edit-delete')
+						.html('Delete Attachment')
+						.removeAttr('disabled');
+				
+					$.fancybox.close();
 				}
 			});
 		});
