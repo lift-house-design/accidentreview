@@ -57,12 +57,16 @@
 	<meta name="author" content="Nick Niebaum (nickniebaum@gmail.com)" />
 </head>
 <body id='home'>
-
-
-		<div id="header">
-	<div class="wrapper">
-			<a id="logo" href="/"><h1>Accident Review</h1></a>
-
+<? if(!empty($_SESSION['user']['first_name'])){ ?>
+	<div id="top-panel">
+		<div class="wrapper">
+			Welcome, 
+			<a href="/dashboard/account-info" class="username">
+				<?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?>
+			</a>
+		</div>
+	</div>
+<? } ?>
 
 <div style="display:none" class="debug">
 	is_logged_in(): <?var_dump(is_logged_in());?>
@@ -70,82 +74,58 @@
 	$_SESSION: <?var_dump($_SESSION['user']);?>
 </div>
 
-
-<div id="header-login">	
-	<? if(!empty($_SESSION['user']['first_name'])){ ?>
-		<div class="text">
-			Welcome, 
-			<a href="/dashboard/account-info" class="username">
-				<?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?>
-			</a>
-			<br/>
-			<a href="/dashboard/">Dashboard</a>
-			<br/>
-			<a href="/dashboard/login?do=logout">Logout</a>
-		</div>
-	<? }else{ ?>
-		<div class="text">
-			Secure Log In
-		</div>
-		<div class="agent-login-form">
-			<form class="accident-form" action="/dashboard/login" method="post">
-				<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" />
-				<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" />
-				<input type="hidden" name="submit_login" />
-				<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
-			</form>
-		</div>
-	<? } ?>
-</div>
-
-		
-</div>		
-	</div><!-- end header -->
-
+<div id="header">
 	<div class="wrapper">
-<!-- This clears all floats -->
-			<div class="clear"></div>
-			<div id="access" class="omega">
-                <?php wp_nav_menu( array( 'container_class' => 'menu', 'menu_class' => 'sf-menu', 'theme_location' => 'primary' ) ); ?>
-            </div><!-- #access -->
+		<a id="logo" href="/"><h1>Accident Review</h1></a>
+		<? if(!empty($_SESSION['user']['first_name'])){ ?>
+			<div id="account-options">
+				<a href="/dashboard/new-assignment">New Assignment</a>
+				<a href="/dashboard/assignments">Assignments</a>
+				<a href="/dashboard/account-info">Manage Account</a>
+				<a href="/dashboard/logout">Logout</a>
+			</div>
+		<? }else{ ?>
+			<div id="header-login">	
+				<div class="text">
+					Secure Log In
+				</div>
+				<div class="agent-login-form">
+					<form class="accident-form" action="/dashboard/login" method="post">
+						<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" />
+						<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" />
+						<input type="hidden" name="submit_login" />
+						<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
+					</form>
+				</div>
+			</div>
+		<? } ?>
+	</div>		
+</div><!-- end header -->
 
-
-	<div id="home-top" class="container_12">        
-        <div id="home-top-copy" class="">
-            <?php //if( function_exists('FA_display_slider') ){ FA_display_slider(665); } ?> 
-
-
-
-<!-- For using the page content rather than the sldier -->
-<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-<div id="home-top-content">
-<?php the_content(); ?>
-<?php endwhile; endif; ?>
-</div>
-
-<div id="home-top-image"></div>
-
-
-</div>
-
-
-
-       <div id="home-sidebar">
-            
-            <?php 
-                $home_sidebar = get_page_by_path('home/homesidebar');
-                echo '<h4>'.$home_sidebar->post_title;
-                echo '</h4>';
-                    
-                    
-                echo '<div id="homesidebar-text">';   
-                echo do_shortcode( $home_sidebar->post_content ).'</div>';
-            ?>           
-            
-        </div>
-
-
-  
-       
-    </div>
+<div class="wrapper">
+	<!-- This clears all floats -->
 	<div class="clear"></div>
+		<div id="access" class="omega">
+            <?php wp_nav_menu( array( 'container_class' => 'menu', 'menu_class' => 'sf-menu', 'theme_location' => 'primary' ) ); ?>
+        </div><!-- #access -->
+
+
+		<div id="home-top" class="container_12">        
+        	<div id="home-top-copy" class="">
+				<!-- For using the page content rather than the sldier -->
+				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+					<div id="home-top-content">
+						<?php the_content(); ?>
+					</div>
+				<?php endwhile; endif; ?>
+				<div id="home-top-image"></div>
+			</div>
+			<div id="home-sidebar">
+            	<? $home_sidebar = get_page_by_path('home/homesidebar'); ?>
+                <h4><?= $home_sidebar->post_title ?></h4>
+                <div id="homesidebar-text">
+                	<?= do_shortcode( $home_sidebar->post_content ) ?>
+               	</div>
+        	</div>
+        </div>
+		<div class="clear"></div>
