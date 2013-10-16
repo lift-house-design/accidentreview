@@ -1508,7 +1508,7 @@ input[type="submit"]::-moz-focus-inner {border:0;padding-top: 3px;}
 .agent-login-form {
     height: 23px;
     position: relative !important;
-    width:400px;
+    width:411px;
     border:1px dotted blue;
 }
 .agent-login-form input{
@@ -1519,14 +1519,17 @@ input[type="submit"]::-moz-focus-inner {border:0;padding-top: 3px;}
 .agent-login-form input:nth-child(1){
 	top:0px;
 	left:0px;
+	width:160px;
 }
 .agent-login-form input:nth-child(2){
 	top:0px;
-	left:120px;
+	left:170px;
+	width:160px;
 }
 .agent-login-form input:nth-child(4){
 	top:0px;
-	left:240px;
+	left:340px;
+	width:71px;
 }
 
 #header #header-login  form.accident-form label{
