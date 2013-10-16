@@ -39,11 +39,16 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 	<?php endif; ?>
 <script language="javascript">
- function changeBox(e,val,type)
+ function placeholder(e,val,type)
  {
  	if(!$(e).val())
  	{
     	$(e).val(val);
+    	$(e).attr('type',type);
+    }
+    else if($(e).val() === val)
+    {
+    	$(e).val('');
     	$(e).attr('type',type);
     }
  }
@@ -78,8 +83,8 @@ Secure Log In
 
 <div class="agent-login-form">
 <form class="accident-form" action="/dashboard/login" method="post">
-	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="changeBox(this,'','text')" onblur="changeBox(this,'E-Mail','text')" />
-	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="changeBox(this,'','password')" onblur="changeBox(this,'Password','text')" />
+	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeholder(this,'E-Mail','text')" onblur="placeholder(this,'E-Mail','text')" />
+	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeholder(this,'Password','password')" onblur="placeholder(this,'Password','text')" />
 	<input type="hidden" name="submit_login" />
 	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
 </form>
