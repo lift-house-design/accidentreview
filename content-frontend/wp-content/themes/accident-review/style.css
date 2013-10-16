@@ -1449,7 +1449,7 @@ body,html {
 }
 #header .wrapper {
     width: 960px;
-margin: 0 auto;
+	margin: 0 auto;
 }
 #header #loginlink {
     position:absolute;
@@ -1516,24 +1516,24 @@ input[type="submit"]::-moz-focus-inner {border:0;padding-top: 3px;}
     position: absolute !important;
 }
 .agent-login-form input:nth-child(1){
-	top:0px;
-	left:0px;
+	top:0px !important;
+	left:0px !important;
     height: 21px !important;
 	width:152px !important;
 	padding: 0px 4px !important;
 	line-height:21px !important;
 }
 .agent-login-form input:nth-child(2){
-	top:0px;
-	left:170px;
+	top:0px !important;
+	left:170px !important;
     height: 21px !important;
 	width:152px !important;
 	padding: 0px 4px !important;
 	line-height:21px !important;
 }
 .agent-login-form input:nth-child(4){
-	top:0px;
-	left:340px;
+	top:0px !important;
+	left:340px !important;
 	width:71px !important;
 }
 
