@@ -275,8 +275,8 @@
 			<?/*php $i=0 */?>
 			<?php foreach($assignment_attachments as $attachment): ?>
 				<?php $fileType=ar_get_file_class($attachment['name']); ?>
-				<div <?/*id="img-<?php echo $i++ ?>" */?>class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
-					<a class="icon" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
+				<div class="<?php echo $fileType ?> file" data-attachment-id="<?php echo $attachment['id'] ?>">
+					<a class="icon" target="_blank" href="<?php echo $fileType=='img' ? '#' : AR_ATTACHMENT_URL.$attachment['url'] ?>">
 						<?php if($fileType=='img'): ?>
 							<img src="<?php echo AR_ATTACHMENT_URL.$attachment['url'] ?>" />
 						<?php else: ?>
