@@ -1504,10 +1504,10 @@ margin-bottom: 8px;
 
 }
 input[type="submit"]::-moz-focus-inner {border:0;padding-top: 3px;}
-form.agent-login-form input{
+.agent-login-form input{
     height: 23px !important;
 }
-form.agent-login-form {
+.agent-login-form {
     height: 23px;
 }
 #header #header-login  form.accident-form label{
