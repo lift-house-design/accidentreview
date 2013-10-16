@@ -85,11 +85,11 @@
 		<!--[if lt IE 9]>
 			<div id="browser-warning">
 				<h2>Your web browser is out of date!<h2>
-				<h3>
-					<a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">
+				<a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">
+					<h3>
 						Click here to get the latest version of Internet Explorer
-					</a>
-				</h3>
+					</h3
+				</a>
 				<h6>
 					For security reasons, it is important to keep your web browser up to date. This website also takes advantage of new features which your current browser does not support. We highly recommend that you upgrade Internet Explorer as soon as possible to keep you safe and provide you with the best user experience possible.
 				</h6>

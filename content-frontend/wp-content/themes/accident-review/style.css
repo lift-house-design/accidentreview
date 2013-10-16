@@ -1,11 +1,12 @@
 #browser-warning{
-	background-color:#ff6;
-	padding:20px;
+	background-color:#ff8;
+	padding:10px 20px;
 	border:1px solid yellow;
 }
 #browser-warning h3{
 	text-align:center;
-	border-bottom: 1px dotted blue;
+	border: 1px dotted blue;
+	background-color:#ff6;
 }
 /*
 Theme Name: Accident Review Protected Theme
