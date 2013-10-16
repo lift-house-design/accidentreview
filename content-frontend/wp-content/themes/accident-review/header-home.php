@@ -41,17 +41,18 @@
 <script language="javascript">
  function changeBox()
  {
-    document.getElementById('div1').style.display='none';
-    document.getElementById('div2').style.display='';
-    document.getElementById('password').focus();
+    //document.getElementById('div1').style.display='none';
+    //document.getElementById('div2').style.display='';
+    //document.getElementById('password').focus();
+    $(this)
  }
  function restoreBox()
  {
-    if(document.getElementById('password').value=='')
-    {
-      document.getElementById('div1').style.display='';
-      document.getElementById('div2').style.display='none';
-    }
+    //if(document.getElementById('password').value=='')
+    //{
+      //document.getElementById('div1').style.display='';
+      //document.getElementById('div2').style.display='none';
+    //}
  }
 </script>	
 	<link type="text/css" rel="stylesheet" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
@@ -65,7 +66,11 @@
 			<a id="logo" href="/"><h1>Accident Review</h1></a>
 
 
-
+<div style="display:none" class="debug">
+	is_logged_in(): <?var_dump(is_logged_in());?>
+	is_user_logged_in(): <?var_dump(is_user_logged_in());?>
+	$_SESSION: <?var_dump($_SESSION);?>
+</div>
 
 
 <div id="header-login">	
@@ -77,16 +82,15 @@
 <div class="text">
 Secure Log In
 </div>
-	<?php endif; ?>
 
 <div class="agent-login-form">
 <form class="accident-form" action="/dashboard/login" method="post">
-	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="if (this.value == 'E-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'E-mail';}" />
-	<!--input class="ui-corner-all" name="pass_temp" type="text" value="Password" onfocus="changeBox()" /-->
-	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="changeBox()" />
+	<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="changeBox(this,'','text')" onblur="changeBox(this,'E-Mail','text')" />
+	<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="changeBox(this,'','password')" onblur="changeBox(this,'Password','text')" />
 	<input type="hidden" name="submit_login" />
 	<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
 </form>
+<?php endif; ?>
 <?php if(isset($_SESSION['agent_user_id'])) : ?>
 <a href="/dashboard/login?do=logout">Logout</a>
 <?php endif; ?>
