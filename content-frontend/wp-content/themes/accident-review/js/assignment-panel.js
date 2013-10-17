@@ -510,6 +510,7 @@ $(function(){
 					vehicle.find('input[name="vin_number"]').focus();
 				}
 			});
+			alert("Placeholder shim??");
 			$.placeholder.shim();
 		})
 		/*
