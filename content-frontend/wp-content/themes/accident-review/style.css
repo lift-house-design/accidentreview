@@ -1102,14 +1102,13 @@ strong {
 #new-assignment .field-row.ie{
 	width:100%;
 }
-#new-assignment .field-row.ie label {
+#new-assignment .field-row.ie span {
 	width: 220px;
-}
-
-#new-assignment .field-row.ie label,
-#new-assignment .field-row.ie input { 
-	float:left; 
-	display:inline;
+	text-align:right;
+	color: rgb(10, 44, 121);
+	font-size:16px;
+	font-weight:bold;
+	text-transform:uppercase;
 }
 
 #new-assignment fieldset {
