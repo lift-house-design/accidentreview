@@ -20,7 +20,7 @@
 	{
 		$email = $_POST['reset_email'];
 		echo '
-		<h2>Reset Your Password</h2>
+		<h2 style="color:rgb(10, 44, 121);">Reset Your Password</h2>
 		<form method="POST" action="?reset_form=1">
 			<span style="color:rgb(10, 44, 121);">Email:</span>
 			<input name="reset_email" value="'.$email.'"/>
