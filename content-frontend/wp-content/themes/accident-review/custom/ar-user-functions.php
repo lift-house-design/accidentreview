@@ -31,7 +31,6 @@
 		global $wpdb;
 
 		$sql = $wpdb->prepare('update ar_user set reset = %s where email = %s',$code,$email);
-		var_dump($sql);
 
 		return $wpdb->query($sql);
 	}
