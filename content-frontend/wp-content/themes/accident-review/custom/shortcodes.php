@@ -51,7 +51,7 @@
 	function accident_reset_code()
 	{
 		$exists = reset_exists($_GET['reset_code']);
-/*
+
 		if(!$exists){
 			echo "<h5 style=\"text-align:center;color:red\">Reset code has expired.</h5>";
 			return accident_reset_form();
@@ -59,7 +59,7 @@
 		else{
 			echo "Guess we found it..";
 		}
-*/
+
 	}
 
 	function accident_login()
