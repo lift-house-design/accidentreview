@@ -35,7 +35,7 @@
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
-					<!--[if IE]>
+					<!--[if !IE]>
 						<div class="field-row">
 							<select name="year" class="required">
 								<option value="">Year:</option>
