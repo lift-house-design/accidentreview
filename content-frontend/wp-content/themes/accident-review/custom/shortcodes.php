@@ -30,9 +30,13 @@
 				$code = sha1($email.time().rand(99,999999999));
 				echo $code;
 				set_reset($email,$code);
-				echo "YAYYYYYY";
+				$link = 'http://'.$_SERVER['HTTP_HOST'].'/dashboard/login/?reset_code='.$code;
+				$subject = "Password Reset Requested";
+				$body = 'Follow the link below to reset your password:\n<br/>\n<br/><a href="'.$link.'">'.$link.'</a>';
+				send_ar_email($subject,$body);
+				echo "<h5 style=\"text-align:center;color:green\">An Email was sent to $email with a link to reset your password.</h5>";
+				return;
 			}
-			
 		}
 
 		echo '
@@ -43,6 +47,11 @@
 			<input type="submit" value="Send Code"/>
 		</form>
 		';
+	}
+
+	function accident_reset_code()
+	{
+		var_dump($_GET);
 	}
 
 	function accident_login()
