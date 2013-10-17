@@ -35,6 +35,32 @@
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
+					<!--[if IE]>
+						<div class="field-row">
+							<select name="year" class="required">
+								<option value="">Year:</option>
+							</select>
+							<select name="make" disabled="disabled" class="required">
+								<option value="">Make:</option>
+							</select>
+							<select name="model" disabled="disabled" class="required">
+								<option value="">Model:</option>
+							</select>
+						</div>
+						<div class="field-row">
+							<label>Vehicle Operator's Name</label>
+							<input type="text" name="operator"/>
+						</div>
+						<div class="field-row">
+							<label>Vehicle Color</label>
+							<input type="text" name="color"/>
+						</div>
+						<div class="field-row">
+							<label>Vehicle Registration Number</label>
+							<input type="text" name="registration_number" />
+						</div>
+					<![endif]-->
+					<![if !IE]>
 						<div class="field-row">
 							<select name="year" class="required">
 								<option value="">Year:</option>
@@ -51,6 +77,7 @@
 							<input type="text" name="color" placeholder="Enter vehicle's color" />
 							<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
 						</div>
+					<![endif]>
 				</div>
 				<?php foreach($vehicle_questions as $question_key=>$question): ?>
 				<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
