@@ -17,7 +17,7 @@ function accident_login_form($atts, $content = null, $code = "")
         'type'=>'register'
     ), $atts));
 
-
+var_dump($_POST);
     $continue = false;
     
     if($type == 'register' || (isset($_GET['do']) && $_GET['do'] == 'register')) $show_register = true;
