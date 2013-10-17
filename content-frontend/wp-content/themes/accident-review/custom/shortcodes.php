@@ -21,9 +21,9 @@
 		$email = $_POST['reset_email'];
 		echo '
 		<h2 style="color:rgb(10, 44, 121);margin:0px 0px 20px">Reset Your Password</h2>
-		<form method="POST" action="?reset_form=1">
+		<form method="POST" action="?reset_form=1" style="text-align:center">
 			<span style="color:rgb(10, 44, 121);">Email:</span>
-			<input name="reset_email" value="'.$email.'"/>
+			<input name="reset_email" value="'.$email.'"/><br/>
 			<input type="submit" value="Send Code"/>
 		</form>
 		';
