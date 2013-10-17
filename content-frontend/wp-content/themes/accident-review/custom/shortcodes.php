@@ -21,7 +21,7 @@
 		$email = $_POST['reset_email'];
 		echo '
 		<form method="POST" action="?reset_form=1">
-			Email:
+			<span style="color:rgb(10, 44, 121);">Email:</span>
 			<input name="reset_email" value="'.$email.'"/>
 			<input type="submit" value="Send Code"/>
 		</form>
