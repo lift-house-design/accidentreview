@@ -21,8 +21,8 @@
 		$email = $_POST['reset_email'];
 		if(!empty($email))
 		{
-			/*
-			$exists = email_exists($email);
+			
+			$exists = ar_email_exists($email);
 			if(!$exists)
 			{
 				echo '<h5 style="text-align:center;color:red">Email Address not found.</h5>';
@@ -32,7 +32,7 @@
 				//set_reset($email,$code);
 				//echo "YAYYYYYY";
 			}
-			*/
+			
 		}
 
 		echo '

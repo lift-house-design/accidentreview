@@ -35,9 +35,8 @@
 		return $wpdb->query($sql);
 	}
 */
-//	function email_exists($email)
-//	{
-/*
+	function ar_email_exists($email)
+	{
 		global $wpdb;
 		
 		$sql=$wpdb->prepare('
@@ -59,8 +58,7 @@
 			$_SESSION['user']=$user;
 			return TRUE;
 		}
-*/
-//	}
+	}
 	
 	function logout_user()
 	{
