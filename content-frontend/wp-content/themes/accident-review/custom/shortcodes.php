@@ -28,7 +28,6 @@
 				echo '<h5 style="text-align:center;color:red">Email Address not found.</h5>';
 			}else{
 				$code = sha1($email.time().rand(99,999999999));
-				echo $code;
 				set_reset($email,$code);
 				$link = 'http://'.$_SERVER['HTTP_HOST'].'/dashboard/login/?reset_code='.$code;
 				$subject = "Password Reset Requested";
