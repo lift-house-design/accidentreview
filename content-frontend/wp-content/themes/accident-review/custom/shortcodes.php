@@ -28,7 +28,7 @@
 			}else{
 				$code = sha1($email.time().rand(99,999999999));
 				echo $code;
-				//set_reset($email,$code);
+				set_reset($email,$code);
 			}
 		}
 
