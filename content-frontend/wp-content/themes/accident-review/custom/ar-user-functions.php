@@ -25,7 +25,7 @@
 			return TRUE;
 		}
 	}
-/*
+
 	function set_reset($email,$code)
 	{
 		global $wpdb;
@@ -34,7 +34,7 @@
 
 		return $wpdb->query($sql);
 	}
-*/
+
 	function ar_email_exists($email)
 	{
 		global $wpdb;
