@@ -47,16 +47,16 @@
 								<option value="">Model:</option>
 							</select>
 						</div>
-						<div class="field-row">
-							<span>Vehicle Operator's Name</span>
+						<div class="field-row ie">
+							<label>Vehicle Operator's Name</label>
 							<input type="text" name="operator"/>
 						</div>
-						<div class="field-row">
-							<span>Vehicle Color</span>
+						<div class="field-row ie">
+							<label>Vehicle Color</label>
 							<input type="text" name="color"/>
 						</div>
-						<div class="field-row">
-							<span>Vehicle Registration Number</span>
+						<div class="field-row ie">
+							<label>Vehicle Registration Number</label>
 							<input type="text" name="registration_number" />
 						</div>
 					<![endif]-->

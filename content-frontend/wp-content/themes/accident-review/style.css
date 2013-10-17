@@ -1099,6 +1099,13 @@ strong {
 /**
  * Dashboard - New Assignment
  */
+#new-assignment .field-row.ie{
+	width:100%;
+}
+#new-assignment .field-row.ie label {
+	width: 220px;
+}
+
 #new-assignment fieldset {
 	border: 0;
 	padding: 0;
