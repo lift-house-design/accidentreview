@@ -26,7 +26,7 @@
 		}
 	}
 
-	function send_ar_email($subject,$body)
+	function send_ar_email($to,$subject,$body)
 	{
 		require_once('vendor/phpmailer/class.phpmailer.php');
 

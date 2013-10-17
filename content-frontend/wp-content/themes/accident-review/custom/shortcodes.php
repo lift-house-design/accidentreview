@@ -32,7 +32,7 @@
 				$link = 'http://'.$_SERVER['HTTP_HOST'].'/dashboard/login/?reset_code='.$code;
 				$subject = "Password Reset Requested";
 				$body = 'Follow the link below to reset your password:\n<br/>\n<br/><a href="'.$link.'">'.$link.'</a>';
-				send_ar_email($subject,$body);
+				send_ar_email($email,$subject,$body);
 				echo "<h5 style=\"text-align:center;color:green\">An Email was sent to $email with a link to reset your password.</h5>";
 				return;
 			}
