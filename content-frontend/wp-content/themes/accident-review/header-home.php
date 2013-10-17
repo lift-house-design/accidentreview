@@ -39,20 +39,16 @@
 		<script src="/wp-content/themes/accident-review/js/jquery-ui-1.10.2.min.js"></script>
 	<?php endif; ?>
 	<script language="javascript">
-	 function placeHolder(e,val,type)
-	 {
-	 	if(!$(e).val())
-	 	{
-	    	$(e).val(val);
-	    	//$(e).attr('type',type);
+		function placeHolder(e,val,type)
+		{
+	 		if(!$(e).val())
+	 			$(e).val(val);
+	    	else if($(e).val() === val)
+	    		$(e).val('');
 	    }
-	    else if($(e).val() === val)
-	    {
-	    	$(e).val('');
-	    	//$(e).attr('type',type);
-	    }
-	 }
-	</script>	
+	</script>
+	<script src="jquery.html5-placeholder-shim.js"></script>
+	<script>$(function(){ $.placeholder.shim(); });</script>
 </head>
 <body id='home'>
 <? if(!empty($_SESSION['user']['first_name'])){ ?>
