@@ -21,7 +21,13 @@
 		$email = $_POST['reset_email'];
 		if(!empty($email))
 		{
-			echo $email;
+			$exists = email_exists($email);
+			if(!$exists)
+			{
+				echo "<h3>Email Address not found.</h3>";
+			}else{
+				// send code;
+			}
 		}
 
 		echo '
