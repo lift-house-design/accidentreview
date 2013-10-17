@@ -15,12 +15,13 @@
 		));
 		exit;
 	}
-/*	
+	
 	function accident_reset_form()
 	{
 		$email = $_POST['reset_email'];
 		if(!empty($email))
 		{
+			/*
 			$exists = email_exists($email);
 			if(!$exists)
 			{
@@ -31,6 +32,7 @@
 				//set_reset($email,$code);
 				//echo "YAYYYYYY";
 			}
+			*/
 		}
 
 		echo '
@@ -42,7 +44,7 @@
 		</form>
 		';
 	}
-*/
+
 	function accident_login()
 	{
 		// handle reset
