@@ -1106,6 +1106,12 @@ strong {
 	width: 220px;
 }
 
+#new-assignment .field-row.ie label,
+#new-assignment .field-row.ie input { 
+	float:left; 
+	display:inline;
+}
+
 #new-assignment fieldset {
 	border: 0;
 	padding: 0;
