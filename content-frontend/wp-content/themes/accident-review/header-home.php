@@ -47,10 +47,10 @@
 	    		$(e).val('');
 	    }
 	</script>
-	<script src="jquery.html5-placeholder-shim.js"></script>
-	<script>$(function(){ $.placeholder.shim(); });</script>
 </head>
 <body id='home'>
+<script src="/wp-content/themes/accident-review/js/placeholder-shiv.jquery.js"></script>
+
 <? if(!empty($_SESSION['user']['first_name'])){ ?>
 	<div id="top-panel">
 		<div class="wrapper">
@@ -85,7 +85,8 @@
 				</div>
 				<div class="agent-login-form">
 					<form class="accident-form" action="/dashboard/login" method="post">
-						<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" style="top:0px;left:0px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/>
+						<!--input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" style="top:0px;left:0px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/-->
+						<input class="ui-corner-all" type="text" name="email" style="top:0px;left:0px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/>
 						<input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" style="top:0px;left:170px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/>
 						<input type="hidden" name="submit_login" />
 						<input id="submit_login_image" value="" name="submit_login_image" type="submit" style="top:0px;left:340px;width:71px"/>
