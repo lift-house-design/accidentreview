@@ -24,7 +24,7 @@
 			$exists = email_exists($email);
 			if(!$exists)
 			{
-				echo "<h3>Email Address not found.</h3>";
+				echo '<h4 style="text-align:center;color:red">Email Address not found.</h4>';
 			}else{
 				// send code;
 			}
@@ -34,7 +34,7 @@
 		<h2 style="color:rgb(10, 44, 121);text-align:center;margin:0px 0px 20px">Reset Your Password</h2>
 		<form method="POST" action="?reset_form=1" style="text-align:center">
 			<span style="color:rgb(10, 44, 121);">Email:</span>
-			<input name="reset_email" value="'.$email.'"/><br/><br/>
+			<input name="reset_email" style="width:200px" value="'.$email.'"/><br/><br/>
 			<input type="submit" value="Send Code"/>
 		</form>
 		';
