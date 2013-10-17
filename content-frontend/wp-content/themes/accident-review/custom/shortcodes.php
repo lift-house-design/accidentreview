@@ -27,7 +27,7 @@
 		}
 		else
 		{
-			echo 'There was a problem logging you in. Check the e-mail address and password you entered and try again.';
+			echo 'heh..There was a problem logging you in. Check the e-mail address and password you entered and try again.';
 		}
 	}
 	
