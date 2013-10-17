@@ -35,18 +35,18 @@
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
-					<!--[if !IE]>
-						<div class="field-row">
-							<select name="year" class="required">
-								<option value="">Year:</option>
-							</select>
-							<select name="make" disabled="disabled" class="required">
-								<option value="">Make:</option>
-							</select>
-							<select name="model" disabled="disabled" class="required">
-								<option value="">Model:</option>
-							</select>
-						</div>
+					<div class="field-row">
+						<select name="year" class="required">
+							<option value="">Year:</option>
+						</select>
+						<select name="make" disabled="disabled" class="required">
+							<option value="">Make:</option>
+						</select>
+						<select name="model" disabled="disabled" class="required">
+							<option value="">Model:</option>
+						</select>
+					</div>
+					<![if !IE]>
 						<div class="field-row ie">
 							<label>Vehicle Operator's Name</label>
 							<input type="text" name="operator"/>
@@ -59,19 +59,8 @@
 							<label>Vehicle Registration Number</label>
 							<input type="text" name="registration_number" />
 						</div>
-					<![endif]-->
+					<![endif]>
 					<![if !IE]>
-						<div class="field-row">
-							<select name="year" class="required">
-								<option value="">Year:</option>
-							</select>
-							<select name="make" disabled="disabled" class="required">
-								<option value="">Make:</option>
-							</select>
-							<select name="model" disabled="disabled" class="required">
-								<option value="">Model:</option>
-							</select>
-						</div>
 						<div class="field-row">
 							<input type="text" name="operator" placeholder="Enter vehicle operator's name" />
 							<input type="text" name="color" placeholder="Enter vehicle's color" />
