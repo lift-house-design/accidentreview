@@ -62,6 +62,25 @@
 		return $wpdb->query($sql);
 	}
 
+	function reset_exists($code)
+	{
+		global $wpdb;
+		
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_user
+			where
+				reset = %s
+			limit 1
+		',$code;
+		
+		$user=$wpdb->get_row($sql,'ARRAY_A');
+		
+		return ($user !== NULL);
+	}
+
 	function ar_email_exists($email)
 	{
 		global $wpdb;
@@ -78,13 +97,7 @@
 		
 		$user=$wpdb->get_row($sql,'ARRAY_A');
 		
-		if($user===NULL)
-			return FALSE;
-		else
-		{
-			$_SESSION['user']=$user;
-			return TRUE;
-		}
+		return ($user !== NULL);
 	}
 	
 	function logout_user()
