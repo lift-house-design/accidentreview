@@ -15,7 +15,7 @@
 		));
 		exit;
 	}
-	
+/*	
 	function accident_reset_form()
 	{
 		$email = $_POST['reset_email'];
@@ -42,7 +42,7 @@
 		</form>
 		';
 	}
-
+*/
 	function accident_login()
 	{
 		// handle reset
