@@ -1155,16 +1155,16 @@ strong {
 }
 #new-assignment .field input[type="text"],
 #new-assignment .field textarea {
-	width: 300px;
+	width: 500px;
 }
 #new-assignment .field textarea {
 	height: 100px;
 }
 #new-assignment .field-row select {
-	width: 240px;
+	width: 220px;
 }
 #new-assignment .field-row input[type="text"] {
-	width: 220px;
+	width: 200px;
 }
 #new-assignment .field-row span {
 	font-size: 11px;
