@@ -32,7 +32,7 @@
 					<label class="required">Vehicle Description</label>
 					<div class="field-row">
 						<span>Look up by VIN: </span>
-						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
+						<input type="text" name="vin_number" placeholder="VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
 					<div class="field-row">
@@ -62,9 +62,9 @@
 					<![endif]-->
 					<![if !IE]>
 						<div class="field-row">
-							<input type="text" name="operator" placeholder="Enter vehicle operator's name" />
-							<input type="text" name="color" placeholder="Enter vehicle's color" />
-							<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
+							<input type="text" name="operator" placeholder="Vehicle Operator's Name" />
+							<input type="text" name="color" placeholder="Vehicle Color" />
+							<input type="text" name="registration_number" placeholder="Vehicle Registration Number" />
 						</div>
 					<![endif]>
 				</div>
@@ -92,7 +92,7 @@
 							<label class="required">Vehicle Description</label>
 							<div class="field-row">
 							<span>Look up by VIN: </span>
-								<input type="text" name="vin_number" placeholder="Enter the full VIN number"<?php echo empty($vehicle_data['vin_number']) ? '' : ' value="'.$vehicle_data['vin_number'].'"' ?> />
+								<input type="text" name="vin_number" placeholder="VIN number"<?php echo empty($vehicle_data['vin_number']) ? '' : ' value="'.$vehicle_data['vin_number'].'"' ?> />
 								<input type="button" class="vin-lookup" value="Submit" />
 							</div>
 							<div class="field-row">
@@ -131,9 +131,9 @@
 							<![endif]-->
 							<![if !IE]>
 								<div class="field-row">
-									<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
-									<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
-									<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
+									<input type="text" name="operator" placeholder="Vehicle Operator's Name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
+									<input type="text" name="color" placeholder="Vehicle Color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
+									<input type="text" name="registration_number" placeholder="Vehicle Registration Number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
 								</div>
 							<![endif]>
 						</div>
@@ -163,13 +163,13 @@
 				<legend>Claimant <a class="remove button">Remove Claimant</a></legend>
 				<div class="field">
 					<label class="required">Claimant Name</label>
-					<input type="text" class="required" name="claimant_name" placeholder="Enter claimant name" />
+					<input type="text" class="required" name="claimant_name" placeholder="Claimant Name" />
 				</div>
 				<div class="field">
 					<label>Vehicle Description</label>
 					<div class="field-row">
 						<span>Look up by VIN: </span>
-						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
+						<input type="text" name="vin_number" placeholder="VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
 					<div class="field-row">
@@ -199,9 +199,9 @@
 					<![endif]-->
 					<![if !IE]>
 						<div class="field-row">
-							<input type="text" name="operator" placeholder="Enter vehicle operator's name"/>
-							<input type="text" name="color" placeholder="Enter vehicle's color"/>
-							<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
+							<input type="text" name="operator" placeholder="Vehicle Operator's Name"/>
+							<input type="text" name="color" placeholder="Vehicle Color"/>
+							<input type="text" name="registration_number" placeholder="Vehicle Registration Number" />
 						</div>
 					<![endif]>
 				</div>
@@ -227,13 +227,13 @@
 						<legend>Claimant #<?php echo $i ?><a class="remove button">Remove Claimant</a></legend>
 						<div class="field">
 							<label class="required">Claimant Name</label>
-							<input type="text" class="required" name="claimant_name" placeholder="Enter claimant name"<?php echo empty($claimant_data['claimant_name']) ? '' : ' value="'.$claimant_data['claimant_name'].'"' ?> />
+							<input type="text" class="required" name="claimant_name" placeholder="Claimant name"<?php echo empty($claimant_data['claimant_name']) ? '' : ' value="'.$claimant_data['claimant_name'].'"' ?> />
 						</div>
 						<div class="field">
 							<label>Vehicle Description</label>
 							<div class="field-row">
 								<span>Look up by VIN: </span>
-								<input type="text" name="vin_number" placeholder="Enter the full VIN number"<?php echo empty($claimant_data['vin_number']) ? '' : ' value="'.$claimant_data['vin_number'].'"' ?> />
+								<input type="text" name="vin_number" placeholder="VIN number"<?php echo empty($claimant_data['vin_number']) ? '' : ' value="'.$claimant_data['vin_number'].'"' ?> />
 								<input type="button" class="vin-lookup" value="Submit" />
 							</div>
 							<div class="field-row">
@@ -272,9 +272,9 @@
 							<![endif]-->
 							<![if !IE]>
 								<div class="field-row">
-									<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($claimant_data['operator']) ? '' : ' value="'.$claimant_data['operator'].'"' ?> />
-									<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($claimant_data['color']) ? '' : ' value="'.$claimant_data['color'].'"' ?> />
-									<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($claimant_data['registration_number']) ? '' : ' value="'.$claimant_data['registration_number'].'"' ?> />
+									<input type="text" name="operator" placeholder="Vehicle Operator's Name"<?php echo empty($claimant_data['operator']) ? '' : ' value="'.$claimant_data['operator'].'"' ?> />
+									<input type="text" name="color" placeholder="Vehicle Color"<?php echo empty($claimant_data['color']) ? '' : ' value="'.$claimant_data['color'].'"' ?> />
+									<input type="text" name="registration_number" placeholder="Vehicle Registration Number"<?php echo empty($claimant_data['registration_number']) ? '' : ' value="'.$claimant_data['registration_number'].'"' ?> />
 								</div>
 							<![endif]>
 						</div>
