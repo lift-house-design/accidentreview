@@ -25,6 +25,41 @@
 			return TRUE;
 		}
 	}
+
+	function set_reset($email,$code)
+	{
+		global $wpdb;
+
+		$sql = $wpdb->prepare('update ar_user set reset = %s where email = %s',$code,$email);
+		var_dump($sql);
+
+		return $wpdb->query($sql);
+	}
+
+	function email_exists($email)
+	{
+		global $wpdb;
+		
+		$sql=$wpdb->prepare('
+			select
+				*
+			from
+				ar_user
+			where
+				email = %s
+			limit 1
+		',$email);
+		
+		$user=$wpdb->get_row($sql,'ARRAY_A');
+		
+		if($user===NULL)
+			return FALSE;
+		else
+		{
+			$_SESSION['user']=$user;
+			return TRUE;
+		}
+	}
 	
 	function logout_user()
 	{
