@@ -41,7 +41,6 @@
 	<?php endif; ?>
 
 	<script src="/wp-content/themes/accident-review/js/placeholder-shiv.query.js"></script>
-	<script>$(function(){ $.placeholder.shim(); });</script>
 </head>
 <body>
 <div class="dashboard-css">
