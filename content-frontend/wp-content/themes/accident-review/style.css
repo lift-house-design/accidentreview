@@ -291,7 +291,9 @@ form input[type="password"],
 form textarea,
 form select,
 #assignments_filter input,
-form input[type="submit"] {
+form input[type="submit"],
+form input[type="file"],
+button {
 	/* Same as: #top-panel input */
 	padding: 4px 8px;
 	margin: 0;
