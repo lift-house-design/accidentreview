@@ -38,9 +38,10 @@
 		<script src="/wp-content/themes/accident-review/js/jquery-1.9.1.min.js"></script>
 		<script src="/wp-content/themes/accident-review/js/jquery-ui-1.10.2.min.js"></script>
 	<?php endif; ?>
+	
+	<script src="/wp-content/themes/accident-review/js/placeholder-shiv.jquery.js"></script>
 </head>
 <body id='home'>
-<script src="/wp-content/themes/accident-review/js/placeholder-shiv.jquery.js"></script>
 
 <? if(!empty($_SESSION['user']['first_name'])){ ?>
 	<div id="top-panel">
