@@ -24,9 +24,11 @@
 			$exists = email_exists($email);
 			if(!$exists)
 			{
-				echo '<h4 style="text-align:center;color:red">Email Address not found.</h4>';
+				echo '<h5 style="text-align:center;color:red">Email Address not found.</h5>';
 			}else{
-				// send code;
+				$code = sha1($email.time().rand(99,999999999));
+				echo $code;
+				//set_reset($email,$code);
 			}
 		}
 
