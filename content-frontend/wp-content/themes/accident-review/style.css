@@ -308,12 +308,11 @@ form input[type="button"],
 form input[type="submit"],
 form input[type="file"],
 button {
-	padding: 4px 8px;
+	padding: 4px 8px !important;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	font-size:12px;
-	
 }
 .field input[type="text"]:focus,
 .field input[type="password"]:focus,
