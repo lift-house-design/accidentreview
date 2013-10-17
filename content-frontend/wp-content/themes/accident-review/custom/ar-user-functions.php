@@ -62,6 +62,15 @@
 		return $wpdb->query($sql);
 	}
 
+	function ar_reset_pass($code,$pass)
+	{
+		global $wpdb;
+
+		$sql = $wpdb->prepare('update ar_user set password = %s where reset = %s', sha1($pass), $code);
+
+		return $wpdb->query($sql);
+	}
+
 	function reset_exists($code)
 	{
 		global $wpdb;

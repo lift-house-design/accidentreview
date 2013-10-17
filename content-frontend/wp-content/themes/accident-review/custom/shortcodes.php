@@ -50,16 +50,32 @@
 
 	function accident_reset_code()
 	{
-		$exists = reset_exists($_GET['reset_code']);
+		$code = $_GET['reset_code'];
+		$pass = $_POST['reset_password'];
+		$exists = reset_exists($code);
 
-		if(!$exists){
+		if(!$exists)
+		{
 			echo "<h5 style=\"text-align:center;color:red\">Reset code has expired.</h5>";
 			return accident_reset_form();
 		}
-		else{
-			echo "Guess we found it..";
+		elseif(!empty($pass))
+		{
+			ar_reset_pass($code,$pass);
+			echo "<h5 style=\"text-align:center;color:green\">Your password has been reset.</h5>";
+			return;
 		}
-
+		else
+		{
+			echo '
+				<h2 style="color:rgb(10, 44, 121);text-align:center;margin:0px 0px 20px">Reset Your Password</h2>
+				<form method="POST" action="?reset_code='.$code.'" style="text-align:center">
+					<span style="color:rgb(10, 44, 121);">Password:</span>
+					<input type="password" name="reset_password" style="width:200px"/><br/><br/>
+					<input type="submit" value="Set Password"/>
+				</form>
+			';
+		}
 	}
 
 	function accident_login()
