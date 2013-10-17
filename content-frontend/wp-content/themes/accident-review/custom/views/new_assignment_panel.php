@@ -31,7 +31,7 @@
 				<div class="field">
 					<label class="required">Vehicle Description</label>
 					<div class="field-row">
-						<span>If the VIN number is available, enter it below and click "Submit"</span>
+						<span>Look up by VIN: </span>
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
@@ -48,15 +48,15 @@
 							</select>
 						</div>
 						<div class="field-row">
-							<label>Vehicle Operator's Name</label>
+							<span>Vehicle Operator's Name</span>
 							<input type="text" name="operator"/>
 						</div>
 						<div class="field-row">
-							<label>Vehicle Color</label>
+							<span>Vehicle Color</span>
 							<input type="text" name="color"/>
 						</div>
 						<div class="field-row">
-							<label>Vehicle Registration Number</label>
+							<span>Vehicle Registration Number</span>
 							<input type="text" name="registration_number" />
 						</div>
 					<![endif]-->
