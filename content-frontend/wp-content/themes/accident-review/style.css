@@ -290,7 +290,8 @@ form input[type="text"],
 form input[type="password"],
 form textarea,
 form select,
-#assignments_filter input {
+#assignments_filter input,
+form input[type="submit"] {
 	/* Same as: #top-panel input */
 	padding: 4px 8px;
 	margin: 0;
