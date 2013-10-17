@@ -91,7 +91,7 @@
 						<div class="field">
 							<label class="required">Vehicle Description</label>
 							<div class="field-row">
-								<span>If the VIN number is available, enter it below and click "Submit"</span>
+							<span>Look up by VIN: </span>
 								<input type="text" name="vin_number" placeholder="Enter the full VIN number"<?php echo empty($vehicle_data['vin_number']) ? '' : ' value="'.$vehicle_data['vin_number'].'"' ?> />
 								<input type="button" class="vin-lookup" value="Submit" />
 							</div>
@@ -115,11 +115,27 @@
 									<?php endif; ?>
 								</select>
 							</div>
-							<div class="field-row">
-								<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
-								<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
-								<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
-							</div>
+							<!--[if IE]>
+								<div class="field-row ie">
+									<label>Vehicle Operator's Name</label>
+									<input type="text" name="operator"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
+								</div>
+								<div class="field-row ie">
+									<label>Vehicle Color</label>
+									<input type="text" name="color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
+								</div>
+								<div class="field-row ie">
+									<label>Vehicle Registration Number</label>
+									<input type="text" name="registration_number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
+								</div>
+							<![endif]-->
+							<![if !IE]>
+								<div class="field-row">
+									<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($vehicle_data['operator']) ? '' : ' value="'.$vehicle_data['operator'].'"' ?> />
+									<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($vehicle_data['color']) ? '' : ' value="'.$vehicle_data['color'].'"' ?> />
+									<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($vehicle_data['registration_number']) ? '' : ' value="'.$vehicle_data['registration_number'].'"' ?> />
+								</div>
+							<![endif]>
 						</div>
 						<?php foreach($vehicle_questions as $question_key=>$question): ?>
 						<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
@@ -152,7 +168,7 @@
 				<div class="field">
 					<label>Vehicle Description</label>
 					<div class="field-row">
-						<span>If the VIN number is available, enter it below and click "Submit"</span>
+						<span>Look up by VIN: </span>
 						<input type="text" name="vin_number" placeholder="Enter the full VIN number" />
 						<input type="button" class="vin-lookup" value="Submit" />
 					</div>
@@ -167,11 +183,27 @@
 							<option value="">Model:</option>
 						</select>
 					</div>
-					<div class="field-row">
-						<input type="text" name="operator" placeholder="Enter vehicle operator's name" />
-						<input type="text" name="color" placeholder="Enter vehicle's color" />
-						<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
-					</div>
+					<!--[if IE]>
+						<div class="field-row ie">
+							<label>Vehicle Operator's Name</label>
+							<input type="text" name="operator" />
+						</div>
+						<div class="field-row ie">
+							<label>Vehicle Color</label>
+							<input type="text" name="color" />
+						</div>
+						<div class="field-row ie">
+							<label>Vehicle Registration Number</label>
+							<input type="text" name="registration_number" />
+						</div>
+					<![endif]-->
+					<![if !IE]>
+						<div class="field-row">
+							<input type="text" name="operator" placeholder="Enter vehicle operator's name"/>
+							<input type="text" name="color" placeholder="Enter vehicle's color"/>
+							<input type="text" name="registration_number" placeholder="Enter vehicle's registration number" />
+						</div>
+					<![endif]>
 				</div>
 				<?php foreach($claimant_questions as $question_key=>$question): ?>
 				<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
@@ -200,7 +232,7 @@
 						<div class="field">
 							<label>Vehicle Description</label>
 							<div class="field-row">
-								<span>If the VIN number is available, enter it below and click "Submit"</span>
+								<span>Look up by VIN: </span>
 								<input type="text" name="vin_number" placeholder="Enter the full VIN number"<?php echo empty($claimant_data['vin_number']) ? '' : ' value="'.$claimant_data['vin_number'].'"' ?> />
 								<input type="button" class="vin-lookup" value="Submit" />
 							</div>
@@ -224,11 +256,27 @@
 									<?php endif; ?>
 								</select>
 							</div>
-							<div class="field-row">
-								<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($claimant_data['operator']) ? '' : ' value="'.$claimant_data['operator'].'"' ?> />
-								<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($claimant_data['color']) ? '' : ' value="'.$claimant_data['color'].'"' ?> />
-								<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($claimant_data['registration_number']) ? '' : ' value="'.$claimant_data['registration_number'].'"' ?> />
-							</div>
+							<!--[if IE]>
+								<div class="field-row ie">
+									<label>Vehicle Operator's Name</label>
+									<input type="text" name="operator"<?php echo empty($claimant_data['operator']) ? '' : ' value="'.$claimant_data['operator'].'"' ?> />
+								</div>
+								<div class="field-row ie">
+									<label>Vehicle Color</label>
+									<input type="text" name="color"<?php echo empty($claimant_data['color']) ? '' : ' value="'.$claimant_data['color'].'"' ?> />
+								</div>
+								<div class="field-row ie">
+									<label>Vehicle Registration Number</label>
+									<input type="text" name="registration_number"<?php echo empty($claimant_data['registration_number']) ? '' : ' value="'.$claimant_data['registration_number'].'"' ?> />
+								</div>
+							<![endif]-->
+							<![if !IE]>
+								<div class="field-row">
+									<input type="text" name="operator" placeholder="Enter vehicle operator's name"<?php echo empty($claimant_data['operator']) ? '' : ' value="'.$claimant_data['operator'].'"' ?> />
+									<input type="text" name="color" placeholder="Enter vehicle's color"<?php echo empty($claimant_data['color']) ? '' : ' value="'.$claimant_data['color'].'"' ?> />
+									<input type="text" name="registration_number" placeholder="Enter vehicle's registration number"<?php echo empty($claimant_data['registration_number']) ? '' : ' value="'.$claimant_data['registration_number'].'"' ?> />
+								</div>
+							<![endif]>
 						</div>
 						<?php foreach($claimant_questions as $question_key=>$question): ?>
 						<div class="<?php echo $question_key ?> field"<?php echo ( !empty($question['hidden']) ? ' style="display: none;"' : '' ) ?>>
