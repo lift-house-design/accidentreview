@@ -291,6 +291,7 @@ form input[type="password"],
 form textarea,
 form select,
 #assignments_filter input,
+form input[type="button"],
 form input[type="submit"],
 form input[type="file"],
 button {
