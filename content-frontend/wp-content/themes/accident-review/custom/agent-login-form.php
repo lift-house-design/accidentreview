@@ -29,6 +29,9 @@ function accident_login_form($atts, $content = null, $code = "")
     if($type == 'logout' || (isset($_GET['do']) && $_GET['do'] == 'logout')) $show_logout = true;
     else $show_logout = false;
 
+    if($type == 'reset' || (isset($_GET['do']) && $_GET['do'] == 'reset')) $show_reset = true;
+    else $show_reset = false;
+
     $error = false;
     $errors = array();
 
@@ -111,6 +114,10 @@ function accident_login_form($atts, $content = null, $code = "")
         }
     }
     
+    if($show_reset){
+        $content .= '<h4>Reset Your password</h4>';        
+    }
+
     if(isset($_SESSION['agent_user_id']) && $show_login) $continue = true;
 
     if($show_logout){
