@@ -40,7 +40,7 @@
 		<script src="/wp-content/themes/accident-review/js/jquery-ui-1.10.2.min.js"></script>
 	<?php endif; ?>
 
-	<script src="jquery.html5-placeholder-shim.js"></script>
+	<script src="/wp-content/themes/accident-review/js/jquery.html5-placeholder-shim.js"></script>
 	<script>$(function(){ $.placeholder.shim(); });</script>
 </head>
 <body>
