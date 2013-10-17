@@ -15,10 +15,27 @@
 		));
 		exit;
 	}
+	
+	function accident_reset_form()
+	{
+		$email = $_POST['reset_email'];
+		echo '
+		<form method="POST" action="?reset_form=1">
+			Email:
+			<input name="reset_email" value="'.$email.'"/>
+			<input type="submit" value="Send Code"/>
+		</form>
+		';
+	}
 
 	function accident_login()
 	{
-		var_dump($_GET);
+		// handle reset
+		if(!empty($_GET['reset_form']))
+			return accident_reset_form();
+		if(!empty($_GET['reset_code']))
+			return accident_reset_code();
+
 		if(!empty($_POST['email']) && !empty($_POST['password']) && login_user($_POST['email'],$_POST['password']))
 		{
 			$location='/dashboard?check_autosave=1';
@@ -27,7 +44,7 @@
 		}
 		else
 		{
-			echo 'heh..There was a problem logging you in. Check the e-mail address and password you entered and try again.';
+			echo 'There was a problem logging you in. Check the e-mail address and password you entered and try again.';
 		}
 	}
 	
@@ -39,13 +56,7 @@
 		echo 'You have been logged out. Please wait...';
 		echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
 	}
-	
-	function accident_reset()
-	{
-		echo "<h4>Reset Password</h4>";
-		var_dump($_POST);
-	}
-	
+
 	function accident_new_assignment($atts)
 	{
 		$assignment_questions=array(
