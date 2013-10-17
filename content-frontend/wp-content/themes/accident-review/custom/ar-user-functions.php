@@ -34,7 +34,7 @@
 
 		return $wpdb->query($sql);
 	}
-
+*/
 	function email_exists($email)
 	{
 		global $wpdb;
@@ -59,7 +59,7 @@
 			return TRUE;
 		}
 	}
-*/	
+	
 	function logout_user()
 	{
 		unset($_SESSION['user']);
