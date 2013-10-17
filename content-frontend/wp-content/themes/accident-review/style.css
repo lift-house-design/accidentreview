@@ -1101,11 +1101,13 @@ strong {
  */
 #new-assignment .field-row.ie{
 	width:100%;
-	text-align:left;
 }
 #new-assignment .field-row.ie span {
+	display:block;
+	width: 220px;
+	text-align:right;
 	color: rgb(10, 44, 121);
-	font-size:12px;
+	font-size:16px;
 	font-weight:bold;
 	text-transform:uppercase;
 }
