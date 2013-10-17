@@ -18,6 +18,7 @@
 
 	function accident_login()
 	{
+		var_dump($_GET);
 		if(!empty($_POST['email']) && !empty($_POST['password']) && login_user($_POST['email'],$_POST['password']))
 		{
 			$location='/dashboard?check_autosave=1';
@@ -85,6 +86,7 @@
 
 	function accident_dashboard($atts, $content=null, $code='')
 	{
+
 		if(is_logged_in()===FALSE)
 		{
 			$location='/';

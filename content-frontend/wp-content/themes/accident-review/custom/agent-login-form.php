@@ -17,7 +17,6 @@ function accident_login_form($atts, $content = null, $code = "")
         'type'=>'register'
     ), $atts));
 
-var_dump($_POST);
     $continue = false;
     
     if($type == 'register' || (isset($_GET['do']) && $_GET['do'] == 'register')) $show_register = true;
@@ -28,9 +27,6 @@ var_dump($_POST);
     
     if($type == 'logout' || (isset($_GET['do']) && $_GET['do'] == 'logout')) $show_logout = true;
     else $show_logout = false;
-
-    if($type == 'reset' || (isset($_GET['do']) && $_GET['do'] == 'reset')) $show_reset = true;
-    else $show_reset = false;
 
     $error = false;
     $errors = array();
