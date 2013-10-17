@@ -48,15 +48,18 @@
 					</div>
 					<![if !IE]>
 						<div class="field-row ie">
-							<span>Vehicle Operator's Name</span>
+							<!--span>Vehicle Operator's Name</span-->
+							<label>Vehicle Operator's Name</label>
 							<input type="text" name="operator"/>
 						</div>
 						<div class="field-row ie">
-							<span>Vehicle Color</span>
+							<!--span>Vehicle Color</span-->
+							<label>Vehicle Color</label>
 							<input type="text" name="color"/>
 						</div>
 						<div class="field-row ie">
-							<span>Vehicle Registration Number</span>
+							<!--span>Vehicle Registration Number</span-->
+							<label>Vehicle Registration Number</label>
 							<input type="text" name="registration_number" />
 						</div>
 					<![endif]>
