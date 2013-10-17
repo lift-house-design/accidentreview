@@ -4,6 +4,7 @@
 	add_shortcode('new-assignment','accident_new_assignment');
 	add_shortcode('login','accident_login');
 	add_shortcode('logout','accident_logout');
+	add_shortcode('reset','accident_reset');
 	add_shortcode('phpinfo','phpinfo2');
 	
 	function phpinfo2()
@@ -36,6 +37,12 @@
 		$location='/';
 		echo 'You have been logged out. Please wait...';
 		echo '<meta http-equiv="refresh" content="0;URL=\''.$location.'\'">';
+	}
+	
+	function accident_reset()
+	{
+		echo "<h4>Reset Password</h4>";
+		var_dump($_POST);
 	}
 	
 	function accident_new_assignment($atts)
