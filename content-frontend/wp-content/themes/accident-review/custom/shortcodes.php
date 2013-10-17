@@ -21,7 +21,7 @@
 		$email = $_POST['reset_email'];
 		if(!empty($email))
 		{
-			
+			/*
 			$exists = email_exists($email);
 			if(!$exists)
 			{
@@ -32,7 +32,7 @@
 				//set_reset($email,$code);
 				//echo "YAYYYYYY";
 			}
-			
+			*/
 		}
 
 		echo '
