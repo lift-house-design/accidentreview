@@ -74,6 +74,7 @@
 			<div id="header-login">	
 				<div class="text">
 					Secure Log In
+					<a href="/dashboard/login/?reset_form=1" style="font-size:12px;">Forgot Your Password?</a>
 				</div>
 				<div class="agent-login-form">
 					<form class="accident-form" action="/dashboard/login" method="post">
