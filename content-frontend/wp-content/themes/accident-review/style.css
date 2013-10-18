@@ -5,6 +5,17 @@
 }
 .ui-dialog .ui-dialog-titlebar-close{
 	float:right;
+	margin-right:0px;
+}
+.ui-dialog .ui-resizable-handle{
+	display:none;
+}
+
+.ui-dialog .ui-dialog-buttonset button{
+	padding:4px;
+}
+.ui-dialog .ui-dialog-buttonset button:last-child{
+	float:right;
 }
 
 
