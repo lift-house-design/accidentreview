@@ -770,27 +770,6 @@
 		}
 	}
 </script>
-<!--
-<div id="test-dialog" title="test">test tes t set se t set </div>
-<script>
-
-		$(function(){
-			$("#test-dialog").dialog({
-				buttons : {
-					"Yes" : function() {
-						console.log('Yes');
-						$(this).dialog("close");
-					},
-					"No" : function() {
-						console.log('No');
-						$(this).dialog("close");
-					}
-				}
-			});
-			$('#test-dialog').dialog("open");
-		});
-</script>
--->
 
 <?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
 	<div id="auto-save-dialog" title="Notice">
@@ -801,15 +780,12 @@
 			$("#auto-save-dialog").dialog({
 				buttons : {
 					"Yes" : function() {
-						console.log('Yes');
 						var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
 						var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
-
 						open_autosaved_assignment(assignment_id,assignment_type);
 						$(this).dialog("close");
 					},
 					"No" : function() {
-						console.log('No');
 						$.ajax({
 							url: '/wp-admin/admin-ajax.php',
 							type: 'post',
@@ -826,31 +802,5 @@
 				}
 			});
 		});
-		//$('.ui-dialog').attr('onclick','').unbind('click');
-		/*
-		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
-		{
-		
-			var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
-			var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
-
-			open_autosaved_assignment(assignment_id,assignment_type);
-		
-		}
-		else
-		{
-			$.ajax({
-				url: '/wp-admin/admin-ajax.php',
-				type: 'post',
-				data: {
-                    action: 'clear-autosaves',
-				},
-				dataType: 'json',
-				success: function(data){
-					console.log(data);
-				}
-			});
-		}
-		*/
 	</script>
 <?php endif; ?>
