@@ -827,4 +827,18 @@
 		}
 		*/
 	<?php endif; ?>
+			$("#test-dialog").dialog({
+			buttons : {
+				"Yes" : function() {
+					console.log('Yes');
+					$(this).dialog("close");
+				},
+				"No" : function() {
+					console.log('No');
+					$(this).dialog("close");
+				}
+			}
+		});
+		//$('.ui-dialog').attr
 </script>
+<div id="test-dialog" title="test">test tes t set se t set </div>
