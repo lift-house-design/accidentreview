@@ -289,13 +289,13 @@
 				)) ?>
 			</div>
 			<div class="checkbox field">
-				<?php echo form_checkbox(array(
+				<?= form_checkbox(array(
 					'id'=>'change_status',
 					'name'=>'change_status',
 					'value'=>1,
 					'checked'=>set_value('change_status')==1,
 				)) ?>
-				<?php echo form_label('Change the status of the assignment to "Client Review" and send an e-mail to representative','change_status') ?>
+				<?php echo form_label('Change the status of the assignment to "Client Review"','change_status') ?>
 			</div>
 			<div class="buttons">
 				<?php echo form_submit('create_message','Create Message') ?>
