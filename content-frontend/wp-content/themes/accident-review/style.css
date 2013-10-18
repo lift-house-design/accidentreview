@@ -4,11 +4,8 @@
 	border:0;
 }
 .ui-dialog .ui-dialog-title{
-	padding:12px 12px;
+	padding:12px 0 0 12px;
 	background:none !important;
-}
-.ui-dialog .ui-dialog-buttonpane{
-	margin-bottom:4px;
 }
 .ui-dialog .ui-dialog-titlebar-close{
 	float:right;
@@ -18,7 +15,7 @@
 	display:none !important;
 }
 
-.ui-dialog .ui-dialog-buttonset button{
+.ui-dialog .ui-dialog-buttonpane button{
 	margin:4px;
 }
 .ui-dialog .ui-dialog-buttonset button:last-child{
