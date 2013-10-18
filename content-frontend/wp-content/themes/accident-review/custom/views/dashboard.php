@@ -452,6 +452,9 @@
 			</form>
 		</div>
 	</div>
+<div id="auto-save-dialog" title="waddap">
+  You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
+</div>
 <script>
 	var confirmLeave=false;
 	var assignments_datatable=false;
@@ -768,7 +771,10 @@
 				.accordion('option','active',0);
 		}
 	}
-
+    $("#auto-save-dialog").dialog({
+      autoOpen: false,
+      modal: true
+    });
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
 		$("#auto-save-dialog").dialog({
 			buttons : {
@@ -823,14 +829,4 @@
 		}
 		*/
 	<?php endif; ?>
-
-  $(document).ready(function() {
-    $("#auto-save-dialog").dialog({
-      autoOpen: false,
-      modal: true
-    });
-  });
 </script>
-<div id="auto-save-dialog" title="waddap">
-  You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
-</div>
