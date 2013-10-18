@@ -773,7 +773,7 @@
 	}
 
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
-		$("#auto-save-dialog").dialog({
+		/*$("#auto-save-dialog").dialog({
 			buttons : {
 				"Yes" : function() {
 					console.log('Yes');
@@ -799,7 +799,7 @@
 					$(this).dialog("close");
 				}
 			}
-		});
+		});*/
 		//$('.ui-dialog').attr('onclick','').unbind('click');
 		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
@@ -840,6 +840,7 @@
 					}
 				}
 			});
+			$(this).dialog("open");
 		});
 		//$('.ui-dialog').attr
 </script>
