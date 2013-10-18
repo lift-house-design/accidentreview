@@ -829,7 +829,7 @@
 	<?php endif; ?>
 
   $(document).ready(function() {
-    $("#dialog").dialog({
+    $("#auto-save-dialog").dialog({
       autoOpen: false,
       modal: true
     });
