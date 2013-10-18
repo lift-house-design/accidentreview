@@ -770,9 +770,11 @@
 	}
 
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
-		$("#dialog").dialog({
+	alert('hmmm..');
+		$("#auto-save-dialog").dialog({
 			buttons : {
 				"Yes" : function() {
+	alert('yesss..');
 					var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
 					var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
 
@@ -780,6 +782,7 @@
 					$(this).dialog("close");
 				},
 				"No" : function() {
+	alert('nooo..');
 					$.ajax({
 						url: '/wp-admin/admin-ajax.php',
 						type: 'post',
@@ -795,8 +798,9 @@
 				}
 			}
 		});
+	alert('open time?');
 
-		$("#dialog").dialog("open");
+		$("#auto-save-dialog").dialog("open");
 		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
 		{
