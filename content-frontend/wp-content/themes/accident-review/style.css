@@ -1,3 +1,10 @@
+.ui-dialog{
+	z-index: 9999;
+}
+.ui-dialog button:{
+	z-index:99999;
+}
+
 .ui-dialog .ui-dialog-titlebar,
 .ui-dialog .ui-dialog-content,
 .ui-dialog .ui-dialog-buttonpane{
