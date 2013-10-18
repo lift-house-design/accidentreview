@@ -8,11 +8,11 @@
 	margin-right:0px;
 }
 .ui-dialog .ui-resizable-handle{
-	display:none;
+	display:none !important;
 }
 
 .ui-dialog .ui-dialog-buttonset button{
-	padding:4px;
+	margin:4px;
 }
 .ui-dialog .ui-dialog-buttonset button:last-child{
 	float:right;
