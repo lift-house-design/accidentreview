@@ -827,7 +827,7 @@
 		}
 		*/
 	<?php endif; ?>
-		$.(function(){
+		$(function(){
 			$("#test-dialog").dialog({
 				buttons : {
 					"Yes" : function() {
