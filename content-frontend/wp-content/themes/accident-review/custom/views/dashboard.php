@@ -770,11 +770,9 @@
 	}
 
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
-	alert('hmmm..');
 		$("#auto-save-dialog").dialog({
 			buttons : {
 				"Yes" : function() {
-	alert('yesss..');
 					var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
 					var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
 
@@ -782,7 +780,6 @@
 					$(this).dialog("close");
 				},
 				"No" : function() {
-	alert('nooo..');
 					$.ajax({
 						url: '/wp-admin/admin-ajax.php',
 						type: 'post',
@@ -798,7 +795,6 @@
 				}
 			}
 		});
-	alert('open time?');
 
 		$("#auto-save-dialog").dialog("open");
 		/*
@@ -835,6 +831,6 @@
     });
   });
 </script>
-<div id="auto-save-dialog">
+<div id="auto-save-dialog" title="waddap">
   You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
 </div>
