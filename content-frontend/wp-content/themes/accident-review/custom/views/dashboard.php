@@ -452,7 +452,7 @@
 			</form>
 		</div>
 	</div>
-<div id="auto-save-dialog" title="waddap">
+<div id="auto-save-dialog" title="Notice">
   You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
 </div>
 <script>
