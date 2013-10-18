@@ -771,9 +771,9 @@
 				.accordion('option','active',0);
 		}
 	}
+
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
 		$("#auto-save-dialog").dialog({
-			autoOpen: false,
 			buttons : {
 				"Yes" : function() {
 					console.log('Yes');
@@ -800,9 +800,7 @@
 				}
 			}
 		});
-
-		$("#auto-save-dialog").dialog("open");
-		$('.ui-dialog').attr('onclick','').unbind('click');
+		//$('.ui-dialog').attr('onclick','').unbind('click');
 		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
 		{
