@@ -827,6 +827,13 @@
 		}
 		*/
 	<?php endif; ?>
+
+  $(document).ready(function() {
+    $("#dialog").dialog({
+      autoOpen: false,
+      modal: true
+    });
+  });
 </script>
 <div id="auto-save-dialog">
   You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
