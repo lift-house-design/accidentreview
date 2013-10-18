@@ -779,6 +779,7 @@
 		$("#auto-save-dialog").dialog({
 			buttons : {
 				"Yes" : function() {
+					console.log('Yes');
 					var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
 					var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
 
@@ -786,6 +787,7 @@
 					$(this).dialog("close");
 				},
 				"No" : function() {
+					console.log('No');
 					$.ajax({
 						url: '/wp-admin/admin-ajax.php',
 						type: 'post',
