@@ -827,6 +827,10 @@
 		}
 		*/
 	<?php endif; ?>
+</script>
+<div id="test-dialog" title="test">test tes t set se t set </div>
+<script>
+
 		$(function(){
 			$("#test-dialog").dialog({
 				buttons : {
@@ -842,6 +846,4 @@
 			});
 			$('#test-dialog').dialog("open");
 		});
-		//$('.ui-dialog').attr
 </script>
-<div id="test-dialog" title="test">test tes t set se t set </div>
