@@ -770,7 +770,6 @@
 	}
 
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
-	/*
 		$.alerts.okButton = ' Yes '; 
 		$.alerts.cancelButton = ' No '; 
 		jConfirm(
@@ -778,19 +777,18 @@
 			'', 
 			function(r) { 
 				if (r == true) {
-	*/
+		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
 		{
-		
+		*/
 			var assignment_type='<?php echo $autosaved_assignment['type'] ?>';
 			var assignment_id='<?php echo $autosaved_assignment['id'] ?>';
 
 			open_autosaved_assignment(assignment_id,assignment_type);
-		
-		}
 		/*
-				}
+		}
 		*/
+				}
 		else
 		{
 			$.ajax({
@@ -805,9 +803,7 @@
 				}
 			});
 		}
-		/*
 			}
 		);
-		*/
 	<?php endif; ?>
 </script>
