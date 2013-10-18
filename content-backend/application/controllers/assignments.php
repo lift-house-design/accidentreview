@@ -5,7 +5,13 @@
 		protected $models=array('user','assignment','vehicle_answer','correspondence','attachment','assignment_update');
 		
 		protected $authenticate=TRUE;
-		
+
+		public function __construct(){
+			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			parent::__construct();
+		}
+
 		public function index()
 		{
 			$this->css[]='http://accidentreview.com/wp-content/themes/accident-review/jquery.dataTables.css';
@@ -310,8 +316,6 @@
 						'message'=>'A tech has added correspondence to your assignment.',
 					));
 				}
-
-
 			}
 
 			redirect('assignments/'.post('assignment_id'));
