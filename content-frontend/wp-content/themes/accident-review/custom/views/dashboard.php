@@ -771,12 +771,9 @@
 				.accordion('option','active',0);
 		}
 	}
-    $("#auto-save-dialog").dialog({
-      autoOpen: false//,
-      //modal: true
-    });
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
 		$("#auto-save-dialog").dialog({
+			autoOpen: false,
 			buttons : {
 				"Yes" : function() {
 					console.log('Yes');
