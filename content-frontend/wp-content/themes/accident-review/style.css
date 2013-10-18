@@ -1,3 +1,13 @@
+.ui-dialog .ui-dialog-titlebar,
+.ui-dialog .ui-dialog-content,
+.ui-dialog .ui-dialog-buttonpane{
+	border:0;
+}
+.ui-dialog .ui-dialog-titlebar-close{
+	float:right;
+}
+
+
 #browser-warning{
 	background-color:#ff8;
 	padding:10px 20px;
