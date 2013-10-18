@@ -3,6 +3,9 @@
 .ui-dialog .ui-dialog-buttonpane{
 	border:0;
 }
+.ui-dialog .ui-dialog-title{
+	padding:4px 8px;
+}
 .ui-dialog .ui-dialog-titlebar-close{
 	float:right;
 	margin-right:0px;
