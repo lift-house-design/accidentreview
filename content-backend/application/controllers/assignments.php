@@ -7,8 +7,9 @@
 		protected $authenticate=TRUE;
 
 		public function __construct(){
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header('Pragma: no-cache');
 			parent::__construct();
 		}
 
