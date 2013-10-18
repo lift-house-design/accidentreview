@@ -52,4 +52,9 @@ include('custom/ac-assignment-functions.php');
 
 
 add_theme_support( 'post-thumbnails', array( 'post', 'page' ) );
+
+
+header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+header('Pragma: no-cache');
 ?>
