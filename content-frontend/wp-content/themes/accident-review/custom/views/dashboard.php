@@ -840,7 +840,7 @@
 					}
 				}
 			});
-			$(this).dialog("open");
+			$('#test-dialog').dialog("open");
 		});
 		//$('.ui-dialog').attr
 </script>
