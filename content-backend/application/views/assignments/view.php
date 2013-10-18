@@ -288,6 +288,7 @@
 					'style'=>'width:610px',
 				)) ?>
 			</div>
+			<?/*
 			<div class="checkbox field">
 				<?= form_checkbox(array(
 					'id'=>'change_status',
@@ -297,6 +298,7 @@
 				)) ?>
 				<?php echo form_label('Change the status of the assignment to "Client Review"','change_status') ?>
 			</div>
+			*/?>
 			<div class="buttons">
 				<?php echo form_submit('create_message','Create Message') ?>
 			</div>
