@@ -452,9 +452,7 @@
 			</form>
 		</div>
 	</div>
-<div id="auto-save-dialog" title="Notice">
-  You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
-</div>
+
 <script>
 	var confirmLeave=false;
 	var assignments_datatable=false;
@@ -771,9 +769,35 @@
 				.accordion('option','active',0);
 		}
 	}
+</script>
+<!--
+<div id="test-dialog" title="test">test tes t set se t set </div>
+<script>
 
-	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
-		/*$("#auto-save-dialog").dialog({
+		$(function(){
+			$("#test-dialog").dialog({
+				buttons : {
+					"Yes" : function() {
+						console.log('Yes');
+						$(this).dialog("close");
+					},
+					"No" : function() {
+						console.log('No');
+						$(this).dialog("close");
+					}
+				}
+			});
+			$('#test-dialog').dialog("open");
+		});
+</script>
+-->
+
+<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
+	<div id="auto-save-dialog" title="Notice">
+	  	You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?
+	</div>
+	<script>
+		$("#auto-save-dialog").dialog({
 			buttons : {
 				"Yes" : function() {
 					console.log('Yes');
@@ -799,7 +823,7 @@
 					$(this).dialog("close");
 				}
 			}
-		});*/
+		});
 		//$('.ui-dialog').attr('onclick','').unbind('click');
 		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
@@ -826,24 +850,5 @@
 			});
 		}
 		*/
-	<?php endif; ?>
-</script>
-<div id="test-dialog" title="test">test tes t set se t set </div>
-<script>
-
-		$(function(){
-			$("#test-dialog").dialog({
-				buttons : {
-					"Yes" : function() {
-						console.log('Yes');
-						$(this).dialog("close");
-					},
-					"No" : function() {
-						console.log('No');
-						$(this).dialog("close");
-					}
-				}
-			});
-			$('#test-dialog').dialog("open");
-		});
-</script>
+	</script>
+<?php endif; ?>
