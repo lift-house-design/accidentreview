@@ -805,6 +805,7 @@
 		});
 
 		$("#auto-save-dialog").dialog("open");
+		$('.ui-dialog').attr('onclick','').unbind('click');
 		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
 		{
