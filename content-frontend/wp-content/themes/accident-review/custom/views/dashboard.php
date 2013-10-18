@@ -772,8 +772,8 @@
 		}
 	}
     $("#auto-save-dialog").dialog({
-      autoOpen: false,
-      modal: true
+      autoOpen: false//,
+      //modal: true
     });
 	<?php if(isset($_GET['check_autosave']) && $autosaved_assignment=ar_get_autosaved_assignment()): ?>
 		$("#auto-save-dialog").dialog({
@@ -802,7 +802,7 @@
 			}
 		});
 
-		//$("#auto-save-dialog").dialog("open");
+		$("#auto-save-dialog").dialog("open");
 		/*
 		if(confirm('You have an assignment you did not save the last time you were logged in. Would you like to continue working on it?'))
 		{
