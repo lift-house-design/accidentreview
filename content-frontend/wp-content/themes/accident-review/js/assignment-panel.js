@@ -859,7 +859,7 @@ $(function(){
 							.html(newDescription);
 					}
 				},
-				complete: function(){
+				complete: function(data,textStatus,jqXHR){
 					$('#attachment-edit #attachment-edit-save')
 						.html('Save Description')
 						.removeAttr('disabled');
@@ -903,7 +903,7 @@ $(function(){
 					
 					$.fancybox.close();
 				},
-				complete: function(){
+				complete: function(data,textStatus,jqXHR){
 					if(data.status=='success')
 					{
 						$('.file-preview')
