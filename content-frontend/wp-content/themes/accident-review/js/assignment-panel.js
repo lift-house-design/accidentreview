@@ -682,7 +682,7 @@ $(function(){
 					}
 				},
 				complete: function(){
-					
+					alert("Your message has been sent!");
 				}
 			});
 		});
