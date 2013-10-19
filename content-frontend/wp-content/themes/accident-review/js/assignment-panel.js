@@ -899,7 +899,6 @@ $(function(){
 				},
 				success: function(data,textStatus,jqXHR){
 					alert('success');
-					data=$.parseJSON(data);
 					
 					if(data.status=='success')
 					{
@@ -907,12 +906,10 @@ $(function(){
 							.find('.file[data-attachment-id="'+attachmentId+'"]')
 							.remove();
 					}
-					$('#attachment-edit #attachment-edit-save')
-						.html('Save Description')
-						.removeAttr('disabled');
-					$('#attachment-edit #attachment-edit-delete')
-						.html('Delete Attachment')
-						.removeAttr('disabled');
+					$('#attachment-edit-save').html('Save Description');
+					$('#attachment-edit-save').removeAttr('disabled');
+					$('#attachment-edit-delete').html('Delete Attachment');
+					$('#attachment-edit-delete').removeAttr('disabled');
 					
 					$.fancybox.close();
 				},
