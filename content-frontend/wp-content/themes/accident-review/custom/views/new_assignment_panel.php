@@ -369,6 +369,8 @@
 								$('.file-uploading-indicator').show();
 							},
 					        done: function (e, data) {
+								$('#fileupload-button').val('Upload File');
+								$('.file-uploading-indicator').hide();
 					        	$.each(data.result.files, function (index, data_item) {
 					        		if(data_item.status == 'error')
 					        			return;
@@ -412,17 +414,19 @@
             						console.log(index);
             						console.log(file);
         						});
-								$('#fileupload-button').val('Upload File');
-								$('.file-uploading-indicator').hide();
 					        },
 					        stop: function (e,data) {
 								$('#fileupload-button').val('Upload File');
 								$('.file-uploading-indicator').hide();
 					        },
-					        error: function (e, data) {
-					        	alert('Error uploading files.');
+					        complete: function (e,data) {
 								$('#fileupload-button').val('Upload File');
 								$('.file-uploading-indicator').hide();
+					        },
+					        error: function (e, data) {
+								$('#fileupload-button').val('Upload File');
+								$('.file-uploading-indicator').hide();
+					        	alert('Error uploading files.');
 					        }
 					    });
 					});

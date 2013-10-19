@@ -537,12 +537,10 @@
             	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
         	}, 
 			success: function(data){
-				alert(data);
 			},
 			complete: function(jqXHR,textStatus){
 				remove_row.remove();
-				alert('yay!');
-			},
+			}
 		});
 	});
 
@@ -646,6 +644,9 @@
 					value: field.html()
 				}
 			},
+			error:function(xhr, status, errorThrown) { 
+            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+        	}, 
 			success: function(data){
 				console.log(data);
 			},
@@ -725,6 +726,9 @@
 					value: password
 				 }
 		     },
+			error:function(xhr, status, errorThrown) { 
+            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+        	}, 
 		     complete: function(jqXHR,textStatus){
 		         showMessage('Your password has successfully been updated.',false);
 				 form.find('input[name="new_password"]').val('');
@@ -797,6 +801,9 @@
 			                    action: 'clear-autosaves',
 							},
 							dataType: 'json',
+							error:function(xhr, status, errorThrown) { 
+            					alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+        					}, 
 							success: function(data){
 								console.log(data);
 							}

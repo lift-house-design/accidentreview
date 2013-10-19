@@ -239,6 +239,9 @@ $(function(){
 			         action: 'get-vin-data',
 					 vin: vin
 			     },
+				error:function(xhr, status, errorThrown) { 
+	            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+	        	}, 
 			     success: function(data,textStatus,jqXHR){
 			     	function show_vin_msg(err,fadeOut)
 			     	{
@@ -357,6 +360,9 @@ $(function(){
 			         action: 'vehicle-make-list',
 					 year: $(this).val()
 			     },
+				error:function(xhr, status, errorThrown) { 
+	            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+	        	}, 
 			     success: function(data,textStatus,jqXHR){
 				 	if(data.success)
 					{
@@ -433,6 +439,9 @@ $(function(){
 					 year: $(this).parents('.field').find('select[name="year"]').val(),
 					 make: $(this).val()
 			     },
+				error:function(xhr, status, errorThrown) { 
+	            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+	        	}, 
 			     success: function(data,textStatus,jqXHR){
 				 	if(data.success)
 					{
@@ -641,6 +650,9 @@ $(function(){
 					assignment_id: assignment_id,
 					message: message
 				},
+				error:function(xhr, status, errorThrown) { 
+	            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+	        	}, 
 				success: function(data,textStatus,jqXHR){
 					data=$.parseJSON(data);
 					console.log('#create-message response:');
@@ -842,6 +854,9 @@ $(function(){
 					attachment_id: attachmentId,
 					description: newDescription
 				},
+				error:function(xhr, status, errorThrown) { 
+            		alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+        		}, 
 				success: function(data,textStatus,jqXHR){
 					console.log(data);
 					data=$.parseJSON(data);
@@ -964,7 +979,7 @@ $(function(){
 		// Stop autosaving so that it does not overwrite the assignment after it is saved
 		if(typeof autosave_timer=='number')
 			clearInterval(autosave_timer);
-		
+
 		// Save the assignment
 		$.ajax({
 		     url: '/wp-admin/admin-ajax.php',

@@ -223,6 +223,9 @@
                             claimant: the_claimant
                         },
                         dataType: 'json',
+                        error:function(xhr, status, errorThrown) { 
+                            alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+                        }, 
                         success: function(data){
                             if(data.success){
                                 the_input.siblings('.vin_progress').fadeOut();
@@ -337,6 +340,9 @@
                         attid: attaid
                     },
                     dataType: 'json',
+                    error:function(xhr, status, errorThrown) { 
+                        alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+                    }, 
                     success: function(data){
                         if(data.success){
                             $('table.files_table > tbody').append('<tr class="{attaid:'+attaid+'"><td>'+data.name+'</td><td>'+data.size+'</td><td><a href="/files/'+data.location+'">Download</a>&nbsp;<a href="#" class="remove-existing-file">Delete</a></td></tr>');
@@ -367,6 +373,9 @@ function processVehicleRequest(actionName, ctlParams, resultControl)
         type: 'POST',
         data: parameters,
         dataType: 'json',
+        error:function(xhr, status, errorThrown) { 
+            alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+        }, 
         success: function(data)
         {
             if(data.success && resultControl)
