@@ -665,21 +665,15 @@ $(function(){
 						var msg=$(self).parents('fieldset').find('.correspondence:eq(0)').clone();
 
 						// Remove 'no correspondence' message
-						var test=correspondence_container
-							.children('p')
-							.remove();
+						var test=correspondence_container.children('p').remove();
 
 						// Add message to list
-						msg
-							.css('display','block')
-							.find('.message')
-							.html(message);
-						msg
-							.find('.timestamp')
-							.html(data.timestamp);
+						msg.css('display','block');
+						msg.find('.message').html(message);
+						msg.find('.timestamp').html(data.timestamp);
 						msg.appendTo(correspondence_container);
 						
-						$('textarea[name="create_message"]').val('');
+						$('#create-message-box').val('');
 					}
 				},
 				complete: function(){

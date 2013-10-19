@@ -481,7 +481,7 @@
 			</div>
 			<div class="field">
 				<label>Create Message</label>
-				<textarea name="create_message" placeholder="Enter your message to the tech here"></textarea>
+				<textarea id="create-message-box" name="create_message" placeholder="Enter your message to the tech here"></textarea>
 			</div>
 			<div class="field">
 				<input type="button" id="create-message" value="Create Message" />
