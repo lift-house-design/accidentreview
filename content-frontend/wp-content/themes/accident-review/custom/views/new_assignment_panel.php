@@ -359,7 +359,7 @@
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
-					        dataType: 'text',
+					        dataType: 'json',
 					        type: 'post',
 					        formData: {
 								action: 'save-attachment',
@@ -412,8 +412,6 @@
 												target: '_blank',
 											});
 									}
-            						console.log(index);
-            						console.log(file);
         						});
 					        },
 					        stop: function (e,data) {
