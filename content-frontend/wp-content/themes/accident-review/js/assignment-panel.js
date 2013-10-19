@@ -907,8 +907,22 @@ $(function(){
 							.find('.file[data-attachment-id="'+attachmentId+'"]')
 							.remove();
 					}
+					$('#attachment-edit #attachment-edit-save')
+						.html('Save Description')
+						.removeAttr('disabled');
+					$('#attachment-edit #attachment-edit-delete')
+						.html('Delete Attachment')
+						.removeAttr('disabled');
+					
+					$.fancybox.close();
 				},
 				complete: function(){
+					if(data.status=='success')
+					{
+						$('.file-preview')
+							.find('.file[data-attachment-id="'+attachmentId+'"]')
+							.remove();
+					}
 					$('#attachment-edit #attachment-edit-save')
 						.html('Save Description')
 						.removeAttr('disabled');
@@ -919,14 +933,7 @@ $(function(){
 					$.fancybox.close();
 				},
 				error: function(){
-					$('#attachment-edit #attachment-edit-save')
-						.html('Save Description')
-						.removeAttr('disabled');
-					$('#attachment-edit #attachment-edit-delete')
-						.html('Delete Attachment')
-						.removeAttr('disabled');
-				
-					$.fancybox.close();
+					alert('error');
 				}
 			});
 		});
