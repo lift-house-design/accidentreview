@@ -282,7 +282,7 @@
 			<div class="readonly field c1">
 				<?php echo form_label('Message:','message') ?>
 				<?php echo form_textarea(array(
-					'id'=>'message',
+					'class'=>'message',
 					'name'=>'message',
 					'value'=>set_value('message'),
 					'style'=>'width:610px',

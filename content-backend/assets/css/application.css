@@ -390,6 +390,7 @@ button,
 
 .correspondence > .message {
 	padding-left: 170px;
+	line-height:20px !important;
 }
 
 .assignment-owner.correspondence > .user-details {
