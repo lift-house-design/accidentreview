@@ -165,7 +165,7 @@ function save_new_assignment()
 	{
 		$response['error']=$error;
 	}
-	
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }
@@ -458,7 +458,8 @@ function save_attachment()
 
 	if(empty($response['error']))
 		$response['status']='success';
-	
+
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }
@@ -504,6 +505,7 @@ function save_attachment_description()
 		$response['error']='Attachment ID was not found.';
 	}
 	
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }
@@ -560,6 +562,7 @@ function delete_attachment()
 		$response['error']='Attachment ID was not found.';
 	}
 	
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }
@@ -678,6 +681,7 @@ function create_message()
 		$response['error']='The message was not found.';
 	}
 	
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }
@@ -780,6 +784,7 @@ function clear_autosaves()
 		$response['status']='Removed '.$count.' assignments.';
 	}
 
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }

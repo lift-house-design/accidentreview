@@ -898,7 +898,7 @@ $(function(){
 					attachment_id: attachmentId
 				},
 				success: function(data,textStatus,jqXHR){
-					console.log(data);
+					alert('success');
 					data=$.parseJSON(data);
 					
 					if(data.status=='success')
@@ -917,6 +917,7 @@ $(function(){
 					$.fancybox.close();
 				},
 				complete: function(){
+					alert('complete');
 					if(data.status=='success')
 					{
 						$('.file-preview')
