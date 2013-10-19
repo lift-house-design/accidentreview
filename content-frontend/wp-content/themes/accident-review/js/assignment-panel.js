@@ -655,6 +655,7 @@ $(function(){
 	            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
 	        	}, 
 				success: function(data,textStatus,jqXHR){
+					alert('yippee');
 					console.log('#create-message response:');
 					console.log(data);
 
@@ -682,6 +683,7 @@ $(function(){
 					}
 				},
 				complete: function(){
+					alert('amagmaga');
 				}
 			});
 		});
