@@ -898,7 +898,6 @@ $(function(){
 					attachment_id: attachmentId
 				},
 				success: function(data,textStatus,jqXHR){
-					alert('success');
 					
 					if(data.status=='success')
 					{
@@ -914,7 +913,6 @@ $(function(){
 					$.fancybox.close();
 				},
 				complete: function(){
-					alert('complete');
 					if(data.status=='success')
 					{
 						$('.file-preview')
