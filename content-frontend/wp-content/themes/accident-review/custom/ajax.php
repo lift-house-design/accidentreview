@@ -459,7 +459,7 @@ function save_attachment()
 	if(empty($response['error']))
 		$response['status']='success';
 
-	header('Content-type: application/json');
+	//header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }

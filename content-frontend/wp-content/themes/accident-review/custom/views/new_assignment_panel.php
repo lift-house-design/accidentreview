@@ -359,7 +359,8 @@
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
-					        dataType: 'json',
+					        dataType: 'text',
+					        type: 'post',
 					        formData: {
 								action: 'save-attachment',
 								assignment_id: $('input[type="hidden"][name="id"]').val(),
