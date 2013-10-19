@@ -645,6 +645,7 @@ $(function(){
 			$.ajax({
 				url: '/wp-admin/admin-ajax.php',
 				type: 'post',
+				dataType: 'json',
 				data: {
 					action: 'create-message',
 					assignment_id: assignment_id,
@@ -654,7 +655,6 @@ $(function(){
 	            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
 	        	}, 
 				success: function(data,textStatus,jqXHR){
-					data=$.parseJSON(data);
 					console.log('#create-message response:');
 					console.log(data);
 
@@ -682,7 +682,6 @@ $(function(){
 					}
 				},
 				complete: function(){
-					alert("Your message has been sent!");
 				}
 			});
 		});
