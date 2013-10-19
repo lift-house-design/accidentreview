@@ -964,8 +964,7 @@ $(function(){
 		// Stop autosaving so that it does not overwrite the assignment after it is saved
 		if(typeof autosave_timer=='number')
 			clearInterval(autosave_timer);
-		//console.log(assignment_data);
-		//console.log(assignment_data.job.id);
+		
 		// Save the assignment
 		$.ajax({
 		     url: '/wp-admin/admin-ajax.php',
@@ -997,137 +996,7 @@ $(function(){
 			},
 		});
 	});
-	/*$('form#new-assignment').submit(function(e){
-		e.preventDefault();
-		
-		// Clear previous message
-		$('form#new-assignment input[type="submit"]').siblings('.msg').remove();
-		
-		// Check for tos_agreement
-		if(isNewAssignment && $('input[name="tos_agreement"]:checked').length==0)
-		{
-			var msg=$('<div>')
-				.addClass('msg')
-				.html('You must accept the terms and conditions to continue.');
-			$('form#new-assignment input[type="submit"]').after(msg);
-			
-			return;
-		}
 
-		// Check for required fields
-		var required_error=$([]);
-		$('input:text.required, textarea.required, select.required').each(function(){
-			if($.trim($(this).val().toString())=='')
-			{
-				required_error=required_error.add(this);
-			}
-		});
-		
-		if(required_error.length>0)
-		{
-			required_error
-				.addClass('error')
-				.change(function(){
-					$(this)
-						.removeClass('error');
-					$(document).off('change',this);
-				});
-
-			var msg=$('<div>')
-				.addClass('msg')
-				.html('You have not filled out some required fields. Fields marked with * are required, please try again.');
-			$('form#new-assignment input[type="submit"]').after(msg);
-
-			return;
-		}
-		
-		// Collect the data
-		var job_fields=$(this)
-			.children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)')
-			.filter(':lt(2)')
-			.add(
-				$(this)
-					.children('fieldset')
-					.filter(':gt(-2)')
-			);
-		var vehicle_fields=$(this).children('fieldset:not(.correspondence-fieldset, .final-review-fieldset)').filter(':gt(1)').filter(':lt(-1)');
-		
-		// Now build the data objects
-		var job_data={};
-		// Simply add all the fields in these fieldsets to the data object
-		job_fields.find('input:text, textarea, select, input:radio:checked, input:checkbox:checked, :hidden').each(function(){
-			job_data[ $(this).attr('name') ]=$(this).val();
-		});
-		
-		
-		var vehicle_data=[];
-		// Iterate over each vehicle
-		vehicle_fields.each(function(){
-			var data={};
-			// Add all the data in each fieldset as a seperate array item
-			$(this).find('input:text, textarea, select, input:radio:checked, input:checkbox:checked, :hidden').each(function(){
-				var current_name=$(this).attr('name');
-				if(typeof current_name == 'string')
-				{
-					if(current_name.match(/_\d+$/))
-					{
-						var new_name=current_name.replace(/_\d+$/,'');
-					}
-					else
-						var new_name=current_name;
-					
-					data[ new_name ]=$(this).val();
-				}
-			});
-			vehicle_data.push(data);
-		});
-		
-		function formError(err)
-		{
-			var msg=$('<div>')
-				.addClass('msg')
-				.html('An error has occurred'+( err ? ': '+err : '' )+'. Please try again.');
-			$('form#new-assignment input[type="submit"]').after(msg);
-		}
-		
-		// Clear the timed autosave so that it does not overwrite the assignment after it is saved
-		if(typeof autosave_timer=='number')
-			clearInterval(autosave_timer);
-
-		// Save the assignment
-		$.ajax({
-		     url: '/wp-admin/admin-ajax.php',
-		     type: 'post',
-		     data: {
-			 	job: job_data,
-				vehicles: vehicle_data,
-				action: 'save-new-assignment',
-				new_assignment: isNewAssignment ? 1 : 0
-			 },
-			 dataType: 'json',
-		     success: function(data,textStatus,jqXHR){
-				if(data.status=='success')
-				{
-					var msg=$('<div>')
-						.addClass('msg')
-						.html('Your assignment has been saved! Please wait...');
-					$('form#new-assignment input[type="submit"]').after(msg);
-					
-					confirmLeave=false;
-
-					setTimeout(function(){
-						close_new_assignments();
-						window.location.href='/dashboard/assignments';
-					},2000);
-				}
-				else
-					formError(data.error);
-			},
-			error: function(jqXHR,textStatus,errorThrown){
-				formError(errorThrown);
-			},
-		});
-	});*/
 	
 	// Populate vehicle year dropdown
 	$.ajax({

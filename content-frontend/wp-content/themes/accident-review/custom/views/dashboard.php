@@ -533,11 +533,15 @@
 					id: update_id,
 				}
 			},
+			error:function(xhr, status, errorThrown) { 
+            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+        	}, 
 			success: function(data){
-				console.log(data);
+				alert(data);
 			},
 			complete: function(jqXHR,textStatus){
 				remove_row.remove();
+				alert('yay!');
 			},
 		});
 	});

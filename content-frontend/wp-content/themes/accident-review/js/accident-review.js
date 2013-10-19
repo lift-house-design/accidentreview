@@ -183,54 +183,6 @@
                 $('#vininfo_'+the_claimant).hide();                
             }
         });
-        
-        // $('.vin_decoder').bind('keyup',function(){            
-        //     var the_value = $(this).val().toUpperCase(),
-        //         the_claimant = '',
-        //         the_name = $(this).attr('name'),
-        //         the_input = $(this);
-            
-        //     if($(this).val() != the_value){
-        //         $(this).val(the_value);
-        //     }
-
-        //     if(the_name == 'claimant_a_vin') the_claimant = 'a';
-        //     if(the_name == 'claimant_b_vin') the_claimant = 'b';
-        //     if(the_name == 'claimant_c_vin') the_claimant = 'c';
-            
-        //     if(the_value.length == 17){
-        //         //console.log('Value: '+the_value);
-        //         $(this).siblings('.vin_progress').fadeIn();
-                
-        //         $.ajax({
-        //             url: '/wp-admin/admin-ajax.php',
-        //             type: 'POST',
-        //             data: {
-        //                 action: 'vehicle-vin-decode',
-        //                 vin: the_value,
-        //                 job_id: $('input[name*="job_id"]').val(),
-        //                 claimant: the_claimant
-        //             },
-        //             dataType: 'json',
-        //             success: function(data){
-        //                 if(data.success){
-        //                     the_input.siblings('.vin_progress').fadeOut();
-        //                     $('.yeartext_'+the_claimant).val(data.results.year);
-        //                     $('.maketext_'+the_claimant).val(data.results.make);
-        //                     $('.modeltext_'+the_claimant).val(data.results.model);
-        //                     $('#vininfo_'+the_claimant).show('slow');
-        //                 } else {
-        //                     //console.log('error = '+data.error_message);
-        //                     the_input.siblings('.vin_progress').fadeOut();
-        //                     the_input.siblings('.vin_error').attr('title',data.error_message).fadeIn();
-        //                 }
-        //             }
-        //         });
-        //     } else {
-        //         if($('.vin_error:visible').length) $('.vin_error').fadeOut();
-        //         if($('.vin_progress:visible').length) $('.vin_progress').fadeOut();
-        //     }
-        // });
 
         function vinselect(thevin){
             var the_value = $(thevin).val();
@@ -309,7 +261,6 @@
             }
 
         }
-        
         
         $('.accident-form textarea').autoResize({
             // On resize:
