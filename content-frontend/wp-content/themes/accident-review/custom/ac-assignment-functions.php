@@ -867,11 +867,11 @@
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_message_admin.php'),
 			),
 			'new_attachment_tech'=>array(
-				'subject'=>'File Uploaded: {file_number} {insured_last_name} {assignment_id}',
+				'subject'=>'New File Uploaded: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_tech.php'),
 			),
 			'new_attachment_admin'=>array(
-				'subject'=>'File Uploaded: {file_number} {insured_last_name} {assignment_id}',
+				'subject'=>'New File Uploaded: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'new_attachment_admin.php'),
 			),
 		);
