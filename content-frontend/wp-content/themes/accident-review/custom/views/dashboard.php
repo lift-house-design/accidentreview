@@ -17,7 +17,7 @@
 			<tr>
 				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>"><?php echo $update['message'] ?></a></td>
 				<td class="arn">AR #<?php echo $update['job_id'] ?></td>
-				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>">Remove</a></td>
+				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>" onclick="remove_assignment_update(this)>Remove</a></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
@@ -518,11 +518,15 @@
 			duration: 500,
 		});
 	});
-	$('#assignment-updates a.remove.button').click(function(){
-		$(this).html('Removing...');
 
-		var update_id=$(this).data('update-id');
-		var remove_row=$(this).parents('tr');
+	// Dashboard
+
+	function remove_assignment_update(a)
+	{
+		$(a).html('Removing...');
+
+		var update_id=$(a).data('update-id');
+		var remove_row=$(a).parents('tr');
 
 		$.ajax({
 			//url: 'http://www.accidentreview.com<?php echo $_SERVER['REQUEST_URI'] ?>',
@@ -543,9 +547,7 @@
 				get_assignment_updates();
 			}
 		});
-	});
-
-	// Dashboard
+	}
 
 	function get_assignment_updates()
 	{
@@ -561,7 +563,7 @@
 				$.each(data.updates,function(i,v){
 					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '">' + v.message + '</a></td>'
 						+ '<td class="arn">AR #' + v.job_id + '</td>'
-						+ '<td><a class="remove button" data-update-id="' + v.id + '">Remove</a></td></tr>';
+						+ '<td><a class="remove button" data-update-id="' + v.id + '" onclick="remove_assignment_update(this)">Remove</a></td></tr>';
 				});
 				html += '</tbody></table>';
 				$('#assignment-updates').html(html);
