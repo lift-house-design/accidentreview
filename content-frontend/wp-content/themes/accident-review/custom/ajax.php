@@ -76,6 +76,7 @@ function get_assignment_updates()
 	header('Content-type: application/json');
 	$updates = ar_get_assignment_updates();
 	echo json_encode(array('success'=>true, 'updates'=>$updates));
+	exit;
 }
 
 function get_new_assignment_panel()
