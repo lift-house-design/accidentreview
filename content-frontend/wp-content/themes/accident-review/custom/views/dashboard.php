@@ -15,7 +15,7 @@
 		<tbody>
 		<?php foreach($assignment_updates as $update): ?>
 			<tr>
-				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>"><?php echo $update['message'] ?></a></td>
+				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>" href="show_assignment_update(this)"><?php echo $update['message'] ?></a></td>
 				<td class="arn">AR #<?php echo $update['job_id'] ?></td>
 				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>" onclick="remove_assignment_update(this)" >Remove</a></td>
 			</tr>
@@ -475,8 +475,9 @@
 
 	$('#assignment-updates-link').fancybox();
 	
-	$('#assignment-updates a.update').click(function(){
-		var assignment_id=$(this).data('assignment-id');
+	function show_assignment_update(a)
+	{
+		var assignment_id=$(a).data('assignment-id');
 		$.fancybox.close();
 		$('#dashboard').accordion('option','active',1);
 
@@ -517,7 +518,7 @@
 		},{
 			duration: 500,
 		});
-	});
+	}
 
 	// Dashboard
 
@@ -561,7 +562,7 @@
 				// update updates table
 				var html = '<table><tbody>';
 				$.each(data.updates,function(i,v){
-					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '">' + v.message + '</a></td>'
+					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '" href="show_assignment_update(this)">' + v.message + '</a></td>'
 						+ '<td class="arn">AR #' + v.job_id + '</td>'
 						+ '<td><a class="remove button" data-update-id="' + v.id + '" onclick="remove_assignment_update(this)">Remove</a></td></tr>';
 				});
