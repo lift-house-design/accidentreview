@@ -840,7 +840,9 @@
 					}
 				}
 			});
-			setInterval(function(){get_assignment_updates();},60000);
 		});
 	</script>
 <?php endif; ?>
+<script>
+	setInterval(function(){get_assignment_updates();},60000);
+</script>
