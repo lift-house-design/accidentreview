@@ -17,7 +17,7 @@
 			<tr>
 				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>"><?php echo $update['message'] ?></a></td>
 				<td class="arn">AR #<?php echo $update['job_id'] ?></td>
-				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>" onclick="remove_assignment_update(this)>Remove</a></td>
+				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>" onclick="remove_assignment_update(this)" >Remove</a></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
