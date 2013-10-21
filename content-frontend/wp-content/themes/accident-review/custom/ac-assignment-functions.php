@@ -855,7 +855,7 @@
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received.php'),
 			),
 			'assignment_received_admin'=>array(
-				'subject'=>'Assignment Received: {file_number} {insured_last_name} {assignment_id}',
+				'subject'=>'New Assignment: {file_number} {insured_last_name} {assignment_id}',
 				'message'=>file_get_contents(AR_EMAIL_TEMPLATES_PATH.'assignment_received_admin.php'),
 			),
 			'new_message_tech'=>array(
