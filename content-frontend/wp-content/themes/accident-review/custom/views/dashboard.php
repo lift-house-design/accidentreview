@@ -15,7 +15,7 @@
 		<tbody>
 		<?php foreach($assignment_updates as $update): ?>
 			<tr>
-				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>" href="show_assignment_update(this)"><?php echo $update['message'] ?></a></td>
+				<td><a class="update" data-assignment-id="<?php echo $update['job_id'] ?>" href="javascript:show_assignment_update(this)"><?php echo $update['message'] ?></a></td>
 				<td class="arn">AR #<?php echo $update['job_id'] ?></td>
 				<td><a class="remove button" data-update-id="<?php echo $update['id'] ?>" onclick="remove_assignment_update(this)" >Remove</a></td>
 			</tr>
@@ -562,7 +562,7 @@
 				// update updates table
 				var html = '<table><tbody>';
 				$.each(data.updates,function(i,v){
-					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '" href="show_assignment_update(this)">' + v.message + '</a></td>'
+					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '" href="javascript:show_assignment_update(this)">' + v.message + '</a></td>'
 						+ '<td class="arn">AR #' + v.job_id + '</td>'
 						+ '<td><a class="remove button" data-update-id="' + v.id + '" onclick="remove_assignment_update(this)">Remove</a></td></tr>';
 				});
