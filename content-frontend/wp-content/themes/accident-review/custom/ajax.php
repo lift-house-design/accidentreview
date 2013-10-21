@@ -41,6 +41,8 @@ add_action('wp_ajax_nopriv_create-message','create_message');
 add_action('wp_ajax_clear-autosaves','clear_autosaves');
 add_action('wp_ajax_nopriv_clear-autosaves','clear_autosaves');
 
+add_action('wp_ajax_nopriv_get-assignment-updates','get_assignment_updates');
+
 /*add_action('wp_ajax_vehicle-test','vehicle_test');
 add_action('wp_ajax_nopriv_vehicle-test','vehicle_test');*/
 
@@ -67,6 +69,13 @@ function get_assignment_panel()
 	}
 
     exit;
+}
+
+function get_assignment_updates()
+{
+	header('Content-type: application/json');
+	$updates = ar_get_assignment_updates();
+	echo json_encode(array('success'=>true, 'updates'=>$updates));
 }
 
 function get_new_assignment_panel()

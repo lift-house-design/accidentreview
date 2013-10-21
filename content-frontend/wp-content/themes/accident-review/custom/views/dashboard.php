@@ -540,11 +540,40 @@
 			},
 			complete: function(jqXHR,textStatus){
 				remove_row.remove();
+				get_assignment_updates();
 			}
 		});
 	});
 
 	// Dashboard
+
+	function get_assignment_updates()
+	{
+		$.ajax({
+			url: '/wp-admin/admin-ajax.php',
+			type: 'post',
+			data: {
+				action: 'get-assignment-updates'
+			},
+			success: function(data,textStatus,jqXHR){
+				console.log(data);
+				// update updates table
+				var html = '<table><tbody>';
+				$.each(data.updates,function(i,v){
+					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '">' + v.message + '</a></td>'
+						+ '<td class="arn">AR #' + v.job_id + '</td>'
+						+ '<td><a class="remove button" data-update-id="' + v.id + '">Remove</a></td></tr>';
+				});
+				html += '</tbody></table>';
+				$('#assignment-updates').html(html);
+
+				// update updates link
+				$('#assignment-updates-link').html('Assignment Updates ('+data.updates.length+')');
+			},
+			complete: function(data,textStatus,jqXHR){},
+			error: function(){}
+		});
+	}
 
 	function get_open_tab()
 	{
@@ -812,6 +841,7 @@
 					}
 				}
 			});
+			setInterval(function(){get_assignment_updates();},60000);
 		});
 	</script>
 <?php endif; ?>
