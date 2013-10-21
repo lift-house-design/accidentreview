@@ -2,12 +2,6 @@ function get_assignment_data(check_for_errors)
 {
 	if(check_for_errors!==false)
 	{
-		// Check for terms of service agreement
-		if(isNewAssignment && $('input[name="tos_agreement"]:checked').length==0)
-		{
-			return 'You must accept the terms and conditions to continue.';
-		}
-
 		// Check for required fields
 		var required_error=$([]);
 		$('input:text.required, textarea.required, select.required').each(function(){

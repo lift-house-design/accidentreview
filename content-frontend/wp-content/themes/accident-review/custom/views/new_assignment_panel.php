@@ -499,15 +499,7 @@
 	<?php endif; ?>
 	<fieldset>
 		<legend><?php echo empty($job_data)||$job_data['autosave']==1 ? 'Create' : 'Save' ?> Assignment</legend>
-		<?php if(empty($job_data)||$job_data['autosave']==1): ?>
-		<div class="field"> <!-- @TODO: change the url to the terms and conditions -->
-			<label>Before submitting, you must read and agree to the terms of service</label>
-			<input type="checkbox" name="tos_agreement" id="tos-agreement" value="1" /><label for="tos-agreement" class="checkbox-label">I have read and agree to the <a href="/terms-conditions" target="_blank">terms of service</a>.</label>
-		</div>
-		<div class="field">
-		<?php else: ?>
 		<div class="field" style="padding-top: 10px;">
-		<?php endif; ?>
 			<input type="submit" value="Save Assignment" />
 		</div>
 	</fieldset>

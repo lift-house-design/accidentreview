@@ -320,7 +320,7 @@
 				</li>
 				<li>List any modifications or aftermarket equipment.</li>
 				<li>Enter any additional information about the vehicle.</li>
-				<li>Read the terms of service thoroughly, then click the <strong>Submit</strong> button.</li>
+				<li>Click the <strong>Save Assignment</strong> button.</li>
 			</ul>
 			<h4>Edit an Existing Assignment</h4>
 			<ul>
