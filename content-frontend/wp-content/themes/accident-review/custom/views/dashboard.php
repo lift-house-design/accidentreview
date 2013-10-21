@@ -556,8 +556,6 @@
 				action: 'get-assignment-updates'
 			},
 			success: function(data,textStatus,jqXHR){
-				console.log('success');
-				console.log(data);
 				// update updates table
 				var html = '<table><tbody>';
 				$.each(data.updates,function(i,v){
@@ -571,14 +569,8 @@
 				// update updates link
 				$('#assignment-updates-link').html('Assignment Updates ('+data.updates.length+')');
 			},
-			complete: function(data,textStatus,jqXHR){
-				console.log('complete');
-				console.log(data);
-			},
-			error: function(){
-				console.log('error');
-				console.log(data);
-			}
+			complete: function(data,textStatus,jqXHR){},
+			error: function(){}
 		});
 	}
 
