@@ -2,6 +2,10 @@
 	width:400px;
 	border-radius:0px;
 }
+.perimeter_security_system,
+.remote_start_system{
+	text-align:center;
+}
 .ui-dialog{
 	z-index: 9999;
 }
