@@ -1,6 +1,7 @@
 .vehicle label.ui-button-text-only{
 	width:400px;
 	border-radius:4px;
+	margin:0 auto;
 }
 .perimeter_security_system .ui-radios,
 .remote_start_system .ui-radios{
