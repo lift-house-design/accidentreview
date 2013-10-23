@@ -293,13 +293,13 @@
 					'perimeter_security_system'=>array(
 						'question_type'=>'radio',
 						'question'=>'Is this vehicle equipped with a perimeter security system?',
-						'possible_answers'=>'["Aftermarket","Factory","No","Unknown"]',
+						'possible_answers'=>'["Factory + Aftermarket",Aftermarket","Factory","No","Unknown"]',
 						'default_answer'=>'Unknown',
 					),
 					'remote_start_system'=>array(
 						'question_type'=>'radio',
 						'question'=>'Is this vehicle equipped with a remote start system?',
-						'possible_answers'=>'["Aftermarket","Factory","No","Unknown"]',
+						'possible_answers'=>'["Factory + Aftermarket",Aftermarket","Factory","No","Unknown"]',
 						'default_answer'=>'Unknown',
 					),
 					'modifications'=>array(
