@@ -1,9 +1,9 @@
 .vehicle label.ui-button-text-only{
 	width:400px;
-	border-radius:0px;
+	border-radius:4px;
 }
-.perimeter_security_system,
-.remote_start_system{
+.perimeter_security_system .ui-radios,
+.remote_start_system .ui-radios{
 	text-align:center;
 }
 .ui-dialog{
