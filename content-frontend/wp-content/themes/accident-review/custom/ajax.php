@@ -282,11 +282,6 @@ function save_attachment()
 		'error'=>'',
 	);
 
-
-	header('Content-type: application/json');
-	echo json_encode(array('success'=>true,'peepee'=>'poopoo'));
-	exit;
-
 /*	ob_start();
 	var_dump($_FILES);
 	$data=ob_get_clean();
