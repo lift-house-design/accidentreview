@@ -322,7 +322,7 @@
 
 			<div id="image-preview">
 				<div class="image">
-					<img src="http://backend.accidentreview.com/uploads/beecddcb0a4cf4bbc5326d51e45a0f365edc9ab0" />
+					<img src="" />
 					<a class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fringilla commodo ipsum, at lobortis lorem molestie euismod. Nulla dolor felis, tristique nec luctus vel, pulvinar ut nibh. Nam vulputate tincidunt tempor. </a>
 				</div>
 				<a id="image-preview-next" class="button">Next</a>
