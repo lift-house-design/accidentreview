@@ -105,6 +105,7 @@ function get_assignment_data(check_for_errors)
 			claimant_data.push(data);
 		});
 	//console.log("Job ID? "+job_data.id);
+	console.log(job_data);
 	return {
 		'job': job_data,
 		'vehicles': vehicle_data,
@@ -121,6 +122,7 @@ function start_autosave()
 	autosave_timer=setInterval(function(){
 		// Get assignment data
 		var assignment_data=get_assignment_data(false);
+		console.log(assignment_data);
 		assignment_data.action='save-new-assignment';
 		assignment_data.new_assignment=0;
 		assignment_data.job.autosave=1;
