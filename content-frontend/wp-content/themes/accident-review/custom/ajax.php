@@ -282,7 +282,7 @@ function to_bytes($str) {
 
 function save_attachment()
 {
-
+/*
 	header('Content-type: application/json');
 	echo json_encode(
 		array(
@@ -298,7 +298,7 @@ function save_attachment()
 	//echo json_encode(array('status'=>'success', 'success'=>true, 'result'=> 'amagaddddd'));
 	exit;
 	die;
-
+*/
 	global $wpdb;
 	$userData=ar_user_data();
 	
