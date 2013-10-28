@@ -6,6 +6,12 @@
     header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
     exit();
 }*/
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+    header('Strict-Transport-Security: max-age=31536000');
+} else {
+    header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true, 301);
+    die();
+}
 
 
 if(!defined(ADMIN_ROLE)) define(ADMIN_ROLE,'1');
