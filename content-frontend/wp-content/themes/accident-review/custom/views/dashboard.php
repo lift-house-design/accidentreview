@@ -47,6 +47,7 @@
 						else
 							confirmLeave=false;
 					}
+					close_assignments();
 
 					$('input[type="text"].date').datepicker('destroy');
 					$('.assignment-list a').removeClass('selected');
@@ -159,6 +160,7 @@
 						
 						function close_assignments()
 						{
+							close_new_assignments();
 							$('#assignments tbody tr').removeClass('selected');
 							$('#assignments tbody .assignment-panel').remove();
 						}
