@@ -24,20 +24,28 @@ add_action('wp_ajax_nopriv_vehicle-model-list','vehicle_model_list');
 // @TODO: This was added for the dev site. Leave here if everything is okay.
 add_action('wp_ajax_get-assignment-panel','get_assignment_panel');
 add_action('wp_ajax_nopriv_get-assignment-panel','get_assignment_panel');
+
 add_action('wp_ajax_get-new-assignment-panel','get_new_assignment_panel');
 add_action('wp_ajax_nopriv_get-new-assignment-panel','get_new_assignment_panel');
+
 add_action('wp_ajax_get-vin-data','get_vin_data');
 add_action('wp_ajax_nopriv_get-vin-data','get_vin_data');
+
 add_action('wp_ajax_save-new-assignment','save_new_assignment');
 add_action('wp_ajax_nopriv_save-new-assignment','save_new_assignment');
+
 add_action('wp_ajax_save-attachment','save_attachment');
 add_action('wp_ajax_nopriv_save-attachment','save_attachment');
+
 add_action('wp_ajax_save-attachment-description','save_attachment_description');
 add_action('wp_ajax_nopriv_save-attachment-description','save_attachment_description');
+
 add_action('wp_ajax_delete-attachment','delete_attachment');
 add_action('wp_ajax_nopriv_delete-attachment','delete_attachment');
+
 add_action('wp_ajax_create-message','create_message');
 add_action('wp_ajax_nopriv_create-message','create_message');
+
 add_action('wp_ajax_clear-autosaves','clear_autosaves');
 add_action('wp_ajax_nopriv_clear-autosaves','clear_autosaves');
 
@@ -274,6 +282,23 @@ function to_bytes($str) {
 
 function save_attachment()
 {
+
+	header('Content-type: application/json');
+	echo json_encode(
+		array(
+			'files'=> array(
+				array(
+					'name'=>'haha.jpg',
+					'size'=>'999',
+					'url'=>'http://google.com',
+				)
+			)
+		)
+	);
+	//echo json_encode(array('status'=>'success', 'success'=>true, 'result'=> 'amagaddddd'));
+	exit;
+	die;
+
 	global $wpdb;
 	$userData=ar_user_data();
 	
@@ -470,8 +495,8 @@ function save_attachment()
 		$response['status']='success';
 
 	header('Content-type: application/json');
-	//echo json_encode($response);
-	echo json_encode(array('status'=>'success', 'success'=>true, 'result'=> 'amagaddddd'));
+	echo json_encode($response);
+	//echo json_encode(array('status'=>'success', 'success'=>true, 'result'=> 'amagaddddd'));
 	exit;
 }
 
