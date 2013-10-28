@@ -372,7 +372,8 @@
 					        done: function (e, data) {
 								$('#fileupload-button').val('Upload File');
 								$('.file-uploading-indicator').hide();
-								console.log(data);
+								console.log(data.result);
+								console.log(data.result.files);
 					        	$.each(data.result.files, function (index, data_item) {
 					        		if(data_item.status == 'error')
 					        			return;
