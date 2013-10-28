@@ -1,5 +1,13 @@
 <?
 
+// force HTTPS
+if($_SERVER["HTTPS"] != "on")
+{
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit();
+}
+
+
 if(!defined(ADMIN_ROLE)) define(ADMIN_ROLE,'1');
 if(!defined(AGENT_ADMIN_ROLE)) define(AGENT_ADMIN_ROLE,'8');
 if(!defined(AGENT_USER_ROLE)) define(AGENT_USER_ROLE,'9');
