@@ -359,7 +359,6 @@
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
-	    					url: 'http://accidentreview.com/wp-admin/admin-ajax.php',
 					        dataType: 'json',
 					        type: 'post',
 					        formData: {
