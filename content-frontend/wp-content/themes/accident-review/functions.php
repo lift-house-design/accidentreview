@@ -15,7 +15,7 @@ if(!defined(AGENT_GENERAL_ROLE)) define(AGENT_GENERAL_ROLE,'11');
 
 // Local, Production
 if(!defined(AC_BACKEND_ADDRESS)) define(AC_BACKEND_ADDRESS,'http://backend.accidentreview.com/');
-if(!defined(AR_ATTACHMENT_URL)) define(AR_ATTACHMENT_URL,'http://accidentreview.com/uploads/');
+if(!defined(AR_ATTACHMENT_URL)) define(AR_ATTACHMENT_URL,'//accidentreview.com/uploads/');
 // Dev
 //if(!defined(AC_BACKEND_ADDRESS)) define(AC_BACKEND_ADDRESS,'http://arbackend.lifthousedesign.com/');
 //if(!defined(AR_ATTACHMENT_URL)) define(AR_ATTACHMENT_URL,'http://accidentreview.lifthousedesign.com/uploads/');
