@@ -34,7 +34,6 @@ function close_new_assignments()
 		else
 			confirmLeave=false;
 	}
-	close_assignments();
 
 	$('input[type="text"].date').datepicker('destroy');
 	$('.assignment-list a').removeClass('selected');
@@ -45,6 +44,7 @@ function close_new_assignments()
 
 function open_new_assignment(a)
 {
+	close_assignments();
 	if(close_new_assignments())
 	{
 		var type=$(a).attr('class');
@@ -70,7 +70,6 @@ function open_new_assignment(a)
 
 function close_assignments()
 {
-	close_new_assignments();
 	$('#assignments tbody tr').removeClass('selected');
 	$('#assignments tbody .assignment-panel').remove();
 }
@@ -78,6 +77,8 @@ function close_assignments()
 function open_assignment(row)
 {
 	// Close any assignments currently open
+
+	close_new_assignments();
 	close_assignments();
 	
 	var cellCount=$(row).find('td').length;
@@ -271,6 +272,7 @@ function get_open_tab()
 							if($(this).hasClass('selected'))
 							{
 								close_new_assignments();
+								close_assignments();
 							}
 							else
 							{
@@ -346,6 +348,7 @@ function get_open_tab()
 							.on('click','#assignments > tbody > tr:not(.assignment-panel)',function(){
 								if($(this).hasClass('selected'))
 								{
+									close_new_assignments();
 									close_assignments();
 								}
 								else
@@ -779,6 +782,7 @@ function get_open_tab()
 	{
 
 
+		close_assignments();
 		if(close_new_assignments())
 		{
 			$('#dashboard')
