@@ -10,10 +10,10 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 */
 
 // force non-ssl
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+/*if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true);
     die();
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
