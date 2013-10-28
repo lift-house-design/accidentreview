@@ -418,8 +418,9 @@
         						});
 					        },
 					        stop: function (e,data) {
-								$('#fileupload-button').val('Upload File');
+								/*$('#fileupload-button').val('Upload File');
 								$('.file-uploading-indicator').hide();
+								*/
 					        },
 					        complete: function (e,data) {
 								$('#fileupload-button').val('Upload File');
