@@ -29,7 +29,7 @@
 			}else{
 				$code = sha1($email.time().rand(99,999999999));
 				set_reset($email,$code);
-				$link = 'http://'.$_SERVER['HTTP_HOST'].'/dashboard/login/?reset_code='.$code;
+				$link = 'https://'.$_SERVER['HTTP_HOST'].'/dashboard/login/?reset_code='.$code;
 				$subject = "Password Reset Requested";
 				$body = 'Follow the link below to reset your password:<br/><br/><a href="'.$link.'">'.$link.'</a>';
 				send_ar_email($email,$subject,$body);

@@ -277,7 +277,7 @@ function accident_get_job_files($job_id=0){
                         'mime' => $a_file['mime_type'],
                         'size' => $a_file['size'],
                         'location' => $a_file['location'],
-                        'url' => 'http://'.$_SERVER['HTTP_HOST'].'/files/'.$a_file['location']
+                        'url' => 'https://'.$_SERVER['HTTP_HOST'].'/files/'.$a_file['location']
                     );
                 }
             }
