@@ -23,6 +23,233 @@
 		</tbody>
 	</table>
 </div>
+
+<script>
+function close_new_assignments()
+{
+	if(confirmLeave)
+	{
+		if(confirm('You have unsaved changes to your new assignment that will be lost. Are you sure you want to close it?')==false)
+			return false;
+		else
+			confirmLeave=false;
+	}
+	close_assignments();
+
+	$('input[type="text"].date').datepicker('destroy');
+	$('.assignment-list a').removeClass('selected');
+	$('.assignment-list > .new-assignment-panel').remove();
+
+	return true;
+}
+
+function open_new_assignment(a)
+{
+	if(close_new_assignments())
+	{
+		var type=$(a).attr('class');
+	
+		var newAssignmentPanel=$('<div>')
+			.addClass('new-assignment-panel')
+			.html('Loading, please wait...')
+			.load('/wp-admin/admin-ajax.php',{
+				action: 'get-new-assignment-panel',
+				assignment_type: type,
+			},function(){
+				var offset=$(a).offset();
+				$('html, body').animate({
+					scrollTop: offset['top']
+				}, 'slow');
+			});
+			
+		$(a)
+			.addClass('selected')
+			.after(newAssignmentPanel);
+	}
+}
+
+function close_assignments()
+{
+	close_new_assignments();
+	$('#assignments tbody tr').removeClass('selected');
+	$('#assignments tbody .assignment-panel').remove();
+}
+
+function open_assignment(row)
+{
+	// Close any assignments currently open
+	close_assignments();
+	
+	var cellCount=$(row).find('td').length;
+	var assignmentID=$(row).data('assignment-id');
+	var assignmentPanel=$('<tr>')
+		.addClass('assignment-panel')
+		.append(
+			$('<td>')
+				.attr('colspan',cellCount)
+				.html('Loading, please wait...')
+				.load('/wp-admin/admin-ajax.php',{
+					action: 'get-assignment-panel',
+					id: assignmentID
+				})
+		);
+	
+	$(row)
+		.addClass('selected')
+		.after(assignmentPanel);
+}
+
+function close_details()
+{
+	$('#assignments .assignment-details > tbody > tr').removeClass('selected');
+	$('#assignments .assignment-details .details-panel').hide();
+}
+
+function open_details(row)
+{
+	close_details();
+	
+	$(row)
+		.addClass('selected')
+		.next('.details-panel')
+		.show();
+}
+
+function show_assignment_update(a)
+{
+	var assignment_id=$(a).data('assignment-id');
+	$.fancybox.close();
+	$('#dashboard').accordion('option','active',1);
+
+	var assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]');
+
+	// If the assignment is not on the current page, we need to go to that page
+	if(assignment_tr.length==0)
+	{
+		// Remove any currently open assignment panel
+		$('#assignments .assignment-panel').remove();
+		$('#assignments tr.selected').removeClass('selected');
+
+		var settings=assignments_datatable.fnSettings();
+		var perPage=settings._iDisplayLength;
+		var data=assignments_datatable.fnGetData();
+		var page=1;
+
+		for(var i in data)
+		{
+			var row=data[i];
+			if(assignment_id==row[4])
+			{
+				page=Math.ceil((parseFloat(i)+1)/perPage);
+				break;
+			}
+		}
+
+		assignments_datatable.fnPageChange(page-1); // 0-based page indices
+		assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]');
+	}
+	
+	if(assignment_tr.next('.assignment-panel').length==0)
+		assignment_tr.click();
+	var offset=assignment_tr.offset();
+
+	$('html, body').animate({
+		scrollTop: offset.top-10,
+	},{
+		duration: 500,
+	});
+}
+
+// Dashboard
+
+function remove_assignment_update(a)
+{
+	$(a).html('Removing...');
+
+	var update_id=$(a).data('update-id');
+	var remove_row=$(a).parents('tr');
+
+	$.ajax({
+		//url: 'http://www.accidentreview.com<?php echo $_SERVER['REQUEST_URI'] ?>',
+		type: 'post',
+		data: {
+			ajaxRequest: {
+				action: 'deleteUpdate',
+				id: update_id,
+			}
+		},
+		error:function(xhr, status, errorThrown) { 
+        	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
+    	}, 
+		success: function(data){
+		},
+		complete: function(jqXHR,textStatus){
+			remove_row.remove();
+			get_assignment_updates();
+		}
+	});
+}
+
+function get_assignment_updates()
+{
+	$.ajax({
+		url: '/wp-admin/admin-ajax.php',
+		type: 'post',
+		data: {
+			action: 'get-assignment-updates'
+		},
+		success: function(data,textStatus,jqXHR){
+			// update updates table
+			var html = '<table><tbody>';
+			$.each(data.updates,function(i,v){
+				html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '" href="javascript:void(0)" onclick="show_assignment_update(this)">' + v.message + '</a></td>'
+					+ '<td class="arn">AR #' + v.job_id + '</td>'
+					+ '<td><a class="remove button" data-update-id="' + v.id + '" onclick="remove_assignment_update(this)">Remove</a></td></tr>';
+			});
+			html += '</tbody></table>';
+			$('#assignment-updates').html(html);
+
+			// update updates link
+			$('#assignment-updates-link').html('Assignment Updates ('+data.updates.length+')');
+		},
+		complete: function(data,textStatus,jqXHR){},
+		error: function(){}
+	});
+}
+
+function get_open_tab()
+{
+	var href=window.location.pathname;
+	var untrimmed_segments=href.split('/');
+	var segments=[];
+
+	for(var i in untrimmed_segments)
+	{
+		if(untrimmed_segments[i]!='')
+			segments.push(untrimmed_segments[i]);
+	}
+
+	if(segments.length > 1)
+	{
+
+		switch(segments[1])
+		{
+			case 'new-assignment':
+					return 0;
+				break;
+			case 'assignments':
+					return 1;
+				break;
+			case 'account-info':
+					return 5;
+				break;
+		}
+	}
+	
+	return false;
+}
+</script>
+
 <div id="dashboard">
 		<h3>Create New Assignment</h3>
 		<div id="new-assignment">
@@ -38,50 +265,7 @@
 			</div>
 			<a class="show services">Learn more about assignment types &raquo;</a>
 			<script>
-				function close_new_assignments()
-				{
-					if(confirmLeave)
-					{
-						if(confirm('You have unsaved changes to your new assignment that will be lost. Are you sure you want to close it?')==false)
-							return false;
-						else
-							confirmLeave=false;
-					}
-					close_assignments();
-
-					$('input[type="text"].date').datepicker('destroy');
-					$('.assignment-list a').removeClass('selected');
-					$('.assignment-list > .new-assignment-panel').remove();
-
-					return true;
-				}
-				
 				$(function(){
-					function open_new_assignment(a)
-					{
-						if(close_new_assignments())
-						{
-							var type=$(a).attr('class');
-						
-							var newAssignmentPanel=$('<div>')
-								.addClass('new-assignment-panel')
-								.html('Loading, please wait...')
-								.load('/wp-admin/admin-ajax.php',{
-									action: 'get-new-assignment-panel',
-									assignment_type: type,
-								},function(){
-									var offset=$(a).offset();
-									$('html, body').animate({
-										scrollTop: offset['top']
-									}, 'slow');
-								});
-								
-							$(a)
-								.addClass('selected')
-								.after(newAssignmentPanel);
-						}
-					}
-					
 					$('.assignment-list > a')
 						.click(function(){
 							if($(this).hasClass('selected'))
@@ -156,54 +340,7 @@
 						assignments_datatable=$('#assignments').dataTable({
 							sPaginationType: 'full_numbers',
 							/*iDisplayLength: 2,*/
-						});
-						
-						function close_assignments()
-						{
-							close_new_assignments();
-							$('#assignments tbody tr').removeClass('selected');
-							$('#assignments tbody .assignment-panel').remove();
-						}
-						
-						function open_assignment(row)
-						{
-							// Close any assignments currently open
-							close_assignments();
-							
-							var cellCount=$(row).find('td').length;
-							var assignmentID=$(row).data('assignment-id');
-							var assignmentPanel=$('<tr>')
-								.addClass('assignment-panel')
-								.append(
-									$('<td>')
-										.attr('colspan',cellCount)
-										.html('Loading, please wait...')
-										.load('/wp-admin/admin-ajax.php',{
-											action: 'get-assignment-panel',
-											id: assignmentID
-										})
-								);
-							
-							$(row)
-								.addClass('selected')
-								.after(assignmentPanel);
-						}
-						
-						function close_details()
-						{
-							$('#assignments .assignment-details > tbody > tr').removeClass('selected');
-							$('#assignments .assignment-details .details-panel').hide();
-						}
-						
-						function open_details(row)
-						{
-							close_details();
-							
-							$(row)
-								.addClass('selected')
-								.next('.details-panel')
-								.show();
-						}
+						});						
 						
 						$(document)
 							.on('click','#assignments > tbody > tr:not(.assignment-panel)',function(){
@@ -476,140 +613,6 @@
 		);
 
 	$('#assignment-updates-link').fancybox();
-	
-	function show_assignment_update(a)
-	{
-		var assignment_id=$(a).data('assignment-id');
-		$.fancybox.close();
-		$('#dashboard').accordion('option','active',1);
-
-		var assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]');
-
-		// If the assignment is not on the current page, we need to go to that page
-		if(assignment_tr.length==0)
-		{
-			// Remove any currently open assignment panel
-			$('#assignments .assignment-panel').remove();
-			$('#assignments tr.selected').removeClass('selected');
-
-			var settings=assignments_datatable.fnSettings();
-			var perPage=settings._iDisplayLength;
-			var data=assignments_datatable.fnGetData();
-			var page=1;
-
-			for(var i in data)
-			{
-				var row=data[i];
-				if(assignment_id==row[4])
-				{
-					page=Math.ceil((parseFloat(i)+1)/perPage);
-					break;
-				}
-			}
-
-			assignments_datatable.fnPageChange(page-1); // 0-based page indices
-			assignment_tr=$('#assignments tr[data-assignment-id="'+assignment_id+'"]');
-		}
-		
-		if(assignment_tr.next('.assignment-panel').length==0)
-			assignment_tr.click();
-		var offset=assignment_tr.offset();
-
-		$('html, body').animate({
-			scrollTop: offset.top-10,
-		},{
-			duration: 500,
-		});
-	}
-
-	// Dashboard
-
-	function remove_assignment_update(a)
-	{
-		$(a).html('Removing...');
-
-		var update_id=$(a).data('update-id');
-		var remove_row=$(a).parents('tr');
-
-		$.ajax({
-			//url: 'http://www.accidentreview.com<?php echo $_SERVER['REQUEST_URI'] ?>',
-			type: 'post',
-			data: {
-				ajaxRequest: {
-					action: 'deleteUpdate',
-					id: update_id,
-				}
-			},
-			error:function(xhr, status, errorThrown) { 
-            	alert(errorThrown+'\n'+status+'\n'+xhr.statusText); 
-        	}, 
-			success: function(data){
-			},
-			complete: function(jqXHR,textStatus){
-				remove_row.remove();
-				get_assignment_updates();
-			}
-		});
-	}
-
-	function get_assignment_updates()
-	{
-		$.ajax({
-			url: '/wp-admin/admin-ajax.php',
-			type: 'post',
-			data: {
-				action: 'get-assignment-updates'
-			},
-			success: function(data,textStatus,jqXHR){
-				// update updates table
-				var html = '<table><tbody>';
-				$.each(data.updates,function(i,v){
-					html += '<tr><td><a class="update" data-assignment-id="' + v.job_id + '" href="javascript:void(0)" onclick="show_assignment_update(this)">' + v.message + '</a></td>'
-						+ '<td class="arn">AR #' + v.job_id + '</td>'
-						+ '<td><a class="remove button" data-update-id="' + v.id + '" onclick="remove_assignment_update(this)">Remove</a></td></tr>';
-				});
-				html += '</tbody></table>';
-				$('#assignment-updates').html(html);
-
-				// update updates link
-				$('#assignment-updates-link').html('Assignment Updates ('+data.updates.length+')');
-			},
-			complete: function(data,textStatus,jqXHR){},
-			error: function(){}
-		});
-	}
-
-	function get_open_tab()
-	{
-		var href=window.location.pathname;
-		var untrimmed_segments=href.split('/');
-		var segments=[];
-
-		for(var i in untrimmed_segments)
-		{
-			if(untrimmed_segments[i]!='')
-				segments.push(untrimmed_segments[i]);
-		}
-
-		if(segments.length > 1)
-		{
-
-			switch(segments[1])
-			{
-				case 'new-assignment':
-						return 0;
-					break;
-				case 'assignments':
-						return 1;
-					break;
-				case 'account-info':
-						return 5;
-					break;
-			}
-		}
-		
-		return false;
-	}
 
 	var active=get_open_tab();
 
