@@ -37,74 +37,49 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 	<?php endif; ?>
-<script language="javascript">
- function changeBox()
- {
-    document.getElementById('div1').style.display='none';
-    document.getElementById('div2').style.display='';
-    document.getElementById('password').focus();
- }
- function restoreBox()
- {
-    if(document.getElementById('password').value=='')
-    {
-      document.getElementById('div1').style.display='';
-      document.getElementById('div2').style.display='none';
-    }
- }
-</script>
-	<link type="text/css" rel="stylesheet" href="<?php bloginfo('stylesheet_directory') ?>/style.css" />
-	<meta name="author" content="Nick Niebaum (nickniebaum@gmail.com)" />
 </head>
 <body>
+<? if(!empty($_SESSION['user']['first_name'])){ ?>
+	<div id="top-panel">
+		<div class="wrapper">
+			Welcome, 
+			<a href="/dashboard/account-info" class="username" style="margin-right:10px">
+				<?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?>
+			</a>
+		</div>
+	</div>
+<? } ?>
 
-
-		<div id="header">
+<div id="header">
 	<div class="wrapper">
-			<a id="logo" href="/"><h1>Accident Review</h1></a>
-
-
-
-<div id="header-login">	
-	
-	<?php if(is_user_logged_in()): ?>
-<div class="text">			Welcome, <a href="/dashboard/account-info" class="username"><?php echo $_SESSION['user']['first_name'].' '.$_SESSION['user']['last_name']; ?></a></div>
-		<?php else: ?>
-
-<div class="text">
-Secure Log In
-</div>
-	<?php endif; ?>
-
-<div class="agent-login-form">
-<form class="accident-form" action="/dashboard/login" method="post">
-
-<input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="if (this.value == 'E-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'E-mail';}" />
-<span id="div1">
-
-<input class="ui-corner-all" name="pass_temp" type="text" value="Password" onfocus="changeBox()" />
-</span>
-<span id="div2" style="display:none">
-
-<input class="ui-corner-all" name="password" id="password" type="password" value="" onfocus="changeBox()" />
-</span>
-
-<input type="hidden" name="submit_login" />
-
-<input id="submit_login_image" value="" name="submit_login_image" type="submit" />
-</form>
-<?php if(isset($_SESSION['agent_user_id'])) : ?>
-<a href="/dashboard/login?do=logout">Logout</a>
-<?php endif; ?>
-</div>
-</div>
-
-
-
-</div>
-		
-		
-		</div><!-- End Header -->
+		<a id="logo" href="/"><h1>Accident Review</h1></a>
+		<? if(!empty($_SESSION['user']['first_name'])){ ?>
+			<div id="account-options" style="margin-right:10px">
+				<a href="/dashboard/">Dashboard</a>
+				<a href="/dashboard/assignments">Assignments</a>
+				<a href="/dashboard/account-info">Manage Account</a>
+				<a href="/dashboard/logout">Logout</a>
+			</div>
+		<? }else{ ?>
+			<div id="header-login">	
+				<div class="text">
+					Secure Log In
+					<a href="/dashboard/login/?reset_form=1" style="font-size:12px;float:right;border-bottom:1px solid color:rgb(10, 44, 121)">Forgot Your Password?</a>
+				</div>
+				<div class="agent-login-form">
+					<form class="accident-form" action="/dashboard/login" method="post">
+						<!--input class="ui-corner-all" type="text" value="E-mail" name="email" onfocus="placeHolder(this,'E-mail','text')" onblur="placeHolder(this,'E-mail','text')" style="top:0px;left:0px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/-->
+						<input placeholder="E-mail" class="ui-corner-all" type="text" name="email" style="top:0px;left:0px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/>
+						<!--input class="ui-corner-all" name="password" id="password" type="password" value="Password" onfocus="placeHolder(this,'Password','password')" onblur="placeHolder(this,'Password','text')" style="top:0px;left:170px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/-->
+						<input placeholder="Password" class="ui-corner-all" name="password" id="password" type="password" style="top:0px;left:170px;height: 21px;width:152px;padding: 0px 4px;line-height:21px;"/>
+						<input type="hidden" name="submit_login" />
+						<input id="submit_login_image" value="" name="submit_login_image" type="submit" style="top:0px;left:340px;width:71px"/>
+					</form>
+				</div>
+			</div>
+		<? } ?>
+	</div>		
+</div><!-- end header -->
 
 	<div class="wrapper">
 
