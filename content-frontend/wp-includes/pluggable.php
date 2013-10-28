@@ -1753,7 +1753,7 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 endif;
 
 /* If home && logged in, redirect to dashboard */
-if(strlen($_SERVER['REQUEST_URI']) < 2 && is_user_logged_in()){
+/*if(strlen($_SERVER['REQUEST_URI']) < 2 && is_user_logged_in()){
 	wp_redirect ( home_url("/dashboard") );
 	die;
-}
+}*/
