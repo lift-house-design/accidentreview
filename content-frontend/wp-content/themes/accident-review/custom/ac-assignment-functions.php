@@ -97,7 +97,6 @@
 	{
 		global $wpdb;
 		$user_data=ar_user_data();
-		var_dump($user_data);
 		$sql=$wpdb->prepare('
 			select
 				id
