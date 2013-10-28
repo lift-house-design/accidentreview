@@ -274,7 +274,6 @@ function to_bytes($str) {
 
 function save_attachment()
 {
-	echo "AHHHHHHHHHHHHHHHHH";die;
 	global $wpdb;
 	$userData=ar_user_data();
 	
@@ -470,8 +469,9 @@ function save_attachment()
 	if(empty($response['error']))
 		$response['status']='success';
 
-	//header('Content-type: application/json');
-	echo json_encode($response);
+	header('Content-type: application/json');
+	//echo json_encode($response);
+	echo json_encode(array('status'=>'success', 'success'=>true, 'result'=> 'amagaddddd'));
 	exit;
 }
 
