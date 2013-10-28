@@ -274,6 +274,7 @@ function to_bytes($str) {
 
 function save_attachment()
 {
+	echo "AHHHHHHHHHHHHHHHHH";die;
 	global $wpdb;
 	$userData=ar_user_data();
 	
