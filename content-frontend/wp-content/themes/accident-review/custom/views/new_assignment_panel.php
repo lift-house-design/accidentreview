@@ -359,7 +359,7 @@
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
-					        //dataType: 'json',
+					        dataType: 'json',
 					        type: 'post',
 					        formData: {
 								action: 'save-attachment',

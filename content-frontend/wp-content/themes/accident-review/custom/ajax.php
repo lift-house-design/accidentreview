@@ -282,6 +282,11 @@ function save_attachment()
 		'error'=>'',
 	);
 
+
+	header('Content-type: application/json');
+	echo json_encode(array('success'=>true,'peepee'=>'poopoo'));
+	exit;
+
 /*	ob_start();
 	var_dump($_FILES);
 	$data=ob_get_clean();
@@ -469,7 +474,7 @@ function save_attachment()
 	if(empty($response['error']))
 		$response['status']='success';
 
-	//header('Content-type: application/json');
+	header('Content-type: application/json');
 	echo json_encode($response);
 	exit;
 }
