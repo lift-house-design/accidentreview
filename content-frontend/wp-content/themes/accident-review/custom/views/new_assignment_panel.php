@@ -359,6 +359,7 @@
 			<script>
 					$(function () {
 	    				$('#fileupload').fileupload({
+	    					url: '/wp-admin/admin-ajax.php',
 					        dataType: 'json',
 					        type: 'post',
 					        formData: {
