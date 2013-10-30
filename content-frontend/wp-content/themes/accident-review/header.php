@@ -19,6 +19,20 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 		else wp_title('');
 	?>
 	</title>
+
+	<!-- favicons -->
+	<!-- old android -->
+	<link rel="apple-touch-icon-precomposed" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_144.png" sizes="144x144" />
+	<!-- apple/android -->
+	<link rel="apple-touch-icon" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_144.png" sizes="144x144" />
+	<link rel="apple-touch-icon" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_114.png" sizes="114x114" />
+	<link rel="apple-touch-icon" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_72.png" sizes="72x72" />
+	<link rel="apple-touch-icon" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_57.png" />
+	<!-- most browsers -->
+	<link rel="icon" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_64.png" sizes="64x64" />
+	<link rel="icon" type="image/png" href="//backend.accidentreview.com/assets/favicons/favicon_32.png" sizes="32x32" />
+	<!-- IE -->
+	<link rel="shortcut icon" href="//backend.accidentreview.com/assets/favicons/favicon.ico">
 	
 	<!-- 2013 and Internet Explorer is still terrible -->
 	<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory') ?>/normalize.css" />
