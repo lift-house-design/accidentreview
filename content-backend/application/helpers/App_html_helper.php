@@ -28,9 +28,9 @@ if(!function_exists('js'))
 		$html = '';
 		if(is_array($js))
 			foreach($js as $file)
-				$html .= '<script src="'.$file.'"/>';
+				$html .= '<script src="'.$file.'"></script>';
 		else
-			$html .= '<script src="'.$js.'"/>';
+			$html .= '<script src="'.$js.'"></script>';
 		
 		return $html;
 	}
