@@ -55,7 +55,7 @@ class App_Controller extends CI_Controller
 	
 	protected $js=array('/assets/js/jquery-1.9.1.min.js');
 	
-	protected $css=array('/assets/css/reset.css','/assets/css/application.css'/*,'//accidentreview.com/wp-content/themes/accident-review/style.css'*/);
+	protected $css=array('/assets/css/reset.css','/assets/css/application.css','//accidentreview.com/wp-content/themes/accident-review/style.css');
 	
 	protected $title;
 	
