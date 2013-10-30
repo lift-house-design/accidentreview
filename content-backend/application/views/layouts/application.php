@@ -20,7 +20,8 @@
 	<link rel="apple-touch-icon" type="image/png" href="/assets/favicons/favicon_72.png" sizes="72x72" />
 	<link rel="apple-touch-icon" type="image/png" href="/assets/favicons/favicon_57.png" />
 	<!-- most browsers -->
-	<link rel="icon" type="image/png" href="/assets/favicons/favicon_64.png" />
+	<link rel="icon" type="image/png" href="/assets/favicons/favicon_64.png" sizes="64x64" />
+	<link rel="icon" type="image/png" href="/assets/favicons/favicon_32.png" sizes="32x32" />
 	<!-- IE -->
 	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
 </head>
