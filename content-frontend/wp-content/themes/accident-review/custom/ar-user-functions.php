@@ -144,7 +144,6 @@
 			',$id);
 			
 			$user=$wpdb->get_row($sql,'ARRAY_A');
-			
 			return $user===NULL ? FALSE : $user;
 		}
 	}
