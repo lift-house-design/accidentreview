@@ -15,7 +15,7 @@
 		{
 			$this->css[]='//accidentreview.com/wp-content/themes/accident-review/jquery.dataTables.css';
 			$this->js[]='//accidentreview.com/wp-content/themes/accident-review/js/jquery.dataTables.min.js';
-			$this->js[]='actions/users-index.js';
+			$this->js[]='/assets/js/actions/users-index.js';
 			
 			$this->data['users']=$this->user->get_all();
 		}
@@ -63,8 +63,8 @@
 					$this->form_validation->set_error('There was a problem saving the account details. Please try again.');
 			}
 			
-			$this->js[]='jquery.maskedinput-1.3.1.js';
-			$this->js[]='actions/users-edit.js';
+			$this->js[]='/assets/js/jquery.maskedinput-1.3.1.js';
+			$this->js[]='/assets/js/actions/users-edit.js';
 			
 			$this->data['usr']=$this->user->get($id);
 
@@ -105,8 +105,8 @@
 				}
 			}
 			
-			$this->js[]='jquery.maskedinput-1.3.1.js';
-			$this->js[]='actions/users-create.js';
+			$this->js[]='/assets/js/jquery.maskedinput-1.3.1.js';
+			$this->js[]='/assets/js/actions/users-create.js';
 			
 			$this->data['state_options']=states_array(array(''=>'(select a state)'));
 			$this->data['client_admin_reps_options']=$this->user->get_many_by('role','client');

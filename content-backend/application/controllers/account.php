@@ -42,8 +42,8 @@ class Account extends App_Controller
 			}
 		}
 		
-		$this->js[]='jquery.maskedinput-1.3.1.js';
-		$this->js[]='actions/account-index.js';
+		$this->js[]='/assets/js/jquery.maskedinput-1.3.1.js';
+		$this->js[]='/assets/js/actions/account-index.js';
 		$this->data['state_options']=states_array(array(''=>'(select a state)'));
 	}
 	

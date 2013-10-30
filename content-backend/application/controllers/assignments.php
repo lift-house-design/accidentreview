@@ -17,7 +17,7 @@
 		{
 			$this->css[]='//accidentreview.com/wp-content/themes/accident-review/jquery.dataTables.css';
 			$this->js[]='//accidentreview.com/wp-content/themes/accident-review/js/jquery.dataTables.min.js';
-			$this->js[]='actions/assignments-index.js';
+			$this->js[]='/assets/js/actions/assignments-index.js';
 			
 			$assignment_where=array(
 				'type IS NOT NULL'=>NULL,
@@ -34,27 +34,15 @@
 		
 		public function view($id)
 		{
-			$this->js[]='actions/assignments-view.js';
-			$this->js[]='jquery-ui.js';
-			$this->css[]='jquery-ui.css';
+			$this->js[]='/assets/js/actions/assignments-view.js';
+			$this->js[]='/assets/js/jquery-ui.js';
+			$this->css[]='/assets/css/jquery-ui.css';
 			// Redactor
-			$this->js[]=array(
-				'file'=>'redactor.js',
-				'type'=>'plugins/redactor',
-			);
-			$this->css[]=array(
-				'file'=>'redactor.css',
-				'type'=>'plugins/redactor',
-			);
+			$this->js[]='/assets/plugins/redactor/redactor.js';
+			$this->css[]='/assets/plugins/redactor/redactor.css';
 			// Fancybox
-			$this->js[]=array(
-				'file'=>'jquery.fancybox.js',
-				'type'=>'plugins/fancybox2',
-			);
-			$this->css[]=array(
-				'file'=>'jquery.fancybox.css',
-				'type'=>'plugins/fancybox2',
-			);
+			$this->js[]='/assets/plugins/fancybox2/jquery.fancybox.js';
+			$this->css[]='/assets/plugins/fancybox2/jquery.fancybox.css';
 			
 			$assignment=$this->assignment
 				->with('answers')
@@ -390,8 +378,8 @@
 			error_reporting(0);
 			$this->authenticate=FALSE;
 			$this->layout='layouts/report';
-			$this->css[]='report.css';
-			$this->js[]='jquery-1.9.1.min.js';
+			$this->css[]='/assets/css/report.css';
+			$this->js[]='/assets/js/jquery-1.9.1.min.js';
 			
 			$this->data['assignment']=$this->assignment
 				->with('answers')
