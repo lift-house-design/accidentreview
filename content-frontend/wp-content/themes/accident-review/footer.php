@@ -12,6 +12,7 @@
 			<a href="http://lifthousedesign.com/site/videography">Videography</a>, and Voice Acting services
 		</div>
 		<div class="wrapper">
+			<img src="//backend.accidentreview.com/assets/img/NortonSeal.png" style="float:left"/> 
 			<div class="copyright">
 				&copy; Copyright 2013 AccidentReview.com | 
 				<a href="http://lifthousedesign.com" target="_blank" style="color:#666;margin:0px;text-transform:none">
