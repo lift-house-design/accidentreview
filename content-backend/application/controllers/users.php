@@ -13,8 +13,8 @@
 		
 		public function index()
 		{
-			$this->css[]='http://accidentreview.com/wp-content/themes/accident-review/jquery.dataTables.css';
-			$this->js[]='http://accidentreview.com/wp-content/themes/accident-review/js/jquery.dataTables.min.js';
+			$this->css[]='//accidentreview.com/wp-content/themes/accident-review/jquery.dataTables.css';
+			$this->js[]='//accidentreview.com/wp-content/themes/accident-review/js/jquery.dataTables.min.js';
 			$this->js[]='actions/users-index.js';
 			
 			$this->data['users']=$this->user->get_all();

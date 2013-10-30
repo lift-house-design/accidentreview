@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="column span4">
-		<img id="logo" src="http://accidentreview.com/wp-content/themes/accident-review/images/arlogo.png" />
+		<img id="logo" src="//accidentreview.com/wp-content/themes/accident-review/images/arlogo.png" />
 	</div>
 </div>
 <div class="row">
@@ -136,8 +136,6 @@ setTimeout(function(){
 },10);
 </script>
 <div id="button-container" style="display:none">
-	<!--a href="http://www.web2pdfconvert.com/convert" target="_blank">Save to PDF</a>
-	<a href="/assignments/pdf_report/<?=$assignment['id']?>">Save to PDF</a-->
 	<a href="http://do.convertapi.com/web2pdf/?ApiKey=617643486&OutputFileName=Assignment_<?=$assignment['id']?>_<?=date('Y-m-d')?>&scripts=false&curl=http://<?=$_SERVER['HTTP_HOST']?>/reports/<?=$assignment['id']?>">Save to PDF</a>
 	<a href="javascript:show_print()">Print</a>
 </div>
