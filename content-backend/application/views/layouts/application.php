@@ -11,6 +11,18 @@
 		array('name'=>'author','content'=>'Nick Niebaum (nickniebaum@gmail.com)'),
 	)) ?>
 	<?php echo css($css) ?>
+	<!-- favicons -->
+	<!-- old android -->
+	<link rel="apple-touch-icon-precomposed" type="image/png" href="/assets/favicons/favicon_144.png" sizes="144x144" />
+	<!-- apple/android -->
+	<link rel="apple-touch-icon" type="image/png" href="/assets/favicons/favicon_144.png" sizes="144x144" />
+	<link rel="apple-touch-icon" type="image/png" href="/assets/favicons/favicon_114.png" sizes="114x114" />
+	<link rel="apple-touch-icon" type="image/png" href="/assets/favicons/favicon_72.png" sizes="72x72" />
+	<link rel="apple-touch-icon" type="image/png" href="/assets/favicons/favicon_57.png" />
+	<!-- most browsers -->
+	<link rel="icon" type="image/png" href="/assets/favicons/favicon_64.png" />
+	<!-- IE -->
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
 </head>
 <body>
 	<div id="top-panel">
