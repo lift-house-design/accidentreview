@@ -7,12 +7,20 @@
 	<div class="column span4">
 		<label class="no-width">AccidentReview.com File Number</label>
 		<?php echo $assignment['id'] ?><br />
-		<label class="no-width">Date</label>
-		<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
-		<label>Time</label>
-		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
-		<table style="width:300px;background-color:#def">
+		<table style="background-color:#def">
 			<tr>
+				<td>
+		<label class="no-width">Date</label>
+				</td>
+				<td>
+		<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
+				</td>
+				<td>
+		<label>Time</label>
+				</td>
+				<td>
+		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
+				</td>
 				<td>
 					<label>By</label> 
 				</td>
