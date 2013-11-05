@@ -5,10 +5,17 @@
 </div>
 <div class="row">
 	<div class="column span4">
-		<label class="no-width">AccidentReview.com File Number</label> <?php echo $assignment['id'] ?><br />
-		<label class="no-width">Date</label> <?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
-		<label>Time</label> <?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
-		<label>By</label> <?php echo $tech['first_name'].' '.$tech['last_name'].( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
+		<label class="no-width">AccidentReview.com File Number</label>
+		<?php echo $assignment['id'] ?><br />
+		<label class="no-width">Date</label>
+		<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
+		<label>Time</label>
+		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
+		<label>By</label> 
+		<span style="width:200px;border:1px solid #ddeeff">
+			<?= $tech['first_name'].' '.$tech['last_name'] ?>
+			<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
+		</span>
 	</div>
 </div>
 <div class="row">
