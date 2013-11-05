@@ -24,7 +24,7 @@
 				<td style="vertical-align:top">
 					<label>By</label> 
 				</td>
-				<td style="vertical-align:top">
+				<td style="vertical-align:top;padding-top:8px">
 					<?= $tech['first_name'].' '.$tech['last_name'] ?>
 					<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
 				</td>
