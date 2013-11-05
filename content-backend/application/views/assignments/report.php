@@ -7,24 +7,24 @@
 	<div class="column span4">
 		<label class="no-width">AccidentReview.com File Number</label>
 		<?php echo $assignment['id'] ?><br />
-		<table style="background-color:#def;vertical-align:top">
+		<table style="background-color:#def">
 			<tr>
-				<td>
+				<td style="vertical-align:top">
 		<label class="no-width">Date</label>
 				</td>
-				<td>
+				<td style="vertical-align:top">
 		<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
 				</td>
-				<td>
+				<td style="vertical-align:top">
 		<label>Time</label>
 				</td>
-				<td>
+				<td style="vertical-align:top">
 		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
 				</td>
-				<td>
+				<td style="vertical-align:top">
 					<label>By</label> 
 				</td>
-				<td>
+				<td style="vertical-align:top">
 					<?= $tech['first_name'].' '.$tech['last_name'] ?>
 					<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
 				</td>
