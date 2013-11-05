@@ -17,7 +17,6 @@
 					<label>By</label> 
 				</td>
 				<td>
-				</td>
 					<?= $tech['first_name'].' '.$tech['last_name'] ?>
 					<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
 				</td>
