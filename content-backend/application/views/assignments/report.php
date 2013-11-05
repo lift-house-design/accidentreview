@@ -7,7 +7,7 @@
 	<div class="column span4">
 		<label class="no-width">AccidentReview.com File Number</label>
 		<?php echo $assignment['id'] ?><br />
-		<table style="background-color:#def">
+		<table style="background-color:#def;vertical-align:top">
 			<tr>
 				<td>
 		<label class="no-width">Date</label>
