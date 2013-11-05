@@ -10,21 +10,21 @@
 		<table style="background-color:#def">
 			<tr>
 				<td style="vertical-align:top">
-		<label class="no-width">Date</label>
+					<label class="no-width">Date</label>
+				</td>
+				<td style="vertical-align:top;padding-top:7px">
+					<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
 				</td>
 				<td style="vertical-align:top">
-		<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
+					<label>Time</label>
 				</td>
-				<td style="vertical-align:top">
-		<label>Time</label>
-				</td>
-				<td style="vertical-align:top">
-		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
+				<td style="vertical-align:top;padding-top:7px">
+					<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
 				</td>
 				<td style="vertical-align:top">
 					<label>By</label> 
 				</td>
-				<td style="vertical-align:top;padding-top:6px">
+				<td style="vertical-align:top;padding-top:7px">
 					<?= $tech['first_name'].' '.$tech['last_name'] ?>
 					<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
 				</td>
