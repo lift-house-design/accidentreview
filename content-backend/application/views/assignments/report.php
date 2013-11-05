@@ -12,7 +12,7 @@
 		<label>Time</label>
 		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
 		<label>By</label> 
-		<span style="width:200px;border:1px solid #ddeeff">
+		<span style="width:200px;border:1px solid #ddeeff;display:block;">
 			<?= $tech['first_name'].' '.$tech['last_name'] ?>
 			<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
 		</span>
