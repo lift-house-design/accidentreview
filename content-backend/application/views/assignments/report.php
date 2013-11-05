@@ -11,11 +11,18 @@
 		<?php echo date('m/d/Y',strtotime($assignment['created_at'])) ?>
 		<label>Time</label>
 		<?php echo date('h:ia',strtotime($assignment['created_at'])) ?>
-		<label>By</label> 
-		<span style="width:200px;border:1px solid #ddeeff;display:block;float:left">
-			<?= $tech['first_name'].' '.$tech['last_name'] ?>
-			<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
-		</span>
+		<table style="width:300px;background-color:#def">
+			<tr>
+				<td>
+					<label>By</label> 
+				</td>
+				<td>
+				</td>
+					<?= $tech['first_name'].' '.$tech['last_name'] ?>
+					<?=( empty($tech['signature']) ? '' : ', '.$tech['signature'] ) ?>
+				</td>
+			<tr/>
+		</table>
 	</div>
 </div>
 <div class="row">
