@@ -2,7 +2,8 @@ $(function(){
 	$('#tabs').tabs({
 		active:activeTab
 	});
-	$('.attachment .image').fancybox();
+	$('.image').fancybox();
+	console.log($('.image').html());
 
 	var confirmLeave=false;
 	var initialChange=false;
