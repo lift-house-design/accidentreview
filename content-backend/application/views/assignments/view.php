@@ -248,7 +248,7 @@
 			<?php if(!empty($other_attachments)): ?>
 				<h2>Other Attachments</h2>
 				<?php foreach($other_attachments as $attachment): ?>
-					<a href="//accidentreview.com/uploads/<?php echo $attachment['url'] ?>" target="_blank"><?php echo $attachment['name'] ?></a><?php echo ( empty($attachment['description']) || $attachment['name']==$attachment['description'] ? '' : ' - '.$attachment['description'] ) ?><br /><br />
+					<a href="//accidentreview.com/uploads/<?php echo $attachment['url'] ?>?name=<?=$attachment['name'] ?>" target="_blank"><?php echo $attachment['name'] ?></a><?php echo ( empty($attachment['description']) || $attachment['name']==$attachment['description'] ? '' : ' - '.$attachment['description'] ) ?><br /><br />
 				<?php endforeach; ?>
 			<?php endif; ?>
 		<?php endif; ?>
