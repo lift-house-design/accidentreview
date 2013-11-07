@@ -3,7 +3,6 @@ $(function(){
 		active:activeTab
 	});
 	$('.image').fancybox({'type' : 'image'});
-	console.log($('.image').html());
 
 	var confirmLeave=false;
 	var initialChange=false;
