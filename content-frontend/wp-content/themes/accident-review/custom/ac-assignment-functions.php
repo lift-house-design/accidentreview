@@ -895,14 +895,14 @@
 			require_once('vendor/phpmailer/class.phpmailer.php');
 
 			$mailer=new PHPMailer;
-			$mailer->isSMTP();
-			$mailer->Host=AR_EMAIL_HOST;
+			$mailer->IsSendmail();
+			/*$mailer->Host=AR_EMAIL_HOST;
 			$mailer->Username=AR_EMAIL_USER;
 			$mailer->Password=AR_EMAIL_PASS;
 			$mailer->SMTPAuth=TRUE;
 			$mailer->SMTPKeepAlive=TRUE;
 			//$mailer->SMTPDebug=1;
-
+*/
 			$mailer->From=AR_EMAIL_FROM_EMAIL;
 			$mailer->FromName=AR_EMAIL_FROM_NAME;
 

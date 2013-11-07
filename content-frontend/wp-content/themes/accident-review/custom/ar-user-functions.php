@@ -31,6 +31,8 @@
 		require_once('vendor/phpmailer/class.phpmailer.php');
 
 		$mailer=new PHPMailer;
+		$mailer->IsSendmail();
+		/*
 		$mailer->isSMTP();
 		$mailer->Host=AR_EMAIL_HOST;
 		$mailer->Username=AR_EMAIL_USER;
@@ -38,7 +40,7 @@
 		$mailer->SMTPAuth=TRUE;
 		$mailer->SMTPKeepAlive=TRUE;
 		//$mailer->SMTPDebug=1;
-
+		*/
 		$mailer->From=AR_EMAIL_FROM_EMAIL;
 		$mailer->FromName=AR_EMAIL_FROM_NAME;
 
