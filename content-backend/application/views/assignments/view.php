@@ -237,7 +237,7 @@
 				<h2>Photo Attachments</h2>
 				<?php foreach($photo_attachments as $photo): ?>
 				<div class="attachment">
-					<a class="image" rel="attachments" href="//accidentreview.com/uploads/<?php echo $photo['url'] ?>" title="<?php echo htmlentities($photo['description'],ENT_QUOTES) ?>"><img src="//accidentreview.com/uploads/<?php echo $photo['url'] ?>" /></a>
+					<a class="image" rel="attachments" href="//accidentreview.com/uploads/<?php echo $photo['url'] ?>.png" title="<?php echo htmlentities($photo['description'],ENT_QUOTES) ?>"><img src="//accidentreview.com/uploads/<?php echo $photo['url'] ?>" /></a>
 					<div class="details">
 						<?php echo $photo['description'] ?>
 						<div class="name"><?php echo $photo['name'] ?></div>
