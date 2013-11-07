@@ -335,7 +335,7 @@ function save_attachment()
 				$tempSize=$_FILES['file']['size'][$i];
 				$tempType=$_FILES['file']['mime_type'][$i];
 				$tempName=$_FILES['file']['name'][$i];
-				$hashName=sha1($tempName.microtime());
+				$hashName=sha1($tempName.microtime()).'_'.$tempName;
 				
 				$targetPath=AR_ATTACHMENT_PATH.$hashName;
 				$fileClass=ar_get_file_class($tempName);
