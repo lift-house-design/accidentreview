@@ -2,7 +2,7 @@ $(function(){
 	$('#tabs').tabs({
 		active:activeTab
 	});
-	$('.image').fancybox();
+	$('.image').fancybox({'type' : 'image'});
 	console.log($('.image').html());
 
 	var confirmLeave=false;
