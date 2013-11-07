@@ -34,7 +34,6 @@
 		
 		public function view($id)
 		{
-			$this->js[]='/assets/js/actions/assignments-view.js';
 			$this->js[]='/assets/js/jquery-ui.js';
 			$this->css[]='/assets/css/jquery-ui.css';
 			// Redactor
@@ -43,6 +42,8 @@
 			// Fancybox
 			$this->js[]='/assets/plugins/fancybox2/jquery.fancybox.js';
 			$this->css[]='/assets/plugins/fancybox2/jquery.fancybox.css';
+			// Custom
+			$this->js[]='/assets/js/actions/assignments-view.js';
 			
 			$assignment=$this->assignment
 				->with('answers')
