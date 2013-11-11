@@ -9,7 +9,7 @@
 |
 |--------------------------------------------------------------------------
 */
-$config['dev_mode']=TRUE;
+$config['dev_mode']=false;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,18 +20,18 @@ $config['dev_mode']=TRUE;
 |
 |--------------------------------------------------------------------------
 */
-
+if($config['dev_mode']){
 /* LOCAL/TESTING DATABASE
 -------------------------------------------------------------------------*/
-/*$config['database']=array(
+$config['database']=array(
 	'hostname'=>'localhost',
 	'username'=>'root',
 	'password'=>'root',
 	'database'=>'accidentreview',
 	'dbdriver'=>'mysql',
 	'db_debug'=>$config['dev_mode'],
-);*/
-
+);
+}else{
 /* PRODUCTION DATABASE
 -------------------------------------------------------------------------*/
 $config['database']=array(
@@ -42,7 +42,7 @@ $config['database']=array(
         'dbdriver'=>'mysql',
         'db_debug'=>$config['dev_mode'],
 );
-
+}
 /* DEV DATABASE
 -------------------------------------------------------------------------*/
 /*$config['database']=array(
@@ -96,20 +96,8 @@ $config['ga_code']=FALSE;
 $config['email_notifications']=array(
 	'sender_email'=>'no-reply@accidentreview.com',
 	'sender_name'=>'Accident Review',
-	/*'config'=>array(
-		'protocol'=>'smtp',
-		'smtp_host'=>'ssl://secure.emailsrvr.com',
-		'smtp_user'=>'system@accidentreview.com',
-		'smtp_pass'=>'9iojkl',
-		'smtp_port'=>'465',
-		'mailtype'=>'text',
-	),*/
 	'config'=>array(
-		'protocol'=>'smtp',
-		'smtp_host'=>'mail.lifthousedesign.com',
-		'smtp_user'=>'noreply@lifthousedesign.com',
-		'smtp_pass'=>'9sbZdlAklydT',
-		'smtp_port'=>'25',
+		'protocol'=>'sendmail',
 		'mailtype'=>'html',
 	),
 	'templates'=>array(
